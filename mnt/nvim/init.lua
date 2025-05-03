@@ -1,0 +1,6 @@
+require("base")
+require("clipboard")
+require("plugin")
+require("appearance")
+require("keymaps")
+require("lsp")

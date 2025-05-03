@@ -1,0 +1,369 @@
+extends silhouette
+
+snippet _
+    - [ ] ${0}
+
+snippet _info "[Alert] Info"
+    > [!INFO]
+    > ${0}
+
+snippet _note "[Alert] Note"
+    > [!NOTE]
+    > ${0}
+
+snippet _todo "[Alert] TODO"
+    > [!TODO]
+    > ${0}
+
+snippet _tip "[Alert] TIP"
+    > [!TIP]
+    > ${0}
+
+snippet _hint "[Alert] HINT"
+    > [!HINT]
+    > ${0}
+
+snippet _important "[Alert] IMPORTANT"
+    > [!IMPORTANT]
+    > ${0}
+
+snippet _attention "[Alert] ATTENTION"
+    > [!ATTENTION]
+    > ${0}
+
+snippet _warning "[Alert] WARNING"
+    > [!WARNING]
+    > ${0}
+
+snippet _caution "[Alert] CAUTION"
+    > [!CAUTION]
+    > ${0}
+
+snippet _danger "[Alert] DANGER"
+    > [!DANGER]
+    > ${0}
+
+snippet _lua "[Codeblock] Lua"
+    \`\`\`lua
+    ${0}
+    \`\`\`
+
+snippet _vim "[Codeblock] Vim"
+    \`\`\`vim
+    ${0}
+    \`\`\`
+
+snippet _ts "[Codeblock] TypeScript"
+    \`\`\`typescript
+    ${0}
+    \`\`\`
+
+snippet _js "[Codeblock] JavaScript"
+    \`\`\`javascript
+    ${0}
+    \`\`\`
+
+snippet _go "[Codeblock] Go"
+    \`\`\`go
+    ${0}
+    \`\`\`
+
+snippet _python "[Codeblock] Python"
+    \`\`\`python
+    ${0}
+    \`\`\`
+
+snippet _bash "[Codeblock] Bash"
+    \`\`\`bash
+    ${0}
+    \`\`\`
+
+snippet _vue "[Codeblock] Vue"
+    \`\`\`vue
+    ${0}
+    \`\`\`
+
+snippet _json "[Codeblock] JSON"
+    \`\`\`json
+    ${0}
+    \`\`\`
+
+snippet _yaml "[Codeblock] yaml"
+    \`\`\`yaml
+    ${0}
+    \`\`\`
+
+snippet _toml "[Codeblock] toml"
+    \`\`\`toml
+    ${0}
+    \`\`\`
+
+snippet _sql "[Codeblock] sql"
+    \`\`\`sql
+    ${0}
+    \`\`\`
+
+snippet _diff "[Codeblock] diff"
+    \`\`\`diff
+    ${0}
+    \`\`\`
+
+snippet _slide-agenda "[Slide] 全体のアジェンダ"
+    <!-- _class: chapter-divider -->
+
+    <div class="left">
+
+    ### Agenda
+
+    </div>
+
+    <div class="right">
+
+    1. 項目1
+    2. 項目2
+    3. 項目3
+    4. 項目4
+    5. 項目5
+
+    </div>
+
+snippet _slide-chapter "[Slide] 章のアジェンダ"
+    <!-- _class: chapter-divider -->
+
+    <div class="left">
+
+    ### Chapter
+
+    ## 01
+
+    </div>
+
+    <div class="right">
+
+    1. 項目1
+    2. 項目2
+    3. 項目3
+    4. 項目4
+    5. 項目5
+
+    </div>
+
+snippet _slide-footer "[Slide] フッタ. 基本は引用元"
+    <footer>
+
+    [${0}](URL)
+
+    </footer>
+
+snippet _slide-iframe "[Slide] iframeでサイトの紹介"
+    <iframe src="${0}" width="100%" height="540" frameborder="0" allowfullscreen class="mt-6"></iframe>
+
+snippet _slide-image-and-white-text "[Slide] 画像を暗くして白文字で主張"
+    <!-- _class: full lead text-dimmed-background -->
+
+    <h2 class="z-50">${1}</h2>
+
+    ![bg](${0: image url})
+
+    <div class="absolute bg-black/75 w-full h-full"></div>
+
+snippet _slide-3topics "[Slide] 3つのトピックを横並び"
+    <div class="grid-col-div-3 mt-12 text-primary">
+
+      <i class="nf nf-hogehoge text-[3em]"></i>
+
+      <i class="nf nf-hogehoge text-[3em]"></i>
+
+      <i class="nf nf-hogehoge text-[3em]"></i>
+
+    </div>
+
+    <div class="grid-col-div-3 pt-4">
+      <div class="text-3xl font-bold">Topic 1</div>
+      <div class="text-3xl font-bold">Topic 2</div>
+      <div class="text-3xl font-bold">Topic 3</div>
+    </div>
+
+    <div class="grid-col-div-3 text-justify" style="place-items: start;">
+      <div class="text-2xl">
+
+      Topic 1の説明
+
+      </div>
+      <div class="text-2xl">
+
+      Topic 2の説明
+
+      </div>
+      <div class="text-2xl">
+
+      Topic 3の説明
+
+      </div>
+    </div>
+
+snippet _slide-definition-and-site-iframe "[Slide] 定義 & サイト iframe"
+    ## XXXとはYYY
+
+    <iframe src="${1:URL}" width="100%" height="540" frameborder="0" allowfullscreen class="mt-6"></iframe>
+
+    <footer>
+
+    ${0:Markdown Link}
+
+    </footer>
+
+snippet _slide-definition-and-site-image "[Slide] 定義 & サイト image"
+    ## XXXとは
+
+    <div class="drop-shadow">
+
+    ![center h:540](./resources/${1:image_file})
+
+    </div>
+
+    <footer>
+
+    ${0:Markdown Link}
+
+    </footer>
+
+snippet _slide-5-5-layout "[Slide] 5:5の左右レイアウト"
+    ## タイトル
+
+    <div class="grid-col-5-5" style="align-items: baseline">
+
+    <div>
+
+    コンテンツ左
+
+    </div>
+
+    <div>
+
+    コンテンツ右
+
+    </div>
+
+    </div>
+
+snippet _slide-5-5-layout "[Slide] 5:5の左右レイアウト"
+    ## タイトル
+
+    <div class="grid-col-5-5" style="align-items: baseline">
+
+    <div>
+
+    コンテンツ左
+
+    </div>
+
+    <div>
+
+    コンテンツ右
+
+    </div>
+
+    </div>
+
+snippet _slide-7-3-layout "[Slide] 7:3の左右レイアウト"
+    ## タイトル
+
+    <div class="grid-col-7-3" style="align-items: baseline">
+
+    <div>
+
+    コンテンツ左(7)
+
+    </div>
+
+    <div>
+
+    コンテンツ右(3)
+
+    </div>
+
+    </div>
+
+snippet _slide-3-7-layout "[Slide] 3:7の左右レイアウト"
+    ## タイトル
+
+    <div class="grid-col-3-7" style="align-items: baseline">
+
+    <div>
+
+    コンテンツ左(3)
+
+    </div>
+
+    <div>
+
+    コンテンツ右(7)
+
+    </div>
+
+    </div>
+
+snippet _slide-2-8-layout "[Slide] 2:8の左右レイアウト"
+    ## タイトル
+
+    <div class="grid-col-2-8" style="align-items: baseline">
+
+    <div>
+
+    コンテンツ左(2)
+
+    </div>
+
+    <div>
+
+    コンテンツ右(8)
+
+    </div>
+
+    </div>
+
+snippet _slide-cross-layout "[Slide] 十字に4分割のレイアウト"
+    <!-- _class: grid-cross -->
+
+    ## title
+
+    <div class="leftup">
+
+    ${1}
+
+    </div>
+
+    <div class="rightup">
+
+    ${2}
+
+    </div>
+
+    <div class="leftdown">
+
+    ${3}
+
+    </div>
+
+    <div class="rightdown">
+
+    ${0}
+
+    </div>
+
+snippet _slide-tag-note "[Slide] タグで装飾"
+    <div class="tag-note">
+    ${0}
+    </div>
+
+snippet _slide-head "[Slide] 見出しレイアウト"
+    <!-- _class: lead -->
+
+    # 見出し
+
+snippet _slide-video "[Slide] videoの挿入"
+  <div class="center">
+    <video muted controls src="./resources/???.webm" height="400"></video>
+  </div>
+

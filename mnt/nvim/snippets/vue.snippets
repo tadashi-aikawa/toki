@@ -1,0 +1,62 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+extends typescript
+
+snippet _script "<script setup>" b
+  <script setup lang="ts">
+  ${0}
+  </script>
+
+snippet _template "<template>" b
+  <template>
+  ${0}
+  </template>
+
+snippet _props "props定義" b
+  defineProps<{
+    ${1:key}: ${2:TypeName}
+  }>();
+
+snippet _props_default "defaultつき" b
+  const { ${1} = ${3:defaultvalue} } = defineProps<{
+    ${1:key}: ${2:TypeName}
+  }>();
+
+snippet _props_default_old "props定義 defaultつき" b
+  interface Props {
+    ${1}
+  }
+  const props = withDefaults(defineProps<Props>(), {
+    ${0}
+  });
+
+snippet _template_refs "Template Refs" b
+  const ${1:element} = ref<InstanceType<typeof ${2:Component}> | null>(null);
+  // Add -> <${2} ref="${1}" />
+
+snippet _ignore-organize-imports "// organize-imports-ignore"
+  // organize-imports-ignore

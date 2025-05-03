@@ -1,0 +1,3 @@
+[tasks.dev]
+run = "./main.sh"
+

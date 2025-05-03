@@ -1,0 +1,37 @@
+promptToReturnFromSubprocess: false
+gui:
+  nerdFontsVersion: "3"
+  timeFormat: 06/01/02 15:04
+  shortTimeFormat: 15:04
+  sidePanelWidth: 0.25
+  theme:
+    inactiveBorderColor:
+      - "#777777"
+git:
+  allBranchesLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' --
+  branchLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' {{branchName}} --
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+  log:
+    showWholeGraph: true
+customCommands:
+  - key: "<C-e>"
+    context: commitFiles
+    description: Open the previous version of the file in Neovim
+    command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/$(basename {{.SelectedCommitFile.Name}}) && nvim /tmp/$(basename {{.SelectedCommitFile.Name}}) && rm /tmp/$(basename {{.SelectedCommitFile.Name}})"
+    subprocess: true
+  - key: ""
+    description: Force push safely
+    context: global
+    command: "git push --force-with-lease --force-if-includes origin HEAD"
+  - key: "<a-enter>"
+    context: files
+    description: Open file diff in Neovim
+    command: "nvim -d <(git show HEAD:{{.SelectedFile.Name}}) $(git rev-parse --show-toplevel)/{{.SelectedFile.Name}}"
+    subprocess: true
+  - key: "<a-enter>"
+    context: commitFiles
+    description: Open commit diff in Neovim
+    command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) && nvim -d /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) $(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}} && rm /tmp/prev_$(basename {{.SelectedCommitFile.Name}})"
+    subprocess: true
