@@ -225,6 +225,10 @@ writeToProfile("Default profile", [
       "l": toKey("tab", "control"),
       "h": toKey("tab", ["control", "shift"]),
       "tab": toKey("tab", "command"),
+      "2": toJKeys("#", "#", " "),
+      "3": toJKeys("#", "#", "#", " "),
+      "4": toJKeys("#", "#", "#", "#", " "),
+      "5": toJKeys("#", "#", "#", "#", "#", " "),
     }),
 
     // Command
