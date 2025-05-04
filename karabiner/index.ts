@@ -1,5 +1,6 @@
 import {
   ifApp,
+  ifInputSource,
   layer,
   map,
   ModifierParam,
@@ -206,6 +207,7 @@ writeToProfile("Default profile", [
       },
       map("a").to("a", "command").condition(App.not("Ghostty")),
       map("t").to("t", "command").condition(App.not("Ghostty")),
+      map("l").to("l", "command").condition(App.not("Ghostty")),
     ]),
 
     // Option
