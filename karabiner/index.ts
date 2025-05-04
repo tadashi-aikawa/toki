@@ -116,8 +116,6 @@ writeToProfile("Default profile", [
         k: toJKey("up"),
         l: toJKey("->"),
         h: toJKey("<-"),
-        a: toKey("home"),
-        ";": toKey("end"),
         f: toKey("home", "control"),
         u: toJKey("bs"),
         o: toJKey("del"),
@@ -145,6 +143,11 @@ writeToProfile("Default profile", [
         "e": toJKeyWith("->", "command"),
       }),
       // 特殊
+      map("a").to("home").condition(App.is("Ghostty")),
+      map("a").to("←", "command").condition(App.not("Ghostty")),
+      map(";").to("end").condition(App.is("Ghostty")),
+      map(";").to("→", "command").condition(App.not("Ghostty")),
+
       map(...JM[":"]).to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
       map(",").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
       map("m").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
