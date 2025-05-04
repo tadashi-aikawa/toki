@@ -6,18 +6,34 @@ import {
   ToEvent,
   toKey,
   ToKeyParam,
+  toNotificationMessage,
   toRemoveNotificationMessage,
   toSetVar,
   withModifier,
   writeToProfile,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
 
-type Mode = "NORMAL";
-const withTerminateMode = (mode: Mode, toEvent: ToEvent) => [
-  toEvent,
+const MODE_NOTIFICATION_ID = "mode_notification_id";
+
+type Mode = "NORMAL" | "SPECIAL";
+const terminateMode = (mode: Mode) => [
   toSetVar(mode, 0),
   toSetVar("__layer", 0),
-  toRemoveNotificationMessage(`layer-${mode}`),
+  toRemoveNotificationMessage(MODE_NOTIFICATION_ID),
+];
+const withTerminateMode = (mode: Mode, toEvent: ToEvent) => [
+  toEvent,
+  ...terminateMode(mode),
+];
+const startMode = (mode: Mode) => [
+  toSetVar(mode, 1),
+  toSetVar("__layer", 1),
+  toNotificationMessage(MODE_NOTIFICATION_ID, mode),
+];
+const changeMode = (from: Mode, to: Mode) => [
+  toSetVar(from, 0),
+  toSetVar(to, 1),
+  toNotificationMessage(MODE_NOTIFICATION_ID, to),
 ];
 
 const JM = {
@@ -63,30 +79,11 @@ const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
   return keys.map(toJKey);
 };
 
+/**
+ * 基本的に先に定義した方が採用されるので注意
+ * 条件付きやmodeの設定は先に記載すること
+ */
 writeToProfile("Default profile", [
-  rule("default").manipulators([
-    map("8", "control").to(...JM["{"]),
-    map("9", "control").to(...JM["}"]),
-
-    // Control
-    withModifier("control")({
-      "8": toJKey("{"),
-      "9": toJKey("}"),
-    }),
-
-    // Option
-    withModifier("option")({
-      "l": toKey("tab", "control"),
-      "h": toKey("tab", ["control", "shift"]),
-      "tab": toKey("tab", "command"),
-    }),
-
-    // Command
-    withModifier("command")({
-      "tab": toKey("up_arrow", "control"),
-    }),
-  ]),
-
   // ; combination
   layer(";").leaderMode().manipulators({
     a: toJKey("^"),
@@ -110,13 +107,11 @@ writeToProfile("Default profile", [
     ";": toJKey(";"),
   }),
 
-  // NORMALモード
-  layer("grave_accent_and_tilde", "NORMAL").leaderMode({
+  // NORMALモード (caps_lockは使わないと判断した捨てキー)
+  layer("caps_lock", "NORMAL").leaderMode({
     sticky: true,
   })
-    .notification(
-      "NORMAL",
-    ).manipulators([
+    .manipulators([
       {
         j: toJKey("down"),
         k: toJKey("up"),
@@ -154,8 +149,55 @@ writeToProfile("Default profile", [
       map("grave_accent_and_tilde").to(
         withTerminateMode("NORMAL", toKey("japanese_eisuu")),
       ),
+      // モード切り替え
+      map("r").to(changeMode("NORMAL", "SPECIAL")),
     ]),
-  rule("ESC").manipulators([
+
+  // SPECIALモード (caps_lockは使わないと判断した捨てキー)
+  layer("caps_lock", "SPECIAL").leaderMode({
+    sticky: true,
+  })
+    .manipulators([
+      {
+        "m": toKey("keypad_1"),
+        ",": toKey("keypad_2"),
+        ".": toKey("keypad_3"),
+        "j": toKey("keypad_4"),
+        "k": toKey("keypad_5"),
+        "l": toKey("keypad_6"),
+        "u": toKey("keypad_7"),
+        "i": toKey("keypad_8"),
+        "o": toKey("keypad_9"),
+        "return_or_enter": toKey("keypad_0"),
+      },
+      // 特殊
+      map("g").to(withTerminateMode("SPECIAL", toKey("g", "shift"))),
+      // モード切り替え
+      map("grave_accent_and_tilde").to(terminateMode("SPECIAL")),
+    ]),
+
+  rule("default").manipulators([
     map("escape").to([toKey("escape"), toKey("japanese_eisuu")]),
+    map("grave_accent_and_tilde").to(
+      startMode("NORMAL"),
+    ),
+
+    // Control
+    withModifier("control")({
+      "8": toJKey("{"),
+      "9": toJKey("}"),
+    }),
+
+    // Option
+    withModifier("option")({
+      "l": toKey("tab", "control"),
+      "h": toKey("tab", ["control", "shift"]),
+      "tab": toKey("tab", "command"),
+    }),
+
+    // Command
+    withModifier("command")({
+      "tab": toKey("up_arrow", "control"),
+    }),
   ]),
 ]);
