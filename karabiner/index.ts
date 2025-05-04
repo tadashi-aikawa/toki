@@ -127,6 +127,8 @@ writeToProfile("Default profile", [
         v: toKey("v", "command"),
         q: toKey("w", "command"),
         e: toJKeyWith("<-", "command"),
+        z: toKey("z", "command"),
+        y: toKey("y", "command"),
       },
       // Shift
       withModifier("shift")({
