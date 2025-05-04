@@ -140,6 +140,8 @@ writeToProfile("Default profile", [
       withModifier("control")({
         "j": toJKeys("down", 5),
         "k": toJKeys("up", 5),
+        "l": toJKeys("->", 5),
+        "h": toJKeys("<-", 5),
       }),
       // 特殊
       map("quote").to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
