@@ -134,19 +134,15 @@ writeToProfile("Default profile", [
         "f": toKey("end", "control"),
         "j": toJKeys("down", 25),
         "k": toJKeys("up", 25),
-        "l": toJKeys("->", 15),
-        "h": toJKeys("<-", 15),
-        "u": toJKeys("bs", 15),
-        "o": toJKeys("del", 15),
+        "l": toJKeys("->", 10),
+        "h": toJKeys("<-", 10),
+        "u": toJKeys("bs", 5),
+        "o": toJKeys("del", 5),
       }),
       // Control
       withModifier("control")({
         "j": toJKeys("down", 5),
         "k": toJKeys("up", 5),
-        "l": toJKeys("->", 5),
-        "h": toJKeys("<-", 5),
-        "u": toJKeys("bs", 5),
-        "o": toJKeys("del", 5),
       }),
       // 特殊
       map("quote").to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
