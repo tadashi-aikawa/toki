@@ -31,6 +31,7 @@ const JM = {
   "|": ["international3", "shift"],
   "`": ["open_bracket", "shift"],
   "!": ["1", "shift"],
+  "%": ["5", "shift"],
   "&": ["6", "shift"],
   '"': ["2", "shift"],
   "'": ["7", "shift"],
@@ -101,6 +102,7 @@ writeToProfile("Default profile", [
     g: toJKey("&"),
     m: toJKey('"'),
     v: toJKey("'"),
+    p: toJKey("%"),
     w: toKey("w", "control"), // ctrl+w
     u: toJKeys('"', '"', "<-"),
     s: toJKeys("(", ")", "<-"),
