@@ -105,29 +105,6 @@ const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
  * 条件付きやmodeの設定は先に記載すること
  */
 writeToProfile("Default profile", [
-  // ; combination
-  layer(";").leaderMode().manipulators({
-    a: toJKey("^"),
-    d: toJKey("#"),
-    e: toJKeys(" ", "=", " "),
-    r: toJKeys(" ", "=", "=", " "),
-    k: toJKeys("`", "`", "<-"),
-    f: toJKey("$"),
-    h: toJKey("~"),
-    l: toJKey("_"),
-    o: toJKey("|"),
-    z: toJKey("!"),
-    g: toJKey("&"),
-    m: toJKey('"'),
-    v: toJKey("'"),
-    p: toJKey("%"),
-    w: toKey("w", "control"), // ctrl+w
-    u: toJKeys('"', '"', "<-"),
-    s: toJKeys("(", ")", "<-"),
-    i: toJKeys("{", "}", "<-"),
-    ";": toJKey(";"),
-  }),
-
   // NORMALモード (caps_lockは使わないと判断した捨てキー)
   layer("caps_lock", "NORMAL").leaderMode({
     sticky: true,
@@ -201,6 +178,29 @@ writeToProfile("Default profile", [
       // モード切り替え
       map(...JM.無変換).to(terminateMode("SPECIAL")),
     ]),
+
+  // ; combination
+  layer(";").leaderMode().manipulators({
+    a: toJKey("^"),
+    d: toJKey("#"),
+    e: toJKeys(" ", "=", " "),
+    r: toJKeys(" ", "=", "=", " "),
+    k: toJKeys("`", "`", "<-"),
+    f: toJKey("$"),
+    h: toJKey("~"),
+    l: toJKey("_"),
+    o: toJKey("|"),
+    z: toJKey("!"),
+    g: toJKey("&"),
+    m: toJKey('"'),
+    v: toJKey("'"),
+    p: toJKey("%"),
+    w: toKey("w", "control"), // ctrl+w
+    u: toJKeys('"', '"', "<-"),
+    s: toJKeys("(", ")", "<-"),
+    i: toJKeys("{", "}", "<-"),
+    ";": toJKey(";"),
+  }),
 
   rule("default").manipulators([
     map("escape").to([toKey("escape"), toKey("japanese_eisuu")]),
