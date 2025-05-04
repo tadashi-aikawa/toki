@@ -1,4 +1,5 @@
 import {
+  ifApp,
   layer,
   map,
   ModifierParam,
@@ -35,6 +36,16 @@ const changeMode = (from: Mode, to: Mode) => [
   toSetVar(to, 1),
   toNotificationMessage(MODE_NOTIFICATION_ID, to),
 ];
+
+const appIdentifierMapper = {
+  Ghostty: "com.mitchellh.ghostty",
+  "Google Chrome": "com.google.Chrome",
+} as const;
+type AppName = keyof typeof appIdentifierMapper;
+const App = {
+  is: (appName: AppName) => ifApp(appIdentifierMapper[appName]),
+  not: (appName: AppName) => ifApp(appIdentifierMapper[appName]).unless(),
+};
 
 const JM = {
   "{": ["close_bracket", "shift"],
@@ -186,10 +197,14 @@ writeToProfile("Default profile", [
     ),
 
     // Control
-    withModifier("control")({
-      "8": toJKey("{"),
-      "9": toJKey("}"),
-    }),
+    withModifier("control")([
+      {
+        "8": toJKey("{"),
+        "9": toJKey("}"),
+      },
+      map("a").to("a", "command").condition(App.not("Ghostty")),
+      map("t").to("t", "command").condition(App.not("Ghostty")),
+    ]),
 
     // Option
     withModifier("option")({
