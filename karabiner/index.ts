@@ -1,5 +1,7 @@
 import {
   layer,
+  map,
+  rule,
   toKey,
   writeToProfile,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
@@ -37,5 +39,9 @@ writeToProfile("Default profile", [
       toKey("left_arrow"),
     ], // {}
     ";": toKey("semicolon"),
+    "escape": toKey("japanese_kana"),
   }),
+  rule("ESC").manipulators([
+    map("escape").to([toKey("escape"), toKey("japanese_eisuu")]),
+  ]),
 ]);
