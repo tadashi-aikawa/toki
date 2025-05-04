@@ -66,6 +66,7 @@ const JM = {
   ")": ["9", "shift"],
   "=": ["hyphen", "shift"],
   " ": ["spacebar"],
+  ":": ["quote"],
   ";": ["semicolon"],
   "<-": ["left_arrow"],
   "->": ["right_arrow"],
@@ -73,6 +74,7 @@ const JM = {
   "up": ["up_arrow"],
   "del": ["delete_or_backspace", "fn"],
   "bs": ["delete_or_backspace"],
+  "無変換": ["grave_accent_and_tilde"],
 } as const satisfies Record<string, [ToKeyParam, ModifierParam?]>;
 
 // as [any] はdeno lint error回避
@@ -155,11 +157,11 @@ writeToProfile("Default profile", [
         "h": toJKeys("<-", 5),
       }),
       // 特殊
-      map("quote").to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
+      map(...JM[":"]).to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
       map(",").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
       map("m").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
       map("escape").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
-      map("grave_accent_and_tilde").to(
+      map(...JM.無変換).to(
         withTerminateMode("NORMAL", toKey("japanese_eisuu")),
       ),
       // モード切り替え
@@ -184,15 +186,15 @@ writeToProfile("Default profile", [
         "return_or_enter": toKey("keypad_0"),
       },
       // 特殊
-      map("quote").to(withTerminateMode("SPECIAL", toKey("japanese_kana"))),
+      map(...JM[":"]).to(withTerminateMode("SPECIAL", toKey("japanese_kana"))),
       map("g").to(withTerminateMode("SPECIAL", toKey("g", "shift"))),
       // モード切り替え
-      map("grave_accent_and_tilde").to(terminateMode("SPECIAL")),
+      map(...JM.無変換).to(terminateMode("SPECIAL")),
     ]),
 
   rule("default").manipulators([
     map("escape").to([toKey("escape"), toKey("japanese_eisuu")]),
-    map("grave_accent_and_tilde").to(
+    map(...JM.無変換).to(
       startMode("NORMAL"),
     ),
 
