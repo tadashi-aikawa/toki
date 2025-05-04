@@ -82,6 +82,13 @@ const JM = {
 type JKey = keyof typeof JM;
 const toJKey = (key: JKey) => toKey(...JM[key] as [any]);
 
+// as [any] はdeno lint error回避
+type UniJMKey = {
+  [K in JKey]: (typeof JM)[K] extends { length: 1 } ? K : never;
+}[JKey];
+const toJKeyWith = (key: UniJMKey, modifier: ModifierParam) =>
+  toKey(...JM[key] as [any], modifier);
+
 const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
   if (typeof args[1] === "number") {
     return [...Array(args[1]).keys()].map(
@@ -139,6 +146,7 @@ writeToProfile("Default profile", [
         c: toKey("c", "command"),
         v: toKey("v", "command"),
         q: toKey("w", "command"),
+        e: toJKeyWith("<-", "command"),
       },
       // Shift
       withModifier("shift")({
@@ -156,6 +164,7 @@ writeToProfile("Default profile", [
         "k": toJKeys("up", 5),
         "l": toJKeys("->", 5),
         "h": toJKeys("<-", 5),
+        "e": toJKeyWith("->", "command"),
       }),
       // 特殊
       map(...JM[":"]).to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
