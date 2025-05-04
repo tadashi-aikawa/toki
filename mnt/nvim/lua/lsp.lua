@@ -40,11 +40,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- 次の診断へ移動
 		vim.keymap.set("n", "<M-j>", function()
-			vim.diagnostic.goto_next({ float = false })
+			vim.diagnostic.jump({ float = false, count = 1 })
 		end, opts)
 		-- 前の診断へ移動
 		vim.keymap.set("n", "<M-k>", function()
-			vim.diagnostic.goto_prev({ float = false })
+			vim.diagnostic.jump({ float = false, count = -1 })
 		end, opts)
 
 		-- 診断をフローティングウィンドウで表示する
