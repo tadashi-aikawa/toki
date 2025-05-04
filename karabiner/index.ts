@@ -77,6 +77,12 @@ writeToProfile("Default profile", [
     withModifier("option")({
       "l": toKey("tab", "control"),
       "h": toKey("tab", ["control", "shift"]),
+      "tab": toKey("tab", "command"),
+    }),
+
+    // Command
+    withModifier("command")({
+      "tab": toKey("up_arrow", "control"),
     }),
   ]),
 
