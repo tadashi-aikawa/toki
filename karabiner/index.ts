@@ -173,6 +173,7 @@ writeToProfile("Default profile", [
         "return_or_enter": toKey("keypad_0"),
       },
       // 特殊
+      map("quote").to(withTerminateMode("SPECIAL", toKey("japanese_kana"))),
       map("g").to(withTerminateMode("SPECIAL", toKey("g", "shift"))),
       // モード切り替え
       map("grave_accent_and_tilde").to(terminateMode("SPECIAL")),
