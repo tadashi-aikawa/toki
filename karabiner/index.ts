@@ -1,6 +1,5 @@
 import {
   ifApp,
-  ifInputSource,
   layer,
   map,
   ModifierParam,
@@ -9,6 +8,7 @@ import {
   toKey,
   ToKeyParam,
   toNotificationMessage,
+  toPaste,
   toRemoveNotificationMessage,
   toSetVar,
   withModifier,
@@ -69,6 +69,7 @@ const JM = {
   " ": ["spacebar"],
   ":": ["quote"],
   ";": ["semicolon"],
+  "/": ["keypad_slash"],
   "<-": ["left_arrow"],
   "->": ["right_arrow"],
   "down": ["down_arrow"],
@@ -201,6 +202,8 @@ writeToProfile("Default profile", [
     s: toJKeys("(", ")", "<-"),
     i: toJKeys("{", "}", "<-"),
     ";": toJKey(";"),
+    t: toPaste(Temporal.Now.plainDateISO().toString()),
+    "/": toPaste(Temporal.Now.plainDateISO().toString().replaceAll("-", "/")),
   }),
 
   rule("default").manipulators([
