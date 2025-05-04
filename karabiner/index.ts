@@ -182,6 +182,7 @@ writeToProfile("Default profile", [
   // ; combination
   layer(";").leaderMode().manipulators({
     a: toJKey("^"),
+    c: toJKeys("`", "`", "`"),
     d: toJKey("#"),
     e: toJKeys(" ", "=", " "),
     r: toJKeys(" ", "=", "=", " "),
