@@ -119,7 +119,6 @@ vim.lsp.enable({
   "golangci_lint_ls",
   "gopls",
   "html",
-  "jdtls",
   "jsonls",
   "lua_ls",
   "pyright",
