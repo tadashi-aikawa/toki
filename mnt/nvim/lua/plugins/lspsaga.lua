@@ -21,7 +21,7 @@ return {
       keys = {
         toggle_or_open = "<CR>",
         shuttle = "]w",
-        vsplit = "<F12>", -- Ctrl+Enter
+        vsplit = "<C-CR>", -- Ctrl+Enter
         split = "s",
       },
     },

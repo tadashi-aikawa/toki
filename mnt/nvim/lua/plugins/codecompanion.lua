@@ -54,7 +54,7 @@ return {
           },
           keymaps = {
             send = {
-              modes = { n = "<F12>", i = "<F12>" }, -- Ctrl+Enter
+              modes = { n = "<C-CR>", i = "<C-CR>" }, -- Ctrl+Enter
             },
           },
         },

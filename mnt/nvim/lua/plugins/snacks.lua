@@ -192,7 +192,7 @@ return {
                 ["<c-q>"] = false,
                 ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
                 ["<c-]>"] = { "toggle_live", mode = { "i", "n" } },
-                ["<F12>"] = { "edit_vsplit", mode = { "i", "n" } },
+                ["<C-CR>"] = { "edit_vsplit", mode = { "i", "n" } },
                 ["<C-w>t"] = { "tab", mode = { "i", "n" } },
                 -- TODO: そのままoil.nvimで対象を開く
                 -- ["<C-o>"] = { mode = { "i", "n" }, },
@@ -211,7 +211,7 @@ return {
             ["<c-o>"] = { "qflist", mode = { "i", "n" } },
             ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
             ["<c-]>"] = { "toggle_live", mode = { "i", "n" } },
-            ["<F12>"] = { "edit_vsplit", mode = { "i", "n" } },
+            ["<C-CR>"] = { "edit_vsplit", mode = { "i", "n" } },
             ["<C-w>t"] = { "tab", mode = { "i", "n" } },
             ["<C-j>"] = { "history_forward", mode = { "i", "n" } },
             ["<C-k>"] = { "history_back", mode = { "i", "n" } },

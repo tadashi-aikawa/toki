@@ -7,7 +7,7 @@ return {
       openc = "<CR>",
       open = "o",
       split = "<C-s>",
-      vsplit = "<F12>",
+      vsplit = "<C-CR>",
       tabc = "<Space>t",
     },
   },

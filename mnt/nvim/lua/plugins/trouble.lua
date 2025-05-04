@@ -15,7 +15,7 @@ return {
       o = "jump",
       l = "fold_open",
       h = "fold_close",
-      ["<F12>"] = "jump_vsplit",
+      ["<C-CR>"] = "jump_vsplit",
       ["<esc>"] = "inspect",
       -- XXX: sはバインドしたくないが、fallbackの方法が分からず...
       s = function()

@@ -8,7 +8,7 @@ return {
     skip_confirm_for_simple_edits = true,
     keymaps = {
       ["<C-s>"] = "actions.select_split",
-      ["<F12>"] = "actions.select_vsplit",
+      ["<C-CR>"] = "actions.select_vsplit",
       ["gy"] = "actions.yank_entry",
       ["gR"] = {
         callback = function()

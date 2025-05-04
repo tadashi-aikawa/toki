@@ -35,8 +35,6 @@ vim.keymap.set("n", "<Space>l", ":BufferNext<CR>", { silent = true })
 vim.keymap.set("n", "<Space>h", ":BufferPrevious<CR>", { silent = true })
 vim.keymap.set("n", "<Space>w", ":BufferCloseAllButVisible<CR>", { silent = true })
 
--- windows split
-vim.keymap.set("n", "<C-w><F12>", ":vsplit<CR>", { silent = true })
 -- tab split
 vim.keymap.set("n", "<C-w>t", ":tab split<CR>", { silent = true })
 -- 行補完
@@ -74,15 +72,14 @@ vim.api.nvim_create_autocmd("FileType", {
     local opts = { silent = true, noremap = true, buffer = args.buf }
     local toggle = require("markdown-toggle")
 
-    -- F12はCtrl+Enter
-    vim.keymap.set({ "n", "v" }, "<F12>", function()
+    vim.keymap.set({ "n", "v" }, "<C-CR>", function()
       toggle.checkbox()
       local cline = vim.api.nvim_get_current_line()
       if string.find(cline, "- %[x%] .+ ``") then
         vim.cmd("SilhouettePushTimer")
       end
     end, opts)
-    vim.keymap.set({ "i" }, "<F12>", function()
+    vim.keymap.set({ "i" }, "<C-CR>", function()
       vim.api.nvim_command("stopinsert")
       vim.schedule(function()
         toggle.checkbox()
