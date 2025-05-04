@@ -122,6 +122,7 @@ writeToProfile("Default profile", [
         l: toJKey("->"),
         h: toJKey("<-"),
         u: toJKey("bs"),
+        d: toJKey("bs"),
         o: toJKey("del"),
         c: toKey("c", "command"),
         v: toKey("v", "command"),
@@ -182,6 +183,7 @@ writeToProfile("Default profile", [
         c: [...changeMode("RANGE", "NORMAL"), toKey("c", "command")],
         x: [...changeMode("RANGE", "NORMAL"), toKey("x", "command")],
         u: [...changeMode("RANGE", "NORMAL"), toJKey("bs")],
+        d: [...changeMode("RANGE", "NORMAL"), toJKey("bs")],
         o: [...changeMode("RANGE", "NORMAL"), toJKey("del")],
       },
       // Shift
