@@ -15,12 +15,6 @@ writeToProfile("Default profile", [
       toKey("hyphen", "shift"),
       toKey("spacebar"),
     ], // <space>==<space>
-    w: [
-      toKey("spacebar"),
-      toKey("1", "shift"),
-      toKey("hyphen", "shift"),
-      toKey("spacebar"),
-    ], // <space>!=<space>
     k: [
       toKey("open_bracket", "shift"),
       toKey("open_bracket", "shift"),
@@ -34,6 +28,7 @@ writeToProfile("Default profile", [
     g: toKey("6", "shift"), // &
     m: toKey("2", "shift"), // "
     v: toKey("7", "shift"), // '
+    w: toKey("w", "control"), // ctrl+w
     u: [toKey("2", "shift"), toKey("2", "shift"), toKey("left_arrow")], // ""
     s: [toKey("8", "shift"), toKey("9", "shift"), toKey("left_arrow")], // ()
     i: [
