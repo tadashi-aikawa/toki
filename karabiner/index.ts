@@ -17,7 +17,7 @@ import {
 
 const MODE_NOTIFICATION_ID = "mode_notification_id";
 
-type Mode = "NORMAL" | "SPECIAL";
+type Mode = "NORMAL" | "RANGE" | "SPECIAL";
 const terminateMode = (mode: Mode) => [
   toSetVar(mode, 0),
   toSetVar("__layer", 0),
@@ -77,6 +77,7 @@ const JM = {
   "del": ["delete_or_backspace", "fn"],
   "bs": ["delete_or_backspace"],
   "無変換": ["grave_accent_and_tilde"],
+  "home": ["home"],
 } as const satisfies Record<string, [ToKeyParam, ModifierParam?]>;
 
 // as [any] はdeno lint error回避
@@ -87,8 +88,12 @@ const toJKey = (key: JKey) => toKey(...JM[key] as [any]);
 type UniJMKey = {
   [K in JKey]: (typeof JM)[K] extends { length: 1 } ? K : never;
 }[JKey];
-const toJKeyWith = (key: UniJMKey, modifier: ModifierParam) =>
-  toKey(...JM[key] as [any], modifier);
+const toJKeyWith = (key: UniJMKey, modifier: ModifierParam, repeat?: number) =>
+  repeat
+    ? [...Array(repeat).keys()].map(
+      (_) => toKey(...JM[key] as [any], modifier),
+    )
+    : toKey(...JM[key] as [any], modifier);
 
 const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
   if (typeof args[1] === "number") {
@@ -116,7 +121,6 @@ writeToProfile("Default profile", [
         k: toJKey("up"),
         l: toJKey("->"),
         h: toJKey("<-"),
-        f: toKey("home", "control"),
         u: toJKey("bs"),
         o: toJKey("del"),
         c: toKey("c", "command"),
@@ -126,7 +130,6 @@ writeToProfile("Default profile", [
       },
       // Shift
       withModifier("shift")({
-        "f": toKey("end", "control"),
         "j": toJKeys("down", 25),
         "k": toJKeys("up", 25),
         "l": toJKeys("->", 10),
@@ -147,6 +150,10 @@ writeToProfile("Default profile", [
       map("a").to("←", "command").condition(App.not("Ghostty")),
       map(";").to("end").condition(App.is("Ghostty")),
       map(";").to("→", "command").condition(App.not("Ghostty")),
+      map("f").to("home", "control").condition(App.is("Ghostty")),
+      map("f").to("↑", "command").condition(App.not("Ghostty")),
+      map("f", "shift").to("end", "control").condition(App.is("Ghostty")),
+      map("f", "shift").to("↓", "command").condition(App.not("Ghostty")),
 
       map(...JM[":"]).to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
       map(",").to(withTerminateMode("NORMAL", toKey("japanese_eisuu"))),
@@ -157,6 +164,59 @@ writeToProfile("Default profile", [
       ),
       // モード切り替え
       map("r").to(changeMode("NORMAL", "SPECIAL")),
+      map("g").to(changeMode("NORMAL", "RANGE")),
+    ]),
+
+  // RANGEモード (caps_lockは使わないと判断した捨てキー)
+  layer("caps_lock", "RANGE").leaderMode({
+    sticky: true,
+  })
+    .manipulators([
+      {
+        j: toJKeyWith("down", "shift"),
+        k: toJKeyWith("up", "shift"),
+        l: toJKeyWith("->", "shift"),
+        h: toJKeyWith("<-", "shift"),
+        c: [...changeMode("RANGE", "NORMAL"), toKey("c", "command")],
+        x: [...changeMode("RANGE", "NORMAL"), toKey("x", "command")],
+        u: [...changeMode("RANGE", "NORMAL"), toJKey("bs")],
+        o: [...changeMode("RANGE", "NORMAL"), toJKey("del")],
+      },
+      // Shift
+      withModifier("shift")({
+        "j": toJKeyWith("down", "shift", 25),
+        "k": toJKeyWith("up", "shift", 25),
+        "l": toJKeyWith("->", "shift", 25),
+        "h": toJKeyWith("<-", "shift", 25),
+      }),
+      // Control
+      withModifier("control")({
+        "j": toJKeyWith("down", "shift", 5),
+        "k": toJKeyWith("up", "shift", 5),
+        "l": toJKeyWith("->", "shift", 5),
+        "h": toJKeyWith("<-", "shift", 5),
+      }),
+      // 特殊
+      map("a").to("home", "shift").condition(App.is("Ghostty")),
+      map("a").to("←", ["command", "shift"]).condition(App.not("Ghostty")),
+      map(";").to("end", "shift").condition(App.is("Ghostty")),
+      map(";").to("→", ["command", "shift"]).condition(App.not("Ghostty")),
+
+      // 特殊
+      map("g").to(withTerminateMode("SPECIAL", toKey("g", "shift"))),
+      map("f").to("home", ["control", "shift"]).condition(App.is("Ghostty")),
+      map("f").to("↑", ["command", "shift"]).condition(App.not("Ghostty")),
+      map("f", "shift").to("end", ["control", "shift"]).condition(
+        App.is("Ghostty"),
+      ),
+      map("f", "shift").to("↓", ["command", "shift"]).condition(
+        App.not("Ghostty"),
+      ),
+      // モード切り替え
+      map(...JM.無変換).to(
+        withTerminateMode("RANGE", toKey("japanese_eisuu")),
+      ),
+      map("escape").to(withTerminateMode("RANGE", toKey("japanese_eisuu"))),
     ]),
 
   // SPECIALモード (caps_lockは使わないと判断した捨てキー)
