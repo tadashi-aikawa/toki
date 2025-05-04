@@ -49,17 +49,35 @@ const JM = {
 
 // as [any] はdeno lint error回避
 type JKey = keyof typeof JM;
-const toJKey = (key: JKey, repeat: number = 1) =>
-  [...Array(repeat).keys()].map(
-    (_) => toKey(...JM[key] as [any]),
-  );
+const toJKey = (key: JKey) => toKey(...JM[key] as [any]);
 
-const toJKeys = (...keys: JKey[]) => keys.flatMap(toJKey);
+const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
+  if (typeof args[1] === "number") {
+    return [...Array(args[1]).keys()].map(
+      (_) => toKey(...JM[args[0]] as [any]),
+    );
+  }
+
+  const keys = args as JKey[];
+  return keys.map(toJKey);
+};
 
 writeToProfile("Default profile", [
   rule("default").manipulators([
     map("8", "control").to(...JM["{"]),
     map("9", "control").to(...JM["}"]),
+
+    // Control
+    withModifier("control")({
+      "8": toJKey("{"),
+      "9": toJKey("}"),
+    }),
+
+    // Option
+    withModifier("option")({
+      "l": toKey("tab", "control"),
+      "h": toKey("tab", ["control", "shift"]),
+    }),
   ]),
 
   // ; combination
@@ -103,25 +121,26 @@ writeToProfile("Default profile", [
         o: toJKey("del"),
         c: toKey("c", "command"),
         v: toKey("v", "command"),
+        q: toKey("w", "command"),
       },
       // Shift
       withModifier("shift")({
         "f": toKey("end", "control"),
-        "j": toJKey("down", 25),
-        "k": toJKey("up", 25),
-        "l": toJKey("->", 15),
-        "h": toJKey("<-", 15),
-        "u": toJKey("bs", 15),
-        "o": toJKey("del", 15),
+        "j": toJKeys("down", 25),
+        "k": toJKeys("up", 25),
+        "l": toJKeys("->", 15),
+        "h": toJKeys("<-", 15),
+        "u": toJKeys("bs", 15),
+        "o": toJKeys("del", 15),
       }),
       // Control
       withModifier("control")({
-        "j": toJKey("down", 5),
-        "k": toJKey("up", 5),
-        "l": toJKey("->", 5),
-        "h": toJKey("<-", 5),
-        "u": toJKey("bs", 5),
-        "o": toJKey("del", 5),
+        "j": toJKeys("down", 5),
+        "k": toJKeys("up", 5),
+        "l": toJKeys("->", 5),
+        "h": toJKeys("<-", 5),
+        "u": toJKeys("bs", 5),
+        "o": toJKeys("del", 5),
       }),
       // 特殊
       map("quote").to(withTerminateMode("NORMAL", toKey("japanese_kana"))),
