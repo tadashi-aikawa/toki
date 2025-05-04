@@ -8,3 +8,4 @@ keybind = alt+t=new_tab
 keybind = alt+n=new_window
 keybind = alt+w=close_tab
 keybind = alt+q=quit
+macos-option-as-alt = true
