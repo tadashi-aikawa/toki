@@ -7,4 +7,7 @@ keybind = alt+h=previous_tab
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
 
+keybind = global:alt+t=toggle_quick_terminal
+quick-terminal-position = center
 macos-option-as-alt = true
+
