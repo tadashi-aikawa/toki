@@ -322,7 +322,7 @@ writeToProfile("Default profile", [
       l: toJKeyWith("tab", "control"),
       q: toKey("f13", "option"), // raycast起動用
       f: toKey("f14", "command"), // raycast clipboard起動用
-      a: toKey("f15", "command"), // quick terminal起動用
+      "spacebar": toKey("f15", "command"), // quick terminal起動用
     }),
   ]),
 ]);
