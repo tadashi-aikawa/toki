@@ -288,11 +288,12 @@ writeToProfile("Default profile", [
       map("a").to("a", "command").condition(App.not("Ghostty")),
       map("t").to("t", "command").condition(App.not("Ghostty")),
       map("l").to("l", "command").condition(App.not("Ghostty")),
+      map("f").to("f", "command").condition(App.not("Ghostty")),
       map("q").to("q", "command"),
     ]),
 
-    // Option
-    withModifier("option")({
+    // Command
+    withModifier("command")({
       "l": toKey("tab", "control"),
       "h": toKey("tab", ["control", "shift"]),
       "2": toJKeys("#", "#", " "),
@@ -300,8 +301,5 @@ writeToProfile("Default profile", [
       "4": toJKeys("#", "#", "#", "#", " "),
       "5": toJKeys("#", "#", "#", "#", "#", " "),
     }),
-
-    // Command
-    withModifier("command")({}),
   ]),
 ]);
