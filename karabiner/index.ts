@@ -52,7 +52,7 @@ const UJM = {
   " ": "spacebar",
   ":": "quote",
   ";": "semicolon",
-  "/": "keypad_slash",
+  "/": "slash",
   "<-": "left_arrow",
   "->": "right_arrow",
   "[": "close_bracket",
@@ -249,6 +249,8 @@ writeToProfile("Default profile", [
       {
         ",": toKey("keypad_2"),
         ".": toKey("keypad_3"),
+        [UJM["/"]]: toKey("keypad_period"),
+        [UJM[";"]]: toKey("keypad_hyphen"),
         g: [...terminateMode("SPECIAL"), toKey("g", "shift")],
         i: toKey("keypad_8"),
         j: toKey("keypad_4"),
@@ -263,7 +265,6 @@ writeToProfile("Default profile", [
       },
     ]),
 
-  // ; combination
   layer(";")
     .leaderMode()
     .manipulators({
