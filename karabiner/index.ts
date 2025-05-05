@@ -36,6 +36,7 @@ const changeMode = (from: Mode, to: Mode) => [
 const appIdentifierMapper = {
   Ghostty: "com.mitchellh.ghostty",
   "Google Chrome": "com.google.Chrome",
+  Slack: "com.tinyspeck.slackmacgap",
 } as const;
 type AppName = keyof typeof appIdentifierMapper;
 const App = {
@@ -295,6 +296,7 @@ writeToProfile("Default profile", [
         f: toKey("f", "command"),
         l: toKey("l", "command"),
         t: toKey("t", "command"),
+        k: toKey("k", "command"),
       }),
     ]),
 
