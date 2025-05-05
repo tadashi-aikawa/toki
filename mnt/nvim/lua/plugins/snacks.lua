@@ -49,6 +49,12 @@ return {
   -- stylua: ignore end
   ---@type snacks.Config
   opts = {
+    image = {
+      doc = {
+        max_width = 40,
+        max_height = 20,
+      },
+    },
     dashboard = {
       row = 10,
       preset = {

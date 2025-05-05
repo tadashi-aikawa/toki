@@ -276,6 +276,9 @@ mise use -g npm:@usebruno/cli
 # chafa
 brew install chafa
 
+# imagemagick(magick)
+brew install imagemagick
+
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 
