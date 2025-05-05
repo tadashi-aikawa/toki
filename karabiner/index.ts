@@ -310,6 +310,7 @@ writeToProfile("Default profile", [
         "8": toJKey("{"),
         "9": toJKey("}"),
         q: toKey("q", "command"),
+        u: toKey("f7"),
       },
     ]),
 
