@@ -137,7 +137,9 @@ return {
       sections = {
         {
           section = "terminal",
-          cmd = "chafa " .. dashboardImagePath .. " --size 48 --symbols vhalf; sleep .1",
+          cmd = "/opt/homebrew/bin/chafa "
+            .. dashboardImagePath
+            .. " --format symbols --symbols vhalf --size 48 --stretch; sleep .1",
           height = 30,
           padding = 0,
         },

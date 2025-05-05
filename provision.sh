@@ -273,5 +273,9 @@ mise use -g marp-cli
 # Bruno CLI
 mise use -g npm:@usebruno/cli
 
+# chafa
+brew install chafa
+
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
+
