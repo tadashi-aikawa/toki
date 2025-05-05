@@ -15,6 +15,11 @@ return {
     },
     completion = {
       documentation = { auto_show = true, window = { border = "rounded" } },
+      list = {
+        selection = {
+          auto_insert = false,
+        },
+      },
       menu = {
         border = "rounded",
         draw = {
