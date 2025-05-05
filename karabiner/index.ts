@@ -1,6 +1,8 @@
 import {
   ifApp,
   layer,
+  map,
+  modifierLayer,
   ModifierParam,
   rule,
   toKey,
@@ -37,6 +39,7 @@ const appIdentifierMapper = {
   Ghostty: "com.mitchellh.ghostty",
   "Google Chrome": "com.google.Chrome",
   Slack: "com.tinyspeck.slackmacgap",
+  Obsidian: "md.obsidian",
 } as const;
 type AppName = keyof typeof appIdentifierMapper;
 const App = {
@@ -52,6 +55,7 @@ const UJM = {
   " ": "spacebar",
   ":": "quote",
   ";": "semicolon",
+  ",": "comma",
   "/": "slash",
   "<-": "left_arrow",
   "->": "right_arrow",
@@ -293,6 +297,19 @@ writeToProfile("Default profile", [
       z: toJKey("!"),
     }),
 
+  modifierLayer("control", "j").condition(App.is("Obsidian")).leaderMode()
+    .manipulators([
+      {
+        // f14 ~ f16 は使えない
+        f: toKey("f13"), // [AQS] file search
+        e: toKey("f13", "command"), // [AQS] recent serarch
+        h: toKey("f17"), // [AQS] backlink search
+        o: toKey("f18"), // [AQS] floating header search
+        l: toKey("f19"), // [AQS] in file serach
+        s: toJKeyWith(",", "command"), // [AQS] Settings
+      },
+    ]),
+
   rule("default").manipulators([
     withCondition(App.not("Ghostty"))([
       withModifier("control")({
@@ -301,6 +318,8 @@ writeToProfile("Default profile", [
         l: toKey("l", "command"),
         t: toKey("t", "command"),
         k: toKey("k", "command"),
+        p: toKey("p", "command"),
+        [UJM["]"]]: toJKeyWith("]", "command"),
       }),
     ]),
 
