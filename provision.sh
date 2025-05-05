@@ -70,6 +70,13 @@ ensure_zshrc "source ~/.zshrc_base.sh"
 
 brew install wget
 
+brew install unzip
+# shellcheck disable=SC2016
+# defaultのunzipよりも優先されるようにする
+ensure_zshrc 'export PATH=/opt/homebrew/Cellar/unzip/6.0_8/bin:$PATH'
+
+brew install p7zip
+
 #----------------------------------------------------------------------
 # Terminal
 #----------------------------------------------------------------------
@@ -92,7 +99,9 @@ no mise && {
   curl https://mise.run | sh
   # FIXME:
 }
+# shellcheck disable=SC2016
 ensure_zshrc 'eval "$(~/.local/bin/mise activate zsh)"'
+# shellcheck disable=SC2016
 ensure_bashrc 'eval "$(~/.local/bin/mise activate bash)"'
 
 #----------------------------------------------------------------------
@@ -101,10 +110,10 @@ ensure_bashrc 'eval "$(~/.local/bin/mise activate bash)"'
 
 # Starship
 mise use -g starship
-ln -snf $MNT/starship/starship.sh ~/.starship.sh
+ln -snf "$MNT"/starship/starship.sh ~/.starship.sh
 ensure_zshrc "source ~/.starship.sh"
 mkdir -p ~/.config
-ln -snf $MNT/starship/starship.toml ~/.config/starship.toml
+ln -snf "$MNT"/starship/starship.toml ~/.config/starship.toml
 
 #----------------------------------------------------------------------
 # Editor
