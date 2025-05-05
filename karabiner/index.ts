@@ -315,6 +315,7 @@ writeToProfile("Default profile", [
       "5": toJKeys("#", "#", "#", "#", "#", " "),
       h: toJKeyWith("tab", ["control", "shift"]),
       l: toJKeyWith("tab", "control"),
+      q: toKey("f13", "option"), // raycast起動用
     }),
   ]),
 ]);
