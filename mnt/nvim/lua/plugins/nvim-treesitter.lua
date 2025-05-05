@@ -45,4 +45,5 @@ return {
       -- texobjectsはパフォーマンスの問題から利用しない
     })
   end,
+  vim.treesitter.language.register("bash", "zsh"),
 }

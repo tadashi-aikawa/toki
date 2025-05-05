@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/bash
 
 set -eu
 
@@ -287,4 +287,3 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 #----------------------------------------------------------------------
 
 brew install --cask alt-tab
-

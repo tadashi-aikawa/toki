@@ -20,6 +20,7 @@ return {
         lua = { "stylua" },
         go = { "goimports" },
         bash = { "shfmt" },
+        zsh = { "shfmt" },
         python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
         sql = { "sleek" },
 
