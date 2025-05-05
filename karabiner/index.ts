@@ -18,19 +18,19 @@ const MODE_NOTIFICATION_ID = "mode_notification_id";
 
 type Mode = "NORMAL" | "RANGE" | "SPECIAL";
 const terminateMode = (mode: Mode) => [
+  toRemoveNotificationMessage(MODE_NOTIFICATION_ID),
   toSetVar(mode, 0),
   toSetVar("__layer", 0),
-  toRemoveNotificationMessage(MODE_NOTIFICATION_ID),
 ];
 const startMode = (mode: Mode) => [
+  toNotificationMessage(MODE_NOTIFICATION_ID, mode),
   toSetVar(mode, 1),
   toSetVar("__layer", 1),
-  toNotificationMessage(MODE_NOTIFICATION_ID, mode),
 ];
 const changeMode = (from: Mode, to: Mode) => [
+  toNotificationMessage(MODE_NOTIFICATION_ID, to),
   toSetVar(from, 0),
   toSetVar(to, 1),
-  toNotificationMessage(MODE_NOTIFICATION_ID, to),
 ];
 
 const appIdentifierMapper = {
@@ -163,7 +163,7 @@ writeToProfile("Default profile", [
         j: toJKey("down"),
         k: toJKey("up"),
         l: toJKey("->"),
-        m: [...terminateMode("NORMAL"), toKey("japanese_eisuu")],
+        m: [toKey("japanese_eisuu"), ...terminateMode("NORMAL")],
         o: toJKey("del"),
         q: toKey("w", "command"),
         r: changeMode("NORMAL", "SPECIAL"),
