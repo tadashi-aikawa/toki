@@ -55,6 +55,8 @@ const UJM = {
   "/": "keypad_slash",
   "<-": "left_arrow",
   "->": "right_arrow",
+  "[": "close_bracket",
+  "]": "non_us_pound",
   down: "down_arrow",
   up: "up_arrow",
   bs: "delete_or_backspace",
@@ -286,6 +288,7 @@ writeToProfile("Default profile", [
       u: toJKeys('"', '"', "<-"),
       v: toJKey("'"),
       w: toKey("w", "control"), // ctrl+w
+      x: toJKeys("[", "]", "<-"),
       z: toJKey("!"),
     }),
 
