@@ -295,7 +295,6 @@ writeToProfile("Default profile", [
     withModifier("option")({
       "l": toKey("tab", "control"),
       "h": toKey("tab", ["control", "shift"]),
-      "tab": toKey("tab", "command"),
       "2": toJKeys("#", "#", " "),
       "3": toJKeys("#", "#", "#", " "),
       "4": toJKeys("#", "#", "#", "#", " "),
@@ -303,8 +302,6 @@ writeToProfile("Default profile", [
     }),
 
     // Command
-    withModifier("command")({
-      "tab": toKey("up_arrow", "control"),
-    }),
+    withModifier("command")({}),
   ]),
 ]);
