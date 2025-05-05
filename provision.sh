@@ -248,6 +248,7 @@ ensure_zshrc "source ~/.eza.sh"
 mise use -g fzf
 ln -snf "$MNT"/fzf/fzf.sh ~/.fzf.sh
 ensure_zshrc "source ~/.fzf.sh"
+ensure_zshrc "source <(fzf --zsh)"
 
 # delta
 mise use -g delta
