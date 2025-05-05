@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local opts = { buffer = ev.buf }
     -- 定義に移動 (Lspsaga goto_definition は期待しない定義に飛んでしまうことがある)
     vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "<M-]>", function()
+    vim.keymap.set("n", "<D-]>", function()
       vim.cmd([[ vsplit ]])
       vim.lsp.buf.definition()
     end, opts)
@@ -22,13 +22,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.buf.definition()
     end, opts)
     -- 定義をホバー
-    vim.keymap.set("n", "<M-s>", "<cmd>Lspsaga hover_doc<CR>", opts)
+    vim.keymap.set("n", "<D-s>", "<cmd>Lspsaga hover_doc<CR>", opts)
     -- 実装へ移動
     vim.keymap.set("n", "<C-j>i", vim.lsp.buf.implementation, opts)
     -- 実装をホバー
-    vim.keymap.set("n", "<M-d>", "<cmd>Lspsaga peek_definition<CR>", opts)
+    vim.keymap.set("n", "<D-d>", "<cmd>Lspsaga peek_definition<CR>", opts)
     -- 型の実装をホバー
-    vim.keymap.set("n", "<M-i>", "<cmd>Lspsaga peek_type_definition<CR>", opts)
+    vim.keymap.set("n", "<D-i>", "<cmd>Lspsaga peek_type_definition<CR>", opts)
     -- 呼び出し元の表示
     vim.keymap.set("n", "<C-j>u", "<cmd>Lspsaga finder ref<CR>", opts)
     -- リネーム
@@ -36,19 +36,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- ファイルリネーム
     vim.keymap.set("n", "<C-j>2", vim.lsp.buf.rename, opts)
     -- Code action
-    vim.keymap.set({ "n", "i" }, "<M-CR>", "<cmd>Lspsaga code_action<CR>", opts)
+    vim.keymap.set({ "n", "i" }, "<D-CR>", "<cmd>Lspsaga code_action<CR>", opts)
 
     -- 次の診断へ移動
-    vim.keymap.set("n", "<M-j>", function()
+    vim.keymap.set("n", "<D-j>", function()
       vim.diagnostic.jump({ float = false, count = 1 })
     end, opts)
     -- 前の診断へ移動
-    vim.keymap.set("n", "<M-k>", function()
+    vim.keymap.set("n", "<D-k>", function()
       vim.diagnostic.jump({ float = false, count = -1 })
     end, opts)
 
     -- 診断をフローティングウィンドウで表示する
-    vim.keymap.set("n", "<M-w>", function()
+    vim.keymap.set("n", "<D-w>", function()
       vim.diagnostic.open_float({
         scope = "cursor",
         focusable = true,

@@ -1,7 +1,7 @@
 return {
   "iamcco/markdown-preview.nvim",
   keys = {
-    { "<M-p>", ":MarkdownPreviewToggle<CR>", silent = true },
+    { "<D-p>", ":MarkdownPreviewToggle<CR>", silent = true },
   },
   ft = "markdown",
   build = function()

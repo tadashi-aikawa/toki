@@ -2,7 +2,7 @@ return {
   "shortcuts/no-neck-pain.nvim",
   keys = {
     {
-      "<M-n>",
+      "<D-n>",
       ":NoNeckPain<CR>",
       silent = true,
     },
