@@ -2,14 +2,22 @@ font-size = 16
 font-family = "CaskaydiaCove Nerd Font"
 font-feature = -dlig
 
-keybind = alt+l=next_tab
-keybind = alt+h=previous_tab
+macos-option-as-alt = true
+
+keybind = super+l=next_tab
+keybind = super+h=previous_tab
+keybind = super+d=unbind
+keybind = super+j=unbind
+keybind = super+k=unbind
+keybind = super+w=unbind
+keybind = super+n=unbind
+keybind = super+p=unbind
+keybind = super+enter=unbind
+
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
 
-keybind = global:alt+t=toggle_quick_terminal
-macos-option-as-alt = true
-
+keybind = global:command+t=toggle_quick_terminal
 quick-terminal-position = center
 quick-terminal-animation-duration = 0.1
 
