@@ -310,19 +310,19 @@ writeToProfile("Default profile", [
         "8": toJKey("{"),
         "9": toJKey("}"),
         q: toKey("q", "command"),
-        u: toKey("f7"),
       },
     ]),
 
     withModifier("command")({
+      u: toKey("f7"),
       "2": toJKeys("#", "#", " "),
       "3": toJKeys("#", "#", "#", " "),
       "4": toJKeys("#", "#", "#", "#", " "),
       "5": toJKeys("#", "#", "#", "#", "#", " "),
+      f: toKey("f14", "command"), // raycast clipboard起動用
       h: toJKeyWith("tab", ["control", "shift"]),
       l: toJKeyWith("tab", "control"),
       q: toKey("f13", "option"), // raycast起動用
-      f: toKey("f14", "command"), // raycast clipboard起動用
       "spacebar": toKey("f15", "command"), // quick terminal起動用
     }),
   ]),
