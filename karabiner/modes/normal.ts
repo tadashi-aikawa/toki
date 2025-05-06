@@ -14,6 +14,8 @@ const likeCtrlCommands = [
     j: toJKeys("down", 5),
     k: toJKeys("up", 5),
     l: toJKeys("->", 5),
+
+    e: toJKeyWith("->", "command"),
   },
 ];
 
