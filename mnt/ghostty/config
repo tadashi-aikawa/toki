@@ -2,10 +2,14 @@ theme = tokyonight_moon
 
 font-size = 16
 font-family = "CaskaydiaCove Nerd Font"
+# リガチャ防止
 font-feature = -dlig
 
 macos-titlebar-style = tabs  
 macos-option-as-alt = true
+
+# スクロール速度が速すぎるので下げる
+mouse-scroll-multiplier = 0.2
 
 # Spaceの左キーでNeovimで利用するものを無効化
 # (defaultで設定されていないものは不要)
