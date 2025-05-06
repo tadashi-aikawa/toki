@@ -30,9 +30,10 @@ export const defaultRule = rule("default").manipulators([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
   ]),
-
-  withModifier("control")(likeAltCommands),
-  withModifier("command")(likeCtrlCommands),
+  withCondition(App.not("Ghostty"))([
+    withModifier("control")(likeAltCommands),
+    withModifier("command")(likeCtrlCommands),
+  ]),
 
   {
     [UJM.ESC]: toJKeys("ESC", "英数"),

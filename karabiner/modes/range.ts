@@ -33,8 +33,10 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
         f: toJKeyWith("home", ["control", "shift"]),
       },
     ]),
+    withCondition(App.not("Ghostty"))([
+      withModifier("command")(likeCtrlCommands),
+    ]),
 
-    withModifier("command")(likeCtrlCommands),
     withModifier("shift")({
       h: toJKeyWith("<-", "shift", 25),
       j: toJKeyWith("down", "shift", 25),

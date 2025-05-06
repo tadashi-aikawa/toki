@@ -33,8 +33,10 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         f: toJKeyWith("home", "control"),
       },
     ]),
+    withCondition(App.not("Ghostty"))([
+      withModifier("command")(likeCtrlCommands),
+    ]),
 
-    withModifier("command")(likeCtrlCommands),
     withModifier("shift")({
       h: toJKeys("<-", 10),
       j: toJKeys("down", 25),
