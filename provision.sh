@@ -297,3 +297,4 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 #----------------------------------------------------------------------
 
 brew install --cask alt-tab
+brew install --cask rectangle
