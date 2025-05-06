@@ -177,6 +177,7 @@ writeToProfile("Default profile", [
         v: toKey("v", "command"),
         y: toKey("y", "command"),
         z: toKey("z", "command"),
+        4: toKey("m", "command"),
       },
 
       withModifier("shift")({
