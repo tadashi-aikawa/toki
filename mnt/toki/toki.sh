@@ -18,6 +18,7 @@ Usages:
   toki provision:        owl-playbookのprovisioningをします
   toki update:           関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
        up
+  toki webp:             スクリーンショットに保存されたpngをwebpに変換します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -537,6 +538,27 @@ $ cd ${path}
 $ docker compose up -d
 $ xh -b \"http://localhost:18000?table=types\"
 "
+  exit 0
+fi
+
+#==========================================================================
+#--- webp ---
+# スクリーンショットに保存されたpngをwebpに変換する
+if [[ $command == "webp" ]]; then
+  cd ~/Documents || exit 1
+
+  for file in "スクリーンショット "*".png"; do
+    [ -e "$file" ] || continue
+
+    ts=$(date -r "$file" +"%Y%m%d_%H%M%S")
+    dst="${ts}.webp"
+
+    [ -e "$dst" ] && continue
+
+    magick "$file" "$dst"
+    ls -lh "$dst"
+  done
+
   exit 0
 fi
 
