@@ -41,7 +41,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
 
     withCondition(App.is("Obsidian"))([
       {
-        q: toKey("w", "option"),
+        q: toKey("w", ["option", "shift"]),
       },
     ]),
 
