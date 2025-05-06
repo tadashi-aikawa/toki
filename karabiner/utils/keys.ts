@@ -29,6 +29,7 @@ export const UJM = {
   半全: "grave_accent_and_tilde",
   かな: "japanese_kana",
   英数: "japanese_eisuu",
+  PrintScreen: "print_screen",
 } as const satisfies Record<string, ToKeyParam>;
 
 function toSingleTupleMap<T extends Record<string, string>>(map: T) {
