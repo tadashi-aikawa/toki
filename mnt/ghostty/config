@@ -20,7 +20,3 @@ keybind = super+enter=unbind
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
 
-keybind = global:command+f15=toggle_quick_terminal
-quick-terminal-position = center
-quick-terminal-animation-duration = 0.1
-
