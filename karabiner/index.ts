@@ -25,7 +25,7 @@ writeToProfile("Default profile", [
     withCondition(App.is("Ghostty"))([
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
-        f: toKey("f14", "command"), // raycast clipboard起動用
+        r: toKey("f14", "command"), // raycast clipboard起動用
         e: toKey("e", "control"), // AltTab起動用
       }),
       withModifier("control")({
@@ -37,7 +37,7 @@ writeToProfile("Default profile", [
       map("left_command").to("left_control"),
       withModifier("control")({
         q: toKey("f13", "option"), // raycast起動用
-        f: toKey("f14", "command"), // raycast clipboard起動用
+        r: toKey("f14", "command"), // raycast clipboard起動用
       }),
     ]),
   ]),
