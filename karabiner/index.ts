@@ -35,6 +35,8 @@ writeToProfile("Default profile", [
     withCondition(App.not("Ghostty"))([
       map("left_control").to("left_command"),
       map("left_command").to("left_control"),
+      map("left_control", "shift").to("left_command", "shift"),
+      map("left_command", "shift").to("left_control", "shift"),
       withModifier("control")({
         q: toKey("f13", "option"), // raycast起動用
         r: toKey("f14", "command"), // raycast clipboard起動用
