@@ -10,9 +10,9 @@ export const specialModeDefinitions = layer(UNUSED_KEY, "SPECIAL")
       ".": toKey("keypad_3"),
       [UJM["/"]]: toKey("keypad_period"),
       [UJM[";"]]: toKey("keypad_hyphen"),
-      a: toJKeyWith("<-", ["control", "option"]), // 左半分へウィンドウサイズ変更
-      e: toJKeyWith("bs", ["control", "option"]), // ウィンドウサイズをもとに戻す
-      f: toJKeyWith("->", ["control", "option"]), // 右半分へウィンドウサイズ変更
+      w: toJKeyWith("<-", ["control", "option"]), // 左半分へウィンドウサイズ変更
+      d: toJKeyWith("bs", ["control", "option"]), // ウィンドウサイズをもとに戻す
+      e: toJKeyWith("->", ["control", "option"]), // 右半分へウィンドウサイズ変更
       g: [...terminateMode("SPECIAL"), toKey("g", "shift")],
       i: toKey("keypad_8"),
       j: toKey("keypad_4"),
