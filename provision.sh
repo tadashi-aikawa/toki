@@ -6,11 +6,6 @@ CURRENT_DIR_PATH=$(readlink -f "$(pwd)")
 
 MNT="${CURRENT_DIR_PATH}/mnt"
 
-# shellcheck disable=SC2034
-# miseの-yフラグ省略
-MISE_YES=1
-mise settings experimental=true
-
 # no cat && { catのインストール処理 }
 function no() {
   echo "🔍 $1 コマンドの存在確認"
@@ -78,17 +73,33 @@ ensure_zshrc 'export PATH=/opt/homebrew/Cellar/unzip/6.0_8/bin:$PATH'
 brew install p7zip
 
 #----------------------------------------------------------------------
-# Terminal
+# GUI Tools
 #----------------------------------------------------------------------
 
+# ターミナル
 brew install --cask ghostty
 ln -snf "$MNT"/ghostty/config ~/Library/Application\ Support/com.mitchellh.ghostty/config
 
-#----------------------------------------------------------------------
-# Launcher
-#----------------------------------------------------------------------
-
+# ランチャー
 brew install --cask raycast
+
+# タスク切換え
+brew install --cask alt-tab
+
+# Window制御
+brew install --cask rectangle
+
+# キーマップ制御
+brew install --cask karabiner-elements
+
+# 日本語入力
+brew install --cask google-japanese-ime
+
+# LinearMouse
+brew install --cask linearmouse
+
+# Slack
+brew install --cask slack
 
 #----------------------------------------------------------------------
 # Runtime manager
@@ -97,8 +108,15 @@ brew install --cask raycast
 # mise
 no mise && {
   curl https://mise.run | sh
-  # FIXME:
+  # 大丈夫かな?
+  ~/.local/bin/mise activate bash
 }
+
+# shellcheck disable=SC2034
+# miseの-yフラグ省略
+MISE_YES=1
+mise settings experimental=true
+
 # shellcheck disable=SC2016
 ensure_zshrc 'eval "$(~/.local/bin/mise activate zsh)"'
 # shellcheck disable=SC2016
@@ -291,10 +309,3 @@ brew install imagemagick
 
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
-
-#----------------------------------------------------------------------
-# GUI Tools
-#----------------------------------------------------------------------
-
-brew install --cask alt-tab
-brew install --cask rectangle
