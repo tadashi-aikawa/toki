@@ -16,9 +16,9 @@ const likeCtrlCommands = [
 ];
 
 const likeAltCommands = [{
-  h: toJKeyWith("tab", ["control", "shift"]),
-  l: toJKeyWith("tab", "control"),
-  u: toKey("f7"),
+  h: toJKeyWith("tab", ["control", "shift"]), // 右のタブに移動
+  l: toJKeyWith("tab", "control"), // 左のタブに移動
+  u: toKey("f7"), // カタカナ変換
   "2": toJKeys("#", "#", " "),
   "3": toJKeys("#", "#", "#", " "),
   "4": toJKeys("#", "#", "#", "#", " "),
