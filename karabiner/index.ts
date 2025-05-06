@@ -1,9 +1,11 @@
 import {
   ifApp,
+  ifVar,
   layer,
   map,
   modifierLayer,
   ModifierParam,
+  mouseMotionToScroll,
   rule,
   toKey,
   ToKeyParam,
@@ -136,6 +138,28 @@ const UNUSED_KEY = "caps_lock";
  * 条件付きやmodeの設定は先に記載すること
  */
 writeToProfile("Default profile", [
+  rule("switch control <-> command").manipulators([
+    // Ghosttyだけはleft_controlがleft_commandのように振る舞うためマッピングを分岐させる必要がある
+    withCondition(App.is("Ghostty"))([
+      withModifier("command")({
+        q: toKey("f13", "option"), // raycast起動用
+        f: toKey("f14", "command"), // raycast clipboard起動用
+      }),
+      withModifier("control")({
+        q: toKey("q", "command"),
+      }),
+    ]),
+    withCondition(App.not("Ghostty"))([
+      map("left_control").to("left_command"),
+      map("left_command").to("left_control"),
+      withModifier("control")({
+        q: toKey("f13", "option"), // raycast起動用
+        f: toKey("f14", "command"), // raycast clipboard起動用
+        [UJM.tab]: toKey("tab", "command"), // AltTab起動用
+      }),
+    ]),
+  ]),
+
   layer(UNUSED_KEY, "NORMAL")
     .leaderMode({
       sticky: true,
@@ -149,6 +173,13 @@ writeToProfile("Default profile", [
         },
         withModifier("shift")({
           f: toJKeyWith("end", "control"),
+        }),
+        withModifier("control")({
+          e: toJKeyWith("->", "command"),
+          h: toJKeys("<-", 5),
+          j: toJKeys("down", 5),
+          k: toJKeys("up", 5),
+          l: toJKeys("->", 5),
         }),
       ]),
 
@@ -189,7 +220,7 @@ writeToProfile("Default profile", [
         o: toJKeys("del", 5),
         u: toJKeys("bs", 5),
       }),
-      withModifier("control")({
+      withModifier("command")({
         e: toJKeyWith("->", "command"),
         h: toJKeys("<-", 5),
         j: toJKeys("down", 5),
@@ -211,6 +242,12 @@ writeToProfile("Default profile", [
         },
         withModifier("shift")({
           f: toJKeyWith("end", ["control", "shift"]),
+        }),
+        withModifier("control")({
+          h: toJKeyWith("<-", "shift", 5),
+          j: toJKeyWith("down", "shift", 5),
+          k: toJKeyWith("up", "shift", 5),
+          l: toJKeyWith("->", "shift", 5),
         }),
       ]),
 
@@ -240,7 +277,7 @@ writeToProfile("Default profile", [
         f: toJKeyWith("down", ["command", "shift"]),
       }),
 
-      withModifier("control")({
+      withModifier("command")({
         h: toJKeyWith("<-", "shift", 5),
         j: toJKeyWith("down", "shift", 5),
         k: toJKeyWith("up", "shift", 5),
@@ -298,7 +335,7 @@ writeToProfile("Default profile", [
       z: toJKey("!"),
     }),
 
-  modifierLayer("control", "j").condition(App.is("Obsidian")).leaderMode()
+  modifierLayer("command", "j").condition(App.is("Obsidian")).leaderMode()
     .manipulators([
       {
         // f14 ~ f16 は使えない
@@ -312,15 +349,22 @@ writeToProfile("Default profile", [
     ]),
 
   rule("default").manipulators([
-    withCondition(App.not("Ghostty"))([
-      withModifier("control")({
-        a: toKey("a", "command"),
-        f: toKey("f", "command"),
-        l: toKey("l", "command"),
-        t: toKey("t", "command"),
-        k: toKey("k", "command"),
-        p: toKey("p", "command"),
-        [UJM["]"]]: toJKeyWith("]", "command"),
+    withCondition(App.is("Ghostty"))([
+      withModifier("control")([
+        {
+          "8": toJKey("{"),
+          "9": toJKey("}"),
+        },
+      ]),
+
+      withModifier("command")({
+        u: toKey("f7"),
+        "2": toJKeys("#", "#", " "),
+        "3": toJKeys("#", "#", "#", " "),
+        "4": toJKeys("#", "#", "#", "#", " "),
+        "5": toJKeys("#", "#", "#", "#", "#", " "),
+        h: toJKeyWith("tab", ["control", "shift"]),
+        l: toJKeyWith("tab", "control"),
       }),
     ]),
 
@@ -329,25 +373,21 @@ writeToProfile("Default profile", [
       [UJM.半全]: startMode("NORMAL"),
     },
 
-    withModifier("control")([
+    withModifier("command")([
       {
         "8": toJKey("{"),
         "9": toJKey("}"),
-        q: toKey("q", "command"),
       },
     ]),
 
-    withModifier("command")({
+    withModifier("control")({
       u: toKey("f7"),
       "2": toJKeys("#", "#", " "),
       "3": toJKeys("#", "#", "#", " "),
       "4": toJKeys("#", "#", "#", "#", " "),
       "5": toJKeys("#", "#", "#", "#", "#", " "),
-      f: toKey("f14", "command"), // raycast clipboard起動用
       h: toJKeyWith("tab", ["control", "shift"]),
       l: toJKeyWith("tab", "control"),
-      q: toKey("f13", "option"), // raycast起動用
-      "spacebar": toKey("f15", "command"), // quick terminal起動用
     }),
   ]),
 ]);

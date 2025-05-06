@@ -5,9 +5,6 @@ font-feature = -dlig
 macos-titlebar-style = tabs  
 macos-option-as-alt = true
 
-keybind = super+l=next_tab
-keybind = super+h=previous_tab
-
 keybind = super+a=unbind
 keybind = super+d=unbind
 keybind = super+j=unbind
