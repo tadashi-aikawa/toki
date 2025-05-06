@@ -4,7 +4,7 @@ import {
   withCondition,
   withModifier,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
-import { toJKey, toJKeys, toJKeyWith, UJM, UNUSED_KEY } from "../utils/keys.ts";
+import { toJKey, toJKeyWith, UJM, UNUSED_KEY } from "../utils/keys.ts";
 import { App } from "../apps/apps.ts";
 import { changeMode, terminateMode } from "./modes.ts";
 
