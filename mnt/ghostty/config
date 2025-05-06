@@ -7,6 +7,8 @@ font-feature = -dlig
 macos-titlebar-style = tabs  
 macos-option-as-alt = true
 
+# Spaceの左キーでNeovimで利用するものを無効化
+# (defaultで設定されていないものは不要)
 keybind = super+a=unbind
 keybind = super+d=unbind
 keybind = super+j=unbind
@@ -15,7 +17,10 @@ keybind = super+n=unbind
 keybind = super+p=unbind
 keybind = super+w=unbind
 keybind = super+enter=unbind
+keybind = super+left=unbind  
+keybind = super+right=unbind
 
+# aの左キーからのショートカット
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
 

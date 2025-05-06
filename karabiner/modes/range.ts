@@ -24,14 +24,6 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
   .manipulators([
     withCondition(App.is("Ghostty"))([
       withModifier("control")(likeCtrlCommands),
-      withModifier("shift")({
-        f: toJKeyWith("end", ["control", "shift"]),
-      }),
-      {
-        ";": toJKeyWith("->", "command"),
-        a: toJKeyWith("<-", "command"),
-        f: toJKeyWith("home", ["control", "shift"]),
-      },
     ]),
     withCondition(App.not("Ghostty"))([
       withModifier("command")(likeCtrlCommands),

@@ -5,6 +5,10 @@
 
 vim.g.maplocalleader = ","
 
+-- Mac対応
+vim.keymap.set({ "n", "v", "i", "c", "t", "o" }, "<D-left>", "<Home>", { silent = true })
+vim.keymap.set({ "n", "v", "i", "c", "t", "o" }, "<D-right>", "<End>", { silent = true })
+
 -- ウィンドウのクローズ
 vim.keymap.set("n", "<Space>m", ":q<CR>", { silent = true })
 vim.keymap.set("n", "<Space>n", ":q!<CR>", { silent = true })

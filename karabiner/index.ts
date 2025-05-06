@@ -26,7 +26,6 @@ writeToProfile("Default profile", [
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
         r: toKey("f14", "command"), // raycast clipboard起動用
-        e: toKey("e", "control"), // AltTab起動用
       }),
       withModifier("control")({
         q: toKey("q", "command"),
