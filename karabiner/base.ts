@@ -35,15 +35,6 @@ export const defaultRule = rule("default").manipulators([
     withModifier("command")(likeCtrlCommands),
   ]),
 
-  // Control + e をキーバインドしたいがemacsキーバインドが優先されてしまうのを防ぐため
-  withCondition(App.is("Obsidian"))([
-    withModifier("control")([
-      {
-        e: toKey("e", ["command", "shift"]),
-      },
-    ]),
-  ]),
-
   {
     [UJM.ESC]: toJKeys("ESC", "英数"),
     [UJM.半全]: startMode("NORMAL"),

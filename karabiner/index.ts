@@ -10,7 +10,6 @@ import { normalModeDefinitions } from "./modes/normal.ts";
 import { rangeModeDefinitions } from "./modes/range.ts";
 import { specialModeDefinitions } from "./modes/special.ts";
 import { App } from "./apps/apps.ts";
-import { UJM } from "./utils/keys.ts";
 import { commandJLeaderDefinitions } from "./leaders/commandJ.ts";
 import { semicolonLeaderDefinitions } from "./leaders/semicolon.ts";
 import { defaultRule } from "./base.ts";
@@ -27,6 +26,7 @@ writeToProfile("Default profile", [
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
         f: toKey("f14", "command"), // raycast clipboard起動用
+        e: toKey("e", "control"), // AltTab起動用
       }),
       withModifier("control")({
         q: toKey("q", "command"),
@@ -38,7 +38,6 @@ writeToProfile("Default profile", [
       withModifier("control")({
         q: toKey("f13", "option"), // raycast起動用
         f: toKey("f14", "command"), // raycast clipboard起動用
-        [UJM.tab]: toKey("tab", "command"), // AltTab起動用
       }),
     ]),
   ]),
