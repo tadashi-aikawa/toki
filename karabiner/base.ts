@@ -39,5 +39,6 @@ export const defaultRule = rule("default").manipulators([
     [UJM.ESC]: toJKeys("ESC", "英数"),
     [UJM.半全]: startMode("NORMAL"),
     [UJM.PrintScreen]: toKey("5", ["command", "shift"]),
+    [UJM._]: toKey("international3"),
   },
 ]);
