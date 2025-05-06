@@ -39,6 +39,12 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       withModifier("command")(likeCtrlCommands),
     ]),
 
+    withCondition(App.is("Obsidian"))([
+      {
+        q: toKey("w", "option"),
+      },
+    ]),
+
     withModifier("shift")({
       h: toJKeys("<-", 10),
       j: toJKeys("down", 25),

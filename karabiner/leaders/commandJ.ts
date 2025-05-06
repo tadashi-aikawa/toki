@@ -15,6 +15,7 @@ export const commandJLeaderDefinitions = [
         h: toKey("f17"), // [AQS] backlink search
         o: toKey("f18"), // [AQS] floating header search
         l: toKey("f19"), // [AQS] in file serach
+        g: toKey("f20"), // [AQS] grep
         s: toJKeyWith(",", "command"), // [AQS] Settings
       },
     ]),
