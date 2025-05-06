@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, opts)
 
     -- 診断をフローティングウィンドウで表示する
-    vim.keymap.set("n", "<D-w>", function()
+    vim.keymap.set("n", "<D-f>", function()
       vim.diagnostic.open_float({
         scope = "cursor",
         focusable = true,
