@@ -79,6 +79,7 @@ brew install p7zip
 
 # ターミナル
 brew install --cask ghostty
+mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty
 ln -snf "$MNT"/ghostty/config ~/Library/Application\ Support/com.mitchellh.ghostty/config
 
 # ランチャー
@@ -232,7 +233,7 @@ brew services start colima
 
 # Lazygit
 mise use -g lazygit
-mkdir -p ~/.config/lazygit
+mkdir -p ~/Library/Application\ Support/lazygit/config.yml
 ln -snf "${MNT}"/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 
 # Lazydocker
