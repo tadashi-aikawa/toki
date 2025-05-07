@@ -66,20 +66,22 @@ export const JM = {
 
 // as [any] はdeno lint error回避
 type JKey = keyof typeof JM;
-// as [any] はdeno lint error回避
-type UniJMKey = keyof typeof UJM;
 
 export const toJKey = (key: JKey) => toKey(...(JM[key] as [any]));
+
 export const toJKeyWith = (
-  key: UniJMKey,
+  key: JKey,
   modifier: ModifierParam,
   repeat?: number,
-) =>
-  repeat
-    ? [...Array(repeat).keys()].map((_) =>
-      toKey(...(JM[key] as [any]), modifier)
-    )
-    : toKey(...(JM[key] as [any]), modifier);
+) => {
+  const nonModifierKey = JM[key][0];
+  const mod = JM[key][1] ? [JM[key][1]] : [];
+  const toKeyArgs = [nonModifierKey, [...mod, ...[modifier].flat()]];
+  const retKey = toKey(...(toKeyArgs as [any]));
+
+  return repeat ? [...Array(repeat).keys()].map((_) => retKey) : retKey;
+};
+
 export const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
   if (typeof args[1] === "number") {
     return [...Array(args[1]).keys()].map((_) =>
