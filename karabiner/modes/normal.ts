@@ -24,6 +24,20 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
     sticky: true,
   })
   .manipulators([
+    withCondition(App.is("Obsidian"))([
+      {
+        q: toKey("w", ["option", "shift"]),
+      },
+    ]),
+    withCondition(App.is("Finder"))([
+      withModifier("command")({
+        e: toJKeyWith("]", "command"),
+      }),
+      {
+        o: toJKeyWith("bs", "command"),
+        e: toJKeyWith("[", "command"),
+      },
+    ]),
     withCondition(App.is("Ghostty"))([
       withModifier("control")(likeCtrlCommands),
       withModifier("shift")({
@@ -35,20 +49,9 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         f: toJKeyWith("home", "control"),
       },
     ]),
+
     withCondition(App.not("Ghostty"))([
       withModifier("command")(likeCtrlCommands),
-    ]),
-
-    withCondition(App.is("Obsidian"))([
-      {
-        q: toKey("w", ["option", "shift"]),
-      },
-    ]),
-
-    withCondition(App.is("Finder"))([
-      {
-        o: toJKeyWith("bs", "command"),
-      },
     ]),
 
     withModifier("shift")({

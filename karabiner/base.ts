@@ -27,10 +27,19 @@ const likeAltCommands = [{
 }];
 
 export const defaultRule = rule("default").manipulators([
+  withCondition(App.is("Finder"))([
+    withModifier("command")({
+      "2": toJKey("enter"),
+    }),
+    {
+      [UJM.enter]: toJKeyWith("down", "command"),
+    },
+  ]),
   withCondition(App.is("Ghostty"))([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
   ]),
+
   withCondition(App.not("Ghostty"))([
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
