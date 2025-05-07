@@ -5,6 +5,7 @@ const appIdentifierMapper = {
   "Google Chrome": "com.google.Chrome",
   Slack: "com.tinyspeck.slackmacgap",
   Obsidian: "md.obsidian",
+  Finder: "com.apple.finder",
 } as const;
 
 export type AppName = keyof typeof appIdentifierMapper;

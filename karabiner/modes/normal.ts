@@ -45,6 +45,12 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       },
     ]),
 
+    withCondition(App.is("Finder"))([
+      {
+        o: toJKeyWith("bs", "command"),
+      },
+    ]),
+
     withModifier("shift")({
       h: toJKeys("<-", 10),
       j: toJKeys("down", 25),
