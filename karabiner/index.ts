@@ -13,6 +13,7 @@ import { App } from "./apps/apps.ts";
 import { commandJLeaderDefinitions } from "./leaders/commandJ.ts";
 import { semicolonLeaderDefinitions } from "./leaders/semicolon.ts";
 import { defaultRule } from "./base.ts";
+import { UJM } from "./utils/keys.ts";
 
 /**
  * 基本的に先に定義した方が採用されるので注意
@@ -26,6 +27,7 @@ writeToProfile("Default profile", [
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
         r: toKey("f14", "command"), // raycast clipboard起動用
+        [UJM["/"]]: toKey("f15", "command"), // raycast emoji起動用
       }),
       withModifier("control")({
         q: toKey("q", "command"),
@@ -39,6 +41,7 @@ writeToProfile("Default profile", [
       withModifier("control")({
         q: toKey("f13", "option"), // raycast起動用
         r: toKey("f14", "command"), // raycast clipboard起動用
+        [UJM["/"]]: toKey("f15", "command"), // raycast emoji起動用
       }),
     ]),
   ]),
