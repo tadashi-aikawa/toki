@@ -12,7 +12,7 @@ import { specialModeDefinitions } from "./modes/special.ts";
 import { App } from "./apps/apps.ts";
 import { commandJLeaderDefinitions } from "./leaders/commandJ.ts";
 import { semicolonLeaderDefinitions } from "./leaders/semicolon.ts";
-import { defaultRule } from "./base.ts";
+import { defaultRule } from "./modes/base.ts";
 import { UJM } from "./utils/keys.ts";
 
 /**

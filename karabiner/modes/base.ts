@@ -4,9 +4,9 @@ import {
   withCondition,
   withModifier,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
-import { App } from "./apps/apps.ts";
-import { toJKey, toJKeys, toJKeyWith, UJM } from "./utils/keys.ts";
-import { startMode } from "./modes/modes.ts";
+import { App } from "../apps/apps.ts";
+import { toJKey, toJKeys, toJKeyWith, UJM } from "../utils/keys.ts";
+import { startMode } from "../modes/modes.ts";
 
 const likeCtrlCommands = [
   {
