@@ -25,6 +25,7 @@
 
 ```bash
 mkdir -p ~/git/github.com/tadashi-aikawa
+cd ~/git/github.com/tadashi-aikawa
 git clone https://github.com/tadashi-aikawa/toki
 ```
 
