@@ -6,6 +6,7 @@ _PATH=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
 GITHUB_AUTHOR_DIR=$HOME/git/github.com/tadashi-aikawa
+SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots
 
 function show_usage() {
   echo "
@@ -545,13 +546,14 @@ fi
 #--- webp ---
 # スクリーンショットに保存されたpngをwebpに変換する
 if [[ $command == "webp" ]]; then
-  cd ~/Documents || exit 1
+  cd "$SCREEN_SHOT_DIR" || exit 1
+  mkdir -p webp
 
   for file in "スクリーンショット "*".png"; do
     [ -e "$file" ] || continue
 
     ts=$(date -r "$file" +"%Y%m%d_%H%M%S")
-    dst="${ts}.webp"
+    dst="webp/${ts}.webp"
 
     [ -e "$dst" ] && continue
 
