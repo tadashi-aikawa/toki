@@ -73,7 +73,7 @@ return {
         action = forward_seek_gf,
         opts = { noremap = false, expr = false, buffer = true },
       },
-      ["<D-]>"] = {
+      ["<C-S-]>"] = {
         action = function()
           vim.cmd([[ vsplit ]])
           forward_seek_gf()
