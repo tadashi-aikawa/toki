@@ -28,3 +28,10 @@ keybind = super+right=unbind
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
 
+# ctrl+shift+w (;q leader)
+keybind = ctrl+shift+w>s=new_split:down
+keybind = ctrl+shift+w>v=new_split:right
+keybind = ctrl+shift+w>k=goto_split:up
+keybind = ctrl+shift+w>j=goto_split:down
+keybind = ctrl+shift+w>l=goto_split:right
+keybind = ctrl+shift+w>h=goto_split:left

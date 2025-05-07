@@ -36,6 +36,7 @@ export const semicolonLeaderDefinitions = [
         m: toJKey('"'),
         o: toJKey("|"),
         p: toJKey("%"),
+        q: toKey("w", ["control", "shift"]), // ctrl+shift+w
         r: toJKeys(" ", "=", "=", " "),
         s: toJKeys("(", ")", "<-"),
         t: toPaste(Temporal.Now.plainDateISO().toString()),
