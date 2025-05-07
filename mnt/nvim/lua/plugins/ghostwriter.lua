@@ -14,6 +14,9 @@ return {
   },
   opts = function(_, opts)
     return vim.tbl_deep_extend("force", opts, {
+      bullet = {
+        emoji = "dot2",
+      },
       check = {
         { mark = "~", emoji = "loading" },
         { mark = "x", emoji = "ok_green" },
