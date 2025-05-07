@@ -5,6 +5,7 @@ set -eu
 CURRENT_DIR_PATH=$(readlink -f "$(pwd)")
 
 MNT="${CURRENT_DIR_PATH}/mnt"
+mkdir -p ~/bin
 
 # no cat && { catのインストール処理 }
 function no() {
@@ -109,7 +110,7 @@ brew install --cask slack
 no mise && {
   curl https://mise.run | sh
   # 大丈夫かな?
-  ~/.local/bin/mise activate bash
+  eval "$(~/.local/bin/mise activate bash)"
 }
 
 # shellcheck disable=SC2034
@@ -220,6 +221,10 @@ mise use -g npm:svelte-language-server
 # SQL
 mise use -g go:github.com/sqls-server/sqls
 mise use -g cargo:sleek
+
+# Docker
+brew install docker docker-compose colima
+brew services start colima
 
 #----------------------------------------------------------------------
 # TUI Tools
