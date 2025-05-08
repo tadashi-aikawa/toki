@@ -1,6 +1,6 @@
 return {
   "dhruvasagar/vim-table-mode",
   keys = {
-    { "<A-;>", "<Cmd>:TableModeRealign<CR>" },
+    { "<D-;>", "<Cmd>:TableModeRealign<CR>" },
   },
 }
