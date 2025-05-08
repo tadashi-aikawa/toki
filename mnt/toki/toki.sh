@@ -6,7 +6,7 @@ _PATH=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
 GITHUB_AUTHOR_DIR=$HOME/git/github.com/tadashi-aikawa
-SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots
+WEBP_SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots/webp
 
 function show_usage() {
   echo "
@@ -19,7 +19,7 @@ Usages:
   toki provision:        owl-playbookのprovisioningをします
   toki update:           関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
        up
-  toki webp:             スクリーンショットに保存されたpngをwebpに変換します
+  toki webp:             入力ファイルをwebpに変換します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -544,23 +544,14 @@ fi
 
 #==========================================================================
 #--- webp ---
-# スクリーンショットに保存されたpngをwebpに変換する
 if [[ $command == "webp" ]]; then
-  cd "$SCREEN_SHOT_DIR" || exit 1
-  mkdir -p webp
+  file="$1"
 
-  for file in "スクリーンショット "*".png"; do
-    [ -e "$file" ] || continue
+  ts=$(date +"%Y%m%d_%H_%M_%S")
+  dst_dir="$WEBP_SCREEN_SHOT_DIR"
+  dst="${dst_dir}/${ts}.webp"
 
-    ts=$(date -r "$file" +"%Y%m%d_%H%M%S")
-    dst="webp/${ts}.webp"
-
-    [ -e "$dst" ] && continue
-
-    magick "$file" "$dst"
-    ls -lh "$dst"
-  done
-
+  /opt/homebrew/bin/magick "${file}" "$dst"
   exit 0
 fi
 
