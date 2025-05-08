@@ -46,6 +46,14 @@ export const defaultRule = rule("default").manipulators([
     withModifier("command")(likeCtrlCommands),
   ]),
 
+  withModifier("option")([
+    {
+      8: toKey("1", ["shift", "command"]), // full screenshot
+      9: toKey("2", ["shift", "command"]), // range screenshot
+      0: toKey("1", ["shift", "control"]), // window screenshot
+    },
+  ]),
+
   {
     [UJM.ESC]: toJKeys("ESC", "英数"),
     [UJM.半全]: startMode("NORMAL"),

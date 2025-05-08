@@ -103,6 +103,9 @@ brew install --cask linearmouse
 # Slack
 brew install --cask slack
 
+# スクリーンショット
+brew install --cask shottr
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
