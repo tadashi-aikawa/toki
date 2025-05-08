@@ -106,6 +106,9 @@ brew install --cask slack
 # スクリーンショット
 brew install --cask shottr
 
+# DBeaver
+brew install --cask dbeaver-community
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
