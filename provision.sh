@@ -239,7 +239,7 @@ brew services start colima
 
 # Lazygit
 mise use -g lazygit
-mkdir -p ~/Library/Application\ Support/lazygit/config.yml
+mkdir -p ~/Library/Application\ Support/lazygit
 ln -snf "${MNT}"/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 
 # Lazydocker
