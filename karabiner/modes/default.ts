@@ -46,18 +46,16 @@ export const defaultRule = rule("default").manipulators([
     withModifier("command")(likeCtrlCommands),
   ]),
 
-  withModifier("option")([
+  withModifier("shift")([
     {
-      8: toKey("1", ["shift", "command"]), // full screenshot
-      9: toKey("2", ["shift", "command"]), // range screenshot
-      0: toKey("1", ["shift", "control"]), // window screenshot
+      [UJM.PrintScreen]: toKey("1", ["shift", "command"]), // window screenshot
     },
   ]),
 
   {
     [UJM.ESC]: toJKeys("ESC", "英数"),
     [UJM.半全]: startMode("NORMAL"),
-    [UJM.PrintScreen]: toKey("5", ["command", "shift"]),
+    [UJM.PrintScreen]: toKey("2", ["command", "shift"]), // range screenshot
     [UJM._]: toKey("international3"),
   },
 ]);
