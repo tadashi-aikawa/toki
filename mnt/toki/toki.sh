@@ -2,6 +2,8 @@ set -eu
 # ドットファイルをtemplateのコピー対象に含めるため (*では含まれないので)
 shopt -s dotglob
 
+export PATH=$PATH:/opt/homebrew/bin/
+
 _PATH=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
@@ -19,7 +21,7 @@ Usages:
   toki provision:        owl-playbookのprovisioningをします
   toki update:           関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
        up
-  toki webp:             入力ファイルをwebpに変換します
+  toki webp:             入力ファイル/クリップボード画像(png)をwebpに変換します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -545,13 +547,17 @@ fi
 #==========================================================================
 #--- webp ---
 if [[ $command == "webp" ]]; then
-  file="$1"
-
   ts=$(date +"%Y%m%d_%H_%M_%S")
   dst_dir="$WEBP_SCREEN_SHOT_DIR"
   dst="${dst_dir}/${ts}.webp"
 
-  /opt/homebrew/bin/magick "${file}" "$dst"
+  if [ -n "${1-}" ]; then
+    magick "${1}" "$dst"
+  else
+    pngpaste - | magick - "$dst"
+  fi
+
+  echo "Created ${dst}"
   exit 0
 fi
 

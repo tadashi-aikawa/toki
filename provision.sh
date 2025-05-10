@@ -319,5 +319,8 @@ brew install chafa
 # imagemagick(magick)
 brew install imagemagick
 
+# pngpaste
+brew install pngpaste
+
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
