@@ -9,8 +9,9 @@ export const commandJLeaderDefinitions = [
   modifierLayer("command", "j").condition(App.is("Obsidian")).leaderMode()
     .manipulators([
       {
-        // f14 ~ f16 は使えない
-        f: toKey("f13"), // [AQS] file search
+        // WARN: f13はObsidianだと日本語入力ONになってしまう
+        // WARN: f14 ~ f16 は使えない
+        f: toKey("f13", "control"), // [AQS] file search
         e: toKey("f13", "command"), // [AQS] recent serarch
         h: toKey("f17"), // [AQS] backlink search
         o: toKey("f18"), // [AQS] floating header search
