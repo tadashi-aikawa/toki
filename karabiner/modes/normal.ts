@@ -64,11 +64,6 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       f: toJKeyWith("down", "command"),
       o: toJKeys("del", 5),
       u: toJKeys("bs", 5),
-
-      p: [
-        ...terminateMode("NORMAL"),
-        toKey("r", ["command", "control", "option"]),
-      ], // Hammerspoon config reload
     }),
 
     {

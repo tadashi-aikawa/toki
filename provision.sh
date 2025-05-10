@@ -90,10 +90,6 @@ brew install --cask alt-tab
 
 # キーマップ制御
 brew install --cask karabiner-elements
-brew install --cask hammerspoon
-mkdir -p ~/.hammerspoon
-ln -snf "$MNT"/hammerspoon/init.lua ~/.hammerspoon/init.lua
-ln -snf "$MNT"/hammerspoon/Spoons ~/.hammerspoon/Spoons
 
 # 日本語入力
 brew install --cask google-japanese-ime
