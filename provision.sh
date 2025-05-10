@@ -88,9 +88,6 @@ brew install --cask raycast
 # タスク切換え
 brew install --cask alt-tab
 
-# Window制御
-brew install --cask rectangle
-
 # キーマップ制御
 brew install --cask karabiner-elements
 
