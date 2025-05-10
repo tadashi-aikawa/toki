@@ -29,16 +29,16 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         q: toKey("w", ["option", "shift"]),
       },
     ]),
-    // INFO: Raycastと干渉するので注意 (Hammerspoonの設定で回避)
-    withCondition(App.is("Finder"))([
-      withModifier("command")({
-        e: toJKeyWith("]", "command"),
-      }),
-      {
-        o: toJKeyWith("bs", "command"),
-        e: toJKeyWith("[", "command"),
-      },
-    ]),
+    // WARNING: Raycastと干渉するので一旦コメントアウト
+    // withCondition(App.is("Finder"))([
+    //   withModifier("command")({
+    //     e: toJKeyWith("]", "command"),
+    //   }),
+    //   {
+    //     o: toJKeyWith("bs", "command"),
+    //     e: toJKeyWith("[", "command"),
+    //   },
+    // ]),
     withCondition(App.is("Ghostty"))([
       withModifier("control")(likeCtrlCommands),
       withModifier("shift")({

@@ -27,15 +27,15 @@ const likeAltCommands = [{
 }];
 
 export const defaultRule = rule("default").manipulators([
-  // INFO: Raycastと干渉するので注意 (Hammerspoonの設定で回避)
-  withCondition(App.is("Finder"))([
-    withModifier("command")({
-      "2": toJKey("enter"),
-    }),
-    {
-      [UJM.enter]: toJKeyWith("down", "command"),
-    },
-  ]),
+  // WARNING: Raycastと干渉するので一旦コメントアウト
+  // withCondition(App.is("Finder"))([
+  //   withModifier("command")({
+  //     "2": toJKey("enter"),
+  //   }),
+  //   {
+  //     [UJM.enter]: toJKeyWith("down", "command"),
+  //   },
+  // ]),
   withCondition(App.is("Ghostty"))([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
