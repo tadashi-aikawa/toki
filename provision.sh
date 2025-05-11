@@ -109,6 +109,9 @@ brew install --cask dbeaver-community
 # VSCode
 brew install --cask visual-studio-code
 
+# GIMP
+brew install --cask gimp
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
