@@ -108,6 +108,9 @@ brew install --cask dbeaver-community
 
 # VSCode
 brew install --cask visual-studio-code
+mkdir -p ~/Library/Application\ Support/Code/User
+ln -snf "$MNT"/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 
 # GIMP
 brew install --cask gimp

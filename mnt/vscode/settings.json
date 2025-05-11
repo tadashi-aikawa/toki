@@ -1,0 +1,150 @@
+{
+  //
+  //------------------------------------------------------------------------
+  // 見た目
+  //------------------------------------------------------------------------
+  //
+  // インデントガイドを非表示にする
+  "editor.guides.indentation": false,
+  // フォント設定
+  "editor.fontFamily": "CaskaydiaCove Nerd Font",
+  "editor.fontSize": 15,
+  // アイコン/テーマ設定
+  "workbench.iconTheme": "gruvbox-material-icon-theme",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  // ミニマップは非表示
+  "editor.minimap.enabled": false,
+  // ターミナル設定
+  "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font",
+  "terminal.integrated.fontSize": 15,
+  //
+  //------------------------------------------------------------------------
+  // 操作
+  //------------------------------------------------------------------------
+  //
+  // ファイルを開いたときにプレビューモードで表示しない
+  "workbench.editor.enablePreview": false,
+  // Diffはside-by-side表示
+  "diffEditor.renderSideBySide": true,
+  // TABキー補完を利用
+  "editor.tabCompletion": "on",
+  // 自動でクォートやカッコは閉じない
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  // 保存時に自動でフォーマット
+  "editor.formatOnSave": true,
+  // 改行コード設定
+  "files.eol": "\n",
+  // エントリの削除確認は不要
+  "explorer.confirmDelete": false,
+  // ドラッグ&ドロップ時の確認は不要
+  "explorer.confirmDragAndDrop": false,
+  // カーソル移動後に上下あける最低行数
+  "editor.cursorSurroundingLines": 5,
+  // カーソルは点滅させない
+  "editor.cursorBlinking": "solid",
+  // ペースト時にもフォーマット
+  "editor.formatOnPaste": true,
+  // git fetchは自動で行う
+  "git.autofetch": true,
+  // gitのLegacy警告を非表示
+  "git.ignoreLegacyWarning": true,
+  // 特に指定がない場合のタブサイズ
+  "editor.tabSize": 4,
+  // タブをスペースとして挿入する
+  "editor.insertSpaces": true,
+  // 挿入モード時のカーソルスタイル
+  "editor.cursorStyle": "line",
+  // 単語の切れ目 (いる?)
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  // ???
+  "security.workspace.trust.untrustedFiles": "open",
+  // ウィンドウ分割時のデフォルトレイアウト
+  "workbench.editor.splitInGroupLayout": "vertical",
+  // 全文検索
+  // -- 全文検索で開くタブは1つ
+  "search.mode": "reuseEditor",
+  // -- 検索結果が出たら、自動で結果側にカーソルをフォーカス
+  "search.searchEditor.focusResultsOnSearch": true,
+  // -- Enterなしで検索しない
+  "search.searchOnType": false,
+  //
+  //------------------------------------------------------------------------
+  // Vim設定
+  //------------------------------------------------------------------------
+  //
+  "vim.enableNeovim": true,
+  "vim.easymotion": true,
+  "vim.easymotionMarkerForegroundColorOneChar": "#efef33",
+  "vim.camelCaseMotion.enable": true,
+  "vim.replaceWithRegister": true,
+  "vim.leader": "[",
+  "vim.normalModeKeyBindings": [
+    {
+      "before": [
+        "_"
+      ],
+      "after": [
+        "g",
+        "r"
+      ]
+    },
+    {
+      "before": [
+        "s"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "2",
+        "s",
+        "<char>",
+        "<char>"
+      ]
+    }
+  ],
+  "vim.highlightedyank.enable": true,
+  "vim.useSystemClipboard": true,
+  //
+  //------------------------------------------------------------------------
+  // GitHub Copilotの設定
+  //------------------------------------------------------------------------
+  //
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.agent.enabled": true,
+  //
+  //------------------------------------------------------------------------
+  // ファイルタイプごとの設定
+  //------------------------------------------------------------------------
+  //
+  "[plaintext]": {
+    "files.autoGuessEncoding": true
+  },
+  "[csv]": {
+    "files.autoGuessEncoding": true
+  },
+  "[tsv]": {
+    "files.autoGuessEncoding": true
+  },
+  "[bat]": {
+    "files.encoding": "shiftjis"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": null
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // 一部のファイルの言語モードを指定
+  "files.associations": {
+    "Vagrantfile": "ruby",
+    "*.txt": "csv",
+    "*.ahk": "ahk"
+  }
+}
