@@ -106,6 +106,9 @@ brew install --cask shottr
 # DBeaver
 brew install --cask dbeaver-community
 
+# VSCode
+brew install --cask visual-studio-code
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------

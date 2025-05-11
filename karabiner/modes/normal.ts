@@ -40,6 +40,11 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         f: toJKeyWith("home", "control"),
       },
     ]),
+    withCondition(App.is("VSCode"))([
+      {
+        q: toKey("q", ["control", "shift"]), // VSCodeで現在のタブを閉じる
+      },
+    ]),
 
     withCondition(App.not("Ghostty"))([
       withModifier("command")(likeCtrlCommands),
