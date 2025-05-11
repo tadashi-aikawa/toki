@@ -48,6 +48,12 @@ export const defaultRule = rule("default").manipulators([
     },
   ]),
 
+  withModifier("option")([
+    {
+      [UJM.tab]: toKey("f19", "option"), // ミッションコントロール
+    },
+  ]),
+
   {
     [UJM.ESC]: toJKeys("ESC", "英数"),
     [UJM.半全]: startMode("NORMAL"),
