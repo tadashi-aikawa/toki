@@ -1,16 +1,14 @@
-theme = tokyonight_moon
-
 font-size = 16
 font-family = "CaskaydiaCove Nerd Font"
 # リガチャ防止
 font-feature = -dlig
 
-macos-titlebar-style = tabs  
 macos-option-as-alt = true
 
-window-padding-x = 6
-window-padding-y = 6
+window-padding-x = 12
+window-padding-y = 3
 window-padding-balance = true
+window-padding-color = extend
 
 # スクロール速度が速すぎるので下げる
 mouse-scroll-multiplier = 0.2
