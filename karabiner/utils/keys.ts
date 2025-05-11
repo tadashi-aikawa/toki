@@ -67,6 +67,7 @@ export const JM = {
 // as [any] はdeno lint error回避
 type JKey = keyof typeof JM;
 
+// deno-lint-ignore no-explicit-any
 export const toJKey = (key: JKey) => toKey(...(JM[key] as [any]));
 
 export const toJKeyWith = (
@@ -77,6 +78,7 @@ export const toJKeyWith = (
   const nonModifierKey = JM[key][0];
   const mod = JM[key][1] ? [JM[key][1]] : [];
   const toKeyArgs = [nonModifierKey, [...mod, ...[modifier].flat()]];
+  // deno-lint-ignore no-explicit-any
   const retKey = toKey(...(toKeyArgs as [any]));
 
   return repeat ? [...Array(repeat).keys()].map((_) => retKey) : retKey;
@@ -85,6 +87,7 @@ export const toJKeyWith = (
 export const toJKeys = (...args: JKey[] | [JKey, repeat: number]) => {
   if (typeof args[1] === "number") {
     return [...Array(args[1]).keys()].map((_) =>
+      // deno-lint-ignore no-explicit-any
       toKey(...(JM[args[0]] as [any]))
     );
   }

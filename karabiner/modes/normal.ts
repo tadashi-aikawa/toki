@@ -5,7 +5,7 @@ import {
   withModifier,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
 import { toJKey, toJKeys, toJKeyWith, UJM, UNUSED_KEY } from "../utils/keys.ts";
-import { App } from "../apps/apps.ts";
+import { App, withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { changeMode, terminateMode } from "./modes.ts";
 
 const likeCtrlCommands = [
@@ -29,7 +29,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         q: toKey("w", ["option", "shift"]),
       },
     ]),
-    withCondition(App.is("Ghostty"))([
+    ...withinTerminal([
       withModifier("control")(likeCtrlCommands),
       withModifier("shift")({
         f: toJKeyWith("end", "control"),
@@ -46,7 +46,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       },
     ]),
 
-    withCondition(App.not("Ghostty"))([
+    withoutTerminal([
       withModifier("command")(likeCtrlCommands),
     ]),
 

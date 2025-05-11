@@ -1,10 +1,9 @@
 import {
   rule,
   toKey,
-  withCondition,
   withModifier,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
-import { App } from "../apps/apps.ts";
+import { withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { toJKey, toJKeys, toJKeyWith, UJM } from "../utils/keys.ts";
 import { startMode } from "../modes/modes.ts";
 
@@ -27,12 +26,11 @@ const likeAltCommands = [{
 }];
 
 export const defaultRule = rule("default").manipulators([
-  withCondition(App.is("Ghostty"))([
+  ...withinTerminal([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
   ]),
-
-  withCondition(App.not("Ghostty"))([
+  withoutTerminal([
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
   ]),

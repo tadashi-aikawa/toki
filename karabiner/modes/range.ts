@@ -1,11 +1,10 @@
 import {
   layer,
   toKey,
-  withCondition,
   withModifier,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
 import { toJKey, toJKeyWith, UJM, UNUSED_KEY } from "../utils/keys.ts";
-import { App } from "../apps/apps.ts";
+import { withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { changeMode, terminateMode } from "./modes.ts";
 
 const likeCtrlCommands = [
@@ -22,10 +21,10 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
     sticky: true,
   })
   .manipulators([
-    withCondition(App.is("Ghostty"))([
+    ...withinTerminal([
       withModifier("control")(likeCtrlCommands),
     ]),
-    withCondition(App.not("Ghostty"))([
+    withoutTerminal([
       withModifier("command")(likeCtrlCommands),
     ]),
 
