@@ -316,6 +316,9 @@ brew install chafa
 # imagemagick(magick)
 brew install imagemagick
 
+# ffmpeg
+brew install ffmpeg
+
 # pngpaste
 brew install pngpaste
 
