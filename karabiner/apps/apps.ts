@@ -12,6 +12,7 @@ const appIdentifierMapper = {
   Finder: "com.apple.finder",
   VSCode: "com.microsoft.VSCode",
   Kitty: "net.kovidgoyal.kitty",
+  WezTerm: "com.github.wez.wezterm",
 } as const;
 
 export type AppName = keyof typeof appIdentifierMapper;
@@ -31,10 +32,15 @@ export const withOrConditions = (
  * ターミナルがアクティブなときのキーバインドを設定する
  */
 export const withinTerminal = (manipulators: Manipulators) =>
-  withOrConditions([App.is("Ghostty"), App.is("Kitty")], manipulators);
+  withOrConditions(
+    [App.is("Ghostty"), App.is("Kitty"), App.is("WezTerm")],
+    manipulators,
+  );
 
 /**
  * ターミナルではないときのキーバインドを設定する
  */
 export const withoutTerminal = (manipulators: Manipulators) =>
-  withCondition(App.not("Ghostty"), App.not("Kitty"))(manipulators);
+  withCondition(App.not("Ghostty"), App.not("Kitty"), App.not("WezTerm"))(
+    manipulators,
+  );
