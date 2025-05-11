@@ -27,15 +27,6 @@ const likeAltCommands = [{
 }];
 
 export const defaultRule = rule("default").manipulators([
-  // WARNING: Raycastと干渉するので一旦コメントアウト
-  // withCondition(App.is("Finder"))([
-  //   withModifier("command")({
-  //     "2": toJKey("enter"),
-  //   }),
-  //   {
-  //     [UJM.enter]: toJKeyWith("down", "command"),
-  //   },
-  // ]),
   withCondition(App.is("Ghostty"))([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
@@ -44,6 +35,13 @@ export const defaultRule = rule("default").manipulators([
   withCondition(App.not("Ghostty"))([
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
+  ]),
+
+  withModifier(["control", "shift"])([
+    {
+      j: toKey("j", ["control", "command", "shift"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
+      k: toKey("k", ["control", "command", "shift"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
+    },
   ]),
 
   withModifier("shift")([
