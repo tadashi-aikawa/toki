@@ -9,6 +9,8 @@ DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
 GITHUB_AUTHOR_DIR=$HOME/git/github.com/tadashi-aikawa
 WEBP_SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots/webp
+MOV_DIR=$HOME/Documents/Pictures/screenshots/mov
+MP4_DIR=$HOME/Documents/Pictures/screenshots/mp4
 
 function show_usage() {
   echo "
@@ -22,6 +24,7 @@ Usages:
   toki update:           関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
        up
   toki webp:             入力ファイル/クリップボード画像(png)をwebpに変換します
+  toki mp4:              MOV保存場所の最新動画ファイルをmp4に変換します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -556,6 +559,21 @@ if [[ $command == "webp" ]]; then
   else
     pngpaste - | magick - "$dst"
   fi
+
+  echo "Created ${dst}"
+  exit 0
+fi
+
+#==========================================================================
+#--- mp4 ---
+if [[ $command == "mp4" ]]; then
+  ts=$(date +"%Y%m%d_%H_%M_%S")
+  dst_dir="$MP4_DIR"
+  dst="${dst_dir}/${ts}.mp4"
+
+  # shellcheck disable=SC2012
+  input=$MOV_DIR/$(ls -t "$MOV_DIR" | head -1)
+  ffmpeg -i "$input" "$dst"
 
   echo "Created ${dst}"
   exit 0
