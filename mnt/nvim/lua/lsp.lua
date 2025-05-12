@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local opts = { buffer = ev.buf }
     -- 定義に移動 (Lspsaga goto_definition は期待しない定義に飛んでしまうことがある)
     vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "<D-]>", function()
+    vim.keymap.set("n", "<C-S-]>", function()
       vim.cmd([[ vsplit ]])
       vim.lsp.buf.definition()
     end, opts)
