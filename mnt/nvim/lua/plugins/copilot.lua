@@ -9,5 +9,13 @@ return {
         accept = "<D-k>",
       },
     },
+    filetypes = {
+      javascript = true,
+      typescript = true,
+      lua = true,
+      go = true,
+      vue = true,
+      ["*"] = false,
+    },
   },
 }
