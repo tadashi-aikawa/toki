@@ -31,6 +31,7 @@ export const semicolonLeaderDefinitions = [
         g: toJKey("&"),
         h: toJKey("~"),
         i: toJKeys("{", "}", "<-"),
+        j: toJKeys("'", "'", "<-"),
         k: toJKeys("`", "`", "<-"),
         l: toJKey("_"),
         m: toJKey('"'),
