@@ -331,5 +331,8 @@ brew install ffmpeg
 # pngpaste
 brew install pngpaste
 
+# Git LFS
+brew install git-lfs
+
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
