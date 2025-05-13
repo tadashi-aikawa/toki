@@ -146,5 +146,6 @@
     "Vagrantfile": "ruby",
     "*.txt": "csv",
     "*.ahk": "ahk"
-  }
+  },
+  "hediet.vscode-drawio.resizeImages": null
 }
