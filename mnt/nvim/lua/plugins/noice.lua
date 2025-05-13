@@ -60,6 +60,7 @@ return {
             { event = "notify", kind = "info", find = "No information available" },
             { event = "notify", kind = "info", find = "No code actions available" },
             { event = "notify", kind = "warn", find = "No results for %*%*diagnostics%*%*" },
+            { event = "notify", kind = "error", find = "Conversion failed" },
           },
         },
         view = "mini",
