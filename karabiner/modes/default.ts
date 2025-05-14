@@ -6,6 +6,7 @@ import {
 import { withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { toJKey, toJKeys, toJKeyWith, UJM } from "../utils/keys.ts";
 import { startMode } from "../modes/modes.ts";
+import { toDynamicPaste } from "../utils/commands.ts";
 
 const likeCtrlCommands = [
   {
@@ -25,21 +26,22 @@ const likeAltCommands = [{
   "5": toJKeys("#", "#", "#", "#", "#", " "),
 }];
 
+const likeCtrlShiftCommands = [{
+  j: toKey("j", ["control", "command", "shift"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
+  k: toKey("k", ["control", "command", "shift"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
+  ";": toDynamicPaste('date "+%Y%m%d"'),
+}];
+
 export const defaultRule = rule("default").manipulators([
   ...withinTerminal([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
+    withModifier(["control", "shift"])(likeCtrlShiftCommands),
   ]),
   withoutTerminal([
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
-  ]),
-
-  withModifier(["control", "shift"])([
-    {
-      j: toKey("j", ["control", "command", "shift"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
-      k: toKey("k", ["control", "command", "shift"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
-    },
+    withModifier(["command", "shift"])(likeCtrlShiftCommands),
   ]),
 
   withModifier("shift")([

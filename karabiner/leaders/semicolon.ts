@@ -1,11 +1,11 @@
 import {
   layer,
   toKey,
-  toPaste,
   withCondition,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
-import { toJKey, toJKeys } from "../utils/keys.ts";
+import { toJKey, toJKeys, UJM } from "../utils/keys.ts";
 import { App } from "../apps/apps.ts";
+import { toDynamicPaste } from "../utils/commands.ts";
 
 export const semicolonLeaderDefinitions = [
   layer(";")
@@ -19,9 +19,8 @@ export const semicolonLeaderDefinitions = [
       ]),
 
       {
-        "/": toPaste(
-          Temporal.Now.plainDateISO().toString().replaceAll("-", "/"),
-        ),
+        "/": toDynamicPaste('date "+%Y/%m/%d"'),
+        [UJM[":"]]: toDynamicPaste('date "+%H:%M"'),
         ";": toJKey(";"),
         a: toJKey("^"),
         c: toJKeys("`", "`", "`"),
@@ -40,7 +39,7 @@ export const semicolonLeaderDefinitions = [
         q: toKey("w", ["control", "shift"]), // ctrl+shift+w
         r: toJKeys(" ", "=", "=", " "),
         s: toJKeys("(", ")", "<-"),
-        t: toPaste(Temporal.Now.plainDateISO().toString()),
+        t: toDynamicPaste('date "+%Y-%m-%d"'),
         u: toJKeys('"', '"', "<-"),
         v: toJKey("'"),
         w: toKey("w", "control"), // ctrl+w
