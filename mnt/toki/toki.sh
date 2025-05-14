@@ -25,6 +25,7 @@ Usages:
        up
   toki webp:             入力ファイル/クリップボード画像(png)をwebpに変換します
   toki mp4:              MOV保存場所の最新動画ファイルをmp4に変換します
+  toki backup:           workをbackupします
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -576,6 +577,14 @@ if [[ $command == "mp4" ]]; then
   ffmpeg -i "$input" "$dst"
 
   echo "Created ${dst}"
+  exit 0
+fi
+
+#==========================================================================
+#--- backup ---
+if [[ $command == "backup" ]]; then
+  7z a -p ~/tmp/backup.7z ~/work ~/.ssh
+  ls -l ~/tmp/backup.7z
   exit 0
 fi
 
