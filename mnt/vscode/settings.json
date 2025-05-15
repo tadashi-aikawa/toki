@@ -148,5 +148,6 @@
     "*.txt": "csv",
     "*.ahk": "ahk"
   },
-  "hediet.vscode-drawio.resizeImages": null
+  "hediet.vscode-drawio.resizeImages": null,
+  "python.analysis.typeCheckingMode": "standard"
 }
