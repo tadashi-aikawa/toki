@@ -112,6 +112,7 @@
   //
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "chat.agent.enabled": true,
+  "github.copilot.chat.localeOverride": "ja",
   //
   //------------------------------------------------------------------------
   // ファイルタイプごとの設定
