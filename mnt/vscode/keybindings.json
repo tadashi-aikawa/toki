@@ -1,47 +1,47 @@
 [
   // 設定を開く
   {
-    "key": "cmd+j s",
+    "key": "ctrl+j s",
     "command": "workbench.action.openSettingsJson"
   },
   // キーバインド設定を開く
   {
-    "key": "cmd+j k",
+    "key": "ctrl+j k",
     "command": "workbench.action.openGlobalKeybindingsFile"
   },
   // サイドバー表示切り替え
   {
-    "key": "ctrl+i",
+    "key": "cmd+i",
     "command": "workbench.action.toggleSidebarVisibility"
   },
   // コマンドパレット
   {
-    "key": "ctrl+escape",
+    "key": "cmd+escape",
     "command": "workbench.action.showCommands"
   },
   // ワークスペース全文検索
   {
-    "key": "cmd+j g",
+    "key": "ctrl+j g",
     "command": "workbench.action.findInFiles"
   },
   // ワークスペースのファイルを開く
   {
-    "key": "cmd+j e",
+    "key": "ctrl+j e",
     "command": "workbench.action.quickOpen"
   },
   // 次のタブへ移動
   {
-    "key": "ctrl+l",
+    "key": "cmd+l",
     "command": "workbench.action.nextEditor"
   },
   // 前のタブへ移動
   {
-    "key": "ctrl+h",
+    "key": "cmd+h",
     "command": "workbench.action.previousEditor"
   },
   // クイックフィックス
   {
-    "key": "ctrl+enter",
+    "key": "cmd+enter",
     "command": "editor.action.quickFix",
     "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
   },
@@ -52,81 +52,81 @@
   },
   // 定義表示
   {
-    "key": "ctrl+d",
+    "key": "cmd+d",
     "command": "editor.action.peekDefinition"
   },
   {
-    "key": "ctrl+s",
+    "key": "cmd+s",
     "command": "editor.action.showHover",
     "when": "editorTextFocus"
   },
   // パラメータヒント表示
   {
-    "key": "cmd+p",
+    "key": "ctrl+p",
     "command": "editor.action.triggerParameterHints",
     "when": "editorHasSignatureHelpProvider && editorTextFocus"
   },
   // Markdown Preview
   {
-    "key": "ctrl+p",
+    "key": "cmd+p",
     "command": "markdown.showPreview"
   },
   // 次のマーカー(診断結果)
   {
-    "key": "cmd+shift+j",
+    "key": "ctrl+shift+j",
     "command": "editor.action.marker.next",
     "when": "editorFocus && !editorReadonly"
   },
   // 前のマーカー(診断結果)
   {
-    "key": "cmd+shift+k",
+    "key": "ctrl+shift+k",
     "command": "editor.action.marker.prev",
     "when": "editorFocus && !editorReadonly"
   },
   // 次の変更点
   {
-    "key": "shift+ctrl+j",
+    "key": "shift+cmd+j",
     "command": "workbench.action.compareEditor.nextChange",
     "when": "textCompareEditorVisible || isInDiffEditor"
   },
   // 前の変更点
   {
-    "key": "shift+ctrl+k",
+    "key": "shift+cmd+k",
     "command": "workbench.action.compareEditor.previousChange",
     "when": "textCompareEditorVisible || isInDiffEditor"
   },
   // ターミナル表示 (<Space>,にしたい)
   {
-    "key": "cmd+j t",
+    "key": "ctrl+j t",
     "command": "workbench.action.terminal.toggleTerminal",
     "when": "terminal.active"
   },
   // 縦に分割して開く
   {
-    "key": "cmd+w s",
+    "key": "ctrl+w s",
     "command": "workbench.action.splitEditorDown"
   },
   // 横に分割して開く
   {
-    "key": "cmd+w v",
+    "key": "ctrl+w v",
     "command": "workbench.action.splitEditorRight"
   },
   // 現在のタブを閉じる
   {
-    "key": "ctrl+shift+q",
+    "key": "cmd+shift+q",
     "command": "workbench.action.closeActiveEditor"
   },
   // GitHub Copilotの補完確定
   {
-    "key": "ctrl+k",
+    "key": "cmd+k",
     "command": "editor.action.inlineSuggest.commit"
   },
   {
-    "key": "ctrl+k",
+    "key": "cmd+k",
     "command": "-keybindings.editor.recordSearchKeys"
   },
   {
-    "key": "ctrl+k",
+    "key": "cmd+k",
     "command": "-editor.action.accessibilityHelpConfigureKeybindings"
   },
   {
@@ -135,7 +135,7 @@
   },
   // GitHub Copilotのコンテキストクリア
   {
-    "key": "cmd+l",
+    "key": "ctrl+l",
     "command": "github.copilot.chat."
-  }
+  },
 ]

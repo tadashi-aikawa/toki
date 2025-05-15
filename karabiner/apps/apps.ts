@@ -33,7 +33,7 @@ export const withOrConditions = (
  */
 export const withinTerminal = (manipulators: Manipulators) =>
   withOrConditions(
-    [App.is("Ghostty"), App.is("Kitty"), App.is("WezTerm")],
+    [App.is("Ghostty"), App.is("Kitty"), App.is("WezTerm"), App.is("VSCode")],
     manipulators,
   );
 
@@ -41,6 +41,11 @@ export const withinTerminal = (manipulators: Manipulators) =>
  * ターミナルではないときのキーバインドを設定する
  */
 export const withoutTerminal = (manipulators: Manipulators) =>
-  withCondition(App.not("Ghostty"), App.not("Kitty"), App.not("WezTerm"))(
+  withCondition(
+    App.not("Ghostty"),
+    App.not("Kitty"),
+    App.not("WezTerm"),
+    App.not("VSCode"),
+  )(
     manipulators,
   );
