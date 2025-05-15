@@ -42,6 +42,12 @@ export const defaultRule = rule("default").manipulators([
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
     withModifier(["command", "shift"])(likeCtrlShiftCommands),
+    // ターミナル系の場合は利用しない
+    withModifier("command")([
+      {
+        r: toKey("f5"),
+      },
+    ]),
   ]),
 
   withModifier("shift")([
