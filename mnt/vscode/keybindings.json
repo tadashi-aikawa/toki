@@ -73,13 +73,13 @@
   },
   // 次のマーカー(診断結果)
   {
-    "key": "ctrl+shift+j",
+    "key": "ctrl+cmd+shift+j",
     "command": "editor.action.marker.next",
     "when": "editorFocus && !editorReadonly"
   },
   // 前のマーカー(診断結果)
   {
-    "key": "ctrl+shift+k",
+    "key": "ctrl+cmd+shift+k",
     "command": "editor.action.marker.prev",
     "when": "editorFocus && !editorReadonly"
   },
@@ -113,7 +113,7 @@
   },
   // 現在のタブを閉じる
   {
-    "key": "cmd+shift+q",
+    "key": "ctrl+shift+q",
     "command": "workbench.action.closeActiveEditor"
   },
   // GitHub Copilotの補完確定
@@ -133,9 +133,50 @@
     "key": "tab",
     "command": "-editor.action.inlineSuggest.commit"
   },
-  // GitHub Copilotのコンテキストクリア
+  // 右サイドメニュー切り替え (GitHub Copilotのウィンドウ表示切り替え)
   {
-    "key": "ctrl+l",
-    "command": "github.copilot.chat."
+    "key": "cmd+o",
+    "command": "workbench.action.toggleAuxiliaryBar"
   },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFile",
+    "when": "false"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFolderViaWorkspace",
+    "when": "!openFolderWorkspaceSupport && workbenchState == 'workspace'"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFileFolder",
+    "when": "isMacNative && openFolderWorkspaceSupport"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openLocalFileFolder",
+    "when": "remoteFileDialogVisible"
+  },
+  {
+    "key": "alt+cmd+v",
+    "command": "-workbench.action.editorDictation.start",
+    "when": "hasSpeechProvider && !editorReadonly && !speechToTextInProgress"
+  },
+  {
+    "key": "alt+cmd+b",
+    "command": "-workbench.action.toggleAuxiliaryBar"
+  },
+  // Vim
+  {
+    "key": "ctrl+shift+]",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.newGroupRight",
+        "editor.action.revealDefinition"
+      ]
+    },
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  }
 ]

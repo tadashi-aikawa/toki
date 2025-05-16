@@ -24,6 +24,12 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
     sticky: true,
   })
   .manipulators([
+    withCondition(App.is("VSCode"))([
+      {
+        q: toKey("q", ["control", "shift"]), // VSCodeで現在のタブを閉じる
+      },
+    ]),
+
     withCondition(App.is("Obsidian"))([
       {
         q: toKey("w", ["option", "shift"]),
@@ -38,11 +44,6 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
         ";": toJKeyWith("->", "command"),
         a: toJKeyWith("<-", "command"),
         f: toJKeyWith("home", "control"),
-      },
-    ]),
-    withCondition(App.is("VSCode"))([
-      {
-        q: toKey("q", ["control", "shift"]), // VSCodeで現在のタブを閉じる
       },
     ]),
 

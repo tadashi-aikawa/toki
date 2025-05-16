@@ -101,7 +101,7 @@
         "<char>",
         "<char>"
       ]
-    }
+    },
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
