@@ -44,7 +44,7 @@ return {
     d(1, today_with_hypens),
     t({
       "",
-      "participants:",
+      "author:",
       "  - tadashi-aikawa",
       "  - ",
     }),
