@@ -23,6 +23,8 @@ writeToProfile("Default profile", [
   rule("switch control <-> command").manipulators([
     // ターミナルだけはleft_controlがleft_commandのように振る舞うためマッピングを分岐させる必要がある
     ...withinTerminal([
+      map("left_command").to("left_command").toIfAlone("f19", "option"), // 単押しでミッションコントロール
+
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
         r: toKey("f14", "command"), // raycast clipboard起動用
@@ -34,7 +36,7 @@ writeToProfile("Default profile", [
     ]),
     withoutTerminal([
       map("left_control").to("left_command"),
-      map("left_command").to("left_control"),
+      map("left_command").to("left_control").toIfAlone("f19", "option"), // 単押しでミッションコントロール
       map("left_control", "shift").to("left_command", "shift"),
       map("left_command", "shift").to("left_control", "shift"),
       withModifier("control")({
