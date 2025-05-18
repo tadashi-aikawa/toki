@@ -123,6 +123,16 @@
       "before": ["<space>", "g"],
       "commands": [ "lazygit-vscode.toggle" ]
     },
+    // Gitの変更点をrevert
+    {
+      "before": ["<space>", "u"],
+      "commands": ["git.revertSelectedRanges"]
+    },
+    // Gitの変更点をstage
+    {
+      "before": ["<space>", "+"],
+      "commands": ["git.stageSelectedRanges"]
+    }
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
