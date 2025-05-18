@@ -19,15 +19,29 @@
     "key": "cmd+escape",
     "command": "workbench.action.showCommands"
   },
-  // ワークスペース全文検索
-  {
-    "key": "ctrl+j g",
-    "command": "workbench.action.findInFiles"
-  },
   // ワークスペースのファイルを開く
   {
     "key": "ctrl+j e",
     "command": "workbench.action.quickOpen"
+  },
+  // ワークスペースのファイルを開く (FindItFaster)
+  {
+    "key": "ctrl+j f",
+    "command": "find-it-faster.findFiles"
+  },
+  {
+    "key": "shift+cmd+j",
+    "command": "-find-it-faster.findFiles"
+  },
+  // ワークスペース全文検索 (FindItFaster)
+  {
+    "key": "ctrl+j g",
+    // "command": "workbench.action.findInFiles"
+    "command": "find-it-faster.findWithinFiles"
+  },
+  {
+    "key": "shift+cmd+u",
+    "command": "-find-it-faster.findWithinFiles"
   },
   // 次のタブへ移動
   {
