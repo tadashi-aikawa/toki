@@ -149,16 +149,6 @@
   },
   // 縦に分割して開く
   {
-    "key": "ctrl+w s",
-    "command": "workbench.action.splitEditorDown"
-  },
-  // 横に分割して開く
-  {
-    "key": "ctrl+w v",
-    "command": "workbench.action.splitEditorRight"
-  },
-  // 現在のタブを閉じる
-  {
     "key": "ctrl+shift+q",
     "command": "workbench.action.closeActiveEditor"
   },
@@ -218,7 +208,10 @@
     "key": "alt+cmd+b",
     "command": "-workbench.action.toggleAuxiliaryBar"
   },
+  // ---------------------------------------------------
   // Vim
+  // ---------------------------------------------------
+  // 定義を垂直方向に新しいエディタグループで開く
   {
     "key": "ctrl+shift+]",
     "command": "runCommands",
@@ -229,5 +222,10 @@
       ]
     },
     "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  // Vimの<C-w>を優先
+  {
+    "key": "ctrl+w",
+    "command": "-workbench.action.switchWindow"
   },
 ]
