@@ -117,7 +117,12 @@
     {  
       "before": ["<space>", ","],  
       "commands": ["workbench.action.terminal.toggleTerminal"]  
-    }  
+    },  
+    // Lazygitを開く
+    {
+      "before": ["<space>", "g"],
+      "commands": [ "lazygit-vscode.toggle" ]
+    },
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
@@ -165,5 +170,18 @@
     "*.ahk": "ahk"
   },
   "hediet.vscode-drawio.resizeImages": null,
-  "python.analysis.typeCheckingMode": "standard"
+  "python.analysis.typeCheckingMode": "standard",
+  // --------------------------------------------------------
+  // Lazygit
+  // --------------------------------------------------------
+  // 開くエディタが異なるので違う設定
+  "lazygit-vscode.configPath": "~/git/github.com/tadashi-aikawa/toki/mnt/lazygit/vscode-config.yml",
+  // 分割エディタで開いた時にも対応
+  "lazygit-vscode.autoMaximizeWindow": true,
+  // Lazygitを起動したら全画面表示. hideRestoreはもともと非表示でも表示されてしまうので指定しない
+  "lazygit-vscode.panels": {
+    "sidebar": "hide",
+    "panel": "hide",
+    "secondarySidebar": "hide"
+  }
 }
