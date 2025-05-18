@@ -199,4 +199,8 @@
   // ---------------------------------------------------------
   "errorLens.messageTemplate": "$severity $message",
   "errorLens.severityText": ["●", "●", "●", "●"],
+  // ---------------------------------------------------------
+  // FindItFaster
+  // ---------------------------------------------------------
+  "find-it-faster.general.showMaximizedTerminal": true,
 }
