@@ -202,5 +202,6 @@
   // ---------------------------------------------------------
   // FindItFaster
   // ---------------------------------------------------------
-  "find-it-faster.general.showMaximizedTerminal": true,
+  // ターミナルを使う場合に競合を防ぐため
+  "find-it-faster.general.useTerminalInEditor": true
 }
