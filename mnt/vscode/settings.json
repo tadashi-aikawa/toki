@@ -9,9 +9,10 @@
   // フォント設定
   "editor.fontFamily": "CaskaydiaCove Nerd Font",
   "editor.fontSize": 15,
-  // アイコン/テーマ設定
-  "workbench.iconTheme": "gruvbox-material-icon-theme",
-  "workbench.colorTheme": "Gruvbox Dark Medium",
+  // テーマ
+  "workbench.colorTheme": "Ayu Mirage Zed",
+  // アイコン
+  "workbench.iconTheme": "ayu-mirage-zed",
   // ミニマップは非表示
   "editor.minimap.enabled": false,
   // ターミナル設定
