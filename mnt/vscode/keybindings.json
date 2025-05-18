@@ -45,13 +45,23 @@
   },
   // 次のタブへ移動
   {
-    "key": "cmd+l",
-    "command": "workbench.action.nextEditor"
+    "key": "ctrl+tab",
+    "command": "workbench.action.nextEditorInGroup"
+  },
+  {
+    "key": "ctrl+tab",
+    "command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+    "when": "!activeEditorGroupEmpty"
   },
   // 前のタブへ移動
   {
-    "key": "cmd+h",
-    "command": "workbench.action.previousEditor"
+    "key": "ctrl+shift+tab",
+    "command": "workbench.action.previousEditorInGroup"
+  },
+  {
+    "key": "ctrl+shift+tab",
+    "command": "-workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
+    "when": "!activeEditorGroupEmpty"
   },
   // クイックフィックス
   {
