@@ -193,5 +193,10 @@
     "sidebar": "hide",
     "panel": "hide",
     "secondarySidebar": "hide"
-  }
+  },
+  // ---------------------------------------------------------
+  // Error Lens
+  // ---------------------------------------------------------
+  "errorLens.messageTemplate": "$severity $message",
+  "errorLens.severityText": ["●", "●", "●", "●"],
 }
