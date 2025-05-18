@@ -66,6 +66,28 @@
     "command": "editor.action.triggerParameterHints",
     "when": "editorHasSignatureHelpProvider && editorTextFocus"
   },
+  // 現在ファイルのシンボル一覧表示
+  {
+    "key": "ctrl+j o",
+    "command": "workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "shift+cmd+o",
+    "command": "-workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  // 呼び出し箇所の表示
+  {
+    "key": "ctrl+j h",
+    "command": "references-view.showCallHierarchy",
+    "when": "editorHasCallHierarchyProvider"
+  },
+  {
+    "key": "shift+alt+h",
+    "command": "-references-view.showCallHierarchy",
+    "when": "editorHasCallHierarchyProvider"
+  },
   // Markdown Preview
   {
     "key": "cmd+p",
@@ -178,5 +200,5 @@
       ]
     },
     "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
-  }
+  },
 ]

@@ -102,6 +102,21 @@
         "<char>"
       ]
     },
+    // 次のgit差分に移動
+    {  
+      "before": ["<space>", "j"],  
+      "commands": ["workbench.action.editor.nextChange"]  
+    },  
+    // 前のgit差分に移動
+    {  
+      "before": ["<space>", "k"],  
+      "commands": ["workbench.action.editor.previousChange"]  
+    },
+    // ターミナル開く
+    {  
+      "before": ["<space>", ","],  
+      "commands": ["workbench.action.terminal.toggleTerminal"]  
+    }  
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
