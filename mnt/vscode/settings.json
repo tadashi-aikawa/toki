@@ -8,7 +8,7 @@
   "editor.guides.indentation": false,
   // フォント設定
   "editor.fontFamily": "CaskaydiaCove Nerd Font",
-  "editor.fontSize": 15,
+  "editor.fontSize": 16,
   // テーマ
   "workbench.colorTheme": "Ayu Mirage Zed",
   // アイコン
