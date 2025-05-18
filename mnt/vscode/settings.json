@@ -88,51 +88,113 @@
       "after": [
         "g",
         "r"
-      ]
+      ],
+      "recursive": true
     },
     {
       "before": [
         "s"
       ],
       "after": [
-        "<leader>",
-        "<leader>",
+        "[",
+        "[",
         "2",
         "s",
         "<char>",
         "<char>"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        "j"
+      ],
+      "commands": [
+        "workbench.action.editor.nextChange"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.editor.previousChange"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        ","
+      ],
+      "commands": [
+        "workbench.action.terminal.toggleTerminal"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        "g"
+      ],
+      "commands": [
+        "lazygit-vscode.toggle"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        "u"
+      ],
+      "commands": [
+        "git.revertSelectedRanges"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
+        "+"
+      ],
+      "commands": [
+        "git.stageSelectedRanges"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ", "o"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.open"
+        }
       ]
     },
-    // 次のgit差分に移動
-    {  
-      "before": ["<space>", "j"],  
-      "commands": ["workbench.action.editor.nextChange"]  
-    },  
-    // 前のgit差分に移動
-    {  
-      "before": ["<space>", "k"],  
-      "commands": ["workbench.action.editor.previousChange"]  
-    },
-    // ターミナル開く
-    {  
-      "before": ["<space>", ","],  
-      "commands": ["workbench.action.terminal.toggleTerminal"]  
-    },  
-    // Lazygitを開く
     {
-      "before": ["<space>", "g"],
-      "commands": [ "lazygit-vscode.toggle" ]
+      "before": [
+        "<cr>"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.select"
+        }
+      ]
     },
-    // Gitの変更点をrevert
     {
-      "before": ["<space>", "u"],
-      "commands": ["git.revertSelectedRanges"]
+      "before": [
+        "<c-l>"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.refresh"
+        }
+      ]
     },
-    // Gitの変更点をstage
-    {
-      "before": ["<space>", "+"],
-      "commands": ["git.stageSelectedRanges"]
-    }
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
@@ -203,5 +265,9 @@
   // FindItFaster
   // ---------------------------------------------------------
   // ターミナルを使う場合に競合を防ぐため
-  "find-it-faster.general.useTerminalInEditor": true
+  "find-it-faster.general.useTerminalInEditor": true,
+  // ---------------------------------------------------------
+  // oil.code
+  // ---------------------------------------------------------
+  "oil-code.hasNerdFont": true
 }
