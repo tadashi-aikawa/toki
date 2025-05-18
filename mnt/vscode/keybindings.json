@@ -138,6 +138,11 @@
     "key": "ctrl+shift+q",
     "command": "workbench.action.closeActiveEditor"
   },
+  // 現在のタブ以外を閉じる
+  {
+    "key": "ctrl+shift+w",
+    "command": "workbench.action.closeOtherEditors"
+  },
   // GitHub Copilotの補完確定
   {
     "key": "cmd+k",
