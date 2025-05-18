@@ -89,6 +89,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       v: toKey("v", "command"),
       w: toJKeyWith("->", "option"),
       y: toKey("y", "command"),
+      x: toKey("x", "command"),
       z: toKey("z", "command"),
       4: toKey("m", "command"),
     },
