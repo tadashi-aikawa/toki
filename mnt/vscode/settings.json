@@ -167,7 +167,41 @@
     },
     {
       "before": [
-        " ", "o"
+        " ",
+        "o"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.open"
+        }
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        "\n"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.select"
+        }
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        "<C-l>"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.refresh"
+        }
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        "-"
       ],
       "commands": [
         {
@@ -194,7 +228,7 @@
           "command": "oil-code.refresh"
         }
       ]
-    },
+    }
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
@@ -260,7 +294,12 @@
   // Error Lens
   // ---------------------------------------------------------
   "errorLens.messageTemplate": "$severity $message",
-  "errorLens.severityText": ["●", "●", "●", "●"],
+  "errorLens.severityText": [
+    "●",
+    "●",
+    "●",
+    "●"
+  ],
   // ---------------------------------------------------------
   // FindItFaster
   // ---------------------------------------------------------

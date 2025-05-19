@@ -208,6 +208,16 @@
     "key": "alt+cmd+b",
     "command": "-workbench.action.toggleAuxiliaryBar"
   },
+  // Centerd Layout切り替え
+  {
+    "key": "cmd+n",
+    "command": "workbench.action.toggleCenteredLayout",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  },
+  {
+    "key": "cmd+n",
+    "command": "-workbench.action.files.newUntitledFile"
+  }
   // ---------------------------------------------------
   // Vim
   // ---------------------------------------------------
@@ -233,14 +243,14 @@
     "command": "-workbench.action.files.save"
   },
   // Oil.codeはsettingsでは無理だったので
-  {  
-    "key": "ctrl+enter",  
+  {
+    "key": "ctrl+enter",
     "command": "oil-code.selectVertical",
-    "when": "inputFocus && vim.mode == 'Normal'",  
+    "when": "inputFocus && vim.mode == 'Normal'",
   },
-  {  
-    "key": "ctrl+p",  
+  {
+    "key": "ctrl+p",
     "command": "oil-code.preview",
-    "when": "inputFocus && vim.mode == 'Normal'",  
-  }
+    "when": "inputFocus && vim.mode == 'Normal'",
+  },
 ]
