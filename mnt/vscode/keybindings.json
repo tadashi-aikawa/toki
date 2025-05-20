@@ -242,6 +242,11 @@
     "key": "ctrl+s",
     "command": "-workbench.action.files.save"
   },
+  // 代わりにNORMAL sでフォロー
+  {
+    "key": "ctrl+shift+s",
+    "command": "workbench.action.files.save"
+  },
   // Oil.codeはsettingsでは無理だったので
   {
     "key": "ctrl+enter",
