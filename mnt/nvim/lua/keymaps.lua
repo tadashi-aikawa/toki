@@ -68,6 +68,17 @@ vim.keymap.set("n", "<Space>y", function()
   vim.notify("Copy: " .. relative_path)
 end, { silent = true })
 
+-- カレントバッファのNFD形式をNFC形式に強制変換する
+vim.keymap.set("n", "<Space>!", function()
+  vim.api.nvim_buf_set_lines(
+    0,
+    0,
+    -1,
+    false,
+    vim.fn.systemlist("iconv -f UTF-8-MAC -t UTF-8", vim.api.nvim_buf_get_lines(0, 0, -1, false))
+  )
+end, { silent = true })
+
 -- Markdownファイルだけに発生するプラグイン間連携の特殊処理
 vim.api.nvim_create_autocmd("FileType", {
   desc = "markdown-toggle.nvim keymaps",
