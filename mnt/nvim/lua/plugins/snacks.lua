@@ -13,8 +13,6 @@ local preventFlicker = function(handler)
   end)
 end
 
-local dashboardImagePath = vim.fn.stdpath("config") .. "/lua/snacks/dashboard.png"
-
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -142,15 +140,6 @@ return {
       },
       sections = {
         {
-          section = "terminal",
-          cmd = "/opt/homebrew/bin/chafa "
-            .. dashboardImagePath
-            .. " --format symbols --symbols vhalf --size 48 --stretch; sleep .1",
-          height = 30,
-          padding = 0,
-        },
-        {
-          pane = 2,
           { section = "header" },
           { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
