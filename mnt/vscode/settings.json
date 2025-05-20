@@ -211,17 +211,6 @@
     },
     {
       "before": [
-        "_"
-      ],
-      "commands": [
-        {
-          "command": "oil-code.openCwd"
-        }
-      ],
-      "recursive": true
-    },
-    {
-      "before": [
         "<C-l>"
       ],
       "commands": [
@@ -230,7 +219,7 @@
         }
       ],
       "recursive": true
-    },
+    }
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,

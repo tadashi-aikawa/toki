@@ -251,11 +251,16 @@
   {
     "key": "ctrl+enter",
     "command": "oil-code.selectVertical",
-    "when": "inputFocus && vim.mode == 'Normal'",
+    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
   },
   {
     "key": "ctrl+p",
     "command": "oil-code.preview",
-    "when": "inputFocus && vim.mode == 'Normal'",
+    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
+  },
+  {
+    "key": "_",
+    "commands": "oil-code.openCwd",
+    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
   },
 ]
