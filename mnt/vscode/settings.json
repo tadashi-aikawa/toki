@@ -108,6 +108,16 @@
     {
       "before": [
         " ",
+        "w"
+      ],
+      "commands": [
+        "workbench.action.closeOtherEditors"
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        " ",
         "j"
       ],
       "commands": [
