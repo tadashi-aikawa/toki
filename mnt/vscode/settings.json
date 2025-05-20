@@ -190,6 +190,28 @@
     },
     {
       "before": [
+        "-"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.openParent"
+        }
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
+        "_"
+      ],
+      "commands": [
+        {
+          "command": "oil-code.openCwd"
+        }
+      ],
+      "recursive": true
+    },
+    {
+      "before": [
         "<C-l>"
       ],
       "commands": [
@@ -199,36 +221,6 @@
       ],
       "recursive": true
     },
-    {
-      "before": [
-        "-"
-      ],
-      "commands": [
-        {
-          "command": "oil-code.open"
-        }
-      ]
-    },
-    {
-      "before": [
-        "<cr>"
-      ],
-      "commands": [
-        {
-          "command": "oil-code.select"
-        }
-      ]
-    },
-    {
-      "before": [
-        "<c-l>"
-      ],
-      "commands": [
-        {
-          "command": "oil-code.refresh"
-        }
-      ]
-    }
   ],
   "vim.highlightedyank.enable": true,
   "vim.useSystemClipboard": true,
@@ -308,5 +300,7 @@
   // ---------------------------------------------------------
   // oil.code
   // ---------------------------------------------------------
-  "oil-code.hasNerdFont": true
+  "oil-code.hasNerdFont": true,
+  // これをtrueにしないと、勝手にvimのキーマップが無尽蔵に追加されてしまう
+  "oil-code.disableVimKeymaps": true
 }
