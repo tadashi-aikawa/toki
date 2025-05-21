@@ -262,5 +262,5 @@
     "key": "_",
     "commands": "oil-code.openCwd",
     "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
-  },
+  }
 ]
