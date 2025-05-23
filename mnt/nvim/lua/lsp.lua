@@ -128,6 +128,6 @@ vim.lsp.enable({
   "svelte",
   "tailwindcss",
   "ts_ls",
-  "volar",
+  "vue_ls",
   "yamlls",
 })
