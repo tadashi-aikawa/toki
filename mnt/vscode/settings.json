@@ -82,104 +82,52 @@
   "vim.leader": "[",
   "vim.normalModeKeyBindings": [
     {
-      "before": [
-        "_"
-      ],
-      "after": [
-        "g",
-        "r"
-      ],
+      "before": ["_"],
+      "after": ["g", "r"],
       "recursive": true
     },
     {
-      "before": [
-        "s"
-      ],
-      "after": [
-        "[",
-        "[",
-        "2",
-        "s",
-        "<char>",
-        "<char>"
-      ],
+      "before": ["s"],
+      "after": ["[", "[", "2", "s", "<char>", "<char>"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "w"
-      ],
-      "commands": [
-        "workbench.action.closeOtherEditors"
-      ],
+      "before": [" ", "w"],
+      "commands": ["workbench.action.closeOtherEditors"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "j"
-      ],
-      "commands": [
-        "workbench.action.editor.nextChange"
-      ],
+      "before": [" ", "j"],
+      "commands": ["workbench.action.editor.nextChange"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "k"
-      ],
-      "commands": [
-        "workbench.action.editor.previousChange"
-      ],
+      "before": [" ", "k"],
+      "commands": ["workbench.action.editor.previousChange"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        ","
-      ],
-      "commands": [
-        "workbench.action.terminal.toggleTerminal"
-      ],
+      "before": [" ", ","],
+      "commands": ["workbench.action.terminal.toggleTerminal"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "g"
-      ],
-      "commands": [
-        "lazygit-vscode.toggle"
-      ],
+      "before": [" ", "g"],
+      "commands": ["lazygit-vscode.toggle"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "u"
-      ],
-      "commands": [
-        "git.revertSelectedRanges"
-      ],
+      "before": [" ", "u"],
+      "commands": ["git.revertSelectedRanges"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "+"
-      ],
-      "commands": [
-        "git.stageSelectedRanges"
-      ],
+      "before": [" ", "+"],
+      "commands": ["git.stageSelectedRanges"],
       "recursive": true
     },
     {
-      "before": [
-        " ",
-        "o"
-      ],
+      "before": [" ", "o"],
       "commands": [
         {
           "command": "oil-code.open"
@@ -188,9 +136,7 @@
       "recursive": true
     },
     {
-      "before": [
-        "\n"
-      ],
+      "before": ["\n"],
       "commands": [
         {
           "command": "oil-code.select"
@@ -199,9 +145,7 @@
       "recursive": true
     },
     {
-      "before": [
-        "-"
-      ],
+      "before": ["-"],
       "commands": [
         {
           "command": "oil-code.openParent"
@@ -210,9 +154,7 @@
       "recursive": true
     },
     {
-      "before": [
-        "<C-l>"
-      ],
+      "before": ["<C-l>"],
       "commands": [
         {
           "command": "oil-code.refresh"
@@ -291,12 +233,7 @@
   // Error Lens
   // ---------------------------------------------------------
   "errorLens.messageTemplate": "$severity $message",
-  "errorLens.severityText": [
-    "●",
-    "●",
-    "●",
-    "●"
-  ],
+  "errorLens.severityText": ["●", "●", "●", "●"],
   // ---------------------------------------------------------
   // FindItFaster
   // ---------------------------------------------------------
