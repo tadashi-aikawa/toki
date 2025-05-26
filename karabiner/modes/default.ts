@@ -10,6 +10,7 @@ import { toDynamicPaste } from "../utils/commands.ts";
 
 const likeCtrlCommands = [
   {
+    "2": toKey("f2"),
     "8": toJKey("{"),
     "9": toJKey("}"),
   },
