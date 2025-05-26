@@ -54,6 +54,7 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
       o: [...changeMode("RANGE", "NORMAL"), toJKey("del")],
       u: [...changeMode("RANGE", "NORMAL"), toJKey("bs")],
       w: toJKeyWith("->", ["option", "shift"]),
+      v: [...changeMode("RANGE", "NORMAL"), toKey("v", "command")],
       x: [...changeMode("RANGE", "NORMAL"), toKey("x", "command")],
     },
   ]);
