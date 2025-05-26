@@ -87,6 +87,11 @@
       "recursive": true
     },
     {
+      "before": ["g", "r", "u"],
+      "commands": ["workbench.action.findInFiles"],
+      "recursive": true
+    },
+    {
       "before": ["s"],
       "after": ["[", "[", "2", "s", "<char>", "<char>"],
       "recursive": true
