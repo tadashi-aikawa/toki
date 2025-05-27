@@ -1,5 +1,6 @@
 return {
   "Wansmer/treesj",
+  cond = true,
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   keys = {
     {

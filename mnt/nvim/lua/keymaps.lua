@@ -105,3 +105,89 @@ vim.api.nvim_create_autocmd("FileType", {
     end, opts)
   end,
 })
+
+-- VSCode
+if vim.g.vscode then
+  local vscode = require("vscode")
+
+  vim.keymap.set("n", "gru", function()
+    vscode.action("workbench.action.findInFiles")
+  end)
+
+  vim.keymap.set("n", "<space>w", function()
+    vscode.action("workbench.action.closeOtherEditors")
+  end)
+
+  vim.keymap.set("n", "<space>j", function()
+    vscode.action("workbench.action.editor.nextChange")
+  end)
+  vim.keymap.set("n", "<space>k", function()
+    vscode.action("workbench.action.editor.previousChange")
+  end)
+
+  vim.keymap.set("n", "<space>g", function()
+    vscode.action("lazygit-vscode.toggle")
+  end)
+
+  vim.keymap.set("n", "<space>u", function()
+    vscode.action("git.revertSelectedRanges")
+  end)
+  vim.keymap.set("n", "<space>+", function()
+    vscode.action("git.stageSelectedRanges")
+  end)
+
+  -- Oil.code
+  vim.keymap.set("n", "<space>o", function()
+    vscode.action("oil-code.open")
+  end)
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "oil",
+    callback = function(event)
+      local opts = { buffer = event.buf, noremap = true, silent = true }
+      vim.keymap.set("n", "<CR>", function()
+        vscode.action("oil-code.select")
+      end, opts)
+      vim.keymap.set("n", "<C-t>", function()
+        vscode.action("oil-code.selectTab")
+      end, opts)
+      vim.keymap.set("n", "-", function()
+        vscode.action("oil-code.openParent")
+      end, opts)
+      vim.keymap.set("n", "_", function()
+        vscode.action("oil-code.openCwd")
+      end, opts)
+      vim.keymap.set("n", "<C-l>", function()
+        vscode.action("oil-code.refresh")
+      end, opts)
+    end,
+  })
+end
+
+-- {
+--   "before": ["\n"],
+--   "commands": [
+--     {
+--       "command": "oil-code.select"
+--     }
+--   ],
+--   "recursive": true
+-- },
+-- {
+--   "before": ["-"],
+--   "commands": [
+--     {
+--       "command": "oil-code.openParent"
+--     }
+--   ],
+--   "recursive": true
+-- },
+-- {
+--   "before": ["<C-l>"],
+--   "commands": [
+--     {
+--       "command": "oil-code.refresh"
+--     }
+--   ],
+--   "recursive": true
+-- }
+--

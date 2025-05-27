@@ -1,5 +1,6 @@
 return {
   "johmsalas/text-case.nvim",
+  cond = true,
   keys = function()
     local opts = { noremap = true, silent = true }
     return {

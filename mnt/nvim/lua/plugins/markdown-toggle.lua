@@ -1,5 +1,6 @@
 return {
   "roodolv/markdown-toggle.nvim",
+  cond = true,
   ft = { "markdown", "markdown.mdx" },
   opts = {
     cycle_box_table = true,

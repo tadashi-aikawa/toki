@@ -28,4 +28,9 @@ require("lazy").setup({
   change_detection = {
     notify = false,
   },
+  defaults = {
+    cond = function()
+      return not vim.g.vscode
+    end,
+  },
 })
