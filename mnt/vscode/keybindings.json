@@ -222,18 +222,6 @@
   // ---------------------------------------------------
   // Vim
   // ---------------------------------------------------
-  // 定義を垂直方向に新しいエディタグループで開く
-  {
-    "key": "ctrl+shift+]",
-    "command": "runCommands",
-    "args": {
-      "commands": [
-        "workbench.action.newGroupRight",
-        "editor.action.revealDefinition"
-      ]
-    },
-    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
-  },
   // Vimの<C-?>を優先
   {
     "key": "ctrl+s",
@@ -250,5 +238,11 @@
     "key": "ctrl+enter",
     "when": "editorTextFocus && neovim.mode != insert",
     "args": "<C-CR>"
+  },
+  {
+    "command": "vscode-neovim.send",
+    "key": "ctrl+shift+]",
+    "when": "editorTextFocus && neovim.mode != insert",
+    "args": "<C-S-]>"
   }
 ]

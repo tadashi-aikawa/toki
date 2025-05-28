@@ -136,6 +136,16 @@ if vim.g.vscode then
     vscode.action("git.stageSelectedRanges")
   end)
 
+  -- split系はVSCodeで動かないため別途設定が必要
+  vim.keymap.set("n", "<C-S-]>", function()
+    vscode.call("workbench.action.splitEditorRight")
+    vscode.action("oil-code.select")
+  end)
+  vim.keymap.set("n", "g<C-]>", function()
+    vscode.call("workbench.action.splitEditorDown")
+    vscode.action("oil-code.select")
+  end)
+
   -- Oil.code
   vim.keymap.set("n", "<space>o", function()
     vscode.action("oil-code.open")
@@ -147,10 +157,12 @@ if vim.g.vscode then
       vim.keymap.set("n", "<CR>", function()
         vscode.action("oil-code.select")
       end, opts)
+      -- split系はVSCodeで動かないため別途設定が必要
       vim.keymap.set("n", "<C-CR>", function()
         vscode.call("workbench.action.splitEditorRight")
         vscode.action("oil-code.select")
       end, opts)
+
       vim.keymap.set("n", "-", function()
         vscode.action("oil-code.openParent")
       end, opts)
