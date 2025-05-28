@@ -1,9 +1,10 @@
 return {
   {
     "kevinhwang91/nvim-hlslens",
+    cond = true,
     event = { "VeryLazy" },
     config = function()
-      require("scrollbar.handlers.search").setup({
+      require("hlslens").setup({
         override_lens = function(render, posList, nearest, idx)
           local text, chunks
           ---@diagnostic disable-next-line: deprecated
