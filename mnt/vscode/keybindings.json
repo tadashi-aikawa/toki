@@ -244,7 +244,11 @@
     "key": "ctrl+shift+s",
     "command": "workbench.action.files.save"
   },
+  // Ctrl + Enter を VSCode Neovimで有効にする
   {
+    "command": "vscode-neovim.send",
     "key": "ctrl+enter",
+    "when": "editorTextFocus && neovim.mode != insert",
+    "args": "<C-CR>"
   }
 ]
