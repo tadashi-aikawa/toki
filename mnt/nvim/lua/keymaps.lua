@@ -136,6 +136,13 @@ if vim.g.vscode then
     vscode.action("git.stageSelectedRanges")
   end)
 
+  vim.keymap.set("n", "<Space>l", function()
+    vscode.action("workbench.action.nextEditorInGroup")
+  end)
+  vim.keymap.set("n", "<Space>h", function()
+    vscode.action("workbench.action.previousEditorInGroup")
+  end)
+
   -- split系はVSCodeで動かないため別途設定が必要
   vim.keymap.set("n", "<C-S-]>", function()
     vscode.call("workbench.action.splitEditorRight")
