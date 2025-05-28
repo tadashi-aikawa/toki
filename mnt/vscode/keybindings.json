@@ -236,10 +236,6 @@
   },
   // Vimの<C-?>を優先
   {
-    "key": "ctrl+w",
-    "command": "-workbench.action.switchWindow"
-  },
-  {
     "key": "ctrl+s",
     "command": "-workbench.action.files.save"
   },
@@ -248,20 +244,7 @@
     "key": "ctrl+shift+s",
     "command": "workbench.action.files.save"
   },
-  // Oil.codeはsettingsでは無理だったので
   {
     "key": "ctrl+enter",
-    "command": "oil-code.selectVertical",
-    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
-  },
-  {
-    "key": "ctrl+p",
-    "command": "oil-code.preview",
-    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
-  },
-  {
-    "key": "_",
-    "commands": "oil-code.openCwd",
-    "when": "inputFocus && editorLangId == 'oil' && vim.mode == 'Normal'"
   }
 ]

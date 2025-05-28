@@ -162,32 +162,3 @@ if vim.g.vscode then
     end,
   })
 end
-
--- {
---   "before": ["\n"],
---   "commands": [
---     {
---       "command": "oil-code.select"
---     }
---   ],
---   "recursive": true
--- },
--- {
---   "before": ["-"],
---   "commands": [
---     {
---       "command": "oil-code.openParent"
---     }
---   ],
---   "recursive": true
--- },
--- {
---   "before": ["<C-l>"],
---   "commands": [
---     {
---       "command": "oil-code.refresh"
---     }
---   ],
---   "recursive": true
--- }
---
