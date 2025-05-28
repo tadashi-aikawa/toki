@@ -14,6 +14,7 @@
   "workbench.colorCustomizations": {
     "editorLineNumber.foreground": "#888888",
     "editorLineNumber.activeForeground": "#EFEF33",
+    "editor.selectionBackground": "#565612",
   },
   // アイコン
   "workbench.iconTheme": "catppuccin-mocha",
