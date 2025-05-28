@@ -11,10 +11,20 @@
   "editor.fontSize": 16,
   // テーマ
   "workbench.colorTheme": "Ayu Mirage Zed",
+  "workbench.colorCustomizations": {
+    "editorLineNumber.foreground": "#888888",
+    "editorLineNumber.activeForeground": "#EFEF33",
+  },
   // アイコン
   "workbench.iconTheme": "ayu-mirage-zed",
   // ミニマップは非表示
   "editor.minimap.enabled": false,
+  // カーソル移動後に上下あける最低行数
+  "editor.cursorSurroundingLines": 5,
+  // カーソルは点滅させない
+  "editor.cursorBlinking": "solid",
+  // カーソル行はgutterだけハイライト
+  "editor.renderLineHighlight": "gutter",
   // ターミナル設定
   "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font",
   "terminal.integrated.fontSize": 15,
@@ -40,10 +50,6 @@
   "explorer.confirmDelete": false,
   // ドラッグ&ドロップ時の確認は不要
   "explorer.confirmDragAndDrop": false,
-  // カーソル移動後に上下あける最低行数
-  "editor.cursorSurroundingLines": 5,
-  // カーソルは点滅させない
-  "editor.cursorBlinking": "solid",
   // ペースト時にもフォーマット
   "editor.formatOnPaste": true,
   // git fetchは自動で行う
