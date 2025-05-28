@@ -12,9 +12,14 @@
   // テーマ
   "workbench.colorTheme": "Ayu Mirage Zed",
   "workbench.colorCustomizations": {
+    // ライン番号とgutterの色変更
     "editorLineNumber.foreground": "#888888",
     "editorLineNumber.activeForeground": "#EFEF33",
+    // 選択範囲の色変更
     "editor.selectionBackground": "#565612",
+    // オートコンプリートの色変更
+    "editorSuggestWidget.selectedForeground": "#CDCDCD",
+    "editorSuggestWidget.selectedBackground": "#363C58"
   },
   // アイコン
   "workbench.iconTheme": "catppuccin-mocha",
@@ -174,6 +179,6 @@
     { "tag": "WARN", "color": "#000000", "backgroundColor": "#FBBF24" },
     { "tag": "HINT", "color": "#000000", "backgroundColor": "#10B981" },
     { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
-    { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
+    { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" }
   ]
 }
