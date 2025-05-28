@@ -163,5 +163,16 @@
   // ---------------------------------------------------------
   "oil-code.hasNerdFont": true,
   // これをtrueにしないと、勝手にvimのキーマップが無尽蔵に追加されてしまう
-  "oil-code.disableVimKeymaps": true
+  "oil-code.disableVimKeymaps": true,
+  // ---------------------------------------------------------
+  // Better Comments
+  // ---------------------------------------------------------
+  "better-comments.tags": [
+    { "tag": "FIXME", "color": "#FFFFFF", "backgroundColor": "#DC2626" },
+    { "tag": "DANGER", "color": "#FFFFFF", "backgroundColor": "#DC2626" },
+    { "tag": "WARN", "color": "#000000", "backgroundColor": "#FBBF24" },
+    { "tag": "HINT", "color": "#000000", "backgroundColor": "#10B981" },
+    { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
+    { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
+  ]
 }
