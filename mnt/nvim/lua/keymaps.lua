@@ -146,11 +146,11 @@ if vim.g.vscode then
   -- split系はVSCodeで動かないため別途設定が必要
   vim.keymap.set("n", "<C-S-]>", function()
     vscode.call("workbench.action.splitEditorRight")
-    vscode.action("oil-code.select")
+    vscode.action("editor.action.revealDefinition")
   end)
   vim.keymap.set("n", "g<C-]>", function()
     vscode.call("workbench.action.splitEditorDown")
-    vscode.action("oil-code.select")
+    vscode.action("editor.action.revealDefinition")
   end)
 
   -- Oil.code
