@@ -16,7 +16,7 @@
     "editorLineNumber.activeForeground": "#EFEF33",
   },
   // アイコン
-  "workbench.iconTheme": "ayu-mirage-zed",
+  "workbench.iconTheme": "catppuccin-mocha",
   // ミニマップは非表示
   "editor.minimap.enabled": false,
   // カーソル移動後に上下あける最低行数
