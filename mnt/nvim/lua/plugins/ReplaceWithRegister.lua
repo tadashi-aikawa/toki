@@ -1,5 +1,6 @@
 return {
   "vim-scripts/ReplaceWithRegister",
+  cond = true,
   keys = {
     { "_", "<Plug>ReplaceWithRegisterOperator" },
     -- 無効化するために絶対使わないキーバインドを設定
