@@ -1,6 +1,5 @@
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  cond = true,
   event = { "BufNewFile", "BufRead" },
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
