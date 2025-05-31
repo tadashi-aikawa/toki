@@ -157,6 +157,14 @@ if vim.g.vscode then
     vscode.action("editor.action.revealDefinition")
   end)
 
+  -- folding
+  vim.keymap.set("n", "zc", function()
+    vscode.action("editor.fold")
+  end)
+  vim.keymap.set("n", "zo", function()
+    vscode.action("editor.unfold")
+  end)
+
   -- Oil.code
   vim.keymap.set("n", "<space>o", function()
     vscode.action("oil-code.open")
