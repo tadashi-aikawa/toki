@@ -48,7 +48,7 @@ Available targets
   | go         | Go       | -          | Go    | air                | golangci-lint | -         |
   | go-sqlx    | Go       | -          | Go    | sqlx + mysql + air | golangci-lint | -         |
   | rust       | Rust     | -          | Cargo | -                  | -             | -         |
-  | python     | Python   | Virtualenv | Pip   | -                  | -             | -         |
+  | python     | Python   | Virtualenv | Pip   | -                  | ruff          | ruff      |
   | nvim       | Lua      | Lua        |       | nvim               | -             | -         |
   | nvimapp    | Lua      | Neovim     | lazy  | -                  | -             | -         |
   | bash       | Bash     | Bash       |       | -                  | -             | -         |
@@ -447,18 +447,18 @@ fi
 if [[ $command == "python" ]]; then
   path="${1:?'pathは必須です'}"
 
-  mkdir -p "$path"
-  cd "$path"
-  python3.13 -m venv .venv
+  mkdir -p "$path" && cd "$path"
 
+  python -m venv .venv
   cp -r "${TEMPLATE_DIR}"/python/* .
+  .venv/bin/pip install ruff
 
   echo "
 🚀 Try
 
 $ cd ${path}
 $ source .venv/bin/activate
-$ python main.py
+$ mise watch dev
 "
   exit 0
 fi

@@ -1,0 +1,3 @@
+[tasks.dev]
+run = "python main.py"
+
