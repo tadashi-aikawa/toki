@@ -24,40 +24,58 @@
     "key": "ctrl+j e",
     "command": "workbench.action.quickOpen"
   },
-  // ワークスペースのファイルを開く (FindItFaster)
   {
     "key": "ctrl+j f",
     "command": "find-it-faster.findFiles"
   },
-  {
-    "key": "shift+cmd+j",
-    "command": "-find-it-faster.findFiles"
-  },
   // ワークスペース全文検索 (Quick Search)
   {
     "key": "ctrl+j g",
-    // "command": "workbench.action.findInFiles"
-    // "command": "find-it-faster.findWithinFiles"
     "command": "workbench.action.quickTextSearch"
   },
+  // 次/前のタブへ移動
+  //     Neovimでも設定が必要 (Neovimエディタのタブ切り替え)
+  //     ここで設定してしまうと、Leader keyとなるspaceが奪われてしまうため
   {
-    "key": "shift+cmd+u",
-    "command": "-find-it-faster.findWithinFiles"
+    "key": "space l",
+    "command": "workbench.action.nextEditorInGroup",
+    "when": "!inputFocus"
   },
-  // 次のタブへ移動
+  {
+    "key": "space h",
+    "command": "workbench.action.previousEditorInGroup",
+    "when": "!inputFocus"
+  },
+  // 開いているタブの一覧表示
+  {
+    "key": "space e",
+    "command": "workbench.action.showAllEditors",
+    "when": "!inputFocus"
+  },
+  // 新しいNativeタブを開く
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.newWindowTab"
+  },
+  // Nativeタブを閉じる
+  {
+    "key": "ctrl+j q",
+    "command": "workbench.action.closeWindow"
+  },
+  // 次のNativeタブへ移動
   {
     "key": "ctrl+tab",
-    "command": "workbench.action.nextEditorInGroup"
+    "command": "workbench.action.showNextWindowTab"
   },
   {
     "key": "ctrl+tab",
     "command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
     "when": "!activeEditorGroupEmpty"
   },
-  // 前のタブへ移動
+  // 前のNativeタブへ移動
   {
     "key": "ctrl+shift+tab",
-    "command": "workbench.action.previousEditorInGroup"
+    "command": "workbench.action.showPreviousWindowTab"
   },
   {
     "key": "ctrl+shift+tab",
@@ -148,15 +166,27 @@
     "command": "workbench.action.terminal.toggleTerminal",
     "when": "terminal.active"
   },
-  // 縦に分割して開く
+  // 現在のタブを閉じる (Neovimエディタ以外の場合用)
+  {
+    "key": "space q",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "!inputFocus"
+  },
   {
     "key": "ctrl+shift+q",
     "command": "workbench.action.closeActiveEditor"
   },
-  // 現在のタブ以外を閉じる
+  // 現在のタブ以外を閉じる (Neovimエディタ以外の場合用)
   {
-    "key": "ctrl+shift+w",
-    "command": "workbench.action.closeOtherEditors"
+    "key": "space w",
+    "command": "workbench.action.closeOtherEditors",
+    "when": "!inputFocus"
+  },
+  // 閉じたタブを開き直す (Neovimエディタ以外の場合用)
+  {
+    "key": "space t",
+    "command": "workbench.action.reopenClosedEditor",
+    "when": "!inputFocus"
   },
   // GitHub Copilotの補完確定
   {
@@ -220,7 +250,7 @@
     "command": "-workbench.action.files.newUntitledFile"
   },
   // ---------------------------------------------------
-  // Vim
+  // VSCode Neovim
   // ---------------------------------------------------
   // Vimの<C-?>を優先
   {
@@ -244,5 +274,18 @@
     "key": "ctrl+shift+]",
     "when": "editorTextFocus && neovim.mode != insert",
     "args": "<C-S-]>"
+  },
+  // Neovimのようにスクロールにあわせてカーソルも移動する
+  {
+    "key": "ctrl+d",
+    "command": "vscode-neovim.send",
+    "args": "<C-d>",
+    "when": "editorTextFocus && neovim.init"
+  },
+  {
+    "key": "ctrl+u",
+    "command": "vscode-neovim.send",
+    "args": "<C-u>",
+    "when": "editorTextFocus && neovim.init"
   }
 ]

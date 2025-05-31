@@ -118,10 +118,6 @@ if vim.g.vscode then
     vscode.action("workbench.action.findInFiles")
   end)
 
-  vim.keymap.set("n", "<space>w", function()
-    vscode.action("workbench.action.closeOtherEditors")
-  end)
-
   vim.keymap.set("n", "<space>j", function()
     vscode.action("workbench.action.editor.nextChange")
   end)
@@ -140,11 +136,27 @@ if vim.g.vscode then
     vscode.action("git.stageSelectedRanges")
   end)
 
+  -- VSCodeのsettings.jsonにも設定が必要 (Neovim以外のタブの切り替え)
   vim.keymap.set("n", "<Space>l", function()
     vscode.action("workbench.action.nextEditorInGroup")
   end)
   vim.keymap.set("n", "<Space>h", function()
     vscode.action("workbench.action.previousEditorInGroup")
+  end)
+  vim.keymap.set("n", "<Space>q", function()
+    vscode.action("workbench.action.closeActiveEditor")
+  end)
+  vim.keymap.set("n", "<space>w", function()
+    vscode.action("workbench.action.closeOtherEditors")
+  end)
+  vim.keymap.set("n", "<space>t", function()
+    vscode.action("workbench.action.reopenClosedEditor")
+  end)
+  vim.keymap.set("n", "<space>r", function()
+    vscode.action("workbench.action.navigateLast")
+  end)
+  vim.keymap.set("n", "<space>e", function()
+    vscode.action("workbench.action.showAllEditors")
   end)
 
   -- split系はVSCodeで動かないため別途設定が必要
