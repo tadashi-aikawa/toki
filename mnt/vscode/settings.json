@@ -170,6 +170,8 @@
   "oil-code.hasNerdFont": true,
   // これをtrueにしないと、勝手にvimのキーマップが無尽蔵に追加されてしまう
   "oil-code.disableVimKeymaps": true,
+  // 起動後、何も開かれていない場合でも、自動でカレントディレクトリを開かない
+  "oil-code.disableOpenCwdNothingOpen": true,
   // ---------------------------------------------------------
   // Better Comments
   // ---------------------------------------------------------
