@@ -31,6 +31,8 @@
   "workbench.iconTheme": "catppuccin-mocha",
   // ミニマップは非表示
   "editor.minimap.enabled": false,
+  // カッコの色をペアごとに変えない (すべて同じ色にする)
+  "editor.bracketPairColorization.enabled": false,
   // カーソル移動後に上下あける最低行数
   "editor.cursorSurroundingLines": 5,
   // カーソルは点滅させない
