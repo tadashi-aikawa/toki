@@ -13,8 +13,53 @@
 [delta]
     navigate = true    # use n and N to move between diff sections
     light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-    minus-style = "syntax #6d0000"           # 削除行
-    plus-style  = "syntax #205954"           # 追加行
+    features = weeping-willow
+
+[delta "weeping-willow"]
+    # See 'mirthful-willow' for light mode version.
+    # Heavily inspired by the themes above. Thank you. <3
+    # author: https://github.com/lvdh
+    dark = true
+    right-arrow = >
+    syntax-theme = Coldark-Dark
+    # -- git
+    blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^16}┊ "
+    blame-palette = "purple darkmagenta darkviolet darkslateblue blueviolet rebeccapurple slateblue mediumpurple mediumslateblue"
+    commit-decoration-style = none
+    commit-style = bold white olive
+    # -- grep
+    grep-file-style = olive
+    grep-line-number-style = orange
+    # -- diff
+    keep-plus-minus-markers = true
+    line-numbers = true
+    line-numbers-minus-style = red
+    line-numbers-plus-style = green
+    line-numbers-left-style = grey
+    line-numbers-left-format = "{nm:>1}┊"
+    line-numbers-right-style = orange
+    line-numbers-right-format = "{np:>1}┊"
+    line-numbers-zero-style = gray
+    minus-emph-style = lemonchiffon crimson underline
+    minus-empty-line-marker-style = normal maroon
+    minus-style = syntax darkred
+    plus-emph-style = lemonchiffon olivedrab underline
+    plus-empty-line-marker-style = normal seagreen
+    plus-style = syntax darkgreen
+    whitespace-error-style = black white
+    zero-style = syntax
+    # -- decorations
+    file-decoration-style = olive overline
+    file-added-label = [+]
+    file-copied-label = [=]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [>]
+    file-style = olive bold
+    hunk-header-decoration-style = none
+    hunk-header-file-style = olive
+    hunk-header-line-number-style = orange
+    hunk-header-style = file line-number purple
 
 [merge]
     conflictstyle = diff3
