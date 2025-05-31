@@ -110,6 +110,10 @@ vim.api.nvim_create_autocmd("FileType", {
 if vim.g.vscode then
   local vscode = require("vscode")
 
+  vim.keymap.set("n", "<Space>,", function()
+    vscode.action("workbench.action.terminal.toggleTerminal")
+  end)
+
   vim.keymap.set("n", "gru", function()
     vscode.action("workbench.action.findInFiles")
   end)
