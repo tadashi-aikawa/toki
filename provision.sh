@@ -304,8 +304,8 @@ no git-graph && {
   tar xvf /tmp/git-graph.tar.gz -C ~/bin/
 }
 
-# awscli
-mise use -g awscli
+# awscli (miseではpythonのパスが上書きされてしまう)
+brew install awscli
 
 # Task
 mise use -g task
