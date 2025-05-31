@@ -4,6 +4,8 @@
   // 見た目
   //------------------------------------------------------------------------
   //
+  // 一番上のカスタムタイトルバーを非表示にする
+  "window.customTitleBarVisibility": "never",
   // インデントガイドを非表示にする
   "editor.guides.indentation": false,
   // フォント設定
@@ -21,6 +23,8 @@
     "editorSuggestWidget.selectedForeground": "#CDCDCD",
     "editorSuggestWidget.selectedBackground": "#363C58"
   },
+  // 左サイドのアクションバーを非展開時は非表示
+  "workbench.activityBar.location": "top",
   // アイコン
   "workbench.iconTheme": "catppuccin-mocha",
   // ミニマップは非表示
