@@ -10,9 +10,16 @@
   "window.customTitleBarVisibility": "never",
   // インデントガイドを非表示にする
   "editor.guides.indentation": false,
-  // フォント設定
-  "editor.fontFamily": "CaskaydiaCove Nerd Font",
-  "editor.fontSize": 16,
+  // 左サイドのアクションバーを非展開時は非表示
+  "workbench.activityBar.location": "top",
+  // ミニマップは非表示
+  "editor.minimap.enabled": false,
+  // カッコの色をペアごとに変えない (すべて同じ色にする)
+  "editor.bracketPairColorization.enabled": false,
+  // カーソルは点滅させない
+  "editor.cursorBlinking": "solid",
+  // カーソル行はgutterだけハイライト
+  "editor.renderLineHighlight": "gutter",
   // テーマ
   "workbench.colorTheme": "Ayu Mirage Zed",
   "workbench.colorCustomizations": {
@@ -25,20 +32,11 @@
     "editorSuggestWidget.selectedForeground": "#CDCDCD",
     "editorSuggestWidget.selectedBackground": "#363C58"
   },
-  // 左サイドのアクションバーを非展開時は非表示
-  "workbench.activityBar.location": "top",
   // アイコン
   "workbench.iconTheme": "catppuccin-mocha",
-  // ミニマップは非表示
-  "editor.minimap.enabled": false,
-  // カッコの色をペアごとに変えない (すべて同じ色にする)
-  "editor.bracketPairColorization.enabled": false,
-  // カーソル移動後に上下あける最低行数
-  "editor.cursorSurroundingLines": 5,
-  // カーソルは点滅させない
-  "editor.cursorBlinking": "solid",
-  // カーソル行はgutterだけハイライト
-  "editor.renderLineHighlight": "gutter",
+  // フォント設定
+  "editor.fontFamily": "CaskaydiaCove Nerd Font",
+  "editor.fontSize": 16,
   // ターミナル設定
   "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font",
   "terminal.integrated.fontSize": 15,
@@ -148,7 +146,7 @@
   },
   "hediet.vscode-drawio.resizeImages": null,
   "python.analysis.typeCheckingMode": "standard",
-  // --------------------------------------------------------
+  // --------------------------- m-----------------------------
   // Lazygit
   // --------------------------------------------------------
   // 開くエディタが異なるので違う設定
@@ -175,6 +173,7 @@
   "oil-code.disableVimKeymaps": true,
   // 起動後、何も開かれていない場合でも、自動でカレントディレクトリを開かない
   "oil-code.disableOpenCwdNothingOpen": true,
+  "biome.suggestInstallingGlobally": false,
   // ---------------------------------------------------------
   // Better Comments
   // ---------------------------------------------------------
@@ -185,5 +184,23 @@
     { "tag": "HINT", "color": "#000000", "backgroundColor": "#10B981" },
     { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
     { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" }
-  ]
+  ],
+  "background.editorBackgrounds": [
+    "https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/neovim-chan-face-normal.webp"
+  ],
+  "background.backgroundAlignment": [
+    "Bottom Right",
+    "Bottom Right",
+    "Center Center",
+    "Center Center"
+  ],
+  "background.backgroundOpacity": [0.7, 0.7, 0.1, 0.1],
+  "background.backgroundRepeat": [
+    "No Repeat",
+    "No Repeat",
+    "No Repeat",
+    "No Repeat"
+  ],
+  "background.backgroundSize": ["Manual", "Manual", "Cover", "Cover"],
+  "background.backgroundSizeValue": ["15%", "15%", "100%", "100%"]
 }
