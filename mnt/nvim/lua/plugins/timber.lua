@@ -1,5 +1,6 @@
 return {
   "Goose97/timber.nvim",
+  cond = true,
   event = "LspAttach",
   keys = {
     {
