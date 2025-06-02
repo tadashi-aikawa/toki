@@ -29,6 +29,7 @@ keybind = super+right=unbind
 # aの左キーからのショートカット
 keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
+keybind = f2=prompt_surface_title
 
 # ctrl+shift+w (;q leader)
 keybind = ctrl+shift+w>s=new_split:down
