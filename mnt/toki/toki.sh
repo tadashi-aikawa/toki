@@ -583,7 +583,7 @@ fi
 #==========================================================================
 #--- backup ---
 if [[ $command == "backup" ]]; then
-  7z a -p ~/tmp/backup.7z ~/work ~/.ssh
+  7z a -p -xr!node_modules -xr!venv ~/tmp/backup.7z ~/work ~/.ssh
   ls -l ~/tmp/backup.7z
   exit 0
 fi
