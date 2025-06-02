@@ -118,6 +118,10 @@ if vim.g.vscode then
     vscode.action("workbench.action.findInFiles")
   end)
 
+  vim.keymap.set({ "n", "i" }, "<S-D-r>", function()
+    vscode.action("editor.action.rename")
+  end)
+
   vim.keymap.set("n", "<space>j", function()
     vscode.action("workbench.action.editor.nextChange")
   end)

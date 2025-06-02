@@ -275,6 +275,12 @@
     "when": "editorTextFocus && neovim.mode != insert",
     "args": "<C-S-]>"
   },
+  {
+    "command": "vscode-neovim.send",
+    "key": "cmd+shift+r",
+    "when": "editorTextFocus && neovim.mode != insert",
+    "args": "<D-S-r>"
+  },
   // Neovimのようにスクロールにあわせてカーソルも移動する
   {
     "key": "ctrl+d",

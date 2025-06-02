@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- 呼び出し元の表示
     vim.keymap.set("n", "<C-j>u", "<cmd>Lspsaga finder ref<CR>", opts)
     -- リネーム
-    vim.keymap.set({ "n", "i" }, "<S-M-r>", "<cmd>Lspsaga rename<CR>", opts)
+    vim.keymap.set({ "n", "i" }, "<S-D-r>", "<cmd>Lspsaga rename<CR>", opts)
     -- ファイルリネーム
     vim.keymap.set("n", "<C-j>2", vim.lsp.buf.rename, opts)
     -- Code action
