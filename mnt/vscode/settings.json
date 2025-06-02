@@ -185,22 +185,23 @@
     { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
     { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" }
   ],
-  "background.editorBackgrounds": [
-    "https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/neovim-chan-face-normal.webp"
+  "background.windowBackgrounds": [
+    "https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/vscode-chan-mini.webp"
   ],
   "background.backgroundAlignment": [
     "Bottom Right",
-    "Bottom Right",
+    "Center Center",
     "Center Center",
     "Center Center"
   ],
-  "background.backgroundOpacity": [0.7, 0.7, 0.1, 0.1],
+  "background.backgroundOpacity": [0.25, 0.1, 0.1, 0.1],
   "background.backgroundRepeat": [
     "No Repeat",
     "No Repeat",
     "No Repeat",
     "No Repeat"
   ],
-  "background.backgroundSize": ["Manual", "Manual", "Cover", "Cover"],
-  "background.backgroundSizeValue": ["15%", "15%", "100%", "100%"]
+  "background.backgroundSize": ["Manual", "Cover", "Cover", "Cover"],
+  "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
+  "background.autoInstall": false
 }
