@@ -25,6 +25,8 @@ keybind = super+w=unbind
 keybind = super+enter=unbind
 keybind = super+left=unbind  
 keybind = super+right=unbind
+keybind = super+plus=unbind
+keybind = super+minus=unbind
 
 # aの左キーからのショートカット
 keybind = ctrl+t=new_tab
