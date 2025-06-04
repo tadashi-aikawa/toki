@@ -1,4 +1,5 @@
 return {
+  version = "2.4.3",
   "shortcuts/no-neck-pain.nvim",
   keys = {
     {
