@@ -3,9 +3,6 @@
 local function today()
   return sn(nil, { i(1, os.date("%Y%m%d")) })
 end
-local function today_with_hypens()
-  return sn(nil, { i(1, os.date("%Y-%m-%d")) })
-end
 
 
 -- stylua: ignore
@@ -24,14 +21,12 @@ return {
       "---",
       "created: "
     }),
-    d(1, today_with_hypens),
+    f(function()
+      return os.date("%Y-%m-%d")
+    end, {}),
     t({
       "",
-      "refer: "
-    }),
-    i(0, ""),
-    t({
-      "",
+      "refer: ",
       "---",
       ""
     }),
@@ -41,21 +36,14 @@ return {
       "---",
       "created: "
     }),
-    d(1, today_with_hypens),
+    f(function()
+      return os.date("%Y-%m-%d")
+    end, {}),
     t({
       "",
       "author:",
       "  - tadashi-aikawa",
-      "  - ",
-    }),
-    i(2),
-    t({
-      "",
-      "refer: "
-    }),
-    i(0, ""),
-    t({
-      "",
+      "refer: ",
       "---",
       ""
     }),
