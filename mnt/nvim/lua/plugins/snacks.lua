@@ -49,8 +49,7 @@ return {
   opts = {
     image = {
       doc = {
-        max_width = 20,
-        max_height = 10,
+        inline = false,
       },
     },
     dashboard = {
