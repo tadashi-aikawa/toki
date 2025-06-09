@@ -185,8 +185,11 @@
     { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
     { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" }
   ],
+  // ---------------------------------------------------------
+  // Background
+  // ---------------------------------------------------------
   "background.windowBackgrounds": [
-    "https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/vscode-chan-mini.webp"
+    "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/toki/mnt/vscode/hina.webp"
   ],
   "background.backgroundAlignment": [
     "Bottom Right",
