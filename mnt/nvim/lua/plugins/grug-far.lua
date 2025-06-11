@@ -6,7 +6,11 @@ return {
   opts = {
     keymaps = {
       close = { n = "<localleader>q" },
-      refresh = { n = "<localleader>r" },
+      replace = { n = "<localleader>s" },
+      refresh = { n = "<localleader>l" },
+      syncLocations = { n = "<localleader>W" },
+      syncLine = { n = "<localleader>w" },
+      toggleShowCommand = { n = "<localleader>t" },
       previewLocation = { n = "<localleader>d" },
       abort = { n = "<localleader>u" },
       historyOpen = { n = "<localleader>e" },
