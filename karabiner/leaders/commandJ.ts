@@ -3,7 +3,7 @@ import {
   toKey,
 } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
 import { App } from "../apps/apps.ts";
-import { toJKeyWith } from "../utils/keys.ts";
+import { toJKeyWith, UJM } from "../utils/keys.ts";
 
 export const commandJLeaderDefinitions = [
   modifierLayer("command", "j").condition(App.is("Obsidian")).leaderMode()
@@ -18,6 +18,7 @@ export const commandJLeaderDefinitions = [
         l: toKey("f19"), // [AQS] in file serach
         g: toKey("f20"), // [AQS] grep
         s: toJKeyWith(",", "command"), // [AQS] Settings
+        [UJM["]"]]: toKey("f20", "shift"), // [AQS] Outgoing links search
       },
     ]),
 ];
