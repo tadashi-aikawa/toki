@@ -115,6 +115,9 @@ ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
 # GIMP
 brew install --cask gimp
 
+# Bruno
+brew install --cask bruno
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
