@@ -1,5 +1,10 @@
 return {
   "olimorris/codecompanion.nvim",
+  cmd = {
+    "CodeCompanion",
+    "CodeCompanionChat",
+    "CodeCompanionAction",
+  },
   keys = {
     {
       "<Space>cp",

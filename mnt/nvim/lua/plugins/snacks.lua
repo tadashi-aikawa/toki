@@ -97,11 +97,11 @@ return {
             end,
           },
           {
-            icon = " ",
-            key = "p",
-            desc = "project",
+            icon = " ",
+            key = "c",
+            desc = "code companion",
             action = function()
-              preventFlicker(Snacks.picker.projects)
+              vim.cmd([[:CodeCompanionChat]])
             end,
           },
           {
