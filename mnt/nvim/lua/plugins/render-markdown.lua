@@ -44,6 +44,28 @@ return {
         conceal = false,
       },
     },
+    link = {
+      wiki = {
+        icon = "",
+      },
+      custom = {
+        png = { pattern = "%.png$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰶶 " },
+        jpg = { pattern = "%.jpg$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰶶 " },
+        webp = { pattern = "%.webp$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰶶 " },
+        avif = { pattern = "%.avif$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰶶 " },
+        gif = { pattern = "%.gif$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰶶 " },
+        mp4 = { pattern = "%.mp4$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰨜 " },
+        webm = { pattern = "%.webm$", highlight = "RenderMarkdownImageLinkIcon", icon = "󰨜 " },
+        confluence = {
+          pattern = "atlassian.net/wiki/spaces",
+          icon = " ",
+          highlight = "RenderMarkdownAtlassianLinkIcon",
+        },
+        bitbucket = { pattern = "bitbucket.org/", icon = " ", highlight = "RenderMarkdownAtlassianLinkIcon" },
+        jira = { pattern = "atlassian.net/browse", icon = "󰌃 ", highlight = "RenderMarkdownAtlassianLinkIcon" },
+        slack = { pattern = "slack.com/", icon = " ", highlight = "RenderMarkdownSlackLinkIcon" },
+      },
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
@@ -57,6 +79,10 @@ return {
         vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", { fg = "#FFC777", bg = "#493e4a" })
         vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", { fg = "#FFC777", bg = nil })
         vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", { fg = "#FFC777", bg = nil })
+        vim.api.nvim_set_hl(0, "RenderMarkdownImageLinkIcon", { fg = "#efef33" })
+        vim.api.nvim_set_hl(0, "RenderMarkdownAtlassianLinkIcon", { fg = "#00b8d9" })
+        vim.api.nvim_set_hl(0, "RenderMarkdownSlackLinkIcon", { fg = "#e01e5a" })
+        vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { fg = "#e03e7a", bg = "#442222" })
       end,
     })
   end,
