@@ -339,3 +339,6 @@ brew install git-lfs
 
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
+
+# convmf
+brew install convmv
