@@ -38,6 +38,8 @@ vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#FFC777", bg = "#58
 vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#FFC777", bg = "#493e4a" })
 vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#FFC777", bg = nil })
 vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#FFC777", bg = nil })
+-- インラインコード (render-markdownにあわせる)
+vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#22c55e", bg = "#224422" })
 
 -- Yankした範囲をハイライトさせる
 vim.api.nvim_create_autocmd("TextYankPost", {
