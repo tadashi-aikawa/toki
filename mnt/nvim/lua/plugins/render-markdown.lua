@@ -82,7 +82,7 @@ return {
         vim.api.nvim_set_hl(0, "RenderMarkdownImageLinkIcon", { fg = "#efef33" })
         vim.api.nvim_set_hl(0, "RenderMarkdownAtlassianLinkIcon", { fg = "#00b8d9" })
         vim.api.nvim_set_hl(0, "RenderMarkdownSlackLinkIcon", { fg = "#e01e5a" })
-        vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { fg = "#e03e7a", bg = "#442222" })
+        vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { fg = "#22c55e", bg = "#224422" })
       end,
     })
   end,
