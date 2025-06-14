@@ -32,12 +32,13 @@ format = "$symbol"
 Windows = '[  ](#00BCF2)'
 Linux = '[  ](yellow)'
 Ubuntu = '[  ](#F25022)'
+Mac = '[ ](white)'
 
 [shell]
 disabled = false
 # osはWSLで20msほどかかるため、shellでまとめて表示する(自分の使い方ではこのパターンしかないので)
-bash_indicator = '[ ](#F25022)  '
-zsh_indicator = '[ ](#F25022) 󰰶 '
+bash_indicator = '[ ](white)  '
+zsh_indicator = '[ ](white) 󰰶 '
 powershell_indicator = '[ ](#00BCF2)  '
 cmd_indicator = '[ ](#00BCF2)  '
 
