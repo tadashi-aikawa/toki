@@ -8,4 +8,5 @@ exportしたバイナリ設定が `Raycast.rayconfig`。
 
 - Clipboard History
 - Search Emoji & Symbols
+- Window Management
 
