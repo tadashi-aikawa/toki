@@ -89,6 +89,21 @@ return {
             },
           },
         },
+        ["program name translation"] = {
+          strategy = "chat",
+          opts = {
+            use_promt = true,
+            is_slash_cmd = true,
+            auto_submit = true,
+            short_name = "program name translation",
+          },
+          prompts = {
+            {
+              role = "user",
+              content = [[あなたは日本語と英語のプロの翻訳者であり、かつEnglish nativeとして経験豊富なスタッフエンジニアでもあります。以下の日本語で定義された変数名または関数名に対し、英語として適切な候補を挙げてください。明らかに推奨の候補があれば、それだけで構いません。]],
+            },
+          },
+        },
         ["github issues translation"] = {
           strategy = "chat",
           opts = {
@@ -100,7 +115,7 @@ return {
           prompts = {
             {
               role = "user",
-              content = [[あなたは日本語と英語のプロの翻訳者であり、かつGitHubでEnglish nativeとしてIssuesのやりとりに慣れているエンジニアでもあります。引用句の英語メッセージに対して以下日本語の内容を返信する場合に適切な英語へと翻訳してください。]],
+              content = [[あなたは日本語と英語のプロの翻訳者であり、かつGitHubでEnglish nativeとしてIssuesのやりとりに慣れているエンジニアでもあります。引用句の英語メッセージに対して以下日本語の内容を返信する場合に適切な英語へと翻訳してください。引用句がない場合は気にしなくていいです。]],
             },
           },
         },
@@ -115,7 +130,7 @@ return {
           prompts = {
             {
               role = "user",
-              content = [[あなたは日本語と英語のプロの翻訳者であり、かつGitHubでEnglish nativeとして開発に慣れているエンジニアでもあります。以下日本語のコミットメッセージを適切な英語へと翻訳してください。コミットメッセージにはConventional Commitsを利用しています。]],
+              content = [[あなたは日本語と英語のプロの翻訳者であり、かつGitHubでEnglish nativeとして開発に慣れているエンジニアでもあります。以下日本語のコミットメッセージを適切な英語へと翻訳してください。コミットメッセージにはConventional Commitsを利用しています。コミットメッセージの先頭は大文字で(例: feat: Add nice feature)]],
             },
           },
         },
