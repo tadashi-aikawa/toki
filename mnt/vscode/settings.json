@@ -1,4 +1,5 @@
 {
+  "biome.suggestInstallingGlobally": false,
   //
   //------------------------------------------------------------------------
   // 見た目
@@ -173,7 +174,6 @@
   "oil-code.disableVimKeymaps": true,
   // 起動後、何も開かれていない場合でも、自動でカレントディレクトリを開かない
   "oil-code.disableOpenCwdNothingOpen": true,
-  "biome.suggestInstallingGlobally": false,
   // ---------------------------------------------------------
   // Better Comments
   // ---------------------------------------------------------
