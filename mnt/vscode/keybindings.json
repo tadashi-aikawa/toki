@@ -257,6 +257,12 @@
     "key": "ctrl+s",
     "command": "-workbench.action.files.save"
   },
+  {
+    "command": "vscode-neovim.send",
+    "key": "ctrl+s",
+    "when": "editorTextFocus && neovim.mode != insert",
+    "args": "<C-s>"
+  },
   // 代わりにNORMAL sでフォロー
   {
     "key": "ctrl+shift+s",

@@ -192,10 +192,15 @@ if vim.g.vscode then
       vim.keymap.set("n", "<CR>", function()
         vscode.action("oil-code.select")
       end, opts)
-      -- split系はVSCodeで動かないため別途設定が必要
       vim.keymap.set("n", "<C-CR>", function()
-        vscode.call("workbench.action.splitEditorRight")
-        vscode.action("oil-code.select")
+        vscode.action("oil-code.selectVertical")
+      end, opts)
+      -- 水平方向に展開するコマンドはないので複数コマンドを同期で連続させる
+      vim.keymap.set("n", "<C-s>", function()
+        vscode.call("workbench.action.splitEditorDown")
+        vscode.call("oil-code.selectTab")
+        vscode.call("workbench.action.previousEditorInGroup")
+        vscode.call("workbench.action.closeActiveEditor")
       end, opts)
 
       vim.keymap.set("n", "-", function()
