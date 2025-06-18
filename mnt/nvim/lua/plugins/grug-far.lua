@@ -18,4 +18,17 @@ return {
       swapEngine = { n = "<localleader>_" },
     },
   },
+  init = function()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      callback = function()
+        -- Delta weeping-willow theme colors
+        -- minus-style = syntax darkred
+        vim.api.nvim_set_hl(0, "GrugFarResultsMatchRemoved", { bg = "#8B0000", fg = "#FFFACD", underline = true })
+        -- plus-style = syntax darkgreen
+        vim.api.nvim_set_hl(0, "GrugFarResultsMatchAdded", { bg = "#006400", fg = "#FFFACD", underline = true })
+        -- Search matches (matching current Search highlight)
+        vim.api.nvim_set_hl(0, "GrugFarResultsMatch", { bg = "#3e68d7", fg = "#c8d3f5", bold = true })
+      end,
+    })
+  end,
 }
