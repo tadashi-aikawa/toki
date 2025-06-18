@@ -157,6 +157,8 @@ ln -snf "$MNT"/starship/starship.toml ~/.config/starship.toml
 # Neovim
 mise use -g neovim
 ensure_zshrc 'alias vim=nvim'
+ensure_zshrc "alias vimj='nvim -c \"set filetype=json\"'"
+ensure_zshrc "alias vimm='nvim -c \"set filetype=markdown\"'"
 mkdir -p ~/.config/nvim
 ln -snf "${MNT}"/nvim/lua ~/.config/nvim/lua
 ln -snf "${MNT}"/nvim/init.lua ~/.config/nvim/init.lua
