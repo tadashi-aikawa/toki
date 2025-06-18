@@ -73,6 +73,8 @@ ensure_zshrc 'export PATH=/opt/homebrew/Cellar/unzip/6.0_8/bin:$PATH'
 
 brew install p7zip
 
+brew install git
+
 #----------------------------------------------------------------------
 # GUI Tools
 #----------------------------------------------------------------------
