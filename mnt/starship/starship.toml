@@ -35,12 +35,9 @@ Ubuntu = '[  ](#F25022)'
 Mac = '[ ](white)'
 
 [shell]
-disabled = false
 # osはWSLで20msほどかかるため、shellでまとめて表示する(自分の使い方ではこのパターンしかないので)
-bash_indicator = '[ ](white)  '
-zsh_indicator = '[ ](white) 󰰶 '
-powershell_indicator = '[ ](#00BCF2)  '
-cmd_indicator = '[ ](#00BCF2)  '
+disabled = false
+zsh_indicator = '[ ](white)'  # zshしか使わないのでシェルは明示しない
 
 [directory]
 truncation_length = 0
