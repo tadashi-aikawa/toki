@@ -17,6 +17,10 @@ return {
       historyAdd = { n = "<localleader>a" },
       swapEngine = { n = "<localleader>_" },
     },
+    folding = {
+      enabled = true,
+      foldlevel = 99,
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
