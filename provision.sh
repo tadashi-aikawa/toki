@@ -120,6 +120,9 @@ brew install --cask gimp
 # Bruno
 brew install --cask bruno
 
+# Claude Desktop
+brew install --cask claude
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
@@ -264,6 +267,9 @@ mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
 #----------------------------------------------------------------------
 # CLI Tools
 #----------------------------------------------------------------------
+
+# Claude Code
+mise use -g npm:@anthropic-ai/claude-code
 
 # fd
 mise use -g fd
