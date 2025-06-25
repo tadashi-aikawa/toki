@@ -7,6 +7,7 @@ export PATH=$PATH:/opt/homebrew/bin/
 _PATH=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
+SCRIPT_DIR="${DIR_PATH}/script"
 GITHUB_AUTHOR_DIR=$HOME/git/github.com/tadashi-aikawa
 WEBP_SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots/webp
 MOV_DIR=$HOME/Documents/Pictures/screenshots/mov
@@ -15,17 +16,18 @@ MP4_DIR=$HOME/Documents/Pictures/screenshots/mp4
 function show_usage() {
   echo "
 Usages:
-  toki <Target> <path>:  Sandbox環境を作成します
+  toki <Target> <path>:         Sandbox環境を作成します
 
-  toki status:           関連するGitリポジトリの状態を取得します
+  toki status:                  関連するGitリポジトリの状態を取得します
        st
-  toki pull:             関連するGitリポジトリをすべてpullします
-  toki provision:        owl-playbookのprovisioningをします
-  toki update:           関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
+  toki pull:                    関連するGitリポジトリをすべてpullします
+  toki provision:               owl-playbookのprovisioningをします
+  toki update:                  関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
        up
-  toki webp:             入力ファイル/クリップボード画像(png)をwebpに変換します
-  toki mp4:              MOV保存場所の最新動画ファイルをmp4に変換します
-  toki backup:           workをbackupします
+  toki webp:                    入力ファイル/クリップボード画像(png)をwebpに変換します
+  toki mp4:                     MOV保存場所の最新動画ファイルをmp4に変換します
+  toki backup:                  workをbackupします
+  toki claude [<jsonc file>]:   Claude Codeとやりとりした会話ログをMinervaのフキダシ形式に整形して取得します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -649,6 +651,14 @@ if [[ $command == "update" || $command == "up" ]]; then
   pull
   provision
   exit 0
+fi
+
+# ----------------------------------------------------------------------------
+# Claude Codeとやりとりした会話ログをMinervaのフキダシ形式に整形して取得します
+# ----------------------------------------------------------------------------
+if [[ $command == "claude" ]]; then
+  eval "${SCRIPT_DIR}/claude-log-to-bubble/main.ts ${1:-}"
+  exit $?
 fi
 
 echo "『き..きかぬ  きかぬのだ!!』"
