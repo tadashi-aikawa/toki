@@ -34,6 +34,7 @@ toki provision       # Run provisioning
 toki update          # Pull all repos and provision
 toki webp           # Convert images to WebP format
 toki mp4            # Convert MOV to MP4
+toki claude         # Convert Claude Code logs to Obsidian bubble format
 ```
 
 ## Architecture
@@ -66,6 +67,7 @@ toki mp4            # Convert MOV to MP4
 - `karabiner/index.ts` - Main Karabiner configuration entry point
 - `mnt/nvim/` - Complete Neovim configuration with plugins and LSP setup
 - `mnt/toki/toki.sh` - CLI tool for project management and utilities
+- `mnt/toki/script/claude-log-to-bubble/main.ts` - Claude Code log converter for Obsidian
 - `mnt/zshrc_base.sh` - Base zsh configuration
 
 ### Development Environment
