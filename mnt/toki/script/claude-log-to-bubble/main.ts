@@ -4,6 +4,7 @@ import { join } from "https://deno.land/std@0.208.0/path/mod.ts";
 
 interface UserLog {
   type: "user";
+  isMeta?: boolean;
   message: {
     role: "user";
     content: string | Content[];
@@ -11,6 +12,7 @@ interface UserLog {
 }
 interface AssistantLog {
   type: "assistant";
+  isMeta?: boolean;
   message: {
     type: "message";
     content: Content[];
@@ -41,6 +43,19 @@ interface ToolResultContent {
   is_error: boolean;
 }
 type Content = TextContent | ToolUserContent | ToolResultContent;
+
+function processCommandTags(content: string): string {
+  // command-messageタグを除去
+  content = content.replace(/<command-message>.*?<\/command-message>\n?/g, "");
+
+  // command-nameタグを強調表示に変換し、改行を追加
+  content = content.replace(
+    /<command-name>(.*?)<\/command-name>/g,
+    "**`$1`**\n",
+  );
+
+  return content;
+}
 
 function main() {
   const specifiedFile = Deno.args[0];
@@ -100,16 +115,20 @@ function main() {
       if (log.type === "summary") {
         return null;
       }
+      // slash commandは無視(のはず)
+      if (log.isMeta) {
+        return null;
+      }
 
       const texts = typeof log.message.content === "string"
-        ? [log.message.content]
+        ? [processCommandTags(log.message.content)]
         : log.message.content
           .filter((content) => content.type === "text")
           .map((x) => x.text)
           .map((x) =>
             x === "[Request interrupted by user for tool use]"
               ? "**作業中の割り込み指示:**\nちょっと待ってください。一度中断してください。"
-              : x
+              : processCommandTags(x)
           );
       if (texts.length === 0) {
         return null;
