@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rg:*)",
+      "Bash(bun pre:push:*)",
+      "Bash(bun biome format:*)",
+      "Bash(git add:*)",
+      "Bash(printf:*)",
+      "Read(~/.claude/*)",
+      "WebFetch(domain:docs.anthropic.com)"
+    ],
+    "deny": ["Bash(sudo:*)", "Read(.env.*)", "Read(.env)"]
+  },
+  "includeCoAuthoredBy": false,
+  "preferredNotifChannel": "terminal_bell"
+}

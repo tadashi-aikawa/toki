@@ -270,6 +270,9 @@ mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
 
 # Claude Code
 mise use -g npm:@anthropic-ai/claude-code
+ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
+ln -snf "$MNT"/claude/commands ~/.claude/commands
 
 # fd
 mise use -g fd
