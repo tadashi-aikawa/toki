@@ -102,3 +102,7 @@ The project includes LSP configurations and templates for:
 - The project assumes macOS environment with Homebrew
 - Karabiner configurations include terminal-specific key mappings
 - All configuration files use symlinks to maintain single source of truth
+
+## Commit Rules
+
+- Claude Code related md files (CLAUDE.md, commands/*.md, etc.) should use `feat:` prefix instead of `docs:` because they functionally add/modify Claude Code behavior
