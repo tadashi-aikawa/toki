@@ -70,7 +70,7 @@ return {
         dictionary = {
           module = "blink-cmp-dictionary",
           name = "Dict",
-          min_keyword_length = 3,
+          min_keyword_length = 2,
           opts = {
             dictionary_files = {
               vim.fn.stdpath("config") .. "/lua/envs/cmp-dictionary.txt",
