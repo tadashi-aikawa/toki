@@ -134,6 +134,37 @@ return {
             },
           },
         },
+        ["Normal commit"] = {
+          strategy = "chat",
+          description = "通常のコミットを行います",
+          opts = {
+            index = 10,
+            is_default = true,
+            is_slash_cmd = true,
+            short_name = "normal commit",
+            auto_submit = true,
+          },
+          prompts = {
+            {
+              role = "user",
+              content = function()
+                return string.format(
+                  [[@cmd_runner
+git diffで表示された内容からコミットメッセージを作成し、コミットしてください。コミットメッセージはheader(1行目)のみで日本語でお願いします。
+
+```diff
+%s
+```
+]],
+                  vim.fn.system("git diff --no-ext-diff --staged")
+                )
+              end,
+              opts = {
+                contains_code = true,
+              },
+            },
+          },
+        },
       },
     }
     -- 環境ごとに切り分けたい設定
