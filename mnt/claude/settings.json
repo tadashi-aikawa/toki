@@ -6,6 +6,9 @@
       "Bash(bun biome format:*)",
       "Bash(git add:*)",
       "Bash(printf:*)",
+      "Bash(gh repo view:*)",
+      "Bash(pwd:*)",
+      "Bash(pbcopy:*)",
       "Read(~/.claude/*)",
       "WebFetch(domain:docs.anthropic.com)"
     ],
