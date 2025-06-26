@@ -5,6 +5,8 @@ import { join } from "https://deno.land/std@0.208.0/path/mod.ts";
 interface UserLog {
   type: "user";
   isMeta?: boolean;
+  isSidechain: boolean;
+  parentUuid: string | null;
   message: {
     role: "user";
     content: string | Content[];
@@ -13,6 +15,8 @@ interface UserLog {
 interface AssistantLog {
   type: "assistant";
   isMeta?: boolean;
+  isSidechain: boolean;
+  parentUuid: string | null;
   message: {
     type: "message";
     content: Content[];
@@ -107,6 +111,7 @@ function main() {
     }
   }
 
+  let isFirstTargetLog = true;
   const contents = Deno.readTextFileSync(latestLog)
     .trim()
     .split("\n")
@@ -119,24 +124,36 @@ function main() {
       if (log.isMeta) {
         return null;
       }
+      // sidechainは無視
+      if (log.isSidechain) {
+        return null;
+      }
+      // 親UUIDがないログは最初のログのみ対象
+      if (log.parentUuid == null && !isFirstTargetLog) {
+        return null;
+      }
 
-      const texts = typeof log.message.content === "string"
-        ? [processCommandTags(log.message.content)]
-        : log.message.content
-          .filter((content) => content.type === "text")
-          .map((x) => x.text)
-          .map((x) =>
-            x === "[Request interrupted by user for tool use]"
-              ? "**作業中の割り込み指示:**\nちょっと待ってください。一度中断してください。"
-              : processCommandTags(x)
-          );
+      isFirstTargetLog = false;
+
+      const texts =
+        typeof log.message.content === "string"
+          ? [processCommandTags(log.message.content)]
+          : log.message.content
+              .filter((content) => content.type === "text")
+              .map((x) => x.text)
+              .map((x) =>
+                x === "[Request interrupted by user for tool use]"
+                  ? "**作業中の割り込み指示:**\nちょっと待ってください。一度中断してください。"
+                  : processCommandTags(x),
+              );
       if (texts.length === 0) {
         return null;
       }
 
-      const header = log.type === "user"
-        ? `[!right-bubble] ![[minerva-face-right.webp]]`
-        : `[!left-bubble] ![[claude-san-face.webp]]`;
+      const header =
+        log.type === "user"
+          ? `[!right-bubble] ![[minerva-face-right.webp]]`
+          : `[!left-bubble] ![[claude-san-face.webp]]`;
 
       const messages = texts
         .map((m) => `> ${m}`.replaceAll(/\n/g, "\n> "))
