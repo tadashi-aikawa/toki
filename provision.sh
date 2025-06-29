@@ -274,6 +274,9 @@ ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
 ln -snf "$MNT"/claude/commands ~/.claude/commands
 
+# Gemini CLI
+mise use -g npm:@google/gemini-cli
+
 # fd
 mise use -g fd
 
