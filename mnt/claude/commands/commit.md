@@ -17,8 +17,12 @@ Gitを使ってコミットします。
 主に判断すべきことは2つ
 
 - 日本語か英語か
-- Semantic Releaseを使っているか？
-    - 使っている場合、kindやscopeの定義は `hooks/commit-msg` の中にvalidな選択肢を定義しているので、それに従うこと
+- semantic-releaseを使っているか？
+    - 使っている場合
+        - kindやscopeの定義
+            - `hooks/commit-msg` の中にvalidな選択肢を定義しているので、それに従うこと
+            - `hooks/commit-msg` がない場合は過去のコミットメッセージから推測する
+        - `fix: <message>` の場合、`<message>` は**不具合の事象そのもの**を書く
 
 ## 使用方法
 
