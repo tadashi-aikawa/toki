@@ -8,7 +8,6 @@ _PATH=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname "$_PATH")
 TEMPLATE_DIR="${DIR_PATH}/template"
 SCRIPT_DIR="${DIR_PATH}/script"
-GITHUB_AUTHOR_DIR=$HOME/git/github.com/tadashi-aikawa
 WEBP_SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots/webp
 MOV_DIR=$HOME/Documents/Pictures/screenshots/mov
 MP4_DIR=$HOME/Documents/Pictures/screenshots/mp4
@@ -18,12 +17,6 @@ function show_usage() {
 Usages:
   toki <Target> <path>:         Sandbox環境を作成します
 
-  toki status:                  関連するGitリポジトリの状態を取得します
-       st
-  toki pull:                    関連するGitリポジトリをすべてpullします
-  toki provision:               owl-playbookのprovisioningをします
-  toki update:                  関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
-       up
   toki webp:                    入力ファイル/クリップボード画像(png)をwebpに変換します
   toki mp4:                     MOV保存場所の最新動画ファイルをmp4に変換します
   toki backup:                  workをbackupします
@@ -551,7 +544,7 @@ $ xh -b \"http://localhost:18000?table=types\"
 fi
 
 #==========================================================================
-#--- webp ---
+#--- webp --- Raycastで利用
 if [[ $command == "webp" ]]; then
   ts=$(date +"%Y%m%d_%H_%M_%S")
   dst_dir="$WEBP_SCREEN_SHOT_DIR"
@@ -568,7 +561,7 @@ if [[ $command == "webp" ]]; then
 fi
 
 #==========================================================================
-#--- mp4 ---
+#--- mp4 --- Raycastで利用
 if [[ $command == "mp4" ]]; then
   ts=$(date +"%Y%m%d_%H_%M_%S")
   dst_dir="$MP4_DIR"
@@ -587,69 +580,6 @@ fi
 if [[ $command == "backup" ]]; then
   7z a -p -xr!node_modules -xr!venv ~/tmp/backup.7z ~/work ~/.ssh
   ls -l ~/tmp/backup.7z
-  exit 0
-fi
-
-#==========================================================================
-#--- Git ---
-
-function show_status() {
-  git -c color.status=always status -bs | grep -Ev "##.+[^]]$" || echo ""
-}
-
-function pull() {
-  section "🦉 owlplaybook"
-  cd "$GITHUB_AUTHOR_DIR/owl-playbook" && git pull
-  section "👻 ghostwriter.nvim"
-  cd "$GITHUB_AUTHOR_DIR/ghostwriter.nvim" && git pull
-  section "👤 silhouette.nvim"
-  cd "$GITHUB_AUTHOR_DIR/silhouette.nvim" && git pull
-  section "💎 obsidian.nvim"
-  cd "$GITHUB_AUTHOR_DIR/obsidian.nvim" && git pull
-}
-
-function provision() {
-  cd "$GITHUB_AUTHOR_DIR/owl-playbook" && bash ./linux/provision.sh
-}
-
-# -------------------------------------------
-# 関連するGitリポジトリの状態を取得します
-# -------------------------------------------
-
-if [[ $command == "status" || $command == "st" ]]; then
-  section "🦉 owl-playbook"
-  cd "$GITHUB_AUTHOR_DIR/owl-playbook" && show_status
-  section "👻 ghostwriter.nvim"
-  cd "$GITHUB_AUTHOR_DIR/ghostwriter.nvim" && show_status
-  section "👤 silhouette.nvim"
-  cd "$GITHUB_AUTHOR_DIR/silhouette.nvim" && show_status
-  section "💎 obsidian.nvim"
-  cd "$GITHUB_AUTHOR_DIR/obsidian.nvim" && show_status
-  exit 0
-fi
-
-# -------------------------------------------
-# 関連するGitリポジトリをすべてpullします
-# -------------------------------------------
-if [[ $command == "pull" ]]; then
-  pull
-  exit 0
-fi
-
-# -------------------------------------------
-# owl-playbookのprovisioningをします
-# -------------------------------------------
-if [[ $command == "provision" ]]; then
-  provision
-  exit 0
-fi
-
-# -------------------------------------------
-# 関連するGitリポジトリを最新化し、owl-playbookのprovisioningをします
-# -------------------------------------------
-if [[ $command == "update" || $command == "up" ]]; then
-  pull
-  provision
   exit 0
 fi
 
