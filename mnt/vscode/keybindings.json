@@ -287,6 +287,14 @@
     "when": "editorTextFocus && neovim.mode != insert",
     "args": "<D-S-r>"
   },
+  // Cmd + ; を VSCode Neovimで有効にする
+  {
+    "command": "vscode-neovim.send",
+    "key": "cmd+;",
+    "when": "editorTextFocus && neovim.mode != insert",
+    "args": "<D-;>"
+  },
+  // Ctrl + / を VSCode Neovimで有効にする
   // Neovimのようにスクロールにあわせてカーソルも移動する
   {
     "key": "ctrl+d",
