@@ -181,8 +181,11 @@ if [[ $command == "deno" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   deno init
-  sed -ri 's/(.+"dev": )".+"/\1"deno run -A --watch main.ts"/g' deno.json
+  sed -i '' 's/"dev":.*/"dev": "deno run -A --watch main.ts"/g' deno.json
+
+  cp -r "${TEMPLATE_DIR}"/deno/* .
 
   echo "
 🚀 Try
