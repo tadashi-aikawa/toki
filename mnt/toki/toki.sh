@@ -24,30 +24,31 @@ Usages:
 
   toki -h|--help|help: ヘルプを表示します
 
------------------
 Available targets
 -----------------
-  | Target     | Language | Runtime    | PM    | Framework / Lib    | Linter        | Formatter |
-  | --------   | -------- | ---------- | ----- | ------------------ | ---------     | --------- |
-  | node       | TS       | Node       | npm   | -                  | -             | prettierd |
-  | pnpm       | TS       | tsx(Node)  | pnpm  | -                  | Biome         | Biome     |
-  | deno       | TS       | Deno       | Deno  | -                  | Deno          | Deno      |
-  | bun        | TS       | Bun        | Bun   | -                  | Biome         | Biome     |
-  | jest       | TS       | Node       | pnpm  | Jest               | Biome         | Biome     |
-  | vue        | TS or JS | Bun        | Bun   | Vue                | ?(ESLint)     | prettierd |
-  | nuxt       | TS       | *          | *     | Nuxt               | -             | prettierd |
-  | html       | HTML     | Bun        | Bun   | TailwindCSS        | -             | -         |
-  | tailwind3  | TS       | Bun        | Bun   | Vue + TailwindCSS3 | -             | prettierd |
-  | tailwind   | TS       | Bun        | Bun   | Vue + TailwindCSS  | -             | prettierd |
-  | playwright | TS       | Node       | pnpm  | -                  | -             | Biome     |
-  | go         | Go       | -          | Go    | air                | golangci-lint | -         |
-  | go-sqlx    | Go       | -          | Go    | sqlx + mysql + air | golangci-lint | -         |
-  | rust       | Rust     | -          | Cargo | -                  | -             | -         |
-  | python     | Python   | Virtualenv | Pip   | -                  | ruff          | ruff      |
-  | nvim       | Lua      | Lua        |       | nvim               | -             | -         |
-  | nvimapp    | Lua      | Neovim     | lazy  | -                  | -             | -         |
-  | bash       | Bash     | Bash       |       | -                  | -             | -         |
-  | mysql      | TS       | Deno       | Deno  | MySQL + deno_mysql | Deno          | Deno      |
+
+| Target     | Language | Runtime    | PM    | Framework / Lib     | Linter        | Formatter |
+| ---------- | -------- | ---------- | ----- | ------------------- | ------------- | --------- |
+| node       | TS       | Node       | npm   | -                   | -             | prettierd |
+| pnpm       | TS       | tsx(Node)  | pnpm  | -                   | Biome         | Biome     |
+| deno       | TS       | Deno       | Deno  | -                   | Deno          | Deno      |
+| bun        | TS       | Bun        | Bun   | -                   | Biome         | Biome     |
+| jest       | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
+| vue        | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
+| nuxt       | TS       | *          | *     | Nuxt                | -             | prettierd |
+| tailwind3  | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
+| tailwind   | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
+| playwright | TS       | Node       | pnpm  | -                   | -             | Biome     |
+| html       | HTML     | Bun        | Bun   | TailwindCSS         | -             | -         |
+| go         | Go       | -          | Go    | air                 | golangci-lint | -         |
+| go-sqlx    | Go       | -          | Go    | sqlx + mysql + air  | golangci-lint | -         |
+| rust       | Rust     | -          | Cargo | -                   | -             | -         |
+| python     | Python   | Virtualenv | Pip   | -                   | ruff          | ruff      |
+| nvim       | Lua      | Lua        |       | nvim                | -             | -         |
+| nvimapp    | Lua      | Neovim     | lazy  | -                   | -             | -         |
+| bash       | Bash     | Bash       |       | -                   | -             | -         |
+| mysql      | TS       | Deno       | Deno  | MySQL + deno_mysql  | Deno          | Deno      |
+| mkdocs     | Python   | uv         | uv    | Material for MkDocs |               |           |
   "
 }
 
@@ -539,6 +540,41 @@ if [[ $command == "mysql" ]]; then
 $ cd ${path}
 $ docker compose up -d
 $ xh -b \"http://localhost:18000?table=types\"
+"
+  exit 0
+fi
+
+# -------------------------------------------------------------
+# mkdocs
+# -------------------------------------------------------------
+if [[ $command == "mkdocs" ]]; then
+  path="${1:?'pathは必須です'}"
+
+  mkdir -p "$path"
+  cd "$path"
+
+  git init
+  uv init --bare
+  uv add \
+    mkdocs \
+    mkdocs-material \
+    git+https://github.com/tadashi-aikawa/mkdocs-obsidian-bridge \
+    mkdocs-awesome-nav \
+    mkdocs-backlinks-section-plugin \
+    mkdocs-git-revision-date-localized-plugin \
+    mkdocs-git-authors-plugin \
+    mkdocs-glightbox \
+    mkdocs-open-in-new-tab \
+    mdx_truly_sane_lists
+
+  cp -r "${TEMPLATE_DIR}"/mkdocs/* .
+
+  echo "
+🚀 Try
+
+$ cd ${path}
+
+$ uv run mkdocs serve -a localhost:8081
 "
   exit 0
 fi

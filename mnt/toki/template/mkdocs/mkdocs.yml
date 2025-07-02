@@ -1,0 +1,59 @@
+site_name: MkDocs Sample
+strict: true
+use_directory_urls: false
+# TODO: site_url: これを設定しないと静的デプロイしたサイトでは有効にならない
+theme:
+  name: material
+  icon:
+    logo: material/coffee
+    repo: material/github
+  favicon: https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/favicon-64.png
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - content.code.copy
+  palette:
+    primary: teal
+
+plugins:
+  - obsidian-bridge
+  - awesome-nav
+  - glightbox
+  - open-in-new-tab
+  - search:
+      lang: ja
+  - backlinks_section:
+      title: "🖇️ Backlinks"
+      description: ""
+      add_to_toc: false
+      hide_if_empty: true
+  - git-revision-date-localized:
+      enabled: !ENV [RELEASE, False]
+      strict: false
+      enable_creation_date: true
+      locale: ja
+      timezone: Asia/Tokyo
+  - git-authors:
+      enabled: !ENV [RELEASE, False]
+      strict: false
+      show_email_address: false
+
+markdown_extensions:
+  - footnotes
+  - md_in_html
+  - obsidian_callouts
+  - pymdownx.tilde
+  - pymdownx.magiclink
+  - mdx_truly_sane_lists:
+      nested_indent: 2
+  - pymdownx.snippets:
+      check_paths: true
+      base_path: docs
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
