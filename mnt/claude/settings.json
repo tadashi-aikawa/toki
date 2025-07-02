@@ -1,4 +1,5 @@
 {
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(bun biome format:*)",
@@ -29,7 +30,5 @@
       "WebFetch(domain:docs.anthropic.com)"
     ],
     "deny": ["Bash(sudo:*)", "Read(.env.*)", "Read(.env)"]
-  },
-  "includeCoAuthoredBy": false,
-  "preferredNotifChannel": "terminal_bell"
+  }
 }
