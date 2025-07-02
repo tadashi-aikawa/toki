@@ -96,6 +96,7 @@ if [[ $command == "bun" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   bun init . -y
   bun add -d @biomejs/biome
   bun biome init
@@ -118,6 +119,7 @@ if [[ $command == "node" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   npm init -y
   npm i -D typescript @fsouza/prettierd prettier-plugin-organize-imports @tsconfig/recommended
 
@@ -146,6 +148,7 @@ if [[ $command == "pnpm" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   npm init -y
   corepack enable pnpm
   pnpm add -D typescript tsx @types/node @tsconfig/recommended @biomejs/biome
@@ -198,6 +201,7 @@ if [[ $command == "jest" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   npm init -y
   corepack enable pnpm
   pnpm add -D typescript @tsconfig/recommended @biomejs/biome \
@@ -282,6 +286,7 @@ if [[ $command == "html" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   cp -r "${TEMPLATE_DIR}"/html/* .
 
   echo "
@@ -352,6 +357,7 @@ if [[ $command == "playwright" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   echo "⏎ -> ⏎ -> ⏎ -> n -> ⏎"
   pnpm create playwright
   pnpm exec playwright install chromium
@@ -381,6 +387,7 @@ if [[ $command == "go" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   go mod init sandbox/"${path}"
   go install github.com/air-verse/air@latest
 
@@ -403,6 +410,7 @@ if [[ $command == "go-sqlx" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   go mod init sandbox/"${path}"
   go install github.com/air-verse/air@latest
 
@@ -444,6 +452,7 @@ if [[ $command == "python" ]]; then
   path="${1:?'pathは必須です'}"
 
   mkdir -p "$path" && cd "$path"
+  git init
 
   python -m venv .venv
   cp -r "${TEMPLATE_DIR}"/python/* .
@@ -467,6 +476,7 @@ if [[ $command == "nvim" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
 
   cp -r "${TEMPLATE_DIR}"/nvim/* .
 
@@ -488,6 +498,7 @@ if [[ $command == "nvimapp" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
 
   cp -r "${TEMPLATE_DIR}"/nvimapp/* .
 
@@ -508,6 +519,7 @@ if [[ $command == "bash" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
 
   cp -r "${TEMPLATE_DIR}"/bash/* .
 
@@ -530,6 +542,7 @@ if [[ $command == "mysql" ]]; then
 
   mkdir -p "$path"
   cd "$path"
+  git init
   deno init
 
   cp -r "${TEMPLATE_DIR}"/mysql/* .
