@@ -3,6 +3,7 @@
   "permissions": {
     "allow": [
       "Bash(bun biome format:*)",
+      "Bash(bun biome check:*)",
       "Bash(bun pre:push:*)",
       "Bash(bun run test:*)",
       "Bash(bun test:*)",
@@ -14,6 +15,8 @@
       "Bash(gh release view:*)",
       "Bash(gh workflow list:*)",
       "Bash(gh workflow run release.yaml)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
       "Bash(git add:*)",
       "Bash(git log:*)",
       "Bash(git show:*)",
