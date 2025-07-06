@@ -57,7 +57,20 @@ interface ToolResultContent {
 }
 type Content = TextContent | ToolUserContent | ToolResultContent;
 
-function processContent(content: string): string {
+function processContent(content: string | undefined): string | undefined {
+  if (content == null) {
+    return undefined;
+  }
+  if (content === "[Request interrupted by user for tool use]") {
+    return "**却下です**";
+  }
+  if (content === "[Request interrupted by user]") {
+    return "**中断してください**";
+  }
+  if (content === "API Error: Request was aborted.") {
+    return undefined;
+  }
+
   // command-messageタグを除去
   content = content.replace(/<command-message>.*?<\/command-message>\n?/g, "");
 
@@ -160,12 +173,8 @@ function main() {
                   return "plan" in c.input ? c.input.plan : undefined;
                 }
               })
-              .filter((x) => x !== undefined)
-              .map((x) =>
-                x === "[Request interrupted by user for tool use]"
-                  ? "**異議あり** (もしくは中断指令)"
-                  : processContent(x),
-              );
+              .map(processContent)
+              .filter((x) => x != null);
       if (texts.length === 0) {
         return null;
       }
