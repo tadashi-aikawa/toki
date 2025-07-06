@@ -57,7 +57,7 @@ interface ToolResultContent {
 }
 type Content = TextContent | ToolUserContent | ToolResultContent;
 
-function processCommandTags(content: string): string {
+function processContent(content: string): string {
   // command-messageタグを除去
   content = content.replace(/<command-message>.*?<\/command-message>\n?/g, "");
 
@@ -66,6 +66,9 @@ function processCommandTags(content: string): string {
     /<command-name>(.*?)<\/command-name>/g,
     "**`$1`**\n",
   );
+
+  // GitHub Issue番号の後に半角スペース以外の文字が続く場合にスペースを追加
+  content = content.replace(/(#\d+)([^ ])/g, "$1 $2");
 
   return content;
 }
@@ -146,7 +149,7 @@ function main() {
 
       const texts =
         typeof log.message.content === "string"
-          ? [processCommandTags(log.message.content)]
+          ? [processContent(log.message.content)]
           : log.message.content
               .map((c) => {
                 if (c.type === "text") {
@@ -161,7 +164,7 @@ function main() {
               .map((x) =>
                 x === "[Request interrupted by user for tool use]"
                   ? "**異議あり** (もしくは中断指令)"
-                  : processCommandTags(x),
+                  : processContent(x),
               );
       if (texts.length === 0) {
         return null;
