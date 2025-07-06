@@ -25,7 +25,14 @@ interface AssistantLog {
 interface SummaryLog {
   type: "summary";
 }
-type Log = UserLog | AssistantLog | SummaryLog;
+interface SystemLog {
+  type: "system";
+  isMeta?: boolean;
+  isSidechain: boolean;
+  parentUuid: string | null;
+  content: string;
+}
+type Log = UserLog | AssistantLog | SummaryLog | SystemLog;
 
 interface TextContent {
   type: "text";
@@ -117,7 +124,7 @@ function main() {
     .split("\n")
     .map((line) => {
       const log = JSON.parse(line) as Log;
-      if (log.type === "summary") {
+      if (log.type === "summary" || log.type === "system") {
         return null;
       }
       // slash commandは無視(のはず)
