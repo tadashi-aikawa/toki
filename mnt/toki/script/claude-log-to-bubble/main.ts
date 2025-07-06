@@ -42,10 +42,12 @@ interface ToolUserContent {
   type: "tool_use";
   id: string;
   name: string;
-  input: {
-    command: string;
-    description: string;
-  };
+  input:
+    | {
+        command: string;
+        description: string;
+      }
+    | { plan: string };
 }
 interface ToolResultContent {
   type: "tool_result";
@@ -146,8 +148,16 @@ function main() {
         typeof log.message.content === "string"
           ? [processCommandTags(log.message.content)]
           : log.message.content
-              .filter((content) => content.type === "text")
-              .map((x) => x.text)
+              .map((c) => {
+                if (c.type === "text") {
+                  return c.text;
+                } else if (c.type === "tool_result") {
+                  return undefined;
+                } else if (c.type === "tool_use") {
+                  return "plan" in c.input ? c.input.plan : undefined;
+                }
+              })
+              .filter((x) => x !== undefined)
               .map((x) =>
                 x === "[Request interrupted by user for tool use]"
                   ? "**異議あり** (もしくは中断指令)"
