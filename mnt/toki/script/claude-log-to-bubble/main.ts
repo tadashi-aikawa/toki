@@ -143,7 +143,7 @@ function main() {
               .map((x) => x.text)
               .map((x) =>
                 x === "[Request interrupted by user for tool use]"
-                  ? "**作業中の割り込み指示:**\nちょっと待ってください。一度中断してください。"
+                  ? "**異議あり** (もしくは中断指令)"
                   : processCommandTags(x),
               );
       if (texts.length === 0) {
