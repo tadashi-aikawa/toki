@@ -128,7 +128,7 @@ if not vim.g.vscode then
     "sqls",
     "svelte",
     "tailwindcss",
-    "ts_ls",
+    "vtsls",
     "vue_ls",
     "yamlls",
   })

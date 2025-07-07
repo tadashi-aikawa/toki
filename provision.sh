@@ -232,11 +232,11 @@ mise use -g npm:yaml-language-server
 
 # TypeScript
 mise use -g npm:typescript
-mise use -g npm:typescript-language-server
 
 # Vue
 mise use -g npm:@vue/language-server
 mise use -g npm:@vue/typescript-plugin
+mise use -g npm:@vtsls/language-server # Volar3から
 
 # Svelte
 mise use -g npm:svelte-language-server
