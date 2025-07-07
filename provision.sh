@@ -235,7 +235,6 @@ mise use -g npm:typescript
 
 # Vue
 mise use -g npm:@vue/language-server
-mise use -g npm:@vue/typescript-plugin
 mise use -g npm:@vtsls/language-server # Volar3から
 
 # Svelte
