@@ -158,6 +158,19 @@ return {
       main = {
         current = true,
       },
+      actions = {
+        insert_filename = function(picker)
+          local item = picker:current()
+          if item then
+            local path = item.text or item.filename or item.path
+            local filename = vim.fn.fnamemodify(path, ":t")
+            vim.schedule(function()
+              vim.api.nvim_put({ filename }, "", true, true)
+            end)
+            picker:close()
+          end
+        end,
+      },
       sources = {
         lines = {
           sort = { fields = { "idx", "score:desc" } },
@@ -212,6 +225,7 @@ return {
             ["<C-j>"] = { "history_forward", mode = { "i", "n" } },
             ["<C-k>"] = { "history_back", mode = { "i", "n" } },
             ["<C-h>"] = { "toggle_help_input", mode = { "i", "n" } },
+            ["<D-CR>"] = { "insert_filename", mode = { "i", "n" } },
             -- TODO: 正規表現切り替えやignoredはなぜか効かない...
           },
         },
