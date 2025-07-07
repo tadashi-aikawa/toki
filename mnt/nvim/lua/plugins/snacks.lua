@@ -21,28 +21,29 @@ return {
   keys = {
     {"<Space>q", function() Snacks.bufdelete() end, silent = true},
     {"<Space>z", function() Snacks.zen.zoom() end, silent = true},
-    { "<C-j>f", function() Snacks.picker.files() end, silent = true },
-    { "<C-j>e", function() Snacks.picker.smart() end, silent = true },
-    { "<C-j>r", function() Snacks.picker.recent() end, silent = true },
-    { "<C-j>t", function() Snacks.picker.explorer() end, silent = true },
-    { "<C-j>g", function() Snacks.picker.grep() end, silent = true },
+    { "<C-j>f", mode = { "n", "i" }, function() Snacks.picker.files() end, silent = true },
+    { "<C-j>e", mode = { "n", "i" }, function() Snacks.picker.smart() end, silent = true },
+    { "<C-j>r", mode = { "n", "i" }, function() Snacks.picker.recent() end, silent = true },
+    { "<C-j>t", mode = { "n", "i" }, function() Snacks.picker.explorer() end, silent = true },
+    { "<C-j>g", mode = { "n", "i" }, function() Snacks.picker.grep() end, silent = true },
     {
       "<C-j>G",
+      mode = { "n", "i" },
       function()
         local curdir = vim.bo.filetype == "oil" and require("oil").get_current_dir() or vim.fn.expand("%:p:h")
         Snacks.picker.grep({ dirs = { curdir } })
       end,
       silent = true
     },
-    { "<C-j>l", function() Snacks.picker.lines() end, silent = true },
-    { "<C-j>:", function() Snacks.picker.command_history() end, silent = true },
-    { "<C-j>s", function() Snacks.picker.git_status() end, silent = true },
-    { "<C-j>b", function() Snacks.picker.git_log_line() end, silent = true },
-    { "<C-j>j", function() Snacks.picker.resume() end, silent = true },
-    { "<C-j>k", function() Snacks.picker.pickers() end, silent = true },
-    { "<C-j>p", function() Snacks.picker.projects() end, silent = true },
+    { "<C-j>l", mode = { "n", "i" }, function() Snacks.picker.lines() end, silent = true },
+    { "<C-j>:", mode = { "n", "i" }, function() Snacks.picker.command_history() end, silent = true },
+    { "<C-j>s", mode = { "n", "i" }, function() Snacks.picker.git_status() end, silent = true },
+    { "<C-j>b", mode = { "n", "i" }, function() Snacks.picker.git_log_line() end, silent = true },
+    { "<C-j>j", mode = { "n", "i" }, function() Snacks.picker.resume() end, silent = true },
+    { "<C-j>k", mode = { "n", "i" }, function() Snacks.picker.pickers() end, silent = true },
+    { "<C-j>p", mode = { "n", "i" }, function() Snacks.picker.projects() end, silent = true },
     --- @diagnostic disable-next-line: undefined-field todo_commentsはsnacks以外に定義があるため無視
-    { "<C-j>m", function() Snacks.picker.todo_comments() end, silent = true },
+    { "<C-j>m", mode = { "n", "i" }, function() Snacks.picker.todo_comments() end, silent = true },
   },
   -- stylua: ignore end
   ---@type snacks.Config
