@@ -10,19 +10,20 @@ gui:
     inactiveBorderColor:
       - "#777777"
 git:
-  allBranchesLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' --
   branchLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' {{branchName}} --
   paging:
     colorArg: always
     pager: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
   log:
     showWholeGraph: true
+  allBranchesLogCmds:
+    - git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' --
 customCommands:
   - key: "<C-e>"
     context: commitFiles
     description: Open the previous version of the file in Neovim
     command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/$(basename {{.SelectedCommitFile.Name}}) && nvim /tmp/$(basename {{.SelectedCommitFile.Name}}) && rm /tmp/$(basename {{.SelectedCommitFile.Name}})"
-    subprocess: true
+    output: terminal
   - key: ""
     description: Force push safely
     context: global
@@ -31,9 +32,9 @@ customCommands:
     context: files
     description: Open file diff in Neovim
     command: "nvim -d <(git show HEAD:{{.SelectedFile.Name}}) $(git rev-parse --show-toplevel)/{{.SelectedFile.Name}}"
-    subprocess: true
+    output: terminal
   - key: "<a-enter>"
     context: commitFiles
     description: Open commit diff in Neovim
     command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) && nvim -d /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) $(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}} && rm /tmp/prev_$(basename {{.SelectedCommitFile.Name}})"
-    subprocess: true
+    output: terminal
