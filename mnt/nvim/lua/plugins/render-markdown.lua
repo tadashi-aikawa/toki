@@ -11,6 +11,14 @@ return {
       width = { "full", "full", "block", "block", "block", "block" },
       setext = false,
     },
+    callout = {
+      fixme = {
+        raw = "[!FIXME]",
+        rendered = " FIXME",
+        highlight = "RenderMarkdownFixme",
+        category = "custom",
+      },
+    },
     fat_tables = false,
     dash = {
       icon = " ",
@@ -83,6 +91,7 @@ return {
         vim.api.nvim_set_hl(0, "RenderMarkdownAtlassianLinkIcon", { fg = "#00b8d9" })
         vim.api.nvim_set_hl(0, "RenderMarkdownSlackLinkIcon", { fg = "#e01e5a" })
         vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { fg = "#22c55e", bg = "#224422" })
+        vim.api.nvim_set_hl(0, "RenderMarkdownFixme", { bg = "goldenrod", fg = "white", bold = true })
       end,
     })
   end,
