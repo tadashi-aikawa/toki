@@ -9,6 +9,7 @@ local vue_plugin = {
 
 return {
   workspace_required = true,
+  root_markers = { "package.json", "tsconfig.json", "jsconfig.json" },
   settings = {
     vtsls = {
       tsserver = {
