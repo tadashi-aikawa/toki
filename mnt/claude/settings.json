@@ -31,7 +31,9 @@
       "Bash(rg:*)",
       "Bash(stylua:*)",
       "Read(~/.claude/*)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs"
     ],
     "deny": ["Bash(sudo:*)", "Read(.env.*)", "Read(.env)"]
   },
