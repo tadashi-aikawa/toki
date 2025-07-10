@@ -1,4 +1,5 @@
 require("base")
+require("filetype")
 require("clipboard")
 require("plugin")
 require("appearance")
