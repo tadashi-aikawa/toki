@@ -104,6 +104,33 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "chat.agent.enabled": true,
   "github.copilot.chat.localeOverride": "ja",
+  "github.copilot.chat.agent.terminal.allowList": {
+    "echo": true,
+    "ls": true,
+    "cat": true,
+    "rg": true,
+    "fd": true,
+    "cd": true,
+    "pwd": true,
+    "mkdir": true,
+    "mise run": true,
+    "mise test": true,
+    "date": true,
+    "git add": true,
+    "git status": true,
+    "git log": true
+  },
+  "github.copilot.chat.agent.terminal.denyList": {
+    "rm": true,
+    "rmdir": true,
+    "del": true,
+    "kill": true,
+    "curl": true,
+    "wget": true,
+    "eval": true,
+    "chmod": true,
+    "chown": true
+  },
   //
   //------------------------------------------------------------------------
   // ファイルタイプごとの設定
