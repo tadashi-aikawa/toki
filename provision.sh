@@ -123,6 +123,12 @@ brew install --cask bruno
 # Claude Desktop
 brew install --cask claude
 
+# Scoot
+brew install --cask scoot
+
+# Homerow
+brew install --cask homerow
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
