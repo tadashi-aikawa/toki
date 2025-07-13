@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# $MY_MAC_TAG で端末を判定して処理を分岐
+
 set -eu
 
 CURRENT_DIR_PATH=$(readlink -f "$(pwd)")
@@ -120,14 +122,16 @@ brew install --cask gimp
 # Bruno
 brew install --cask bruno
 
-# Claude Desktop
-brew install --cask claude
-
 # Scoot
 brew install --cask scoot
 
 # Homerow
 brew install --cask homerow
+
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  # Claude Desktop
+  brew install --cask claude
+fi
 
 #----------------------------------------------------------------------
 # Runtime manager
@@ -273,14 +277,16 @@ mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
 # CLI Tools
 #----------------------------------------------------------------------
 
-# Claude Code
-mise use -g npm:@anthropic-ai/claude-code
-ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
-ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
-ln -snf "$MNT"/claude/commands ~/.claude/commands
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  # Claude Code
+  mise use -g npm:@anthropic-ai/claude-code
+  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+  ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
+  ln -snf "$MNT"/claude/commands ~/.claude/commands
 
-# Gemini CLI
-mise use -g npm:@google/gemini-cli
+  # Gemini CLI
+  mise use -g npm:@google/gemini-cli
+fi
 
 # fd
 mise use -g fd
