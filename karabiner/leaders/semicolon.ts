@@ -21,7 +21,7 @@ export const semicolonLeaderDefinitions = [
       {
         "/": toDynamicPaste('date "+%Y/%m/%d"'),
         [UJM[":"]]: toDynamicPaste('date "+%H:%M"'),
-        [UJM[" "]]: toKey("f18", ["option"]), // Homerow起動用
+        [UJM["enter"]]: toKey("f18", ["option"]), // Homerow起動用
         ";": toJKey(";"),
         a: toJKey("^"),
         c: toJKeys("`", "`", "`"),
