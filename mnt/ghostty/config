@@ -13,6 +13,9 @@ window-padding-color = extend
 # スクロール速度が速すぎるので下げる
 mouse-scroll-multiplier = 0.2
 
+background-image = "~/git/github.com/tadashi-aikawa/toki/mnt/ghostty/background-image.png"
+background-image-opacity = "0.1"
+
 # Spaceの左キーでNeovimで利用するものを無効化
 # (defaultで設定されていないものは不要)
 keybind = super+a=unbind
