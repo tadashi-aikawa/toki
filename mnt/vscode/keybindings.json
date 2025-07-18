@@ -307,5 +307,15 @@
     "command": "vscode-neovim.send",
     "args": "<C-u>",
     "when": "editorTextFocus && neovim.init"
+  },
+  {
+    "key": "ctrl+j c",
+    "command": "testing.runCurrentFile",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+[Semicolon] f",
+    "command": "-testing.runCurrentFile",
+    "when": "editorTextFocus"
   }
 ]
