@@ -28,8 +28,8 @@ const likeAltCommands = [{
 }];
 
 const likeCtrlShiftCommands = [{
-  j: toKey("j", ["control", "command", "shift"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
-  k: toKey("k", ["control", "command", "shift"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
+  j: toKey("f15", ["control", "command"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
+  k: toKey("f16", ["control", "command"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
   ";": toDynamicPaste('date "+%Y%m%d"'),
 }];
 
