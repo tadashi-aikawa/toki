@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   dir = "~/git/github.com/tadashi-aikawa/silhouette.nvim",
   -- "tadashi-aikawa/silhouette.nvim",
   ft = "markdown",
