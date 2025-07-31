@@ -8,4 +8,6 @@
 
 # @raycast.argument1 { "type": "text", "placeholder": "message", "optional": false }
 
-echo "- [ ] $1" >>~/work/pkm/task.md
+today=$(date '+%Y-%m-%d')
+
+echo "- [ ] $1" >>"${HOME}/work/pkm/_Privates/Daily Notes/${today}.md"
