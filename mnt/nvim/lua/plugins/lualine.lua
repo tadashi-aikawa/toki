@@ -22,6 +22,26 @@ return {
       inactive = theme_base,
     }
 
+    local fmt_filename = function(str)
+      -- OilのURLスキームを除去
+      local path = str:gsub("^oil://", "")
+
+      -- カレントディレクトリからの相対パス
+      local cwd = vim.fn.getcwd()
+      if path:sub(1, #cwd) == cwd then
+        local relative = path:sub(#cwd + 2) -- +2 to skip the trailing slash
+        return relative ~= "" and relative or "."
+      end
+
+      -- home directoryを~に
+      local home = vim.fn.expand("~")
+      if path:sub(1, #home) == home then
+        path = "~" .. path:sub(#home + 1)
+      end
+
+      return path
+    end
+
     return {
       options = {
         theme = custom_theme,
@@ -35,7 +55,13 @@ return {
       winbar = {
         lualine_a = {},
         lualine_b = {
-          { "filename", file_status = false, newfile_status = false, path = 1 },
+          {
+            "filename",
+            file_status = false,
+            newfile_status = false,
+            path = 2,
+            fmt = fmt_filename,
+          },
         },
         lualine_c = {
           { "diff", symbols = { added = " ", modified = " ", removed = " " } },
@@ -58,7 +84,7 @@ return {
       inactive_winbar = {
         lualine_a = {},
         lualine_b = {
-          { "filename", file_status = false, newfile_status = false, path = 1 },
+          { "filename", file_status = false, newfile_status = false, path = 1, fmt = fmt_filename },
         },
         lualine_c = {
           { "diff", symbols = { added = " ", modified = " ", removed = " " } },
