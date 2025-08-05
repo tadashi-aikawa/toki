@@ -138,13 +138,13 @@
   },
   // 次のマーカー(診断結果)
   {
-    "key": "ctrl+cmd+shift+j",
+    "key": "ctrl+cmd+f15",
     "command": "editor.action.marker.next",
     "when": "editorFocus && !editorReadonly"
   },
   // 前のマーカー(診断結果)
   {
-    "key": "ctrl+cmd+shift+k",
+    "key": "ctrl+cmd+f16",
     "command": "editor.action.marker.prev",
     "when": "editorFocus && !editorReadonly"
   },
