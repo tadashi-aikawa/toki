@@ -35,7 +35,8 @@ Available targets
 | bun        | TS       | Bun        | Bun   | -                   | Biome         | Biome     |
 | jest       | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
 | vue        | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
-| nuxt       | TS       | *          | *     | Nuxt                | -             | prettierd |
+| nuxt       | TS       | bun        | bun   | Nuxt4               | -             | prettierd |
+| nuxt3      | TS       | pnpm       | pnpm  | Nuxt3               | -             | prettierd |
 | tailwind3  | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
 | tailwind   | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
 | playwright | TS       | Node       | pnpm  | -                   | -             | Biome     |
@@ -276,6 +277,31 @@ if [[ $command == "nuxt" ]]; then
 
 $ cd ${path}
 $ bun dev -o
+"
+  exit 0
+
+fi
+
+# -------------------------------------------
+# nuxt3
+# -------------------------------------------
+if [[ $command == "nuxt3" ]]; then
+  path="${1:?'pathは必須です'}"
+
+  pnpm create nuxt@latest "${path}" -t v3
+  cd "$path"
+  pnpm add --optional typescript
+  mkdir pages
+
+  pnpm add -D @fsouza/prettierd prettier-plugin-organize-imports
+
+  cp -r "${TEMPLATE_DIR}"/nuxt/* .
+
+  echo "
+🚀 Try
+
+$ cd ${path}
+$ pnpm dev -o
 "
   exit 0
 
