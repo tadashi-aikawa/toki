@@ -306,6 +306,9 @@ mise use -g xh
 # jq
 mise use -g jq
 
+# btop
+brew install btop
+
 # bottom
 mise use -g bottom
 
