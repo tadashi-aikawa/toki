@@ -13,6 +13,8 @@ const likeCtrlCommands = [
     "2": toKey("f2"),
     "8": toJKey("{"),
     "9": toJKey("}"),
+    // ウィンドウを隠すに割り当てられているのを無効化するためきりかえ
+    "h": toKey("h", "Hyper"),
   },
 ];
 
