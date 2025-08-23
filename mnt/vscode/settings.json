@@ -241,5 +241,12 @@
   "background.backgroundSize": ["Manual", "Cover", "Cover", "Cover"],
   "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
   "background.autoInstall": false,
-  "github.copilot.nextEditSuggestions.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+    "json": false
+  }
 }
