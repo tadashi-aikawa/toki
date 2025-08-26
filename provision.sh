@@ -174,6 +174,7 @@ mise use -g neovim
 ensure_zshrc 'alias vim=nvim'
 ensure_zshrc "alias vimj='nvim -c \"set filetype=json\"'"
 ensure_zshrc "alias vimm='nvim -c \"set filetype=markdown\"'"
+ensure_zshrc "export EDITOR=nvim"
 mkdir -p ~/.config/nvim
 ln -snf "${MNT}"/nvim/lua ~/.config/nvim/lua
 ln -snf "${MNT}"/nvim/init.lua ~/.config/nvim/init.lua
@@ -372,3 +373,13 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 
 # convmf
 brew install convmv
+
+# yazi
+brew install yazi
+ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
+mkdir -p ~/.config/yazi
+ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
+ln -snf "$MNT"/yazi/keymap.toml ~/.config/yazi/keymap.toml
+ensure_zshrc "source ~/.yazi.sh"
+ensure_zshrc "export EDITOR=nvim"
+ya pkg add yazi-rs/plugins:smart-enter
