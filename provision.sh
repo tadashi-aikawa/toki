@@ -385,6 +385,9 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 # convmf
 brew install convmv
 
+# Clipboard Project
+brew install clipboard
+
 # yazi
 brew install yazi font-symbols-only-nerd-font
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
