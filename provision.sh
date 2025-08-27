@@ -402,6 +402,7 @@ ensure_yazi_install "yazi-rs/plugins:git"
 ensure_yazi_install "yazi-rs/plugins:full-border"
 ensure_yazi_install "yazi-rs/plugins:smart-paste"
 ensure_yazi_install "yazi-rs/plugins:toggle-pane"
+ensure_yazi_install "orhnk/system-clipboard"
 
 # poppler (for yazi)
 brew install poppler
