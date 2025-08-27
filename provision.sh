@@ -375,11 +375,18 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 brew install convmv
 
 # yazi
-brew install yazi
+brew install yazi font-symbols-only-nerd-font
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
 ln -snf "$MNT"/yazi/keymap.toml ~/.config/yazi/keymap.toml
 ensure_zshrc "source ~/.yazi.sh"
 ensure_zshrc "export EDITOR=nvim"
-ya pkg add yazi-rs/plugins:smart-enter
+if ! ya pkg list | grep -q "yazi-rs/plugins:smart-enter"; then
+  ya pkg add yazi-rs/plugins:smart-enter
+fi
+
+# poppler (for yazi)
+brew install poppler
+# resvg (for yazi)
+brew install resvg
