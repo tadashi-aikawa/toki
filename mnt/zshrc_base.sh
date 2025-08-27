@@ -114,13 +114,19 @@ for char in {a..z}; do
   bindkey -r "\e$char"
 done
 
-# ESC+jでNeovimを起動
 function run_vim() {
   LBUFFER="vim"
   zle accept-line
 }
 zle -N run_vim
+
+function run_yazi() {
+  LBUFFER="y"
+  zle accept-line
+}
+zle -N run_yazi
+
+# <ESC>jでNeovim起動
 bindkey '\ej' run_vim
-# Ctrl+jでNeovimを起動
-bindkey '^j' run_vim
-bindkey '\e^j' run_vim
+# <ESC>lでyazi起動
+bindkey '\el' run_yazi
