@@ -41,6 +41,17 @@ function ensure_bashrc() {
   fi
 }
 
+# yaziプラグイン/フレーバーがインストールされていなければインストールします
+function ensure_yazi_install() {
+  local content="$1"
+
+  if ! ya pkg list | grep -q "$1"; then
+    ya pkg add "$1"
+  else
+    echo "👌 '${1}' is already installed"
+  fi
+}
+
 #----------------------------------------------------------------------
 # Shell
 #----------------------------------------------------------------------
@@ -380,11 +391,14 @@ ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
 ln -snf "$MNT"/yazi/keymap.toml ~/.config/yazi/keymap.toml
+ln -snf "$MNT"/yazi/init.lua ~/.config/yazi/init.lua
 ensure_zshrc "source ~/.yazi.sh"
 ensure_zshrc "export EDITOR=nvim"
-if ! ya pkg list | grep -q "yazi-rs/plugins:smart-enter"; then
-  ya pkg add yazi-rs/plugins:smart-enter
-fi
+ensure_yazi_install "yazi-rs/plugins:smart-enter"
+ensure_yazi_install "yazi-rs/plugins:git"
+ensure_yazi_install "yazi-rs/plugins:full-border"
+ensure_yazi_install "yazi-rs/plugins:smart-paste"
+ensure_yazi_install "yazi-rs/plugins:toggle-pane"
 
 # poppler (for yazi)
 brew install poppler
