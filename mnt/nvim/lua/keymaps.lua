@@ -133,6 +133,10 @@ if vim.g.vscode then
     vscode.action("lazygit-vscode.toggle")
   end)
 
+  vim.keymap.set("n", "<space>y", function()
+    vscode.action("yazi-vscode.toggle")
+  end)
+
   vim.keymap.set("n", "<space>u", function()
     vscode.action("git.revertSelectedRanges")
   end)
