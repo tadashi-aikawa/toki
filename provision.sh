@@ -395,6 +395,7 @@ mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
 ln -snf "$MNT"/yazi/keymap.toml ~/.config/yazi/keymap.toml
 ln -snf "$MNT"/yazi/init.lua ~/.config/yazi/init.lua
+ln -snf "$MNT"/yazi/plugins/bunny-private.yazi ~/.config/yazi/plugins/bunny-private.yazi
 ensure_zshrc "source ~/.yazi.sh"
 ensure_zshrc "export EDITOR=nvim"
 ensure_yazi_install "yazi-rs/plugins:smart-enter"
@@ -403,6 +404,7 @@ ensure_yazi_install "yazi-rs/plugins:full-border"
 ensure_yazi_install "yazi-rs/plugins:smart-paste"
 ensure_yazi_install "yazi-rs/plugins:toggle-pane"
 ensure_yazi_install "orhnk/system-clipboard"
+ensure_yazi_install "stelcodes/bunny"
 
 # poppler (for yazi)
 brew install poppler
