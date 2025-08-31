@@ -4,7 +4,6 @@ prepend_keymap = [
   { on = "<Enter>", run = "plugin smart-enter" },
   { on = "p", run = "plugin smart-paste" },
   { on = "<Space>", run = "plugin bunny" },
-  { on = "~", run = "cd ~", desc = "ホームディレクトリへ移動" },
   { on = "z", run = "plugin zoxide", desc = "zoxide" },
   { on = "o", run = "create" },
   { on = "<C-o>", run = "back" },

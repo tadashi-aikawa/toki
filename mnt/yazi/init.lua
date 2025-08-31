@@ -10,6 +10,8 @@ require("full-border"):setup({
 -- 	require("bunny"):setup({
 -- 		hops = {
 -- 			{ key = "/", path = "/" },
+-- 			{ key = "h", path = "~", desc = "Home directory" },
+--      { key = "c", path = "~/.config", desc = "Config files" },
 -- 			{ key = "d", path = "~/Downloads", desc = "Downloads" },
 -- 		},
 -- 	})
