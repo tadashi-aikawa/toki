@@ -73,7 +73,7 @@ return {
             modes = { "v" },
             adapter = {
               name = "copilot",
-              model = "gpt-4o",
+              model = "gpt-5",
             },
             -- INFO: コードを見るとstrategy = "inline" で対応してなさそう
             -- ignore_system_prompt = true,
