@@ -298,6 +298,9 @@ if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
 
   # Gemini CLI
   mise use -g npm:@google/gemini-cli
+
+  # Codex CLI
+  mise use -g npm:@openai/codex
 fi
 
 # fd
