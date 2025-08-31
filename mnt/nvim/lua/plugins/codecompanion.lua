@@ -89,6 +89,21 @@ return {
             },
           },
         },
+        ["document translation"] = {
+          strategy = "chat",
+          opts = {
+            use_promt = true,
+            is_slash_cmd = true,
+            auto_submit = true,
+            short_name = "document translation",
+          },
+          prompts = {
+            {
+              role = "user",
+              content = [[あなたは日本語と英語のプロの翻訳者であり、かつEnglish nativeとして経験豊富なスタッフエンジニアでもあります。以下の日本語で記載されたドキュメントを英語へと翻訳してください。コードのコメントやドキュメントに使われることを想定しています。]],
+            },
+          },
+        },
         ["program name translation"] = {
           strategy = "chat",
           opts = {
