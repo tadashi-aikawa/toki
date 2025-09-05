@@ -104,7 +104,8 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "chat.agent.enabled": true,
   "github.copilot.chat.localeOverride": "ja",
-  "github.copilot.chat.agent.terminal.allowList": {
+  "github.copilot.nextEditSuggestions.fixes": false,
+  "chat.tools.terminal.autoApprove": {
     "echo": true,
     "ls": true,
     "cat": true,
@@ -118,18 +119,16 @@
     "date": true,
     "git add": true,
     "git status": true,
-    "git log": true
-  },
-  "github.copilot.chat.agent.terminal.denyList": {
-    "rm": true,
-    "rmdir": true,
-    "del": true,
-    "kill": true,
-    "curl": true,
-    "wget": true,
-    "eval": true,
-    "chmod": true,
-    "chown": true
+    "git log": true,
+    "rm": false,
+    "rmdir": false,
+    "del": false,
+    "kill": false,
+    "curl": false,
+    "wget": false,
+    "eval": false,
+    "chmod": false,
+    "chown": false
   },
   //
   //------------------------------------------------------------------------
