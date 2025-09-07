@@ -55,7 +55,7 @@ Available targets
 
 command="${1:-}"
 
-if [[ $command =~ ^(-h|--help|help|)$ ]]; then
+if [[ $command =~ ^(-h|--help|help)?$ ]]; then
   echo "『いったはずだ あなたのすべてをめざしたと!!』"
   show_usage
   exit 0
