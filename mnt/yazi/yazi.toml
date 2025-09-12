@@ -15,3 +15,13 @@ run  = "git"
 [preview]
 max_width  = 1920
 max_height = 1920
+
+[opener]  
+gimp = [  
+  { run = 'LANG=ja gimp -n "$0"', desc = "GIMP"}
+]
+
+[open]  
+append_rules = [
+  { mime = "image/*", use = "gimp" },
+]
