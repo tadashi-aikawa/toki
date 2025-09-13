@@ -5,6 +5,7 @@ require("git"):setup()
 require("full-border"):setup({
 	type = ui.Border.ROUNDED,
 })
+require("folder-rules"):setup()
 
 -- `plugins/bunny-private.yazi/main.lua` に設定する
 --

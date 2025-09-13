@@ -399,6 +399,8 @@ ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
 ln -snf "$MNT"/yazi/keymap.toml ~/.config/yazi/keymap.toml
 ln -snf "$MNT"/yazi/init.lua ~/.config/yazi/init.lua
 ln -snf "$MNT"/yazi/plugins/bunny-private.yazi ~/.config/yazi/plugins/bunny-private.yazi
+ln -snf "$MNT"/yazi/plugins/folder-rules.yazi ~/.config/yazi/plugins/folder-rules.yazi
+
 ensure_zshrc "source ~/.yazi.sh"
 ensure_zshrc "export EDITOR=nvim"
 ensure_yazi_install "yazi-rs/plugins:smart-enter"
