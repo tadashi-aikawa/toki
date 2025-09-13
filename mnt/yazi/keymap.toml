@@ -1,21 +1,21 @@
 [mgr]  
 prepend_keymap = [  
   { on = "-", run = "leave", desc = "親ディレクトリへ移動" },
-  { on = ["i", "<Space>"], run = "cd --interactive", desc = "パスを入力してcd" },
+  { on = "<C-c>", run = "plugin system-clipboard" },
+  { on = "<C-i>", run = "forward" },
+  { on = "<C-o>", run = "back" },
+  { on = "<C-p>", run = "plugin toggle-pane max-preview" },
+  { on = "<C-v>", run = "shell 'cb paste' --block", desc = "Paste from clipboard" },
   { on = "<Enter>", run = "plugin smart-enter" },
   { on = "e", run = "plugin bunny" },
-  { on = "z", run = "plugin zoxide", desc = "zoxide" },
-  { on = "o", run = "create" },
   { on = "f", run = "search" },
-  { on = "<C-o>", run = "back" },
-  { on = "<C-i>", run = "forward" },
-  { on = ["g", "?"], run = "help" },
-  { on = "<C-p>", run = "plugin toggle-pane max-preview" },
-  { on = "<C-c>", run = "plugin system-clipboard" },
+  { on = "o", run = "create" },
   { on = "q", run = "close" },
+  { on = "z", run = "plugin zoxide", desc = "zoxide" },
   { on = ["<Space>", "g"], run = "shell --block -- lazygit" },
+  { on = ["g", "?"], run = "help" },
   { on = ["g", "r"], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
-  { on = "<C-v>", run = "shell 'cb paste' --block", desc = "Paste from clipboard" },
+  { on = ["i", "<Space>"], run = "cd --interactive", desc = "パスを入力してcd" },
 ]
 
 [input]  
