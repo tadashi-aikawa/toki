@@ -144,6 +144,9 @@ if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   brew install --cask claude
 fi
 
+# KeyCastr
+brew install --cask keycastr
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
