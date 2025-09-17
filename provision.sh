@@ -149,6 +149,12 @@ fi
 # KeyCastr
 brew install --cask keycastr
 
+# JankyBorders
+brew tap FelixKratz/formulae
+brew install borders
+mkdir -p ~/.config/borders
+ln -snf "$MNT"/borders/bordersrc ~/.config/borders/bordersrc
+
 #----------------------------------------------------------------------
 # Runtime manager
 #----------------------------------------------------------------------
