@@ -43,3 +43,5 @@ keybind = ctrl+shift+w>k=goto_split:up
 keybind = ctrl+shift+w>j=goto_split:down
 keybind = ctrl+shift+w>l=goto_split:right
 keybind = ctrl+shift+w>h=goto_split:left
+
+custom-shader = ./shaders/cursor_blaze.glsl

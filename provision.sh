@@ -94,8 +94,10 @@ brew install git
 
 # ターミナル
 brew install --cask ghostty
-mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty
-ln -snf "$MNT"/ghostty/config ~/Library/Application\ Support/com.mitchellh.ghostty/config
+GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
+mkdir -p "$GHOSTTY_CONFIG_DIR"
+ln -snf "$MNT"/ghostty/config "$GHOSTTY_CONFIG_DIR"/config
+ln -snf "$MNT"/ghostty/shaders "$GHOSTTY_CONFIG_DIR"/shaders
 
 # ランチャー
 brew install --cask raycast
