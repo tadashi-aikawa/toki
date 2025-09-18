@@ -44,4 +44,5 @@ keybind = ctrl+shift+w>j=goto_split:down
 keybind = ctrl+shift+w>l=goto_split:right
 keybind = ctrl+shift+w>h=goto_split:left
 
-custom-shader = ./shaders/cursor_blaze.glsl
+# 普段は目が疲れるので無効化
+# custom-shader = ./shaders/cursor_blaze.glsl
