@@ -87,7 +87,8 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       r: changeMode("NORMAL", "SPECIAL"),
       s: toKey("s", ["control", "shift"]),
       t: [
-        toKey("right_arrow", ["control", "option", "command"]),
+        toKey("t", "Hyper"),
+        toKey("p", "Hyper"),
         toKey("return_or_enter", ["control", "option"]),
       ],
       u: toJKey("bs"),
