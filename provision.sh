@@ -280,6 +280,9 @@ mise use -g cargo:sleek
 # Docker
 brew install docker docker-compose colima
 brew services start colima
+# docker composeコマンド
+mkdir -p ~/.docker/cli-plugins
+ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
 #----------------------------------------------------------------------
 # TUI Tools
