@@ -59,7 +59,7 @@ return {
       default = { "dictionary", "lsp", "path", "snippets", "buffer" },
       per_filetype = {
         lua = { "dictionary", "lazydev", "lsp", "path", "snippets", "buffer" },
-        markdown = { "obsidian", "dictionary", "path", "snippets" },
+        markdown = { "dictionary", "path", "snippets" },
       },
       providers = {
         lazydev = {
@@ -76,11 +76,6 @@ return {
               vim.fn.stdpath("config") .. "/lua/envs/cmp-dictionary.txt",
             },
           },
-        },
-        obsidian = {
-          name = "obsidian",
-          module = "blink.compat.source",
-          score_offset = 1000,
         },
         -- FIXME: 初回に表示されないことがある問題
         -- snippets = {
