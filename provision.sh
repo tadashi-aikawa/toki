@@ -341,9 +341,6 @@ mise use -g jq
 # btop
 brew install btop
 
-# bottom
-mise use -g bottom
-
 # zoxide
 mise use -g zoxide
 ln -snf "$MNT"/zoxide/zoxide.sh ~/.zoxide.sh
