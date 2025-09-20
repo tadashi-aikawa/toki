@@ -326,6 +326,9 @@ mise use -g bat
 # dust
 mise use -g dust
 
+# dysk
+mise use -g cargo:dysk
+
 # xh
 mise use -g xh
 
