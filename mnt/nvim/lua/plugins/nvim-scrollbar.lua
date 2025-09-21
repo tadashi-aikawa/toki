@@ -4,14 +4,10 @@ return {
   opts = {
     handle = {
       color = "gray",
+      blend = 50,
     },
-    marks = {
-      Search = { color = "lime" },
-      Error = { color = "red" },
-      Warn = { color = "orange" },
-      Info = { color = "cyan" },
-      Hint = { color = "gray" },
-      Misc = { color = "purple" },
+    handlers = {
+      search = true,
     },
   },
 }
