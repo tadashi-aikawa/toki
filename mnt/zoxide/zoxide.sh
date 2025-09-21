@@ -1,3 +1,11 @@
 eval "$(mise x -- zoxide init zsh)"
-alias cdz="zi"
-export _ZO_FZF_OPTS="--reverse --border --height 50%"
+export _ZO_FZF_OPTS="
+  --reverse
+  --style=full:rounded
+  --height 75%
+  --margin 0,15
+  --preview-window=down,20,wrap
+  --preview 'eza -l --icons --sort modified -r --color=always {2..}'
+  --no-sort
+  --exact
+"
