@@ -21,6 +21,14 @@ return {
       ["gx"] = "actions.open_external",
       ["g."] = { "actions.toggle_hidden", mode = "n" },
       ["gy"] = "actions.yank_entry",
+      ["<Space>y"] = {
+        callback = function()
+          local oil = require("oil")
+          local current_path = oil.get_current_dir()
+          require("yazi").yazi(nil, current_path)
+        end,
+        desc = "yazi: Open current directory",
+      },
       ["gR"] = {
         callback = function()
           local oil = require("oil")
