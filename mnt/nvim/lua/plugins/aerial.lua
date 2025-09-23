@@ -13,11 +13,8 @@ return {
     close_on_select = true,
 
     -- ネストは1階層まで
-    post_add_all_symbols = function(bufnr, items, ctx)
-      vim.schedule(function()
-        require("aerial").tree_set_collapse_level(bufnr, 1)
-      end)
-      return items
+    on_first_symbols = function(bufnr)
+      require("aerial").tree_set_collapse_level(bufnr, 1)
     end,
     -- tree_set_collapse_level が連動してしまうので必要
     link_tree_to_folds = false,
