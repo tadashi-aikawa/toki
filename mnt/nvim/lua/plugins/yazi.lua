@@ -16,7 +16,7 @@ return {
       open_file_in_vertical_split = "<c-CR>",
 
       open_file_in_horizontal_split = "<c-s>",
-      send_to_quickfix_list = "<c-o>",
+      send_to_quickfix_list = "<c-s-o>",
       grep_in_directory = "<M-6>", -- ignore
       open_and_pick_window = "<M-6>", -- ignore
       cycle_open_buffers = "<M-6>", -- ignore
