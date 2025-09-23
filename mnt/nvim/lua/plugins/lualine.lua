@@ -48,8 +48,8 @@ return {
         component_separators = {},
         section_separators = {},
         disabled_filetypes = {
-          statusline = { "no-neck-pain" },
-          winbar = { "no-neck-pain" },
+          statusline = { "no-neck-pain", "aerial" },
+          winbar = { "no-neck-pain", "aerial" },
         },
       },
       winbar = {
