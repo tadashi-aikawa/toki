@@ -299,9 +299,6 @@ mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
 #----------------------------------------------------------------------
 
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  # Gemini CLI
-  mise use -g npm:@google/gemini-cli
-
   # Codex CLI
   mise use -g npm:@openai/codex
   ln -snf "$MNT"/codex/prompts ~/.codex/prompts
