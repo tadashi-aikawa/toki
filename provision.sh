@@ -141,11 +141,6 @@ brew install --cask scoot
 # Homerow
 brew install --cask homerow
 
-if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  # Claude Desktop
-  brew install --cask claude
-fi
-
 # KeyCastr
 brew install --cask keycastr
 
@@ -304,12 +299,6 @@ mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
 #----------------------------------------------------------------------
 
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  # Claude Code
-  mise use -g npm:@anthropic-ai/claude-code
-  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
-  ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
-  ln -snf "$MNT"/claude/commands ~/.claude/commands
-
   # Gemini CLI
   mise use -g npm:@google/gemini-cli
 
