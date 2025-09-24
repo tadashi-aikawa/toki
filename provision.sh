@@ -292,7 +292,7 @@ ln -snf "${MNT}"/lazygit/config.yml ~/Library/Application\ Support/lazygit/confi
 mise use -g lazydocker
 
 # Lazysql
-mise use -g go:github.com/jorgerojas26/lazysql@0.3.7
+mise use -g go:github.com/jorgerojas26/lazysql
 
 #----------------------------------------------------------------------
 # CLI Tools
