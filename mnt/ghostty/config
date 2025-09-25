@@ -3,6 +3,9 @@ font-family = "CaskaydiaCove Nerd Font"
 # リガチャ防止
 font-feature = -dlig
 
+window-height = 50
+window-width = 180
+
 macos-option-as-alt = true
 
 window-padding-x = 12
