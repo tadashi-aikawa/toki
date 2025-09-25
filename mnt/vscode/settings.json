@@ -247,5 +247,6 @@
     "markdown": false,
     "scminput": false,
     "json": false
-  }
+  },
+  "editor.accessibilitySupport": "on"
 }
