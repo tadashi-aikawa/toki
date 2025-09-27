@@ -15,6 +15,8 @@ return {
       lua = true,
       go = true,
       vue = true,
+      python = true,
+      rust = true,
       ["*"] = false,
     },
   },
