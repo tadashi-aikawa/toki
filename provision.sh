@@ -206,9 +206,11 @@ else
   MAIN_VAULT_ROOT="$HOME/work/pkm"
 fi
 mkdir -p "${MAIN_VAULT_ROOT}"/.obsidian/snippets
+mkdir -p "${MAIN_VAULT_ROOT}"/.obsidian/plugins/obsidian-another-quick-switcher
 ln -snf "${MNT}"/obsidian/obsidian.vimrc "${MAIN_VAULT_ROOT}"/obsidian.vimrc
 ln -snf "${MNT}"/obsidian/.obsidian/hotkeys.json "${MAIN_VAULT_ROOT}"/.obsidian/hotkeys.json
 ln -snf "${MNT}"/obsidian/.obsidian/snippets/owl.css "${MAIN_VAULT_ROOT}"/.obsidian/snippets/owl.css
+ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data.json "${MAIN_VAULT_ROOT}"/.obsidian/plugins/obsidian-another-quick-switcher/data.json
 
 #----------------------------------------------------------------------
 # Languages / Runtimes / LSP
