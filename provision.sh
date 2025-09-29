@@ -199,6 +199,17 @@ ln -snf "${MNT}"/nvim/snippets ~/.config/nvim/snippets
 ln -snf "${MNT}"/nvim/after ~/.config/nvim/after
 ln -snf "${MNT}"/nvim/luasnippets ~/.config/nvim/luasnippets
 
+# Obsidian(一部設定のみ)
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  MAIN_VAULT_ROOT="$HOME/work/minerva"
+else
+  MAIN_VAULT_ROOT="$HOME/work/pkm"
+fi
+mkdir -p "${MAIN_VAULT_ROOT}"/.obsidian/snippets
+ln -snf "${MNT}"/obsidian/obsidian.vimrc "${MAIN_VAULT_ROOT}"/obsidian.vimrc
+ln -snf "${MNT}"/obsidian/.obsidian/hotkeys.json "${MAIN_VAULT_ROOT}"/.obsidian/hotkeys.json
+ln -snf "${MNT}"/obsidian/.obsidian/snippets/owl.css "${MAIN_VAULT_ROOT}"/.obsidian/snippets/owl.css
+
 #----------------------------------------------------------------------
 # Languages / Runtimes / LSP
 #----------------------------------------------------------------------
