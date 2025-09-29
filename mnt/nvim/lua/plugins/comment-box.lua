@@ -2,6 +2,6 @@ return {
   "LudoPinelli/comment-box.nvim",
   cond = true,
   keys = {
-    { "gcb", ":CBlcbox<CR>", silent = true },
+    { "gbc", ":CBlcbox<CR>", mode = { "n", "v" }, silent = true },
   },
 }
