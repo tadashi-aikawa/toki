@@ -135,23 +135,17 @@
           "hideHotkeyGuide": true
         }
       ],
-      "create": [
-        {
-          "modifiers": [
-            "Shift"
-          ],
-          "key": "Enter",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "create in new tab": [
+      "create": [],
+      "create in new tab": [],
+      "create in new pane (horizontal)": [],
+      "create in new pane (vertical)": [
         {
           "modifiers": [
             "Mod",
             "Shift"
           ],
           "key": "Enter",
-          "hideHotkeyGuide": true
+          "hideHotkeyGuide": false
         }
       ],
       "create in new window": [
@@ -906,7 +900,7 @@
       "excludePrefixPathPatterns": [
         "Daily Notes"
       ],
-      "expand": true,
+      "expand": false,
       "minFuzzyScore": 0.5
     },
     {
