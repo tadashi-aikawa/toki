@@ -79,6 +79,23 @@ vim.keymap.set("n", "<Space>!", function()
   )
 end, { silent = true })
 
+-- クリップボードの内容と比較
+vim.keymap.set("n", "<C-w>d", function()
+  vim.cmd([[
+    let ft=&ft
+    leftabove vnew [Clipboard]
+    setlocal bufhidden=wipe buftype=nofile noswapfile
+    put +
+    0d_
+    " remove CR for Windows
+    silent %s/\r$//e
+    execute "set ft=" . ft
+    diffthis
+    wincmd p
+    diffthis
+  ]])
+end, { desc = "Compare to clipboard" })
+
 -- Markdownファイルだけに発生するプラグイン間連携の特殊処理
 vim.api.nvim_create_autocmd("FileType", {
   desc = "markdown-toggle.nvim keymaps",
