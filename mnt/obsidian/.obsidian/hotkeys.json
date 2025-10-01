@@ -827,14 +827,6 @@
       "key": "-"
     }
   ],
-  "obsidian-silhouette:cycle-bullet-checkbox": [
-    {
-      "modifiers": [
-        "Mod"
-      ],
-      "key": "Enter"
-    }
-  ],
   "app:open-settings": [
     {
       "modifiers": [
@@ -972,6 +964,14 @@
         "Mod"
       ],
       "key": "]"
+    }
+  ],
+  "carnelian:carnelian_cycle-bullet/checkbox": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Enter"
     }
   ]
 }
