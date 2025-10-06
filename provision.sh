@@ -320,6 +320,9 @@ if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   # TODO: https://github.com/openai/codex/issues/3120 が対応されたら config.toml も
 fi
 
+# GitHub Copilot CLI
+mise use -g npm:@github/copilot
+
 # fd
 mise use -g fd
 
