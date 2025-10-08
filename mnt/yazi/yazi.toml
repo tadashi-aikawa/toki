@@ -27,6 +27,7 @@ gimp = [
 [open]  
 prepend_rules = [
   { mime = "image/*", use = "preview" },
+  { mime = "video/webm", use = "open" },
 ]
 append_rules = [
   { mime = "image/*", use = "gimp" },
