@@ -44,6 +44,9 @@ markdown_extensions:
   - obsidian_callouts
   - pymdownx.tilde
   - pymdownx.magiclink
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {}
   - mdx_truly_sane_lists:
       nested_indent: 2
   - pymdownx.snippets:
