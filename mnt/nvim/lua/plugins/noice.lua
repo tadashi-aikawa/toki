@@ -16,6 +16,7 @@ return {
     },
     presets = {
       command_palette = true,
+      inc_rename = true,
     },
     messages = {
       enabled = true,
