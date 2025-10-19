@@ -950,14 +950,6 @@
       "key": "]"
     }
   ],
-  "editor:toggle-readable-line-length": [
-    {
-      "modifiers": [
-        "Ctrl"
-      ],
-      "key": "N"
-    }
-  ],
   "shukuchi:open-link": [
     {
       "modifiers": [
@@ -972,6 +964,22 @@
         "Mod"
       ],
       "key": "Enter"
+    }
+  ],
+  "shukuchi:move-to-next-link": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "J"
+    }
+  ],
+  "shukuchi:move-to-previous-link": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "K"
     }
   ]
 }
