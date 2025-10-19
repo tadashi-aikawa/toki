@@ -19,6 +19,7 @@ Usages:
 
   toki webp:                    入力ファイル/クリップボード画像(png)をwebpに変換します
   toki mp4:                     MOV保存場所の最新動画ファイルをmp4に変換します
+  toki vault <base_vault_dir>:  ObsidianのVault初期設定をします
   toki backup:                  workをbackupします
   toki claude [<jsonc file>]:   Claude Codeとやりとりした会話ログをMinervaのフキダシ形式に整形して取得します
 
@@ -650,6 +651,46 @@ if [[ $command == "mp4" ]]; then
   ffmpeg -i "$input" "$dst"
 
   echo "Created ${dst}"
+  exit 0
+fi
+
+#==========================================================================
+#--- vault ---
+if [[ $command == "vault" ]]; then
+  base_vault_dir="${1:?'base_vault_dirは必須です'}"
+  obsidian_config_dir="$base_vault_dir"/.obsidian
+  obsidian_plugins_dir="$obsidian_config_dir"/plugins
+
+  mkdir -p _Privates/NOSYNC/
+  ln -snf "$base_vault_dir"/_Privates/dict.md ./_Privates/dict.md
+  ln -snf "$base_vault_dir"/obsidian.vimrc .
+
+  cd .obsidian
+  cp "$obsidian_config_dir"/{app.json,appearance.json,core-plugins.json,hotkeys.json} .
+
+  mkdir -p snippets && cd snippets
+  ln -snf "$obsidian_config_dir"/snippets/owl.css .
+
+  cd .. && mkdir -p themes && cd themes
+  rm -rf Solarized
+  ln -snf "$obsidian_config_dir"/themes/Solarized .
+
+  cd .. && mkdir -p plugins && cd plugins
+  mkdir -p carnelian && cd carnelian
+  ln -snf "$obsidian_plugins_dir"/carnelian/{config.schema.json,main.js,manifest.json,styles.css} .
+  cp "$obsidian_plugins_dir"/carnelian/data.json .
+  cd .. && mkdir -p obsidian-another-quick-switcher && cd obsidian-another-quick-switcher
+  ln -snf "$obsidian_plugins_dir"/obsidian-another-quick-switcher/{data.json,main.js,manifest.json,styles.css} .
+  cd .. && mkdir -p obsidian-vimrc-support && cd obsidian-vimrc-support
+  ln -snf "$obsidian_plugins_dir"/obsidian-vimrc-support/{data.json,main.js,manifest.json} .
+  cd .. && mkdir -p shukuchi && cd shukuchi
+  ln -snf "$obsidian_plugins_dir"/shukuchi/{data.json,main.js,manifest.json,styles.css} .
+  cd .. && mkdir -p yank-highlight && cd yank-highlight
+  ln -snf "$obsidian_plugins_dir"/yank-highlight/{data.json,main.js,manifest.json,styles.css} .
+  cd .. && mkdir -p various-complements && cd various-complements
+  ln -snf "$obsidian_plugins_dir"/various-complements/{main.js,manifest.json,styles.css} .
+  cp "$obsidian_plugins_dir"/various-complements/data.json .
+
   exit 0
 fi
 
