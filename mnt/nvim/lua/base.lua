@@ -23,6 +23,8 @@ vim.opt.virtualedit = "onemore"
 vim.opt.ignorecase = true
 -- 検索時に大文字を含んでいたら大/小を区別
 vim.opt.smartcase = true
+-- 置換時のインクリメンタルプレビューを分割ウィンドウに表示
+vim.opt.inccommand = "split"
 -- スクロールした時 常に下に表示するバッファ行の数
 vim.opt.scrolloff = 5
 -- 分割方向
