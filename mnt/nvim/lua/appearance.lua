@@ -22,6 +22,9 @@ vim.api.nvim_set_hl(0, "Visual", { bg = "#565612" })
 -- Current line
 vim.api.nvim_set_hl(0, "CursorLine", { bg = nil })
 vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "#888888", fg = "#efef33" })
+-- Diffの削除行は横線を表示しない
+vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#236623", strikethrough = false })
+vim.api.nvim_set_hl(0, "DiffDelete", { fg = "#552020", bg = "#552020", strikethrough = false })
 
 -- LSP
 vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = "#888888", fg = "#efef33" })
