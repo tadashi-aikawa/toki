@@ -1,3 +1,1 @@
-return {
-  cmd = { "npx", "biome", "lsp-proxy" },
-}
+return {}
