@@ -15,7 +15,7 @@ prepend_keymap = [
   { on = "z", run = "plugin zoxide", desc = "zoxide" },
   { on = ["<Space>", "g"], run = "shell --block -- lazygit" },
   { on = ["<Space>", "w"], run = 'shell --block --interactive -- magick "$0" "$0.webp"', desc = "Convert an image to WebP" },
-  { on = ["<Space>", "v"], run = 'shell --block --interactive -- magick -quality 35 "$0" "$0.avif"', desc = "Convert an image to WebP" },
+  { on = ["<Space>", "v"], run = 'shell --block --interactive -- magick -quality 35 "$0" "$0.avif"', desc = "Convert an image to AVIF" },
   { on = ["g", "?"], run = "help" },
   { on = ["g", "r"], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
   { on = ["i", "<Space>"], run = "cd --interactive", desc = "パスを入力してcd" },
