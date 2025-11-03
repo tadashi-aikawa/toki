@@ -54,6 +54,11 @@ noremap <M-w>s :obcommand<Space>workspace:split-horizontal<CR>
 " 閉じる
 exmap q obcommand workspace:close-tab-group
 
+" 水平(下)に分割して新しいファイルを開く
+exmap new obcommand carnelian:carnelian_create-new-note-horizontally
+" 垂直(右)に分割して新しいファイルを開く
+exmap vnew obcommand carnelian:carnelian_create-new-note-vertically
+
 " ╭──────────────────────────────────────────────────────────╮
 " │                      プロパティ操作                      │
 " ╰──────────────────────────────────────────────────────────╯
