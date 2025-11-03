@@ -941,23 +941,6 @@
       "key": "D"
     }
   ],
-  "shukuchi:open-link-in-new-tabgroup": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "]"
-    }
-  ],
-  "shukuchi:open-link": [
-    {
-      "modifiers": [
-        "Mod"
-      ],
-      "key": "]"
-    }
-  ],
   "carnelian:carnelian_cycle-bullet/checkbox": [
     {
       "modifiers": [

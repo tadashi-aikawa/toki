@@ -59,6 +59,11 @@ exmap new obcommand carnelian:carnelian_create-new-note-horizontally
 " 垂直(右)に分割して新しいファイルを開く
 exmap vnew obcommand carnelian:carnelian_create-new-note-vertically
 
+" 定義を開く
+noremap <M-]> :obcommand<Space>shukuchi:open-link<CR>
+noremap <M-S-]> :obcommand<Space>shukuchi:open-link-in-new-tabgroup<CR>
+noremap g] :obcommand<Space>shukuchi:open-link-in-new-tabgroup-horizontally<CR>
+
 " ╭──────────────────────────────────────────────────────────╮
 " │                      プロパティ操作                      │
 " ╰──────────────────────────────────────────────────────────╯
