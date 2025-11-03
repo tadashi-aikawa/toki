@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.cmd([[ vsplit ]])
       vim.lsp.buf.definition()
     end, opts)
-    vim.keymap.set("n", "g<C-]>", function()
+    vim.keymap.set("n", "g]", function()
       vim.cmd([[ split ]])
       vim.lsp.buf.definition()
     end, opts)
