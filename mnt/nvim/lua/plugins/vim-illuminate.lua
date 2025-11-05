@@ -12,6 +12,7 @@ return {
         "NvimTree",
         "notify",
         "markdown",
+        "gitgraph",
       },
     })
   end,
