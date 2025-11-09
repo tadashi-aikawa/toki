@@ -62,7 +62,10 @@
 .cm-active.cm-gutterElement {
   color: var(--owl-gutter-fg-active);
   background-color: var(--owl-gutter-bg-active);
-  font-weight: bold;
+  opacity: 0.5;
+}
+.workspace-tabs.mod-active .cm-active.cm-gutterElement {
+  opacity: 1;
 }
 
 /* 背景画像の表示(アニメーションつき) -- PCのみ */
