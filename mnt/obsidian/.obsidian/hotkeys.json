@@ -972,5 +972,13 @@
       ],
       "key": "N"
     }
+  ],
+  "obsidian-another-quick-switcher:command-palette": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "Escape"
+    }
   ]
 }

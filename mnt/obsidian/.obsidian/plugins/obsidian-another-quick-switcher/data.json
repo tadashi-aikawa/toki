@@ -368,6 +368,25 @@
         }
       ]
     },
+    "command": {
+      "up": [],
+      "down": [],
+      "copy command id": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "Enter",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "dismiss": [
+        {
+          "modifiers": [],
+          "key": "Escape"
+        }
+      ]
+    },
     "header": {
       "up": [
         {
@@ -1250,6 +1269,8 @@
   "moveFolderSortPriority": "Recently used",
   "moveFileRecentlyUsedFilePath": "",
   "moveFileMaxRecentlyUsedFolders": 5,
+  "commandPaletteHistoryPath": "_Privates/NOSYNC/command-histories.json",
+  "commandPaletteMaxHistoryRetentionDays": 10,
   "showLogAboutPerformanceInConsole": false,
   "showFuzzyMatchScore": false,
   "backlinkSearchDelayMilliSeconds": 0,
