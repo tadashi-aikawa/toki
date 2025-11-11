@@ -1211,16 +1211,16 @@
         "tag": false,
         "link": true,
         "header": false,
-        "property": false
+        "property": true
       },
-      "keysOfPropertyToSearch": [],
+      "keysOfPropertyToSearch": ["created", "updated", "description"],
       "searchTarget": "link",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
-      "showFrontMatter": false,
+      "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
