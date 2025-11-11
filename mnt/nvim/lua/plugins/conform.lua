@@ -39,11 +39,15 @@ return {
         scss = web_formatter,
         less = web_formatter,
       },
-      format_on_save = {
-        timeout_ms = 1500,
+      format_on_save = function(bufnr)
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        -- Obsidianのdata.jsonに対するフォーマットと異なり差分が生じるため
+        if bufname:match("/data.json$") then
+          return nil --
+        end
         -- conformで定義したformatterが存在しないならLSPのフォーマッターを使う
-        lsp_format = "fallback",
-      },
+        return { timeout_ms = 1500, lsp_format = "fallback" }
+      end,
     }
   end,
 }
