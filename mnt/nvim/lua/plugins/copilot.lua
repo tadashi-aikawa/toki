@@ -17,6 +17,7 @@ return {
       vue = true,
       python = true,
       rust = true,
+      css = true,
       ["*"] = false,
     },
   },
