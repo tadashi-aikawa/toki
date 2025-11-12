@@ -105,6 +105,18 @@
   "chat.agent.enabled": true,
   "github.copilot.chat.localeOverride": "ja",
   "github.copilot.nextEditSuggestions.fixes": false,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": {
+    "*": false,
+    "javascript": true,
+    "typescript": true,
+    "lua": true,
+    "go": true,
+    "vue": true,
+    "python": true,
+    "rust": true,
+    "css": true
+  },
   "chat.tools.terminal.autoApprove": {
     "echo": true,
     "ls": true,
@@ -240,13 +252,5 @@
   "background.backgroundSize": ["Manual", "Cover", "Cover", "Cover"],
   "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
   "background.autoInstall": false,
-  "github.copilot.nextEditSuggestions.enabled": true,
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false,
-    "json": false
-  },
   "editor.accessibilitySupport": "on"
 }
