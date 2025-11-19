@@ -220,6 +220,9 @@ ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data
 mise use -g node@22
 mise use -g node@24
 
+# pnpm
+mise use -g pnpm
+
 # Bun
 mise use -g bun
 
