@@ -1166,7 +1166,7 @@
       "sortPriorities": [],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": true
+      "expand": false
     },
     {
       "name": "Backlink file search",
@@ -1213,7 +1213,11 @@
         "header": false,
         "property": true
       },
-      "keysOfPropertyToSearch": ["created", "updated", "description"],
+      "keysOfPropertyToSearch": [
+        "created",
+        "updated",
+        "description"
+      ],
       "searchTarget": "link",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1248,7 +1252,7 @@
   "backlinkExcludePrefixPathPatterns": [
     "_Privates"
   ],
-  "inFileContextLines": 0,
+  "inFileContextLines": 1,
   "autoPreviewInFloatingInFileSearch": true,
   "inFileMaxDisplayLengthAroundMatchedWord": 64,
   "ripgrepCommand": "/Users/tadashi-aikawa/.local/share/mise/shims/rg",
