@@ -36,7 +36,7 @@ Available targets
 | bun        | TS       | Bun        | Bun   | -                   | Biome         | Biome     |
 | jest       | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
 | vue        | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
-| nuxt       | TS       | bun        | bun   | Nuxt4               | -             | prettierd |
+| nuxt       | TS       | Bun        | Bun   | Nuxt4               | -             | prettierd |
 | nuxt3      | TS       | pnpm       | pnpm  | Nuxt3               | -             | prettierd |
 | tailwind3  | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
 | tailwind   | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
@@ -104,6 +104,8 @@ if [[ $command == "bun" ]]; then
   bun biome init
   edit_biome_json
 
+  cp -r "${TEMPLATE_DIR}"/bun/* .
+
   echo "
 🚀 Try
 
@@ -123,7 +125,7 @@ if [[ $command == "node" ]]; then
   cd "$path"
   git init
   npm init -y
-  npm i -D typescript @fsouza/prettierd prettier-plugin-organize-imports @tsconfig/recommended
+  npm i -before="$(date -v -7d)" -D typescript @fsouza/prettierd prettier-plugin-organize-imports @tsconfig/recommended
 
   npm pkg set scripts.dev="tsc -w"
   npm pkg set scripts.start="node --watch *.js"
@@ -151,8 +153,8 @@ if [[ $command == "pnpm" ]]; then
   mkdir -p "$path"
   cd "$path"
   git init
-  npm init -y
-  corepack enable pnpm
+  pnpm init
+  pnpm config set --location=project minimumReleaseAge 10080
   pnpm add -D typescript tsx @types/node @tsconfig/recommended @biomejs/biome
 
   pnpm exec biome init
@@ -207,8 +209,8 @@ if [[ $command == "jest" ]]; then
   mkdir -p "$path"
   cd "$path"
   git init
-  npm init -y
-  corepack enable pnpm
+  pnpm init
+  pnpm config set --location=project minimumReleaseAge 10080
   pnpm add -D typescript @tsconfig/recommended @biomejs/biome \
     jest babel-jest @babel/core @babel/preset-env \
     @babel/preset-typescript @jest/globals
@@ -246,7 +248,7 @@ if [[ $command == "vue" ]]; then
 
   cp -r "${TEMPLATE_DIR}"/vue/* .
 
-  bun i
+  bun install --frozen-lockfile --ignore-scripts
 
   echo "
 🚀 Try
@@ -289,8 +291,9 @@ fi
 if [[ $command == "nuxt3" ]]; then
   path="${1:?'pathは必須です'}"
 
-  pnpm create nuxt@latest "${path}" -t v3
-  cd "$path"
+  mkdir -p "${path}" && cd "${path}"
+  pnpm config set --location=project minimumReleaseAge 10080
+  pnpm create nuxt@latest . -t v3
   pnpm add --optional typescript
   mkdir pages
 
@@ -385,10 +388,11 @@ fi
 if [[ $command == "playwright" ]]; then
   path="${1:?'pathは必須です'}"
 
-  mkdir -p "$path"
-  cd "$path"
+  mkdir -p "$path" && cd "$path"
+  pnpm config set --location=project minimumReleaseAge 10080
   git init
   echo "⏎ -> ⏎ -> ⏎ -> n -> ⏎"
+
   pnpm create playwright
   pnpm exec playwright install chromium
   rm -rf tests-examples
