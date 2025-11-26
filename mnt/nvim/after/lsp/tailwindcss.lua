@@ -2,7 +2,7 @@ return {
   workspace_required = true,
   settings = {
     tailwindCSS = {
-      classFunctions = { "cva", "cx" },
+      classFunctions = { "cva", "cx", "h" },
     },
   },
 }
