@@ -1,8 +1,4 @@
-import {
-  layer,
-  toKey,
-  withCondition,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { layer, toKey, withCondition } from "karabiner.ts";
 import { toJKey, toJKeys, UJM } from "../utils/keys.ts";
 import { App } from "../apps/apps.ts";
 import { toDynamicPaste } from "../utils/commands.ts";

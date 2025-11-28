@@ -1,8 +1,4 @@
-import {
-  rule,
-  toKey,
-  withModifier,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { rule, toKey, withModifier } from "karabiner.ts";
 import { withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { toJKey, toJKeys, toJKeyWith, UJM } from "../utils/keys.ts";
 import { startMode } from "../modes/modes.ts";

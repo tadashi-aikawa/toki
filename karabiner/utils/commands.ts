@@ -1,4 +1,4 @@
-import { to$, ToEvent } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { to$, ToEvent } from "karabiner.ts";
 
 export function toDynamicPaste(command: string): ToEvent {
   return to$(`  

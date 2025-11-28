@@ -2,7 +2,7 @@ import {
   toNotificationMessage,
   toRemoveNotificationMessage,
   toSetVar,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+} from "karabiner.ts";
 
 const MODE_NOTIFICATION_ID = "mode_notification_id";
 

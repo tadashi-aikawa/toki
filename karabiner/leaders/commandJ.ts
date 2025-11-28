@@ -1,7 +1,4 @@
-import {
-  modifierLayer,
-  toKey,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { modifierLayer, toKey } from "karabiner.ts";
 import { App } from "../apps/apps.ts";
 import { toJKeyWith, UJM } from "../utils/keys.ts";
 

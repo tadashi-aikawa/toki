@@ -1,8 +1,4 @@
-import {
-  ModifierParam,
-  toKey,
-  ToKeyParam,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { ModifierParam, toKey, ToKeyParam } from "karabiner.ts";
 
 /**
  * 単一のキーで成立するJISキーマッピング

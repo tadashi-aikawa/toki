@@ -1,4 +1,4 @@
-import { layer, toKey } from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { layer, toKey } from "karabiner.ts";
 import { toJKeyWith, UJM, UNUSED_KEY } from "../utils/keys.ts";
 import { terminateMode } from "./modes.ts";
 

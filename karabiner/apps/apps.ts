@@ -1,8 +1,4 @@
-import {
-  ConditionBuilder,
-  ifApp,
-  withCondition,
-} from "https://deno.land/x/karabinerts@1.31.0/index.ts";
+import { ConditionBuilder, ifApp, withCondition } from "karabiner.ts";
 
 const appIdentifierMapper = {
   Ghostty: "com.mitchellh.ghostty",

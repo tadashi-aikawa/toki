@@ -1,10 +1,4 @@
-import {
-  map,
-  rule,
-  toKey,
-  withModifier,
-  writeToProfile,
-} from "https://deno.land/x/karabinerts@1.31.0/deno.ts";
+import { map, rule, toKey, withModifier, writeToProfile } from "karabiner.ts";
 import { normalModeDefinitions } from "./modes/normal.ts";
 import { rangeModeDefinitions } from "./modes/range.ts";
 import { specialModeDefinitions } from "./modes/special.ts";
