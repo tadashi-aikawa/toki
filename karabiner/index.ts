@@ -36,7 +36,7 @@ writeToProfile("Default profile", [
       }),
     ]),
     withoutTerminal([
-      map("left_control").to("left_command"),
+      map("left_control").to("left_command").toIfAlone("f16", "option"), // 単押しでエディタにフォーカスを戻す
       map("left_command").to("left_control").toIfAlone("f19", "option"), // 単押しでミッションコントロール
       map("left_control", "shift").to("left_command", "shift"),
       map("left_command", "shift").to("left_control", "shift"),

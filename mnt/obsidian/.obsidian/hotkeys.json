@@ -980,5 +980,13 @@
       ],
       "key": "Escape"
     }
+  ],
+  "carnelian:carnelian_focus-editor-content": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "F16"
+    }
   ]
 }
