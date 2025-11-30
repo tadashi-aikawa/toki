@@ -701,7 +701,7 @@ fi
 #==========================================================================
 #--- backup ---
 if [[ $command == "backup" ]]; then
-  7zz a -p -xr!node_modules -xr!venv ~/tmp/backup.7z ~/work ~/.ssh
+  7zz a -p -xr!node_modules -xr!venv ~/tmp/backup.7z ~/work ~/.ssh ~/Documents/Pictures/AI
   ls -l ~/tmp/backup.7z
   exit 0
 fi
