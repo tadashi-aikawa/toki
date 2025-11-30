@@ -263,6 +263,24 @@
           "hideHotkeyGuide": true
         }
       ],
+      "previous search history": [
+        {
+          "modifiers": [
+            "Ctrl"
+          ],
+          "key": "k",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "next search history": [
+        {
+          "modifiers": [
+            "Ctrl"
+          ],
+          "key": "j",
+          "hideHotkeyGuide": false
+        }
+      ],
       "close if opened": [
         {
           "modifiers": [
@@ -768,6 +786,24 @@
       ],
       "set ./ to path": [],
       "toggle input": [],
+      "previous search history": [
+        {
+          "modifiers": [
+            "Ctrl"
+          ],
+          "key": "k",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "next search history": [
+        {
+          "modifiers": [
+            "Ctrl"
+          ],
+          "key": "j",
+          "hideHotkeyGuide": false
+        }
+      ],
       "open": [
         {
           "modifiers": [],
