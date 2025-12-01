@@ -65,10 +65,16 @@ vim.keymap.set("n", "<Space>-", ":s/*/\\~/g<CR>", { silent = true })
 vim.keymap.set("n", "<Space>_", ":s/\\v- \\[.\\] (.+) `.+`/- [ ] \\1/<CR><Cmd>nohlsearch<CR>", { silent = true })
 
 -- カレントウィンドウのファイル相対パスをコピー
-vim.keymap.set("n", "<Space>y", function()
+vim.keymap.set("n", "<Space>cy", function()
   local relative_path = vim.fn.expand("%:~:.")
   vim.fn.setreg("+", relative_path)
   vim.notify("Copy: " .. relative_path)
+end, { silent = true })
+-- カレントウィンドウのファイル名をコピー
+vim.keymap.set("n", "<Space>cf", function()
+  local filename = vim.fn.expand("%:t")
+  vim.fn.setreg("+", filename)
+  vim.notify("Copy: " .. filename)
 end, { silent = true })
 
 -- カレントバッファのNFD形式をNFC形式に強制変換する
