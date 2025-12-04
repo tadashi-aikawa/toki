@@ -984,9 +984,10 @@
   "carnelian:carnelian_focus-editor-content": [
     {
       "modifiers": [
-        "Alt"
+        "Mod",
+        "Shift"
       ],
-      "key": "F16"
+      "key": "C"
     }
   ]
 }
