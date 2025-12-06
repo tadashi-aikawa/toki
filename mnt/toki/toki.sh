@@ -621,7 +621,7 @@ if [[ $command == "mkdocs" ]]; then
 
 $ cd ${path}
 
-$ uv run mkdocs serve -a localhost:8081
+$ uv run mkdocs serve -a localhost:8081 --livereload
 "
   exit 0
 fi
