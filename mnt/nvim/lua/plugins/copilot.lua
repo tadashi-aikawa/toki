@@ -7,6 +7,8 @@ return {
       auto_trigger = true,
       keymap = {
         accept = "<D-k>",
+        next = "<D-]>",
+        prev = "<D-[>",
       },
     },
     filetypes = {
