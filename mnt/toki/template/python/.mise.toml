@@ -1,3 +1,3 @@
 [tasks.dev]
-run = "python main.py"
+run = ".venv/bin/python main.py"
 
