@@ -18,6 +18,7 @@ return {
       python = true,
       rust = true,
       css = true,
+      gitcommit = true,
       ["*"] = false,
     },
   },
