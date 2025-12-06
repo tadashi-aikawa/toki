@@ -41,6 +41,7 @@ return {
   opts = function(_, opts)
     -- 環境に依存しない設定
     local base_opts = {
+      ignore_warnings = true,
       opts = {
         language = "Japanese",
       },
