@@ -1,0 +1,3 @@
+[tasks.dev]
+run = "uv run main.py"
+

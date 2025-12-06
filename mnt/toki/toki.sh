@@ -46,6 +46,7 @@ Available targets
 | go-sqlx    | Go       | -          | Go    | sqlx + mysql + air  | golangci-lint | -         |
 | rust       | Rust     | -          | Cargo | -                   | -             | -         |
 | python     | Python   | Virtualenv | Pip   | -                   | ruff          | ruff      |
+| uv         | Python   | uv         | uv    | -                   | ruff          | ruff      |
 | nvim       | Lua      | Lua        |       | nvim                | -             | -         |
 | nvimapp    | Lua      | Neovim     | lazy  | -                   | -             | -         |
 | bash       | Bash     | Bash       |       | -                   | -             | -         |
@@ -497,6 +498,30 @@ if [[ $command == "python" ]]; then
 
 $ cd ${path}
 $ source .venv/bin/activate
+$ mise watch dev
+"
+  exit 0
+fi
+
+# -------------------------------------------
+# uv
+# -------------------------------------------
+if [[ $command == "uv" ]]; then
+  path="${1:?'pathは必須です'}"
+
+  mkdir -p "$path"
+  cd "$path"
+
+  git init
+  uv init --bare
+  uv add ruff
+
+  cp -r "${TEMPLATE_DIR}"/uv/* .
+
+  echo "
+🚀 Try
+
+$ cd ${path}
 $ mise watch dev
 "
   exit 0
