@@ -1,4 +1,11 @@
-import { map, rule, toKey, withModifier, writeToProfile } from "karabiner.ts";
+import {
+  map,
+  mapDoubleTap,
+  rule,
+  toKey,
+  withModifier,
+  writeToProfile,
+} from "karabiner.ts";
 import { normalModeDefinitions } from "./modes/normal.ts";
 import { rangeModeDefinitions } from "./modes/range.ts";
 import { specialModeDefinitions } from "./modes/special.ts";
@@ -30,10 +37,10 @@ writeToProfile("Default profile", [
       }),
     ]),
     withoutTerminal([
-      // 単押しで(Obsidian -> エディタフォーカス)(Chrome -> 要素の選択)
-      map("left_control")
-        .to("left_command")
-        .toIfAlone("c", ["command", "shift"]),
+      // 二度押しで(Obsidian -> エディタフォーカス)(Chrome -> 要素の選択)
+      mapDoubleTap("left_control").to("c", ["command", "shift"]).singleTap(
+        toKey("left_command"),
+      ),
       map("left_command").to("left_control").toIfAlone("f19", "option"), // 単押しでミッションコントロール
       map("left_control", "shift").to("left_command", "shift"),
       map("left_command", "shift").to("left_control", "shift"),
