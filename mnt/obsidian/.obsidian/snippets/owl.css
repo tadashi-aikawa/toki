@@ -625,6 +625,10 @@ pre[class*="language-"] {
   --callout-color: 139, 92, 246;
   --callout-icon: lucide-badge-alert;
 }
+.callout[data-callout="fixme"] {
+  --callout-color: 255, 128, 32;
+  --callout-icon: lucide-wrench;
+}
 
 .callout[data-callout="positive"] .callout-title-inner,
 .callout[data-callout="negative"] .callout-title-inner,
