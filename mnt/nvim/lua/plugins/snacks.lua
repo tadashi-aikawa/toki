@@ -25,7 +25,7 @@ local grepCurrentVueTag = function()
     return
   end
 
-  local pattern = string.format("</?%s(?=[\\s/>])", name)
+  local pattern = string.format("</?%s(\\s|/|>|$)", name)
   Snacks.picker.grep({
     search = pattern,
     live = false,
