@@ -13,6 +13,27 @@ local preventFlicker = function(handler)
   end)
 end
 
+local grepCurrentVueTag = function()
+  if vim.fn.expand("%:e") ~= "vue" then
+    vim.notify("Vueファイルでのみ実行できます", vim.log.levels.WARN)
+    return
+  end
+
+  local name = vim.fn.expand("%:t:r")
+  if name == "" then
+    vim.notify("ファイル名を取得できません", vim.log.levels.WARN)
+    return
+  end
+
+  local pattern = string.format("</?%s(?=[\\s/>])", name)
+  Snacks.picker.grep({
+    search = pattern,
+    live = false,
+    need_search = false,
+    args = { "--pcre2" },
+  })
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -34,6 +55,12 @@ return {
         Snacks.picker.grep({ dirs = { curdir } })
       end,
       silent = true
+    },
+    {
+      "<C-j>v",
+      mode = { "n", "i" },
+      grepCurrentVueTag,
+      silent = true,
     },
     { "<C-j>l", mode = { "n", "i" }, function() Snacks.picker.lines() end, silent = true },
     { "<C-j>:", mode = { "n", "i" }, function() Snacks.picker.command_history() end, silent = true },
