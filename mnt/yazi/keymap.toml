@@ -17,6 +17,7 @@ prepend_keymap = [
   { on = ["<Space>", "w"], run = 'shell --block --interactive -- magick "$0" "$0.webp"', desc = "Convert an image to WebP" },
   { on = ["<Space>", "v"], run = 'shell --block --interactive -- magick -quality 35 "$0" "$0.avif"', desc = "Convert an image to AVIF" },
   { on = ["<Space>", "h"], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
+  { on = ["<Space>", "b"], run = 'shell --block -- tar zfx "$0" --strip-components 5 && cd ~/git/github.com/tadashi-aikawa/bruno-report-viewer && bun serve ~/Downloads/report.json --open', desc = "Bruno test" },
   { on = ["g", "?"], run = "help" },
   { on = ["i", "<Space>"], run = "cd --interactive", desc = "パスを入力してcd" },
 ]
