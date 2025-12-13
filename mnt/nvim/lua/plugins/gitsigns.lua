@@ -13,6 +13,7 @@ return {
     { "<Space>u", ":Gitsigns reset_hunk<CR>", silent = true },
     { "<Space>j", ":Gitsigns next_hunk<CR>", silent = true },
     { "<Space>k", ":Gitsigns prev_hunk<CR>", silent = true },
+    { "<Space>+", ":Gitsigns stage_hunk<CR>", silent = true },
   },
   opts = {},
 }
