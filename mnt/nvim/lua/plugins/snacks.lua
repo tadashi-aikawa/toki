@@ -284,6 +284,11 @@ return {
           truncate = 100,
         },
       },
+      previewers = {
+        diff = {
+          style = "terminal",
+        },
+      },
     },
   },
   init = function()
