@@ -344,6 +344,7 @@ if [[ $command == "tailwind3" ]]; then
   # https://tailwindcss.tw/docs/guides/vite
   bun create vite "${path}" --template vue-ts
   cd "${path}"
+  git init
   bun add --dev tailwindcss@3 postcss autoprefixer
   bun x tailwindcss init -p
 
@@ -367,8 +368,10 @@ if [[ $command == "tailwind" ]]; then
   path="${1:?'pathは必須です'}"
 
   # https://tailwindcss.tw/docs/guides/vite
+  echo "n -> n"
   bun create vite "${path}" --template vue-ts
   cd "${path}"
+  git init
   bun add tailwindcss @tailwindcss/vite
 
   cp -r "${TEMPLATE_DIR}"/tailwind/* .
