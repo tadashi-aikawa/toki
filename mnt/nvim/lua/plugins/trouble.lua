@@ -35,6 +35,15 @@ return {
           include_current = true,
         },
       },
+      we = {
+        mode = "diagnostics",
+        filter = {
+          ["any"] = {
+            { severity = vim.diagnostic.severity.WARN },
+            { severity = vim.diagnostic.severity.ERROR },
+          },
+        },
+      },
     },
     signs = {
       error = "",
