@@ -202,6 +202,13 @@ return {
         end,
       },
       sources = {
+        git_status = {
+          layout = {
+            layout = {
+              width = 180,
+            },
+          },
+        },
         lines = {
           sort = { fields = { "idx", "score:desc" } },
           matcher = { fuzzy = false },
@@ -296,6 +303,7 @@ return {
       callback = function()
         vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "LineNr" })
         vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" })
+        --vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" }) vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" })
       end,
     })
   end,
