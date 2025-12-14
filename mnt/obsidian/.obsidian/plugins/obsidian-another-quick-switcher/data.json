@@ -236,15 +236,7 @@
           "hideHotkeyGuide": true
         }
       ],
-      "show all results": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "a",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "show all results": [],
       "navigate forward": [
         {
           "modifiers": [
@@ -576,16 +568,7 @@
           "hideHotkeyGuide": true
         }
       ],
-      "show all results": [
-        {
-          "modifiers": [
-            "Shift",
-            "Alt"
-          ],
-          "key": "a",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "show all results": [],
       "preview": [
         {
           "modifiers": [
@@ -676,16 +659,7 @@
         }
       ],
       "open all in new tabs": [],
-      "show all results": [
-        {
-          "modifiers": [
-            "Shift",
-            "Alt"
-          ],
-          "key": "a",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "show all results": [],
       "preview": [
         {
           "modifiers": [
@@ -729,15 +703,7 @@
           "hideHotkeyGuide": false
         }
       ],
-      "show all results": [
-        {
-          "modifiers": [
-            "Shift",
-            "Alt"
-          ],
-          "key": "a"
-        }
-      ],
+      "show all results": [],
       "toggle auto preview": [
         {
           "modifiers": [
