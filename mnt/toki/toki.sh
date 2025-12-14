@@ -88,7 +88,7 @@ function section() {
 
 function edit_biome_json() {
   # 削除しないように交互に上書きする
-  jq '.linter.rules.correctness.noUnusedImports|="warn"' <biome.json >biome.json.tmp
+  jq '.linter.rules.correctness.noUnusedImports |= { level: "warn", fix: "safe" }' <biome.json >biome.json.tmp
   jq '.formatter.indentStyle|="space"' <biome.json.tmp >biome.json
 }
 
