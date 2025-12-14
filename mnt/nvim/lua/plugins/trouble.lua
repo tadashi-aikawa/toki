@@ -6,6 +6,10 @@ return {
       "<C-j>h",
       "<cmd>Trouble lsp_references<cr>",
     },
+    {
+      "<C-j>w",
+      "<cmd>Trouble we<cr>",
+    },
   },
   opts = {
     focus = true,
