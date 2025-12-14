@@ -64,29 +64,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    -- 保存時に自動フォーマット
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-    if client.supports_method("textDocument/formatting") then
-      local set_auto_format = function(lsp_name, pattern)
-        if client.name == lsp_name then
-          print(string.format("[%s] Enable auto-format on save", lsp_name))
-          vim.api.nvim_clear_autocmds({ group = augroup })
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            pattern = pattern,
-            callback = function()
-              print("[LSP] " .. client.name .. " format")
-              vim.lsp.buf.format({ buffer = ev.buf, async = false })
-            end,
-          })
-        end
-      end
-
-      set_auto_format("rust_analyzer", { "*.rs" })
-      set_auto_format("denols", { "*.ts", "*.js" })
-      set_auto_format("gopls", { "*.go" })
-    end
-
     -- inlay hint
     if client.supports_method("textDocument/inlayHint") then
       vim.lsp.inlay_hint.enable()
