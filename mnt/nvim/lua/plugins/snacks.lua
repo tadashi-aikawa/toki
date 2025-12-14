@@ -65,6 +65,7 @@ return {
     { "<C-j>l", mode = { "n", "i" }, function() Snacks.picker.lines() end, silent = true },
     { "<C-j>:", mode = { "n", "i" }, function() Snacks.picker.command_history() end, silent = true },
     { "<C-j>s", mode = { "n", "i" }, function() Snacks.picker.git_status() end, silent = true },
+    { "<C-j>d", mode = { "n", "i" }, function() Snacks.picker.git_diff() end, silent = true },
     { "<C-j>b", mode = { "n", "i" }, function() Snacks.picker.git_log_line() end, silent = true },
     { "<C-j>j", mode = { "n", "i" }, function() Snacks.picker.resume() end, silent = true },
     { "<C-j>k", mode = { "n", "i" }, function() Snacks.picker.pickers() end, silent = true },
@@ -203,6 +204,7 @@ return {
       },
       sources = {
         git_status = { layout = { layout = { width = 180 } } },
+        git_diff = { layout = { layout = { width = 180 } } },
         git_log_file = { layout = { layout = { width = 180 } } },
         git_log_line = { layout = { layout = { width = 180 } } },
         lines = {
@@ -290,6 +292,7 @@ return {
       previewers = {
         diff = {
           style = "terminal",
+          -- NOTE: side-by-sideにすると横幅がおかしくなるので諦める
         },
       },
     },
