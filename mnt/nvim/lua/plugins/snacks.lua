@@ -202,13 +202,9 @@ return {
         end,
       },
       sources = {
-        git_status = {
-          layout = {
-            layout = {
-              width = 180,
-            },
-          },
-        },
+        git_status = { layout = { layout = { width = 180 } } },
+        git_log_file = { layout = { layout = { width = 180 } } },
+        git_log_line = { layout = { layout = { width = 180 } } },
         lines = {
           sort = { fields = { "idx", "score:desc" } },
           matcher = { fuzzy = false },
