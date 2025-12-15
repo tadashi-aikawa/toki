@@ -35,6 +35,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set({ "n", "i" }, "<S-D-r>", "<cmd>Lspsaga rename<CR>", opts)
     -- ファイルリネーム
     vim.keymap.set("n", "<C-j>2", vim.lsp.buf.rename, opts)
+    -- インポートの自動整理
+    vim.keymap.set("n", "<C-S-o>", function()
+      vim.lsp.buf.code_action({ apply = true, context = { only = { "source.organizeImports" } } })
+    end, opts)
     -- Code action
     vim.keymap.set({ "n", "i" }, "<D-CR>", "<cmd>Lspsaga code_action<CR>", opts)
 
