@@ -9,6 +9,7 @@ return {
         enabled = true,
         always_show = false,
       },
+      experimental = { use_window_local_extmarks = true },
     },
   },
 }
