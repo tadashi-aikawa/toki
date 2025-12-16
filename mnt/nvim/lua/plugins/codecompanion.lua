@@ -50,6 +50,14 @@ return {
           auto_scroll = false,
         },
       },
+      rules = {
+        default = {
+          files = {
+            "AGENT.md",
+            "AGENTS.md",
+          },
+        },
+      },
       interactions = {
         chat = {
           roles = {
