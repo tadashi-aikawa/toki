@@ -50,7 +50,7 @@ return {
           auto_scroll = false,
         },
       },
-      strategies = {
+      interactions = {
         chat = {
           roles = {
             llm = function(adapter)
