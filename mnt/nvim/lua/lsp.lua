@@ -109,6 +109,7 @@ if not vim.g.vscode then
     "sqls",
     "svelte",
     "tailwindcss",
+    -- "ty",
     "vtsls",
     "vue_ls",
     "yamlls",
