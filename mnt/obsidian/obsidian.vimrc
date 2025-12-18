@@ -115,6 +115,13 @@ noremap gp :obcommand<Space>carnelian:carnelian_paste-url-to-site-link<CR>
 noremap gP :obcommand<Space>carnelian:carnelian_paste-site-card<CR>
 noremap <Space>p :obcommand<Space>carnelian:carnelian_paste-clipboard-as-avif<CR>
 
+" テーブル操作
+noremap g,j :obcommand<Space>editor:table-row-after<CR>
+noremap g,k :obcommand<Space>editor:table-row-before<CR>
+noremap g,l :obcommand<Space>editor:table-col-after<CR>
+noremap g,h :obcommand<Space>editor:table-col-before<CR>
+noremap g,d :obcommand<Space>editor:table-row-delete<CR>
+
 " ╭──────────────────────────────────────────────────────────╮
 " │                         外部連携                         │
 " ╰──────────────────────────────────────────────────────────╯
