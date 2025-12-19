@@ -67,6 +67,7 @@ return {
     { "<C-j>s", mode = { "n", "i" }, function() Snacks.picker.git_status() end, silent = true },
     { "<C-j>d", mode = { "n", "i" }, function() Snacks.picker.git_diff() end, silent = true },
     { "<C-j>b", mode = { "n", "i" }, function() Snacks.picker.git_log_line() end, silent = true },
+    { "<C-j>F", mode = { "n", "i" }, function() Snacks.picker.git_log_file() end, silent = true },
     { "<C-j>j", mode = { "n", "i" }, function() Snacks.picker.resume() end, silent = true },
     { "<C-j>k", mode = { "n", "i" }, function() Snacks.picker.pickers() end, silent = true },
     { "<C-j>p", mode = { "n", "i" }, function() Snacks.picker.projects() end, silent = true },
