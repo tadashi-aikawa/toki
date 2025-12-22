@@ -252,5 +252,6 @@
   "background.backgroundSize": ["Manual", "Cover", "Cover", "Cover"],
   "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
   "background.autoInstall": false,
-  "editor.accessibilitySupport": "on"
+  "editor.accessibilitySupport": "on",
+  "javascript.updateImportsOnFileMove.enabled": "always"
 }
