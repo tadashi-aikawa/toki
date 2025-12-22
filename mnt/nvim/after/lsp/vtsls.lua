@@ -22,6 +22,16 @@ return {
         },
       },
     },
+    typescript = {
+      preferences = {
+        importModuleSpecifier = "non-relative",
+      },
+    },
+    javascript = {
+      preferences = {
+        importModuleSpecifier = "non-relative",
+      },
+    },
   },
   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 }
