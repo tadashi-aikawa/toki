@@ -253,5 +253,6 @@
   "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
   "background.autoInstall": false,
   "editor.accessibilitySupport": "on",
-  "javascript.updateImportsOnFileMove.enabled": "always"
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
