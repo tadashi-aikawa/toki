@@ -66,9 +66,10 @@ return {
     { "<C-j>:", mode = { "n", "i" }, function() Snacks.picker.command_history() end, silent = true },
     { "<C-j>s", mode = { "n", "i" }, function() Snacks.picker.git_status() end, silent = true },
     { "<C-j>d", mode = { "n", "i" }, function() Snacks.picker.git_diff() end, silent = true },
-    { "<C-j>b", mode = { "n", "i" }, function() Snacks.picker.git_log_line() end, silent = true },
+    { "<C-j>L", mode = { "n", "i" }, function() Snacks.picker.git_log_line() end, silent = true },
     { "<C-j>F", mode = { "n", "i" }, function() Snacks.picker.git_log_file() end, silent = true },
-    { "<C-j>j", mode = { "n", "i" }, function() Snacks.picker.resume() end, silent = true },
+    { "<C-j>j", mode = { "n", "i" }, function() Snacks.picker.lsp_workspace_symbols() end, silent = true },
+    { "<C-j>o", mode = { "n", "i" }, function() Snacks.picker.lsp_symbols() end, silent = true },
     { "<C-j>k", mode = { "n", "i" }, function() Snacks.picker.pickers() end, silent = true },
     { "<C-j>p", mode = { "n", "i" }, function() Snacks.picker.projects() end, silent = true },
     --- @diagnostic disable-next-line: undefined-field todo_commentsはsnacks以外に定義があるため無視
