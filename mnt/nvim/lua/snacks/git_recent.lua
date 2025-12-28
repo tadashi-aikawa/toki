@@ -145,7 +145,7 @@ function M.source_config()
         collectStatus(items, seen, root, opts)
       end
 
-      local args = { "git", "-C", root, "log", "--name-only", "--pretty=format:%ct%x09%s" }
+      local args = { "git", "-C", root, "log", "--name-only", "--pretty=format:%ct%x09%s", "--since='30 days ago'" }
       if opts.max_count then
         table.insert(args, "-n")
         table.insert(args, tostring(opts.max_count))
