@@ -1,15 +1,29 @@
 -- dashboard で picker を開いて移動する際に発生するチラツキを防止する
 local preventFlicker = function(handler)
+  local function restoreUi()
+    if vim.api.nvim_tabpage_is_valid(vim.api.nvim_get_current_tabpage()) then
+      vim.cmd([[:NoNeckPain]])
+    end
+    vim.cmd([[:BarbarEnable]])
+  end
+
+  local function waitForPickerClose()
+    vim.defer_fn(function()
+      local ok, pickers = pcall(Snacks.picker.get, { tab = true })
+      if ok and pickers and #pickers > 0 then
+        waitForPickerClose()
+        return
+      end
+      restoreUi()
+    end, 50)
+  end
+
   vim.schedule(function()
     Snacks.bufdelete()
-  end)
-  vim.schedule(function()
-    -- ここの順番が逆だとno-neck-painがエラーになる
-    vim.cmd([[:NoNeckPain]])
-    vim.cmd([[:BarbarEnable]])
-  end)
-  vim.schedule(function()
-    handler()
+    vim.schedule(function()
+      handler()
+      waitForPickerClose()
+    end)
   end)
 end
 
@@ -34,6 +48,8 @@ local grepCurrentVueTag = function()
   })
 end
 
+local git_recent = require("snacks.git_recent")
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -43,7 +59,7 @@ return {
     {"<Space>q", function() Snacks.bufdelete() end, silent = true},
     {"<Space>z", function() Snacks.zen.zoom() end, silent = true},
     { "<C-j>f", mode = { "n", "i" }, function() Snacks.picker.files() end, silent = true },
-    { "<C-j>e", mode = { "n", "i" }, function() Snacks.picker.smart() end, silent = true },
+    { "<C-j>e", mode = { "n", "i" }, git_recent.picker, silent = true },
     { "<C-j>r", mode = { "n", "i" }, function() Snacks.picker.recent() end, silent = true },
     { "<C-j>t", mode = { "n", "i" }, function() Snacks.picker.explorer() end, silent = true },
     { "<C-j>g", mode = { "n", "i" }, function() Snacks.picker.grep() end, silent = true },
@@ -102,7 +118,7 @@ return {
             key = "e",
             desc = "smart",
             action = function()
-              preventFlicker(Snacks.picker.smart)
+              preventFlicker(git_recent.picker)
             end,
           },
           {
@@ -205,6 +221,7 @@ return {
         end,
       },
       sources = {
+        git_recent = git_recent.source_config(),
         git_status = { layout = { layout = { width = 180 } } },
         git_diff = { layout = { layout = { width = 180 } } },
         git_log_file = { layout = { layout = { width = 180 } } },
@@ -304,6 +321,7 @@ return {
       callback = function()
         vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "LineNr" })
         vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" })
+        git_recent.setup_highlights()
         --vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" }) vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { fg = "#57A143" })
       end,
     })
