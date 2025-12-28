@@ -15,6 +15,18 @@ vim.keymap.set("n", "<Space>m", ":q<CR>", { silent = true })
 vim.keymap.set("n", "<Space>n", ":q!<CR>", { silent = true })
 vim.keymap.set("n", "<Space><Space>m", ":qa<CR>", { silent = true })
 vim.keymap.set("n", "<Space><Space>n", ":qa!<CR>", { silent = true })
+-- カレントウィンドウ以外を閉じる
+-- plenary.async を使ってもタイミングによってはエラーになるのでvim.schedule callbackしかない
+vim.keymap.set("n", "<Space><Space>w", function()
+  vim.cmd([[:NoNeckPain]])
+  vim.schedule(function()
+    vim.cmd("only")
+    vim.schedule(function()
+      vim.cmd([[:NoNeckPain]])
+    end)
+  end)
+end)
+
 -- タブのクローズ
 vim.keymap.set("n", "<Space><Space>q", ":tabclose<CR>", { silent = true })
 
