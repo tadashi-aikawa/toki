@@ -21,6 +21,7 @@ local function ageHighlight(ts)
   if days < 30 then
     return "SnacksPickerAgeMonth"
   end
+  -- ここにはこないはずだが一応定義
   return "SnacksPickerAgeOld"
 end
 
@@ -197,7 +198,7 @@ function M.source_config()
 end
 
 function M.setup_highlights()
-  vim.api.nvim_set_hl(0, "SnacksPickerAgeFresh", { link = "DiagnosticInfo" })
+  vim.api.nvim_set_hl(0, "SnacksPickerAgeFresh", { link = "DiagnosticWarn" })
   vim.api.nvim_set_hl(0, "SnacksPickerAgeWeek", { link = "DiagnosticHint" })
   vim.api.nvim_set_hl(0, "SnacksPickerAgeMonth", { link = "Comment" })
   vim.api.nvim_set_hl(0, "SnacksPickerAgeOld", { link = "LineNr" })
