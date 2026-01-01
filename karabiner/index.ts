@@ -33,7 +33,8 @@ writeToProfile("Default profile", [
       // 単押しで(Obsidian -> エディタフォーカス)(Chrome -> 要素の選択)
       map("left_control")
         .to("left_command")
-        .toIfAlone("c", ["command", "shift"]),
+        .toIfAlone("c", ["command", "shift"])
+        .parameters({ "basic.to_if_alone_timeout_milliseconds": 200 }),
       map("left_command").to("left_control").toIfAlone("f19", "option"), // 単押しでミッションコントロール
       map("left_control", "shift").to("left_command", "shift"),
       map("left_command", "shift").to("left_control", "shift"),
