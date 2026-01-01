@@ -287,6 +287,9 @@ mise use -g npm:@vtsls/language-server # Volar3から
 # Svelte
 mise use -g npm:svelte-language-server
 
+# Markdown
+brew install markdown-oxide
+
 # SQL
 mise use -g go:github.com/sqls-server/sqls
 mise use -g cargo:sleek
