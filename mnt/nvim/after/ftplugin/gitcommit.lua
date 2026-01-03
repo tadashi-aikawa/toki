@@ -23,7 +23,7 @@ end
 local function fetch_recent_logs(git_dir, repo_root)
   local logs = git_command(git_dir, repo_root, {
     "log",
-    "-10",
+    "-30",
     "--pretty=%s",
   })
   if vim.v.shell_error ~= 0 then
@@ -68,7 +68,7 @@ local function build_header_lines(log_lines, use_japanese)
     )
     table.insert(header, "# ")
     if has_logs then
-      table.insert(header, "# 直近のコミットメッセージ（最新10件）:")
+      table.insert(header, "# 直近のコミットメッセージ（最新30件）:")
     end
   else
     table.insert(header, "# Write the commit message referring to the staged diff.")
@@ -76,7 +76,7 @@ local function build_header_lines(log_lines, use_japanese)
     table.insert(header, "# We use Conventional Commit. Please refer to recent commit messages.")
     table.insert(header, "# ")
     if has_logs then
-      table.insert(header, "# Recent commit messages (latest 10):")
+      table.insert(header, "# Recent commit messages (latest 30):")
     end
   end
   return header
