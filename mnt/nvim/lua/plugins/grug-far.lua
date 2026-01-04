@@ -1,7 +1,16 @@
 return {
   "MagicDuck/grug-far.nvim",
   keys = {
-    { "gru", ":GrugFar<CR>", mode = { "n", "v" }, silent = true },
+    { "gru", ":GrugFar<CR>", mode = { "n" }, silent = true },
+    { "gru", ":GrugFarWithin<CR>", mode = { "v" }, silent = true },
+    {
+      "grf",
+      function()
+        require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+      end,
+      mode = { "n" },
+      silent = true,
+    },
   },
   opts = {
     keymaps = {
