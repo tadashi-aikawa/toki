@@ -421,7 +421,8 @@ brew install convmv
 brew install clipboard
 
 # yazi
-brew install yazi font-symbols-only-nerd-font
+# TODO: yazi v26.1.4 が動くようになったら解除
+# brew install yazi font-symbols-only-nerd-font
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
