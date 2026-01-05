@@ -254,5 +254,6 @@
   "background.autoInstall": false,
   "editor.accessibilitySupport": "on",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "chat.viewSessions.orientation": "stacked"
 }
