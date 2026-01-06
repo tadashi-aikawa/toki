@@ -18,17 +18,14 @@ max_height = 2338
 
 [opener]  
 preview = [
-  { run = 'qlmanage -p "$0"', desc = "Quick Look Preview"}
+  { run = 'qlmanage -p "$1"', desc = "Quick Look Preview"}
 ]
 gimp = [  
-  { run = 'LANG=ja gimp -n "$0"', desc = "GIMP"}
+  { run = 'LANG=ja gimp -n "$1"', desc = "GIMP"}
 ]
 
 [open]  
 prepend_rules = [
-  { mime = "image/*", use = "preview" },
+  { mime = "image/*", use = ["preview", "open", "reveal", "gimp"] },
   { mime = "video/webm", use = "open" },
-]
-append_rules = [
-  { mime = "image/*", use = "gimp" },
 ]
