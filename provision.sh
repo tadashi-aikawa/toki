@@ -133,7 +133,8 @@ ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
 brew install --cask gimp
 
 # Bruno
-brew install --cask bruno
+# TODO: v3が安定したら復活させる
+# brew install --cask bruno
 
 # Scoot
 brew install --cask scoot
@@ -394,7 +395,8 @@ mise use -g watchexec
 mise use -g marp-cli
 
 # Bruno CLI
-mise use -g npm:@usebruno/cli
+# TODO: v3が安定したら復活させる
+mise use -g npm:@usebruno/cli@2.15.1
 
 # chafa
 brew install chafa
