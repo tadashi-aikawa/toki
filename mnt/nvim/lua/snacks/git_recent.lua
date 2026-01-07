@@ -2,6 +2,17 @@ local M = {}
 
 local uv = vim.uv or vim.loop
 
+---@class SnacksGitRecentOpts
+---@field include_modified? boolean
+---@field include_untracked? boolean
+---@field max_commit_count? integer  -- git log の最大コミット数
+---@field max_count? integer         -- 表示エントリ数の最大数
+---@field hidden? boolean           -- Snacks側オプションを渡すことがあるなら許容
+---@field matcher? table            -- 同上（必要ならより厳密化）
+---@field sort? table               -- 同上
+
+---@param ts? integer
+---@return string hl
 local function ageHighlight(ts)
   if not ts then
     return "SnacksPickerAgeOld"
@@ -25,6 +36,9 @@ local function ageHighlight(ts)
   return "SnacksPickerAgeOld"
 end
 
+---@param ts? integer
+---@return string|nil label
+---@return string|nil hl
 local formatAgeLabel = function(ts)
   if not ts then
     return nil, nil
@@ -51,6 +65,11 @@ local formatAgeLabel = function(ts)
   return string.format("%4s", label), ageHighlight(ts)
 end
 
+---@param items table
+---@param seen table<string, boolean>
+---@param path string
+---@param root string
+---@param ts? integer
 local function addItem(items, seen, path, root, ts)
   if path == "" or seen[path] then
     return
@@ -70,6 +89,9 @@ local function formatStatusLabel(status)
   return string.format("%4s", status)
 end
 
+---@param root string
+---@param path string
+---@return integer|nil
 local function getMtimeSec(root, path)
   local fullpath = root .. "/" .. path
   local stat = uv.fs_stat(fullpath)
@@ -79,6 +101,11 @@ local function getMtimeSec(root, path)
   return nil
 end
 
+---@param items table
+---@param seen table<string, boolean>
+---@param root string
+---@param path string
+---@param status string
 local function addStatusItem(items, seen, root, path, status)
   if path == "" or seen[path] then
     return
@@ -94,6 +121,9 @@ local function addStatusItem(items, seen, root, path, status)
   }
 end
 
+---@param line string
+---@return string|nil xy
+---@return string|nil path
 local function parseStatusLine(line)
   local xy, path = line:match("^(..)%s+(.*)$")
   if not xy or not path then
@@ -106,6 +136,10 @@ local function parseStatusLine(line)
   return xy, path
 end
 
+---@param items table
+---@param seen table<string, boolean>
+---@param root string
+---@param opts SnacksGitRecentOpts
 local function collectStatus(items, seen, root, opts)
   local output = vim.fn.systemlist({ "git", "-C", root, "status", "--porcelain=1" })
   if vim.v.shell_error ~= 0 then
@@ -126,8 +160,9 @@ local function collectStatus(items, seen, root, opts)
   end
 end
 
-function M.picker()
-  Snacks.picker.pick("git_recent")
+---@param opts? SnacksGitRecentOpts
+function M.picker(opts)
+  Snacks.picker.pick("git_recent", opts)
 end
 
 function M.source_config()
@@ -147,9 +182,9 @@ function M.source_config()
       end
 
       local args = { "git", "-C", root, "log", "--name-only", "--pretty=format:%ct%x09%s", "--since='30 days ago'" }
-      if opts.max_count then
+      if opts.max_commit_count then
         table.insert(args, "-n")
-        table.insert(args, tostring(opts.max_count))
+        table.insert(args, tostring(opts.max_commit_count))
       end
 
       local output = vim.fn.systemlist(args)
@@ -171,6 +206,15 @@ function M.source_config()
           addItem(items, seen, path, root, last_ts)
         end
         ::continue::
+      end
+
+      if opts.max_count then
+        local count = math.min(#items, opts.max_count)
+        local limited_items = {}
+        for i = 1, count do
+          limited_items[i] = items[i]
+        end
+        return limited_items
       end
 
       return items
