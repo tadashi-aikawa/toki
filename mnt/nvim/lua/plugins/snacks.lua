@@ -68,7 +68,9 @@ return {
       end,
       silent = true
     },
-    { "<C-j>e", mode = { "n", "i" }, function() git_recent.picker({max_commit_count = 30}) end, silent = true },
+    { "<C-j>e", mode = { "n", "i" }, function()
+      git_recent.picker({max_commit_count = 30})
+    end, silent = true },
     { "<C-j>r", mode = { "n", "i" }, function() Snacks.picker.recent() end, silent = true },
     { "<C-j>t", mode = { "n", "i" }, function() Snacks.picker.explorer() end, silent = true },
     { "<C-j>g", mode = { "n", "i" }, function() Snacks.picker.grep() end, silent = true },

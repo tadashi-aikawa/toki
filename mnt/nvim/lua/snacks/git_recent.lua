@@ -233,8 +233,22 @@ function M.source_config()
       end
       return ret
     end,
-    matcher = { fuzzy = false },
-    sort = { fields = { "idx", "score:desc" } },
+    matcher = {
+      fuzzy = false,
+      on_match = function(matcher, item)
+        local pos = matcher:positions(item).text or {}
+        local last_sep = item.file:match("^.*()/") or 0
+        local basename_match = false
+        for _, p in ipairs(pos) do
+          if p > last_sep then
+            basename_match = true
+            break
+          end
+        end
+        item.basename_match = basename_match
+      end,
+    },
+    sort = { fields = { "basename_match", "idx" } },
     hidden = true,
     include_modified = true,
     include_untracked = true,
