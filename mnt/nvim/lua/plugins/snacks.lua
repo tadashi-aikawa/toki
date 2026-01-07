@@ -59,12 +59,21 @@ return {
     {"<Space>q", function() Snacks.bufdelete() end, silent = true},
     {"<Space>z", function() Snacks.zen.zoom() end, silent = true},
     { "<C-j>f", mode = { "n", "i" }, function() Snacks.picker.files() end, silent = true },
+    {
+      "<C-j><Space>f",
+      mode = { "n", "i" },
+      function()
+        local curdir = vim.bo.filetype == "oil" and require("oil").get_current_dir() or vim.fn.expand("%:p:h")
+        Snacks.picker.files({ dirs = { curdir } })
+      end,
+      silent = true
+    },
     { "<C-j>e", mode = { "n", "i" }, git_recent.picker, silent = true },
     { "<C-j>r", mode = { "n", "i" }, function() Snacks.picker.recent() end, silent = true },
     { "<C-j>t", mode = { "n", "i" }, function() Snacks.picker.explorer() end, silent = true },
     { "<C-j>g", mode = { "n", "i" }, function() Snacks.picker.grep() end, silent = true },
     {
-      "<C-j>G",
+      "<C-j><Space>g",
       mode = { "n", "i" },
       function()
         local curdir = vim.bo.filetype == "oil" and require("oil").get_current_dir() or vim.fn.expand("%:p:h")
