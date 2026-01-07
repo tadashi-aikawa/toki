@@ -5,7 +5,7 @@ return {
   },
   keys = {
     { "<Space>g", ":LazyGit<CR>", silent = true },
-    { "<Space>f", ":LazyGitFilterCurrentFile<CR>", silent = true },
+    -- { "<Space>f", ":LazyGitFilterCurrentFile<CR>", silent = true },
   },
   config = function()
     vim.g.lazygit_floating_window_scaling_factor = 0.97
