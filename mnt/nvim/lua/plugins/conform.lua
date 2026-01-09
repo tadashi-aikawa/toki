@@ -1,6 +1,6 @@
 return {
   "stevearc/conform.nvim",
-  event = "VeryLazy",
+  event = "BufWritePre",
   opts = function()
     local function is_deno_project()
       local cwd = vim.fn.getcwd()
