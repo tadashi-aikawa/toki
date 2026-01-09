@@ -15,6 +15,13 @@ return {
       return { "biome-check", "prettierd", stop_after_first = true }
     end
 
+    vim.api.nvim_create_user_command("FormatDisable", function()
+      vim.b.disable_autoformat = true
+    end, { desc = "Disable autoformat-on-save for current buffer" })
+    vim.api.nvim_create_user_command("FormatEnable", function()
+      vim.b.disable_autoformat = false
+    end, { desc = "Re-enable autoformat-on-save for current buffer" })
+
     return {
       formatters_by_ft = {
         lua = { "stylua" },
@@ -40,6 +47,10 @@ return {
         less = web_formatter,
       },
       format_on_save = function(bufnr)
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+
         local bufname = vim.api.nvim_buf_get_name(bufnr)
         -- Obsidianのdata.jsonに対するフォーマットと異なり差分が生じるため
         if bufname:match("/data.json$") then
