@@ -29,30 +29,31 @@ Usages:
 │                    Available targets                     │
 ╰──────────────────────────────────────────────────────────╯
 
-| Target     | Language | Runtime    | PM    | Framework / Lib     | Linter        | Formatter |
-| ---------- | -------- | ---------- | ----- | ------------------- | ------------- | --------- |
-| node       | TS       | Node       | npm   | -                   | -             | prettierd |
-| pnpm       | TS       | tsx(Node)  | pnpm  | -                   | Biome         | Biome     |
-| deno       | TS       | Deno       | Deno  | -                   | Deno          | Deno      |
-| bun        | TS       | Bun        | Bun   | -                   | Biome         | Biome     |
-| jest       | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
-| vue        | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
-| nuxt       | TS       | Bun        | Bun   | Nuxt4               | -             | prettierd |
-| nuxt3      | TS       | pnpm       | pnpm  | Nuxt3               | -             | prettierd |
-| tailwind3  | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
-| tailwind   | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
-| playwright | TS       | Node       | pnpm  | -                   | -             | Biome     |
-| html       | HTML     | Bun        | Bun   | TailwindCSS         | -             | -         |
-| go         | Go       | -          | Go    | air                 | golangci-lint | -         |
-| go-sqlx    | Go       | -          | Go    | sqlx + mysql + air  | golangci-lint | -         |
-| rust       | Rust     | -          | Cargo | -                   | -             | -         |
-| python     | Python   | Virtualenv | Pip   | -                   | ruff          | ruff      |
-| uv         | Python   | uv         | uv    | -                   | ruff          | ruff      |
-| nvim       | Lua      | Lua        |       | nvim                | -             | -         |
-| nvimapp    | Lua      | Neovim     | lazy  | -                   | -             | -         |
-| bash       | Bash     | Bash       |       | -                   | -             | -         |
-| mysql      | TS       | Deno       | Deno  | MySQL + deno_mysql  | Deno          | Deno      |
-| mkdocs     | Python   | uv         | uv    | Material for MkDocs |               |           |
+| Target      | Language | Runtime    | PM    | Framework / Lib     | Linter        | Formatter |
+| ----------- | -------- | ---------- | ----- | ------------------- | ------------- | --------- |
+| node        | TS       | Node       | npm   | -                   | -             | prettierd |
+| pnpm        | TS       | tsx(Node)  | pnpm  | -                   | Biome         | Biome     |
+| deno        | TS       | Deno       | Deno  | -                   | Deno          | Deno      |
+| bun         | TS       | Bun        | Bun   | -                   | Biome         | Biome     |
+| jest        | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
+| vue         | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
+| nuxt        | TS       | Bun        | Bun   | Nuxt4               | -             | prettierd |
+| nuxt3       | TS       | pnpm       | pnpm  | Nuxt3               | -             | prettierd |
+| tailwind3   | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
+| tailwind    | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
+| playwright  | TS       | Node       | pnpm  | -                   | -             | Biome     |
+| html        | HTML     | Bun        | Bun   | TailwindCSS         | -             | -         |
+| go          | Go       | -          | Go    | air                 | golangci-lint | -         |
+| go-sqlx     | Go       | -          | Go    | sqlx + mysql + air  | golangci-lint | -         |
+| rust        | Rust     | -          | Cargo | -                   | -             | -         |
+| python      | Python   | Virtualenv | Pip   | -                   | ruff          | ruff      |
+| uv          | Python   | uv         | uv    | -                   | ruff          | ruff      |
+| django4-drf | Python   | uv         | uv    | Django4.2 / drf     | ruff          | ruff      |
+| nvim        | Lua      | Lua        |       | nvim                | -             | -         |
+| nvimapp     | Lua      | Neovim     | lazy  | -                   | -             | -         |
+| bash        | Bash     | Bash       |       | -                   | -             | -         |
+| mysql       | TS       | Deno       | Deno  | MySQL + deno_mysql  | Deno          | Deno      |
+| mkdocs      | Python   | uv         | uv    | Material for MkDocs |               |           |
   "
 }
 
@@ -527,6 +528,39 @@ if [[ $command == "uv" ]]; then
 
 $ cd ${path}
 $ mise watch dev
+"
+  exit 0
+fi
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                       django4-drf                        │
+# ╰──────────────────────────────────────────────────────────╯
+if [[ $command == "django4-drf" ]]; then
+  path="${1:?'pathは必須です'}"
+
+  mkdir -p "$path"
+  cd "$path"
+
+  git init
+  uv init --bare
+  uv add ruff django==4.2 djangorestframework django-stubs
+
+  cp -r "${TEMPLATE_DIR}"/django4-drf/* .
+
+  echo "💽 Migration."
+  uv run python manage.py makemigrations &&
+    uv run python manage.py migrate
+  echo "💽 Insert to initial records."
+  uv run python manage.py shell <init.py
+
+  echo "
+🚀 Try
+
+$ cd ${path}
+$ v
+$ python manage.py runserver
+$ curl -s \"localhost:8000/users/\" | jq .
+$ curl -s \"localhost:8000/animals/\" | jq .
 "
   exit 0
 fi

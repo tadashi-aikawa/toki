@@ -1,0 +1,5 @@
+{
+  "reportUnannotatedClassAttribute": false,
+  "reportAny": false,
+  "reportMissingParameterType": false
+}
