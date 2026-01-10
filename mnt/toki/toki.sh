@@ -544,7 +544,7 @@ if [[ $command == "django4-drf" ]]; then
   git init
   uv init --bare
   uv add django==4.2 djangorestframework
-  uv add --dev ruff django-stubs django-types
+  uv add --dev ruff django-types djangorestframework-types
 
   cp -r "${TEMPLATE_DIR}"/django4-drf/* .
 
