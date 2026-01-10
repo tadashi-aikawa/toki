@@ -15,7 +15,7 @@ return {
       ["<C-p>"] = "actions.preview",
       ["<C-l>"] = "actions.refresh",
       ["-"] = { "actions.parent", mode = "n" },
-      ["<Space>h"] = { "actions.open_cwd", mode = "n" },
+      ["gh"] = { "actions.open_cwd", mode = "n" },
       ["g?"] = { "actions.show_help", mode = "n" },
       ["gs"] = { "actions.change_sort", mode = "n" },
       ["gx"] = "actions.open_external",
