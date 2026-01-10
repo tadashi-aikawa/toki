@@ -519,7 +519,7 @@ if [[ $command == "uv" ]]; then
 
   git init
   uv init --bare
-  uv add ruff
+  uv add --dev ruff
 
   cp -r "${TEMPLATE_DIR}"/uv/* .
 
@@ -543,7 +543,8 @@ if [[ $command == "django4-drf" ]]; then
 
   git init
   uv init --bare
-  uv add ruff django==4.2 djangorestframework django-stubs
+  uv add django==4.2 djangorestframework
+  uv add --dev ruff django-stubs django-types
 
   cp -r "${TEMPLATE_DIR}"/django4-drf/* .
 
