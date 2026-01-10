@@ -1,7 +1,7 @@
 require("base")
+require("keymaps")
 require("filetype")
 require("clipboard")
 require("plugin")
 require("appearance")
-require("keymaps")
 require("lsp")
