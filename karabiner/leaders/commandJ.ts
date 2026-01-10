@@ -9,7 +9,8 @@ export const commandJLeaderDefinitions = [
         // WARN: f13はObsidianだと日本語入力ONになってしまう
         // WARN: f14 ~ f16 は使えない
         f: toKey("f13", "control"), // [AQS] file search
-        e: toKey("f13", "command"), // [AQS] recent serarch
+        r: toKey("f13", "command"), // [AQS] recent search
+        e: toKey("f13", "Hyper"), // [AQS] recent updated serarch
         h: toKey("f17"), // [AQS] backlink search
         o: toKey("f18"), // [AQS] floating header search
         l: toKey("f19"), // [AQS] in file serach

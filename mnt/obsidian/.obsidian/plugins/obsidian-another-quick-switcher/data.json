@@ -925,7 +925,7 @@
       "minFuzzyScore": 0.5
     },
     {
-      "name": "Recent created search",
+      "name": "Recent updated search",
       "searchBy": {
         "tag": true,
         "link": false,
@@ -934,8 +934,7 @@
       },
       "keysOfPropertyToSearch": [
         "description",
-        "created",
-        "status"
+        "updated"
       ],
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
@@ -956,11 +955,13 @@
       ],
       "defaultInput": "",
       "restoreLastInput": false,
-      "commandPrefix": ":c",
+      "commandPrefix": "",
       "sortPriorities": [
         "Name match",
         ".md",
-        "Created latest"
+        "@updated:desc",
+        "Last opened",
+        "Last modified"
       ],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],

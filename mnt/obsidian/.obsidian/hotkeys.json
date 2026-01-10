@@ -989,5 +989,16 @@
       ],
       "key": "C"
     }
+  ],
+  "obsidian-another-quick-switcher:search-command_recent-updated-search": [
+    {
+      "modifiers": [
+        "Alt",
+        "Ctrl",
+        "Mod",
+        "Shift"
+      ],
+      "key": "F13"
+    }
   ]
 }
