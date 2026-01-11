@@ -383,6 +383,12 @@ no git-graph && {
   tar xvf /tmp/git-graph.tar.gz -C ~/bin/
 }
 
+# serie
+mise use -g cargo:serie
+
+# keifu
+mise use -g cargo:keifu
+
 # awscli (miseではpythonのパスが上書きされてしまう)
 brew install awscli
 
