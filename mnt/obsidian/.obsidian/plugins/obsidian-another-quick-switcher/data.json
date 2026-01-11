@@ -18,15 +18,7 @@
     "main": {
       "up": [],
       "down": [],
-      "clear input": [
-        {
-          "modifiers": [
-            "Mod"
-          ],
-          "key": "u",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "clear input": [],
       "replace input": [],
       "open": [
         {
@@ -133,6 +125,24 @@
           ],
           "key": ",",
           "hideHotkeyGuide": true
+        }
+      ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
         }
       ],
       "create": [],
@@ -416,15 +426,7 @@
           "hideHotkeyGuide": true
         }
       ],
-      "clear input": [
-        {
-          "modifiers": [
-            "Mod"
-          ],
-          "key": "d",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "clear input": [],
       "move to next hit": [
         {
           "modifiers": [],
@@ -448,6 +450,24 @@
           ],
           "key": ",",
           "hideHotkeyGuide": true
+        }
+      ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
         }
       ],
       "insert all to editor": [
@@ -578,6 +598,24 @@
           "hideHotkeyGuide": true
         }
       ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
+        }
+      ],
       "dismiss": [
         {
           "modifiers": [],
@@ -669,6 +707,24 @@
           "hideHotkeyGuide": true
         }
       ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
+        }
+      ],
       "dismiss": [
         {
           "modifiers": [],
@@ -713,6 +769,24 @@
           "hideHotkeyGuide": false
         }
       ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
+        }
+      ],
       "dismiss": [
         {
           "modifiers": [],
@@ -732,15 +806,7 @@
       ],
       "up": [],
       "down": [],
-      "clear input": [
-        {
-          "modifiers": [
-            "Mod"
-          ],
-          "key": "d",
-          "hideHotkeyGuide": true
-        }
-      ],
+      "clear input": [],
       "clear path": [
         {
           "modifiers": [
@@ -867,6 +933,24 @@
           ],
           "key": ",",
           "hideHotkeyGuide": true
+        }
+      ],
+      "scroll preview up": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "u",
+          "hideHotkeyGuide": false
+        }
+      ],
+      "scroll preview down": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": "d",
+          "hideHotkeyGuide": false
         }
       ],
       "dismiss": [
