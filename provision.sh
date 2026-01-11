@@ -290,7 +290,7 @@ mise use -g npm:@vtsls/language-server # Volar3から
 mise use -g npm:svelte-language-server
 
 # Markdown
-brew install markdown-oxide
+mise use -g marksman
 
 # SQL
 mise use -g go:github.com/sqls-server/sqls

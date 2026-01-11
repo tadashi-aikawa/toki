@@ -103,7 +103,7 @@ if not vim.g.vscode then
     "html",
     "jsonls",
     "lua_ls",
-    "markdown_oxide",
+    "marksman",
     -- "pyright",
     "basedpyright",
     "ruff",
