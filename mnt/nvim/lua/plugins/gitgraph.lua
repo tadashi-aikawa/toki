@@ -4,10 +4,10 @@ return {
   dependencies = { "sindrets/diffview.nvim" },
   opts = {
     symbols = {
-      merge_commit = "",
-      commit = "",
-      merge_commit_end = "",
-      commit_end = "",
+      commit = "",
+      merge_commit = "",
+      commit_end = "",
+      merge_commit_end = "",
 
       -- Advanced symbols
       GVER = "",
