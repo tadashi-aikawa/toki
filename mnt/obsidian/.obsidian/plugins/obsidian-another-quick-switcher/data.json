@@ -982,6 +982,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": true,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1005,7 +1007,7 @@
       "excludePrefixPathPatterns": [
         "Daily Notes"
       ],
-      "expand": false,
+      "expand": true,
       "minFuzzyScore": 0.5
     },
     {
@@ -1026,6 +1028,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": true,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1071,6 +1075,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": true,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1113,6 +1119,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": false,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1158,6 +1166,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": false,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1196,6 +1206,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": false,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1238,6 +1250,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": false,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1270,6 +1284,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": false,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1311,6 +1327,8 @@
       "targetExtensions": [],
       "includeCurrentFile": false,
       "floating": false,
+      "autoPreview": true,
+      "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
