@@ -19,4 +19,10 @@ export const commandJLeaderDefinitions = [
         [UJM["]"]]: toKey("f20", "shift"), // [AQS] Outgoing links search
       },
     ]),
+  modifierLayer("command", "j").condition(App.is("Google Chrome")).leaderMode()
+    .manipulators([
+      {
+        e: toKey("a", ["command", "shift"]), // タブを開く
+      },
+    ]),
 ];
