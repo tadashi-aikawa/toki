@@ -64,7 +64,7 @@ local function build_header_lines(log_lines, use_japanese)
     table.insert(header, "# コミットメッセージは日本語で書いてください。英語は禁止！")
     table.insert(
       header,
-      "# Conventional Commitを採用しています。直近のコミットメッセージを参考にしてください。"
+      "# Conventional Commitを採用しています。直近のコミットメッセージを参考にしてください。特に fix: の場合は修正内容ではなく『修正される不具合の内容・挙動』を書いてください"
     )
     table.insert(header, "# ")
     if has_logs then
@@ -74,6 +74,11 @@ local function build_header_lines(log_lines, use_japanese)
     table.insert(header, "# Write the commit message referring to the staged diff.")
     table.insert(header, "# Must write the commit message in English.")
     table.insert(header, "# We use Conventional Commit. Please refer to recent commit messages.")
+    table.insert(header, "# ")
+    table.insert(header, "# **Style Guide for 'fix' type commits:**")
+    table.insert(header, "# Description should state the problem being fixed, NOT the solution.")
+    table.insert(header, "# - Bad:  fix(auth): update token expiration logic")
+    table.insert(header, "# - Good: fix(auth): user is logged out unexpectedly after 1 hour")
     table.insert(header, "# ")
     if has_logs then
       table.insert(header, "# Recent commit messages (latest 30):")
