@@ -48,9 +48,10 @@ vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#FFC777", bg = nil 
 vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#22c55e", bg = "#224422" })
 
 -- Yankした範囲をハイライトさせる
-vim.api.nvim_create_autocmd("TextYankPost", {
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 200 })
-  end,
-})
+-- TODO: undo-glowを導入したため無効化. 定着したら削除する
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   pattern = "*",
+--   callback = function()
+--     vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 200 })
+--   end,
+-- })
