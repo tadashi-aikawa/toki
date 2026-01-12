@@ -384,7 +384,10 @@ no git-graph && {
 }
 
 # serie
-mise use -g cargo:serie
+mise use -g cargo:https://github.com/tadashi-aikawa/serie
+ensure_zshrc 'alias "s=serie --max-commits 100"'
+mkdir -p ~/.config/serie
+ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
 
 # keifu
 mise use -g cargo:keifu

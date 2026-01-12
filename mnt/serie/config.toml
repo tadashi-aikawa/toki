@@ -1,0 +1,16 @@
+[ui.list]
+date_format = "%Y-%m-%d %H:%M"
+date_width = 16
+
+[ui.detail]
+height = 30
+
+[ui.user_command]
+height = 40
+
+[core.user_command]
+commands_1 = { "name" = "git diff", commands = ["sh", "-c", "git diff --color=always {{first_parent_hash}} {{target_hash}} | delta --dark --paging=never --side-by-side --line-numbers --width {{area_width}}"] }
+commands_2 = { "name" = "Diffview.nvim", commands = ["nvim", "-c", "DiffviewOpen \"{{first_parent_hash}}\"..\"{{target_hash}}\""], mode = "exec" }
+
+[keybind]
+user_command_view_toggle_2 = ["shift-d"]
