@@ -716,6 +716,15 @@
           "hideHotkeyGuide": true
         }
       ],
+      "toggle auto preview": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": ".",
+          "hideHotkeyGuide": false
+        }
+      ],
       "scroll preview up": [
         {
           "modifiers": [
@@ -1363,6 +1372,7 @@
     "aliasFormat": "$<name>"
   },
   "autoPreviewInFloatingHeaderSearch": true,
+  "autoPreviewInFloatingLinkSearch": true,
   "backlinkExcludePrefixPathPatterns": [
     "_Privates"
   ],
