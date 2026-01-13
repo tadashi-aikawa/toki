@@ -983,7 +983,7 @@
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
-      "autoPreviewDelayMilliSeconds": 300,
+      "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1029,7 +1029,7 @@
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
-      "autoPreviewDelayMilliSeconds": 300,
+      "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
@@ -1076,7 +1076,7 @@
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
-      "autoPreviewDelayMilliSeconds": 300,
+      "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
