@@ -127,6 +127,15 @@
           "hideHotkeyGuide": true
         }
       ],
+      "toggle auto preview": [
+        {
+          "modifiers": [
+            "Mod"
+          ],
+          "key": ".",
+          "hideHotkeyGuide": false
+        }
+      ],
       "scroll preview up": [
         {
           "modifiers": [
@@ -448,7 +457,7 @@
           "modifiers": [
             "Mod"
           ],
-          "key": ",",
+          "key": ".",
           "hideHotkeyGuide": true
         }
       ],
@@ -765,7 +774,7 @@
           "modifiers": [
             "Mod"
           ],
-          "key": ",",
+          "key": ".",
           "hideHotkeyGuide": false
         }
       ],
@@ -1007,7 +1016,7 @@
       "excludePrefixPathPatterns": [
         "Daily Notes"
       ],
-      "expand": true,
+      "expand": false,
       "minFuzzyScore": 0.5
     },
     {
