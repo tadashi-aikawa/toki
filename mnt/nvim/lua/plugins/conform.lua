@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim",
+  cmd = { "FormatDisable", "FormatEnable" },
   event = "BufWritePre",
   opts = function()
     local function is_deno_project()
