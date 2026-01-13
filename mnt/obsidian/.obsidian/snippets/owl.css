@@ -56,16 +56,18 @@
 */
 
 /* 現在行をハイライトしない */
-.cm-active.cm-line {
+body:not(.disable-active-line-highlight) .cm-active.cm-line {
   background-color: transparent;
 }
 /* 現在行番号のハイライトスタイル */
-.cm-active.cm-gutterElement {
+body:not(.disable-active-line-highlight) .cm-active.cm-gutterElement {
   color: var(--owl-gutter-fg-active);
   background-color: var(--owl-gutter-bg-active);
   opacity: 0.5;
 }
-.workspace-tabs.mod-active .cm-active.cm-gutterElement {
+body:not(.disable-active-line-highlight)
+  .workspace-tabs.mod-active
+  .cm-active.cm-gutterElement {
   opacity: 1;
 }
 
