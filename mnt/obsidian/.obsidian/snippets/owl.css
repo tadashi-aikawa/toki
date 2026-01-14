@@ -50,6 +50,10 @@
 
   /* アクティブ行ハイライト無効化 */
   --active-bg: transparent;
+
+  .is-flashing {
+    --link-color: inherit;
+  }
 }
 
 /*
@@ -951,6 +955,8 @@ mark {
 .is-flashing {
   color: inherit !important;
   background-color: rgba(255, 123, 0, 0.2) !important;
+  border: 1px dotted var(--interactive-accent);
+  border-radius: 4px;
 }
 
 /*
