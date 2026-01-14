@@ -159,14 +159,6 @@ return {
             end,
           },
           {
-            icon = " ",
-            key = "c",
-            desc = "code companion",
-            action = function()
-              vim.cmd([[:CodeCompanionChat]])
-            end,
-          },
-          {
             icon = " ",
             key = "g",
             desc = "grep",
