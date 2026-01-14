@@ -47,6 +47,9 @@
 
   --list-indent: 1.2rem;
   --bluesky: rgb(18, 133, 254);
+
+  /* アクティブ行ハイライト無効化 */
+  --active-bg: transparent;
 }
 
 /*
@@ -55,9 +58,9 @@
  * ╰─────────────────────────────────────────────────────────╯
 */
 
-/* 現在行をハイライトしない */
-body:not(.disable-active-line-highlight) .cm-active.cm-line {
-  background-color: transparent;
+/* コードブロックの背景色はコードブロックにあわせる */
+body:not(.disable-active-line-highlight) .cm-active.cm-line.HyperMD-codeblock {
+  background: var(--code-background);
 }
 /* 現在行番号のハイライトスタイル */
 body:not(.disable-active-line-highlight) .cm-active.cm-gutterElement {
