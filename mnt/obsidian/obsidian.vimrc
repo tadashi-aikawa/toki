@@ -68,10 +68,8 @@ noremap g] :obcommand<Space>shukuchi:open-link-in-new-tabgroup-horizontally<CR>
 " │                      プロパティ操作                      │
 " ╰──────────────────────────────────────────────────────────╯
 
-" change log更新
-noremap <Space>u :obcommand<Space>carnelian:carnelian_update-change-log<CR>
 " 最適プロパティ挿入
-noremap <Space>k :obcommand<Space>carnelian:carnelian_add-property-suitably<CR>
+noremap <Space>. :obcommand<Space>carnelian:carnelian_add-property-suitably<CR>
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                       エディタ操作                       │
@@ -121,6 +119,13 @@ noremap g,k :obcommand<Space>editor:table-row-before<CR>
 noremap g,l :obcommand<Space>editor:table-col-after<CR>
 noremap g,h :obcommand<Space>editor:table-col-before<CR>
 noremap g,d :obcommand<Space>editor:table-row-delete<CR>
+
+" Git系
+noremap <Space>d :obcommand<Space>obsidian-git:preview-hunk<CR>
+noremap <Space>u :obcommand<Space>obsidian-git:reset-hunk<CR>
+noremap <Space>j :obcommand<Space>obsidian-git:next-hunk<CR>
+noremap <Space>k :obcommand<Space>obsidian-git:prev-hunk<CR>
+
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                         外部連携                         │
