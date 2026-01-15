@@ -72,25 +72,6 @@
           "hideHotkeyGuide": true
         }
       ],
-      "open in new tab in background": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "open all in new tabs": [
-        {
-          "modifiers": [
-            "Ctrl",
-            "Shift"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
       "check/uncheck": [],
       "check/uncheck and next": [
         {
@@ -99,13 +80,13 @@
           "hideHotkeyGuide": true
         }
       ],
-      "check all": [
+      "check/uncheck all": [
         {
           "modifiers": [
             "Mod"
           ],
           "key": "a",
-          "hideHotkeyGuide": true
+          "hideHotkeyGuide": false
         }
       ],
       "uncheck all": [
@@ -215,25 +196,6 @@
           "hideHotkeyGuide": true
         }
       ],
-      "insert to editor in background": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "i",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "insert all to editor": [
-        {
-          "modifiers": [
-            "Ctrl",
-            "Shift"
-          ],
-          "key": "Enter",
-          "hideHotkeyGuide": true
-        }
-      ],
       "show backlinks": [
         {
           "modifiers": [
@@ -255,7 +217,15 @@
           "hideHotkeyGuide": true
         }
       ],
-      "show all results": [],
+      "show all results": [
+        {
+          "modifiers": [
+            "Alt"
+          ],
+          "key": "a",
+          "hideHotkeyGuide": false
+        }
+      ],
       "navigate forward": [
         {
           "modifiers": [
@@ -560,16 +530,6 @@
         }
       ],
       "open in popup": [],
-      "open in new tab in background": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "open all in new tabs": [],
       "check/uncheck": [],
       "check/uncheck and next": [
         {
@@ -578,13 +538,13 @@
           "hideHotkeyGuide": true
         }
       ],
-      "check all": [
+      "check/uncheck all": [
         {
           "modifiers": [
             "Mod"
           ],
           "key": "a",
-          "hideHotkeyGuide": true
+          "hideHotkeyGuide": false
         }
       ],
       "uncheck all": [
@@ -696,16 +656,6 @@
         }
       ],
       "open in popup": [],
-      "open in new tab in background": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "open all in new tabs": [],
       "show all results": [],
       "preview": [
         {
@@ -898,25 +848,6 @@
         }
       ],
       "open in popup": [],
-      "open in new tab in background": [
-        {
-          "modifiers": [
-            "Ctrl"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
-      "open all in new tabs": [
-        {
-          "modifiers": [
-            "Ctrl",
-            "Shift"
-          ],
-          "key": "o",
-          "hideHotkeyGuide": true
-        }
-      ],
       "check/uncheck": [],
       "check/uncheck and next": [
         {
@@ -925,13 +856,13 @@
           "hideHotkeyGuide": true
         }
       ],
-      "check all": [
+      "check/uncheck all": [
         {
           "modifiers": [
             "Mod"
           ],
           "key": "a",
-          "hideHotkeyGuide": true
+          "hideHotkeyGuide": false
         }
       ],
       "uncheck all": [
