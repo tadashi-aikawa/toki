@@ -218,7 +218,6 @@ ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data
 #----------------------------------------------------------------------
 
 # Node.js
-mise use -g node@22
 mise use -g node@24
 
 # pnpm
