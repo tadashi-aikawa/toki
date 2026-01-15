@@ -1,5 +1,6 @@
 return {
   "NStefan002/screenkey.nvim",
+  cmd = { "Screenkey" },
   -- INFO: 自動起動したい場合
   -- lazy = false,
   opts = {
