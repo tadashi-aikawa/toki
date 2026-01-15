@@ -13,6 +13,7 @@ return {
       redo = { hl_color = { bg = "#2F4640" } },
       yank = { hl_color = { bg = "#7A683A" } },
       paste = { hl_color = { bg = "#325B5B" } },
+      comment = { hl_color = { bg = "#7A5A3D" } },
     },
     priority = 2048 * 3,
   },
@@ -51,6 +52,40 @@ return {
       end,
       mode = "n",
       desc = "Paste above with highlight",
+      noremap = true,
+    },
+    {
+      "gc",
+      function()
+        -- This is an implementation to preserve the cursor position
+        local pos = vim.fn.getpos(".")
+        vim.schedule(function()
+          vim.fn.setpos(".", pos)
+        end)
+        return require("undo-glow").comment()
+      end,
+      mode = { "n", "x" },
+      desc = "Toggle comment with highlight",
+      expr = true,
+      noremap = true,
+    },
+    {
+      "gc",
+      function()
+        require("undo-glow").comment_textobject()
+      end,
+      mode = "o",
+      desc = "Comment textobject with highlight",
+      noremap = true,
+    },
+    {
+      "gcc",
+      function()
+        return require("undo-glow").comment_line()
+      end,
+      mode = "n",
+      desc = "Toggle comment line with highlight",
+      expr = true,
       noremap = true,
     },
   },
