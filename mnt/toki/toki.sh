@@ -59,11 +59,13 @@ Usages:
 
 command="${1:-}"
 
-if [[ $command =~ ^(-h|--help|help)?$ ]]; then
-  echo "『いったはずだ あなたのすべてをめざしたと!!』"
-  show_usage
-  exit 0
-fi
+case "$command" in
+  ""|-h|--help|help)
+    echo "『いったはずだ あなたのすべてをめざしたと!!』"
+    show_usage
+    exit 0
+    ;;
+esac
 
 shift
 
@@ -96,8 +98,8 @@ function edit_biome_json() {
 # ╭──────────────────────────────────────────────────────────╮
 # │                           bun                            │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "bun" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_bun() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -116,13 +118,13 @@ $ cd ${path}
 $ bun --hot .
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           node                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "node" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_node() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -145,13 +147,13 @@ and
 $ npm run start
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           pnpm                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "pnpm" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_pnpm() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -178,13 +180,13 @@ and
 $ pnpm typecheck
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           deno                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "deno" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_deno() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -201,13 +203,13 @@ $ cd ${path}
 $ deno test
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           jest                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "jest" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_jest() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -236,13 +238,13 @@ or
 $ pnpm test:watch
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                            vue                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "vue" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_vue() {
+  local path="${1:?'pathは必須です'}"
 
   bun create vue@latest "${path}"
   cd "$path"
@@ -260,14 +262,13 @@ $ cd ${path}
 $ bun dev
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           nuxt                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "nuxt" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_nuxt() {
+  local path="${1:?'pathは必須です'}"
 
   bun x nuxi@latest init "${path}"
   cd "$path"
@@ -285,14 +286,13 @@ $ cd ${path}
 $ bun dev -o
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          nuxt3                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "nuxt3" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_nuxt3() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "${path}" && cd "${path}"
   pnpm config set --location=project minimumReleaseAge 10080
@@ -311,14 +311,13 @@ $ cd ${path}
 $ pnpm dev -o
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           html                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "html" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_html() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -332,15 +331,14 @@ $ cd ${path}
 $ bun index.html
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                         tailwind3                        │
 # ╰──────────────────────────────────────────────────────────╯
 
-if [[ $command == "tailwind3" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_tailwind3() {
+  local path="${1:?'pathは必須です'}"
 
   # https://tailwindcss.tw/docs/guides/vite
   bun create vite "${path}" --template vue-ts
@@ -358,15 +356,14 @@ $ cd ${path}
 $ bun dev
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                         tailwind                         │
 # ╰──────────────────────────────────────────────────────────╯
 
-if [[ $command == "tailwind" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_tailwind() {
+  local path="${1:?'pathは必須です'}"
 
   # https://tailwindcss.tw/docs/guides/vite
   echo "n -> n"
@@ -384,15 +381,14 @@ $ cd ${path}
 $ bun dev
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                        playwright                        │
 # ╰──────────────────────────────────────────────────────────╯
 
-if [[ $command == "playwright" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_playwright() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path" && cd "$path"
   pnpm config set --location=project minimumReleaseAge 10080
@@ -416,14 +412,13 @@ $ cd ${path}
 $ pnpm exec playwright test
 "
   exit 0
-
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                            go                            │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "go" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_go() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -440,13 +435,13 @@ $ cd ${path}
 $ air
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          go-sqlx                         │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "go-sqlx" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_go_sqlx() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -466,13 +461,13 @@ $ cd ${path}
 $ air
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           rust                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "rust" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_rust() {
+  local path="${1:?'pathは必須です'}"
 
   cargo new "$path"
 
@@ -483,13 +478,13 @@ $ cd ${path}
 $ cargo run
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          python                          │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "python" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_python() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path" && cd "$path"
   git init
@@ -506,13 +501,13 @@ $ source .venv/bin/activate
 $ mise watch dev
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                            uv                            │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "uv" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_uv() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -530,13 +525,13 @@ $ cd ${path}
 $ mise watch dev
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                       django4-drf                        │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "django4-drf" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_django4_drf() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -564,13 +559,13 @@ $ curl -s \"localhost:8000/users/\" | jq .
 $ curl -s \"localhost:8000/animals/\" | jq .
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           nvim                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "nvim" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_nvim() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -585,14 +580,14 @@ $ cd ${path}
 $ mise watch dev
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          nvimapp                         │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "nvimapp" ]]; then
-  app_name="${1:?'app_nameは必須です'}"
-  path="${HOME}/.config/${app_name}"
+function command_nvimapp() {
+  local app_name="${1:?'app_nameは必須です'}"
+  local path="${HOME}/.config/${app_name}"
 
   mkdir -p "$path"
   cd "$path"
@@ -607,13 +602,13 @@ $ alias svim=\"NVIM_APPNAME=${app_name} nvim\"
 $ svim
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           bash                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "bash" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_bash() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -630,13 +625,13 @@ $ cd ${path}
 $ mise watch dev
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          mysql                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "mysql" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_mysql() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -653,13 +648,13 @@ $ docker compose up -d
 $ xh -b \"http://localhost:18000?table=types\"
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          mkdocs                          │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "mkdocs" ]]; then
-  path="${1:?'pathは必須です'}"
+function command_mkdocs() {
+  local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path"
   cd "$path"
@@ -688,13 +683,16 @@ $ cd ${path}
 $ uv run mkdocs serve -a localhost:8081 --livereload
 "
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                           webp                           │
 # ╰──────────────────────────────────────────────────────────╯
 # Raycastで利用
-if [[ $command == "webp" ]]; then
+function command_webp() {
+  local ts
+  local dst_dir
+  local dst
   ts=$(date +"%Y%m%d_%H_%M_%S")
   dst_dir="$WEBP_SCREEN_SHOT_DIR"
   dst="${dst_dir}/${ts}.webp"
@@ -707,13 +705,17 @@ if [[ $command == "webp" ]]; then
 
   echo "Created ${dst}"
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                            mp4                           │
 # ╰──────────────────────────────────────────────────────────╯
 # Raycastで利用
-if [[ $command == "mp4" ]]; then
+function command_mp4() {
+  local ts
+  local dst_dir
+  local dst
+  local input
   ts=$(date +"%Y%m%d_%H_%M_%S")
   dst_dir="$MP4_DIR"
   dst="${dst_dir}/${ts}.mp4"
@@ -724,15 +726,15 @@ if [[ $command == "mp4" ]]; then
 
   echo "Created ${dst}"
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          vault                           │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "vault" ]]; then
-  base_vault_dir="${1:?'base_vault_dirは必須です'}"
-  obsidian_config_dir="$base_vault_dir"/.obsidian
-  obsidian_plugins_dir="$obsidian_config_dir"/plugins
+function command_vault() {
+  local base_vault_dir="${1:?'base_vault_dirは必須です'}"
+  local obsidian_config_dir="$base_vault_dir"/.obsidian
+  local obsidian_plugins_dir="$obsidian_config_dir"/plugins
 
   mkdir -p _Privates/NOSYNC/
   ln -snf "$base_vault_dir"/_Privates/dict.md ./_Privates/dict.md
@@ -765,25 +767,57 @@ if [[ $command == "vault" ]]; then
   cp "$obsidian_plugins_dir"/various-complements/data.json .
 
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          backup                          │
 # ╰──────────────────────────────────────────────────────────╯
-if [[ $command == "backup" ]]; then
+function command_backup() {
   7zz a -p -xr!node_modules -xr!venv -xr!.venv -xr!.git ~/tmp/backup.7z ~/work ~/.ssh ~/Documents/Pictures/AI
   ls -l ~/tmp/backup.7z
   exit 0
-fi
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          claude                          │
 # ╰──────────────────────────────────────────────────────────╯
 # Claude Codeとやりとりした会話ログをMinervaのフキダシ形式に整形して取得します
-if [[ $command == "claude" ]]; then
+function command_claude() {
   eval "${SCRIPT_DIR}/claude-log-to-bubble/main.ts ${1:-}"
   exit $?
-fi
+}
 
-echo "『き..きかぬ  きかぬのだ!!』"
-show_usage
+case "$command" in
+  bun) command_bun "$@" ;;
+  node) command_node "$@" ;;
+  pnpm) command_pnpm "$@" ;;
+  deno) command_deno "$@" ;;
+  jest) command_jest "$@" ;;
+  vue) command_vue "$@" ;;
+  nuxt) command_nuxt "$@" ;;
+  nuxt3) command_nuxt3 "$@" ;;
+  html) command_html "$@" ;;
+  tailwind3) command_tailwind3 "$@" ;;
+  tailwind) command_tailwind "$@" ;;
+  playwright) command_playwright "$@" ;;
+  go) command_go "$@" ;;
+  go-sqlx) command_go_sqlx "$@" ;;
+  rust) command_rust "$@" ;;
+  python) command_python "$@" ;;
+  uv) command_uv "$@" ;;
+  django4-drf) command_django4_drf "$@" ;;
+  nvim) command_nvim "$@" ;;
+  nvimapp) command_nvimapp "$@" ;;
+  bash) command_bash "$@" ;;
+  mysql) command_mysql "$@" ;;
+  mkdocs) command_mkdocs "$@" ;;
+  webp) command_webp "$@" ;;
+  mp4) command_mp4 "$@" ;;
+  vault) command_vault "$@" ;;
+  backup) command_backup "$@" ;;
+  claude) command_claude "$@" ;;
+  *)
+    echo "『き..きかぬ  きかぬのだ!!』"
+    show_usage
+    ;;
+esac
