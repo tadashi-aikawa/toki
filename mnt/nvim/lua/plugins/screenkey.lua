@@ -4,19 +4,29 @@ return {
   -- INFO: 自動起動したい場合
   -- lazy = false,
   opts = {
-    compress_after = 5,
     group_mappings = true,
     keys = {
-      ["<ESC>"] = "Esc",
-      ["<TAB>"] = "Tab",
+      ["<Esc>"] = "󱊷 ",
+      ["<CR>"] = "⏎",
+      ["<Space>"] = "␣",
+      ["<BS>"] = "⌫",
+      ["<Up>"] = "↑",
+      ["<Down>"] = "↓",
+      ["<Left>"] = "←",
+      ["<Right>"] = "→",
+      ["<Tab>"] = " ",
+      ["<S-Tab>"] = " ",
     },
     win_opts = {
-      width = 50,
+      width = 60,
       height = 1,
       border = "single",
       title = "Keys",
     },
-    clear_after = 5,
+    hl_groups = {
+      ["screenkey.hl.key"] = { link = "Visual" },
+      ["screenkey.hl.map"] = { link = "@markup.heading.1.markdown" },
+    },
   },
   -- INFO: 自動起動したい場合
   -- config = function(_, opts)
