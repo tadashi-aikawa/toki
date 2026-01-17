@@ -299,7 +299,8 @@ return {
           height = 0.9,
           min_height = 30,
           box = "vertical",
-          border = "rounded",
+          -- min_heightより小さいときは枠線を出すと先頭の候補が消えるので調整
+          border = vim.o.lines <= 32 and "none" or "rounded",
           title = "{title} {live} {flags}",
           title_pos = "center",
           { win = "preview", title = "{preview}", height = 0.5, border = "bottom" },
