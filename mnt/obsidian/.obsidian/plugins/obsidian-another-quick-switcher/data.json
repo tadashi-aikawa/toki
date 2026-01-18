@@ -925,6 +925,8 @@
         "created",
         "status"
       ],
+      "relativeUpdatedPeriodSource": "property",
+      "relativeUpdatedPeriodPropertyKey": "updated",
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
@@ -933,7 +935,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": true,
+      "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -971,6 +973,8 @@
         "description",
         "updated"
       ],
+      "relativeUpdatedPeriodSource": "property",
+      "relativeUpdatedPeriodPropertyKey": "updated",
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
@@ -979,7 +983,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": true,
+      "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -1018,6 +1022,8 @@
         "created",
         "status"
       ],
+      "relativeUpdatedPeriodSource": "property",
+      "relativeUpdatedPeriodPropertyKey": "updated",
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
@@ -1026,7 +1032,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": true,
+      "showFrontMatter": false,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -1062,6 +1068,8 @@
         "property": false
       },
       "keysOfPropertyToSearch": [],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1109,6 +1117,8 @@
         "property": false
       },
       "keysOfPropertyToSearch": [],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1149,6 +1159,8 @@
         "property": false
       },
       "keysOfPropertyToSearch": [],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "2-hop-link",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1193,6 +1205,8 @@
         "property": false
       },
       "keysOfPropertyToSearch": [],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "opened file",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1227,6 +1241,8 @@
         "property": false
       },
       "keysOfPropertyToSearch": [],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "backlink",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
@@ -1270,6 +1286,8 @@
         "updated",
         "description"
       ],
+      "relativeUpdatedPeriodSource": "none",
+      "relativeUpdatedPeriodPropertyKey": "Last modified",
       "searchTarget": "link",
       "allowFuzzySearchForSearchTarget": false,
       "minFuzzyMatchScore": 0.5,
@@ -1332,6 +1350,8 @@
   "commandPaletteMaxHistoryRetentionDays": 10,
   "showLogAboutPerformanceInConsole": false,
   "showFuzzyMatchScore": false,
+  "relativeUpdatedPeriodSource": "none",
+  "relativeUpdatedPeriodPropertyKey": "",
   "backlinkSearchDelayMilliSeconds": 0,
   "fdCommand": "",
   "inFileFloating": false,
