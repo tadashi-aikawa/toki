@@ -15,6 +15,9 @@ return {
     },
     completion = {
       documentation = { auto_show = true, window = { border = "rounded" } },
+      keyword = {
+        range = "full",
+      },
       list = {
         selection = {
           auto_insert = false,
