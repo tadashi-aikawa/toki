@@ -36,6 +36,8 @@ noremap <Space>t :obcommand<Space>workspace:undo-close-pane<CR>
 " 閉じる
 noremap <Space>q :obcommand<Space>workspace:close<CR>
 noremap <Space>w :obcommand<Space>workspace:close-others-tab-group<CR>
+# 他をすべて閉じる
+noremap <Space><Space>w :obcommand<Space>workspace:close-others<CR>
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                       タブグループ                       │
