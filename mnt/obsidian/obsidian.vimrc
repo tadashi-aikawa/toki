@@ -121,6 +121,9 @@ noremap g,k :obcommand<Space>editor:table-row-before<CR>
 noremap g,l :obcommand<Space>editor:table-col-after<CR>
 noremap g,h :obcommand<Space>editor:table-col-before<CR>
 noremap g,d :obcommand<Space>editor:table-row-delete<CR>
+noremap g,yj :obcommand<Space>carnelian:carnelian_duplicate-line-down<CR>
+noremap g,yk :obcommand<Space>carnelian:carnelian_duplicate-line-up<CR>
+
 
 " Git系
 noremap <Space>d :obcommand<Space>obsidian-git:preview-hunk<CR>
