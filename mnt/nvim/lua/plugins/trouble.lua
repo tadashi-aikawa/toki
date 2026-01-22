@@ -10,6 +10,18 @@ return {
       "<C-j>w",
       "<cmd>Trouble we<cr>",
     },
+    {
+      ",j",
+      function()
+        require("trouble").next()
+      end,
+    },
+    {
+      ",k",
+      function()
+        require("trouble").prev()
+      end,
+    },
   },
   opts = {
     focus = true,
