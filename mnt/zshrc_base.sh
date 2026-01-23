@@ -100,6 +100,12 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 autoload colors && colors
 
+# ╭──────────────────────────────────────────────────────────╮
+# │              コマンドラインをエディタで編集              │
+# ╰──────────────────────────────────────────────────────────╯
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
 # OSC 133 sequences
 preexec() { printf "\033]133;A\033\\" }
 precmd()  { printf "\033]133;B\033\\" }
@@ -130,3 +136,6 @@ zle -N run_yazi
 bindkey '\ej' run_vim
 # <ESC>lでyazi起動
 bindkey '\el' run_yazi
+# <ESC>eでNeovimでコマンドライン編集
+bindkey '\ee' edit-command-line
+
