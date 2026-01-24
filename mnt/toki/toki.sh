@@ -95,6 +95,12 @@ function edit_biome_json() {
   jq '.formatter.indentStyle|="space"' <biome.json.tmp >biome.json
 }
 
+function add_property_to_json() {
+  dst=$1
+  property=$2
+  "${SCRIPT_DIR}/jsonc-merge/main.ts" "${dst}" "${property}"
+}
+
 # ╭──────────────────────────────────────────────────────────╮
 # │                           bun                            │
 # ╰──────────────────────────────────────────────────────────╯
@@ -254,6 +260,15 @@ function command_vue() {
   cp -r "${TEMPLATE_DIR}"/vue/* .
 
   bun install --frozen-lockfile --ignore-scripts
+
+  add_property_to_json tsconfig.app.json '
+  {
+    "vueCompilerOptions": {
+      "strictTemplates": true,
+      "fallthroughAttributes": true,
+      "dataAttributes": ["data-*"]
+    }
+  }'
 
   echo "
 🚀 Try
