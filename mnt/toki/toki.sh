@@ -60,11 +60,11 @@ Usages:
 command="${1:-}"
 
 case "$command" in
-  ""|-h|--help|help)
-    echo "『いったはずだ あなたのすべてをめざしたと!!』"
-    show_usage
-    exit 0
-    ;;
+"" | -h | --help | help)
+  echo "『いったはずだ あなたのすべてをめざしたと!!』"
+  show_usage
+  exit 0
+  ;;
 esac
 
 shift
@@ -788,36 +788,36 @@ function command_claude() {
 }
 
 case "$command" in
-  bun) command_bun "$@" ;;
-  node) command_node "$@" ;;
-  pnpm) command_pnpm "$@" ;;
-  deno) command_deno "$@" ;;
-  jest) command_jest "$@" ;;
-  vue) command_vue "$@" ;;
-  nuxt) command_nuxt "$@" ;;
-  nuxt3) command_nuxt3 "$@" ;;
-  html) command_html "$@" ;;
-  tailwind3) command_tailwind3 "$@" ;;
-  tailwind) command_tailwind "$@" ;;
-  playwright) command_playwright "$@" ;;
-  go) command_go "$@" ;;
-  go-sqlx) command_go_sqlx "$@" ;;
-  rust) command_rust "$@" ;;
-  python) command_python "$@" ;;
-  uv) command_uv "$@" ;;
-  django4-drf) command_django4_drf "$@" ;;
-  nvim) command_nvim "$@" ;;
-  nvimapp) command_nvimapp "$@" ;;
-  bash) command_bash "$@" ;;
-  mysql) command_mysql "$@" ;;
-  mkdocs) command_mkdocs "$@" ;;
-  webp) command_webp "$@" ;;
-  mp4) command_mp4 "$@" ;;
-  vault) command_vault "$@" ;;
-  backup) command_backup "$@" ;;
-  claude) command_claude "$@" ;;
-  *)
-    echo "『き..きかぬ  きかぬのだ!!』"
-    show_usage
-    ;;
+bun) command_bun "$@" ;;
+node) command_node "$@" ;;
+pnpm) command_pnpm "$@" ;;
+deno) command_deno "$@" ;;
+jest) command_jest "$@" ;;
+vue) command_vue "$@" ;;
+nuxt) command_nuxt "$@" ;;
+nuxt3) command_nuxt3 "$@" ;;
+html) command_html "$@" ;;
+tailwind3) command_tailwind3 "$@" ;;
+tailwind) command_tailwind "$@" ;;
+playwright) command_playwright "$@" ;;
+go) command_go "$@" ;;
+go-sqlx) command_go_sqlx "$@" ;;
+rust) command_rust "$@" ;;
+python) command_python "$@" ;;
+uv) command_uv "$@" ;;
+django4-drf) command_django4_drf "$@" ;;
+nvim) command_nvim "$@" ;;
+nvimapp) command_nvimapp "$@" ;;
+bash) command_bash "$@" ;;
+mysql) command_mysql "$@" ;;
+mkdocs) command_mkdocs "$@" ;;
+webp) command_webp "$@" ;;
+mp4) command_mp4 "$@" ;;
+vault) command_vault "$@" ;;
+backup) command_backup "$@" ;;
+claude) command_claude "$@" ;;
+*)
+  echo "『き..きかぬ  きかぬのだ!!』"
+  show_usage
+  ;;
 esac
