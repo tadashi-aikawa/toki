@@ -1311,7 +1311,7 @@
       "sortPriorities": [],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": true
+      "expand": false
     }
   ],
   "searchesExcludePrefix": "-",
