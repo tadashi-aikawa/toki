@@ -176,21 +176,6 @@ body:not(.disable-active-line-highlight)
 
 /*
  * ╭─────────────────────────────────────────────────────────╮
- * │                    ブロッククォート                     │
- * ╰─────────────────────────────────────────────────────────╯
-*/
-
-/*
-|  📷 プレビューのみ
-*/
-.callout[data-callout$="-bubble"] .callout-content blockquote {
-  /* noneで上書きされるのを更に元のstyleで上書き */
-  border-inline-start: var(--blockquote-border-thickness) solid
-    var(--blockquote-border-color);
-}
-
-/*
- * ╭─────────────────────────────────────────────────────────╮
  * │                          引用                           │
  * ╰─────────────────────────────────────────────────────────╯
 */
@@ -198,8 +183,7 @@ body:not(.disable-active-line-highlight)
 /*
 |  📷 プレビューのみ
 */
-.el-blockquote,
-.callout-content > blockquote > p {
+.el-blockquote {
   position: relative;
   border: 1px solid #cbd5d1;
   border-radius: 0.5em;
@@ -207,13 +191,7 @@ body:not(.disable-active-line-highlight)
   padding-right: 1.5em;
   background: #fafaf5;
 }
-.callout-content > blockquote > p {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  font-style: italic;
-}
-.el-blockquote::before,
-.callout-content > blockquote > p::before {
+.el-blockquote::before {
   position: absolute;
   left: 1em;
   top: calc(50% - 1em);
@@ -233,9 +211,6 @@ blockquote em {
   flex-wrap: wrap;
   font-size: 0.875rem;
   font-weight: bold;
-}
-.callout-content blockquote {
-  border-inline-start: none;
 }
 
 /*
