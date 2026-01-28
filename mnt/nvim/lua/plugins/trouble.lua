@@ -1,3 +1,45 @@
+local function is_trouble_open()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == "trouble" then
+      return true
+    end
+  end
+  return false
+end
+
+local function get_trouble_view()
+  local view = require("trouble.api")._find_last()
+  if not view or not view.win or not view.win.win then
+    return nil
+  end
+  if not vim.api.nvim_win_is_valid(view.win.win) then
+    return nil
+  end
+  if not vim.api.nvim_buf_is_valid(view.win.buf) then
+    return nil
+  end
+  return view
+end
+
+local function has_trouble_item_in_direction(view, direction)
+  local cursor = vim.api.nvim_win_get_cursor(view.win.win)[1]
+  local max = vim.api.nvim_buf_line_count(view.win.buf)
+  local start_row, end_row, step
+  if direction == "next" then
+    start_row, end_row, step = cursor + 1, max, 1
+  else
+    start_row, end_row, step = cursor - 1, 1, -1
+  end
+  for row = start_row, end_row, step do
+    local info = view.renderer:at(row)
+    if info.item and info.first_line then
+      return true
+    end
+  end
+  return false
+end
+
 return {
   "folke/trouble.nvim",
   cmd = "Trouble",
@@ -13,13 +55,39 @@ return {
     {
       ",j",
       function()
-        require("trouble").next()
+        if is_trouble_open() then
+          local view = get_trouble_view()
+          if view then
+            if has_trouble_item_in_direction(view, "next") then
+              require("trouble").next()
+            else
+              require("trouble").first()
+            end
+          else
+            vim.cmd("cnext")
+          end
+        else
+          vim.cmd("cnext")
+        end
       end,
     },
     {
       ",k",
       function()
-        require("trouble").prev()
+        if is_trouble_open() then
+          local view = get_trouble_view()
+          if view then
+            if has_trouble_item_in_direction(view, "prev") then
+              require("trouble").prev()
+            else
+              require("trouble").last()
+            end
+          else
+            vim.cmd("cprev")
+          end
+        else
+          vim.cmd("cprev")
+        end
       end,
     },
   },
