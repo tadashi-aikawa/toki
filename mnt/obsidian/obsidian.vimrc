@@ -99,6 +99,7 @@ noremap <M-r> :redo<CR>
 noremap <Space>f :obcommand<Space>carnelian:carnelian_fix-link<CR>
 noremap <Space>m :obcommand<Space>carnelian:carnelian_update-moc-suitably<CR>
 noremap <Space>o :obcommand<Space>carnelian:carnelian_transform-to-v2-ogp-card<CR>
+noremap <Space>c :obcommand<Space>carnelian:carnelian_clear-task-status<CR>
 
 " surround
 noremap <Space>] :surround<Space>[[<Space>]]<CR>
