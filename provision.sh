@@ -317,6 +317,9 @@ mise use -g lazydocker
 # Lazysql
 mise use -g go:github.com/jorgerojas26/lazysql
 
+# Zellij
+mise use -g zellij
+
 #----------------------------------------------------------------------
 # CLI Tools
 #----------------------------------------------------------------------
