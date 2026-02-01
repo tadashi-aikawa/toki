@@ -319,6 +319,7 @@ mise use -g go:github.com/jorgerojas26/lazysql
 
 # Zellij
 mise use -g zellij
+ensure_zshrc 'alias "zl=zellij"'
 
 #----------------------------------------------------------------------
 # CLI Tools
