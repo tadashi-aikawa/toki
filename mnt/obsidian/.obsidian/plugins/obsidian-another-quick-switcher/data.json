@@ -935,7 +935,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": false,
+      "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -944,7 +944,10 @@
         "cssclass",
         "publish",
         "cover",
-        "url"
+        "url",
+        "created",
+        "updated",
+        "permalink"
       ],
       "defaultInput": "",
       "restoreLastInput": false,
@@ -983,7 +986,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": false,
+      "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -992,7 +995,10 @@
         "cssclass",
         "publish",
         "cover",
-        "url"
+        "url",
+        "created",
+        "updated",
+        "permalink"
       ],
       "defaultInput": "",
       "restoreLastInput": false,
@@ -1032,7 +1038,7 @@
       "floating": false,
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
-      "showFrontMatter": false,
+      "showFrontMatter": true,
       "excludeFrontMatterKeys": [
         "aliases",
         "alias",
@@ -1041,7 +1047,10 @@
         "cssclass",
         "publish",
         "cover",
-        "url"
+        "url",
+        "created",
+        "updated",
+        "permalink"
       ],
       "defaultInput": "",
       "restoreLastInput": true,

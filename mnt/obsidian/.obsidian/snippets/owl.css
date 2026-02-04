@@ -1286,8 +1286,30 @@ This snippet combines both of the above snippets and irons out some inconsistenc
 /*
 |  プロパティの強調
 */
-.another-quick-switcher__item__meta__front_matter[title^="updated: "] {
-  color: seagreen;
+.suggestion-item:has(
+  .another-quick-switcher__item__meta__front_matter[title="fixme: true"]
+),
+.suggestion-item:has(
+  .another-quick-switcher__item__meta__front_matter[title="status: ❌未解決"]
+) {
+  position: relative;
+}
+
+.suggestion-item:has(
+    .another-quick-switcher__item__meta__front_matter[title="fixme: true"]
+  )::after,
+.suggestion-item:has(
+    .another-quick-switcher__item__meta__front_matter[title="status: ❌未解決"]
+  )::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--text-accent) 8%, transparent);
+  pointer-events: none;
+}
+
+.another-quick-switcher__item__meta__front_matter {
+  display: none;
 }
 
 /*
