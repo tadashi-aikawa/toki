@@ -320,6 +320,10 @@ mise use -g go:github.com/jorgerojas26/lazysql
 # Zellij
 mise use -g zellij
 ensure_zshrc 'alias "zl=zellij"'
+ln -snf "${MNT}"/zellij/config.kdl ~/.config/zellij/config.kdl
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  # FIXME: layouts配下にリンク貼る
+fi
 
 #----------------------------------------------------------------------
 # CLI Tools
