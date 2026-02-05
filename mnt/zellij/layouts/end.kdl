@@ -1,15 +1,23 @@
 layout {
-  tab {
-    pane split_direction="vertical" {
-      pane name="Toki status" cwd="~/git/github.com/tadashi-aikawa/toki" command="zsh" close_on_exit=false {
-        args "-c" "git status"
+  default_tab_template {
+      pane size=1 borderless=true {
+          plugin location="zellij:tab-bar"
       }
-      pane name="Carnelian status" cwd="~/git/github.com/tadashi-aikawa/carnelian" command="zsh" close_on_exit=false {
-        args "-c" "git status"
+      children
+      pane size=1 borderless=true {
+          plugin location="zellij:status-bar"
       }
-      pane name="Another Quick Switcher status" cwd="~/git/github.com/tadashi-aikawa/obsidian-another-quick-switcher/" command="zsh" close_on_exit=false {
-        args "-c" "git status"
-      }
+  }
+
+  tab split_direction="vertical" cwd="~/git/github.com/tadashi-aikawa" {
+    pane name="🍏Toki status" cwd="toki" command="git" {
+      args "status"
+    }
+    pane name="🔴Carnelian status" cwd="carnelian" command="git" {
+      args "status"
+    }
+    pane name="🔄Another Quick Switcher status" cwd="obsidian-another-quick-switcher" command="git" {
+      args "status"
     }
   }
 }
