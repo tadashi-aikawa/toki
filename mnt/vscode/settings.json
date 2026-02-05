@@ -32,7 +32,7 @@
     "editor.selectionBackground": "#565612",
     // オートコンプリートの色変更
     "editorSuggestWidget.selectedForeground": "#CDCDCD",
-    "editorSuggestWidget.selectedBackground": "#363C58"
+    "editorSuggestWidget.selectedBackground": "#363C58",
   },
   // アイコン
   "workbench.iconTheme": "catppuccin-mocha",
@@ -95,7 +95,7 @@
   //------------------------------------------------------------------------
   //
   "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
+    "asvetliakov.vscode-neovim": 1,
   },
   //
   //------------------------------------------------------------------------
@@ -116,7 +116,7 @@
     "vue": true,
     "python": true,
     "rust": true,
-    "css": true
+    "css": true,
   },
   "chat.tools.terminal.autoApprove": {
     "echo": true,
@@ -141,7 +141,7 @@
     "wget": false,
     "eval": false,
     "chmod": false,
-    "chown": false
+    "chown": false,
   },
   //
   //------------------------------------------------------------------------
@@ -149,47 +149,47 @@
   //------------------------------------------------------------------------
   //
   "[plaintext]": {
-    "files.autoGuessEncoding": true
+    "files.autoGuessEncoding": true,
   },
   "[csv]": {
-    "files.autoGuessEncoding": true
+    "files.autoGuessEncoding": true,
   },
   "[tsv]": {
-    "files.autoGuessEncoding": true
+    "files.autoGuessEncoding": true,
   },
   "[bat]": {
-    "files.encoding": "shiftjis"
+    "files.encoding": "shiftjis",
   },
   "[markdown]": {
-    "editor.defaultFormatter": null
+    "editor.defaultFormatter": null,
   },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
-      "source.organizeImports": "explicit"
+      "source.organizeImports": "explicit",
     },
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   // 一部のファイルの言語モードを指定
   "files.associations": {
     "Vagrantfile": "ruby",
     "*.txt": "csv",
-    "*.ahk": "ahk"
+    "*.ahk": "ahk",
   },
   "hediet.vscode-drawio.resizeImages": null,
   "python.analysis.typeCheckingMode": "standard",
@@ -204,7 +204,7 @@
   "lazygit-vscode.panels": {
     "sidebar": "hide",
     "panel": "hide",
-    "secondarySidebar": "hide"
+    "secondarySidebar": "hide",
   },
   // ---------------------------------------------------------
   // Error Lens
@@ -229,26 +229,26 @@
     { "tag": "WARN", "color": "#000000", "backgroundColor": "#FBBF24" },
     { "tag": "HINT", "color": "#000000", "backgroundColor": "#10B981" },
     { "tag": "TODO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
-    { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" }
+    { "tag": "INFO", "color": "#CDCDCD", "backgroundColor": "#2563EB" },
   ],
   // ---------------------------------------------------------
   // Background
   // ---------------------------------------------------------
   "background.windowBackgrounds": [
-    "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/toki/mnt/vscode/hina.webp"
+    "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/toki/mnt/vscode/hina.webp",
   ],
   "background.backgroundAlignment": [
     "Bottom Right",
     "Center Center",
     "Center Center",
-    "Center Center"
+    "Center Center",
   ],
   "background.backgroundOpacity": [0.25, 0.1, 0.1, 0.1],
   "background.backgroundRepeat": [
     "No Repeat",
     "No Repeat",
     "No Repeat",
-    "No Repeat"
+    "No Repeat",
   ],
   "background.backgroundSize": ["Manual", "Cover", "Cover", "Cover"],
   "background.backgroundSizeValue": ["512px", "100%", "100%", "100%"],
@@ -256,5 +256,5 @@
   "editor.accessibilitySupport": "on",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "chat.viewSessions.orientation": "stacked"
+  "chat.viewSessions.orientation": "stacked",
 }
