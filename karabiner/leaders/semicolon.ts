@@ -33,6 +33,7 @@ export const semicolonLeaderDefinitions = [
         k: toJKeys("`", "`", "<-"),
         l: toJKey("_"),
         m: toJKey('"'),
+        n: toKey("z", ["control", "shift"]),
         o: toJKey("|"),
         p: toJKey("%"),
         q: toKey("w", ["control", "shift"]), // ctrl+shift+w
