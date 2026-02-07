@@ -1,14 +1,27 @@
 layout {
-  tab {
-    pane split_direction="vertical" {
-      pane name="Toki update" cwd="~/git/github.com/tadashi-aikawa/toki" command="zsh" close_on_exit=false {
-        args "-c" "git pull && ./provision.sh"
+  default_tab_template {
+      pane size=1 borderless=true {
+          plugin location="zellij:tab-bar"
       }
-      pane name="Carnelian update" cwd="~/git/github.com/tadashi-aikawa/carnelian" command="zsh" close_on_exit=false {
-        args "-c" "git pull"
+      children
+      pane size=1 borderless=true {
+          plugin location="zellij:status-bar"
       }
-      pane name="Neovim update" command="zsh" close_on_exit=false {
+  }
+
+  tab cwd="~/git/github.com/tadashi-aikawa" {
+    pane {
+      pane name=" Neovim update" command="zsh" {
         args "-c" "nvim -c ':lua require(\"lazy\").sync()'"
+      }
+
+      pane split_direction="vertical" {
+        pane name="🍏Toki update" cwd="toki" command="zsh" {
+          args "-c" "git pull && ./provision.sh"
+        }
+        pane name="🔴Carnelian update" cwd="carnelian" command="git" {
+          args "pull"
+        }
       }
     }
   }
