@@ -33,14 +33,13 @@ export const semicolonLeaderDefinitions = [
         k: toJKeys("`", "`", "<-"),
         l: toJKey("_"),
         m: toJKey('"'),
-        n: toKey("z", ["control", "shift"]),
         o: toJKey("|"),
         p: toJKey("%"),
         q: toKey("w", ["control", "shift"]), // ctrl+shift+w
         r: toJKeys(" ", "=", "=", " "),
         s: toJKeys("(", ")", "<-"),
         t: toDynamicPaste('date "+%Y-%m-%d"'),
-        u: toJKeys('"', '"', "<-"),
+        u: toKey("z", ["control", "shift"]),
         v: toJKey("'"),
         w: toKey("w", "control"), // ctrl+w
         x: toJKeys("[", "]", "<-"),

@@ -12,109 +12,58 @@ keybinds clear-defaults=true {
     shared_except "locked" "resize" {
         bind "Ctrl e" { SwitchToMode "resize"; }
     }
+    // paneという名の実質メイン
     pane {
+        bind "Enter" { Write 13; } 
+        bind "Shift q" { Quit; }
+
         // ペイン
         bind "s" { NewPane "down"; SwitchToMode "normal"; }
         bind "v" { NewPane "right"; SwitchToMode "normal"; }
-        bind "w" { NewPane "stacked"; SwitchToMode "normal"; }
+        bind "n" { NewPane "stacked"; SwitchToMode "normal"; }
+        bind "q" { CloseFocus; }
+        bind "c" { Clear; }
 
-        bind "h" { MoveFocus "left";  SwitchToMode "normal"; }
-        bind "j" { MoveFocus "down";  SwitchToMode "normal"; }
-        bind "k" { MoveFocus "up";    SwitchToMode "normal"; }
-        bind "l" { MoveFocus "right"; SwitchToMode "normal"; }
+        bind "h" { MoveFocus "left";  }
+        bind "j" { MoveFocus "down";  }
+        bind "k" { MoveFocus "up";    }
+        bind "l" { MoveFocus "right"; }
 
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "i" { ToggleFloatingPanes; SwitchToMode "normal"; }
 
         bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "e" { EditScrollback; SwitchToMode "normal"; }
 
         // タブ
-        bind "[" { GoToPreviousTab; }
-        bind "]" { GoToNextTab; }
-        bind "Shift Tab" { GoToPreviousTab; }
-        bind "Tab" { GoToNextTab; }
         bind "t" { NewTab; SwitchToMode "normal"; }
+
+        bind "[" { GoToPreviousTab; }
+        bind "Shift Tab" { GoToPreviousTab; }
+        bind "]" { GoToNextTab; }
+        bind "Tab" { GoToNextTab; }
+
         bind "2" { SwitchToMode "renametab"; TabNameInput 0; }
 
         // あまり使わないかも
-        bind "q" { Quit; }
         bind "p" { TogglePanePinned; SwitchToMode "normal"; }
         bind "d" { Detach; }
+        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
 
-        // bind "n" { NewPane; SwitchToMode "normal"; }
-        // bind "p" { SwitchFocus; }
         bind "Ctrl w" { SwitchToMode "normal"; }
-        // bind "i" { TogglePaneEmbedOrFloating; SwitchToMode "normal"; }
-        // bind "z" { TogglePaneFrames; SwitchToMode "normal"; }
     }
-    // tab {
-    //     bind "left" { GoToPreviousTab; }
-    //     bind "down" { GoToNextTab; }
-    //     bind "up" { GoToPreviousTab; }
-    //     bind "right" { GoToNextTab; }
-    //     bind "1" { GoToTab 1; SwitchToMode "normal"; }
-    //     bind "2" { GoToTab 2; SwitchToMode "normal"; }
-    //     bind "3" { GoToTab 3; SwitchToMode "normal"; }
-    //     bind "4" { GoToTab 4; SwitchToMode "normal"; }
-    //     bind "5" { GoToTab 5; SwitchToMode "normal"; }
-    //     bind "6" { GoToTab 6; SwitchToMode "normal"; }
-    //     bind "7" { GoToTab 7; SwitchToMode "normal"; }
-    //     bind "8" { GoToTab 8; SwitchToMode "normal"; }
-    //     bind "9" { GoToTab 9; SwitchToMode "normal"; }
-    //     bind "[" { BreakPaneLeft; SwitchToMode "normal"; }
-    //     bind "]" { BreakPaneRight; SwitchToMode "normal"; }
-    //     bind "b" { BreakPane; SwitchToMode "normal"; }
-    //     bind "h" { GoToPreviousTab; }
-    //     bind "j" { GoToNextTab; }
-    //     bind "k" { GoToPreviousTab; }
-    //     bind "l" { GoToNextTab; }
-    //     bind "n" { NewTab; SwitchToMode "normal"; }
-    //     bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
-    //     bind "s" { ToggleActiveSyncTab; SwitchToMode "normal"; }
-    //     bind "x" { CloseTab; SwitchToMode "normal"; }
-    //     bind "tab" { ToggleTab; }
-    // }
     resize {
         bind "h" { Resize "Increase left"; }
         bind "j" { Resize "Increase down"; }
         bind "k" { Resize "Increase up"; }
         bind "l" { Resize "Increase right"; }
-        // bind "left" { Resize "Increase left"; }
-        // bind "down" { Resize "Increase down"; }
-        // bind "up" { Resize "Increase up"; }
-        // bind "right" { Resize "Increase right"; }
-        // bind "+" { Resize "Increase"; }
-        // bind "-" { Resize "Decrease"; }
-        // bind "=" { Resize "Increase"; }
-        // bind "H" { Resize "Decrease left"; }
-        // bind "J" { Resize "Decrease down"; }
-        // bind "K" { Resize "Decrease up"; }
-        // bind "L" { Resize "Decrease right"; }
-        // bind "Ctrl n" { SwitchToMode "normal"; }
-    }
-    move {
-        bind "left" { MovePane "left"; }
-        bind "down" { MovePane "down"; }
-        bind "up" { MovePane "up"; }
-        bind "right" { MovePane "right"; }
-        bind "h" { MovePane "left"; }
-        bind "Ctrl h" { SwitchToMode "normal"; }
-        bind "j" { MovePane "down"; }
-        bind "k" { MovePane "up"; }
-        bind "l" { MovePane "right"; }
-        bind "n" { MovePane; }
-        bind "p" { MovePaneBackwards; }
-        bind "tab" { MovePane; }
-    }
-    scroll {
-        bind "e" { EditScrollback; SwitchToMode "normal"; }
-        bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     search {
-        bind "c" { SearchToggleOption "CaseSensitivity"; }
         bind "n" { Search "down"; }
-        bind "o" { SearchToggleOption "WholeWord"; }
         bind "p" { Search "up"; }
+
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
         bind "w" { SearchToggleOption "Wrap"; }
     }
     session {
