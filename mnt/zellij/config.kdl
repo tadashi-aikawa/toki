@@ -12,6 +12,9 @@ keybinds clear-defaults=true {
     shared_except "locked" "resize" {
         bind "Ctrl e" { SwitchToMode "resize"; }
     }
+    shared_except "locked" "move" {
+        bind "Ctrl m" { SwitchToMode "move"; }
+    }
     // paneという名の実質メイン
     pane {
         bind "Enter" { Write 13; } 
@@ -57,6 +60,14 @@ keybinds clear-defaults=true {
         bind "j" { Resize "Increase down"; }
         bind "k" { Resize "Increase up"; }
         bind "l" { Resize "Increase right"; }
+    }
+    move {
+        bind "h" { MovePane "left"; }
+        bind "j" { MovePane "down"; }
+        bind "k" { MovePane "up"; }
+        bind "l" { MovePane "right"; }
+        bind "p" { TogglePanePinned; SwitchToMode "normal"; }
+        bind "tab" { MovePane; }
     }
     search {
         bind "n" { Search "down"; }
