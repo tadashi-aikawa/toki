@@ -132,10 +132,21 @@ function run_yazi() {
 }
 zle -N run_yazi
 
+function run_zellij_session() {
+  dst="$(ls ~/.config/zellij/layouts | fzf)" || { zle reset-prompt; return 0 }
+  [[ -z $dst ]] && { zle reset-prompt; return 0 }
+
+  LBUFFER="zellij -l ${dst%.*}"
+  zle accept-line
+}
+zle -N run_zellij_session 
+
 # <ESC>jでNeovim起動
 bindkey '\ej' run_vim
 # <ESC>lでyazi起動
 bindkey '\el' run_yazi
+# <ESC>sでzellijのセッション起動
+bindkey '\es' run_zellij_session
 # <ESC>eでNeovimでコマンドライン編集
 bindkey '\ee' edit-command-line
 
