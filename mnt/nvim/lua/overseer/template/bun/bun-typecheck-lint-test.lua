@@ -11,9 +11,12 @@ return {
         },
       },
       components = {
-        "restart_on_save",
         { "open_output", on_start = "never" },
         { "on_complete_notify", on_change = true, statuses = {} },
+        {
+          "on_children_status_sync",
+          task_names = { "bun typecheck", "bun lint", "bun test" },
+        },
         {
           "on_complete_trouble_close_if_clean",
           task_names = { "bun test", "bun lint", "bun typecheck" },

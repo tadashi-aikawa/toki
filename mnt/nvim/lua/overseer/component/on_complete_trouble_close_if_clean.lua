@@ -62,6 +62,16 @@ local function normalize_task_names(task_names, children)
   return names
 end
 
+local function close_trouble_if_clean(task_names)
+  if has_task_diagnostics(task_names) then
+    return
+  end
+
+  vim.schedule(function()
+    vim.cmd.Trouble({ args = { "diagnostics", "close" } })
+  end)
+end
+
 ---@type overseer.ComponentFileDefinition
 return {
   desc = "Close Trouble when all named tasks have completed and are clean",
@@ -75,27 +85,25 @@ return {
   constructor = function(params)
     local task_names = params.task_names or {}
 
+    local function maybe_close_for_orchestrator(task)
+      local children = list_child_tasks(task)
+      local target_names = normalize_task_names(task_names, children)
+
+      if vim.tbl_isempty(target_names) then
+        return
+      end
+
+      if not all_children_completed(children, target_names) then
+        return
+      end
+
+      close_trouble_if_clean(target_names)
+    end
+
     return {
       on_complete = function(_, task)
         if task.strategy and task.strategy.name == "orchestrator" then
-          local children = list_child_tasks(task)
-          local target_names = normalize_task_names(task_names, children)
-
-          if vim.tbl_isempty(target_names) then
-            return
-          end
-
-          if not all_children_completed(children, target_names) then
-            return
-          end
-
-          if has_task_diagnostics(target_names) then
-            return
-          end
-
-          vim.schedule(function()
-            vim.cmd.Trouble({ args = { "diagnostics", "close" } })
-          end)
+          maybe_close_for_orchestrator(task)
           return
         end
 
@@ -110,14 +118,17 @@ return {
           return
         end
 
-        if has_task_diagnostics(task_names) then
+        close_trouble_if_clean(task_names)
+        state.completed = {}
+      end,
+      on_other_task_status = function(_, task, other_task)
+        if not task.strategy or task.strategy.name ~= "orchestrator" then
           return
         end
-
-        vim.schedule(function()
-          vim.cmd.Trouble({ args = { "diagnostics", "close" } })
-        end)
-        state.completed = {}
+        if other_task.parent_id ~= task.id then
+          return
+        end
+        maybe_close_for_orchestrator(task)
       end,
     }
   end,

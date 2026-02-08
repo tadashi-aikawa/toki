@@ -1,7 +1,10 @@
 ---@type overseer.TemplateDefinition
+local bun_util = require("overseer.template.bun.util")
+
 return {
   name = "🦉bun test",
   builder = function()
+    local watch_paths = bun_util.resolve_watch_paths({ "src", "test", "tests" })
     local function create_parser()
       local pending_error = nil
       local pending_details = {}
@@ -46,6 +49,7 @@ return {
       cmd = { "bun" },
       args = { "test" },
       components = {
+        { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
         { "on_output_parse", parser = create_parser() },
         "on_result_diagnostics",
