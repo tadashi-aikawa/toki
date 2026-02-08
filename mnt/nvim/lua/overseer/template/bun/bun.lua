@@ -1,9 +1,9 @@
 ---@type overseer.TemplateDefinition
 return {
-  name = "🦉bun",
+  name = "🦉bun typecheck/lint/test",
   builder = function()
     return {
-      name = "bun",
+      name = "bun typecheck/lint/test",
       strategy = {
         "orchestrator",
         tasks = {
