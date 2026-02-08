@@ -7,7 +7,7 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
     shared_except "locked" "pane" {
-        bind "Ctrl Shift z" { SwitchToMode "pane"; }
+        bind "Ctrl Shift /" { SwitchToMode "pane"; }
     }
     shared_except "locked" "resize" {
         bind "Ctrl e" { SwitchToMode "resize"; }

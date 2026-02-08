@@ -20,6 +20,8 @@ export const semicolonLeaderDefinitions = [
         [UJM["enter"]]: toKey("f18", ["option"]), // Homerow起動用
         [UJM["ESC"]]: toKey("f17", ["option"]), // Homerow search起動用
         [UJM[" "]]: [toKey("f20", ["option"]), toKey("f20", ["option"])], // Scoot起動用. 2回押しなのは1度押しだとScootが安定しないから
+        [UJM["半全"]]: toKey("/", ["control", "shift"]),
+
         ";": toJKey(";"),
         a: toJKey("^"),
         c: toJKeys("`", "`", "`"),
@@ -39,7 +41,7 @@ export const semicolonLeaderDefinitions = [
         r: toJKeys(" ", "=", "=", " "),
         s: toJKeys("(", ")", "<-"),
         t: toDynamicPaste('date "+%Y-%m-%d"'),
-        u: toKey("z", ["control", "shift"]),
+        u: toJKeys('"', '"', "<-"),
         v: toJKey("'"),
         w: toKey("w", "control"), // ctrl+w
         x: toJKeys("[", "]", "<-"),
