@@ -1,6 +1,6 @@
 ---@type overseer.TemplateDefinition
 return {
-  name = "🦉bun typecheck/lint/test",
+  name = "🎭bun typecheck/lint/test",
   builder = function()
     return {
       name = "bun typecheck/lint/test",
@@ -14,6 +14,10 @@ return {
         "restart_on_save",
         { "open_output", on_start = "never" },
         { "on_complete_notify", on_change = true, statuses = {} },
+        {
+          "on_complete_trouble_close_if_clean",
+          task_names = { "bun test", "bun lint", "bun typecheck" },
+        },
         "default",
       },
     }
