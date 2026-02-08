@@ -7,6 +7,9 @@ return {
   opts = {
     task_list = {
       direction = "left",
+      keymaps = {
+        ["<C-e>"] = false,
+      },
     },
     task_win = {
       border = "rounded",
