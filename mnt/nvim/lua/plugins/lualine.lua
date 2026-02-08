@@ -48,8 +48,8 @@ return {
         component_separators = {},
         section_separators = {},
         disabled_filetypes = {
-          statusline = { "no-neck-pain", "aerial" },
-          winbar = { "no-neck-pain", "aerial" },
+          statusline = { "no-neck-pain", "aerial", "OverseerList", "OverseerOutput" },
+          winbar = { "no-neck-pain", "aerial", "OverseerList", "OverseerOutput" },
         },
       },
       winbar = {
@@ -69,6 +69,7 @@ return {
         lualine_x = { { "diagnostics", sources = { "nvim_lsp" } } },
         lualine_y = {
           { "filetype", icon_only = true },
+          { "overseer" },
         },
         lualine_z = {
           {
