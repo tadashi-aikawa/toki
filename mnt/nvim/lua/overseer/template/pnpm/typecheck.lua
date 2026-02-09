@@ -2,12 +2,12 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉bun typecheck",
+  name = "🦉pnpm typecheck",
   builder = function()
-    local watch_paths = util.resolve_watch_paths({ "src", "test", "tests" })
+    local watch_paths = util.resolve_watch_paths({ "app" })
     return {
-      name = "bun typecheck",
-      cmd = { "bun" },
+      name = "pnpm typecheck",
+      cmd = { "pnpm" },
       args = { "typecheck" },
       components = {
         { "restart_on_save", paths = watch_paths },

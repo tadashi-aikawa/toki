@@ -1,10 +1,10 @@
 ---@type overseer.TemplateDefinition
-local bun_util = require("overseer.template.bun.util")
+local util = require("overseer.template.util")
 
 return {
   name = "🦉bun lint",
   builder = function()
-    local watch_paths = bun_util.resolve_watch_paths({
+    local watch_paths = util.resolve_watch_paths({
       "src",
       "test",
       "tests",
