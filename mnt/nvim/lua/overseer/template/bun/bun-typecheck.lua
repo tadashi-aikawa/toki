@@ -7,7 +7,7 @@ return {
       strategy = {
         "orchestrator",
         tasks = {
-          { "🦉bun typecheck" },
+          { "bun typecheck" },
         },
       },
       components = {

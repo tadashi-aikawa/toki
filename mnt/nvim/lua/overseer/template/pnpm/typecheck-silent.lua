@@ -2,7 +2,7 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉pnpm typecheck-silent",
+  name = "pnpm typecheck-silent",
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "app" })
     return {

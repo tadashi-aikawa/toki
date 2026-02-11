@@ -2,7 +2,7 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉bun lint",
+  name = "bun lint",
   builder = function()
     local watch_paths = util.resolve_watch_paths({
       "src",

@@ -7,7 +7,7 @@ return {
       strategy = {
         "orchestrator",
         tasks = {
-          { "🦉pnpm typecheck" },
+          { "pnpm typecheck" },
         },
       },
       components = {

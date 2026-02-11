@@ -2,7 +2,7 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉bun test",
+  name = "bun test",
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "src", "test", "tests" })
     local function create_parser()

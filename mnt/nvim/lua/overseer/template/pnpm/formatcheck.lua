@@ -2,7 +2,7 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉pnpm formatcheck",
+  name = "pnpm formatcheck",
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "app" })
     return {

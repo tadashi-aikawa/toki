@@ -7,7 +7,7 @@ return {
       strategy = {
         "orchestrator",
         tasks = {
-          { "🦉bun test" },
+          { "bun test" },
         },
       },
       components = {

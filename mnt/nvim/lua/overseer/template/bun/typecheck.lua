@@ -2,7 +2,7 @@
 local util = require("overseer.template.util")
 
 return {
-  name = "🦉bun typecheck",
+  name = "bun typecheck",
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "src", "test", "tests" })
     return {

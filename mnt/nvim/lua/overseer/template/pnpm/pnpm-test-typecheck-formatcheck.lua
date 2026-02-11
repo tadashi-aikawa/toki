@@ -8,9 +8,9 @@ return {
         "orchestrator",
         tasks = {
           {
-            "🦉pnpm test",
-            "🦉pnpm typecheck-silent",
-            "🦉pnpm formatcheck",
+            "pnpm test",
+            "pnpm typecheck-silent",
+            "pnpm formatcheck",
           },
         },
       },
