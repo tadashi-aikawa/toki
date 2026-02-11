@@ -35,18 +35,24 @@ keybinds clear-defaults=true {
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "i" { ToggleFloatingPanes; SwitchToMode "normal"; }
 
-        bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
 
         // タブ
         bind "t" { NewTab; SwitchToMode "normal"; }
 
-        bind "[" { GoToPreviousTab; }
-        bind "Shift Tab" { GoToPreviousTab; }
-        bind "]" { GoToNextTab; }
-        bind "Tab" { GoToNextTab; }
+        bind "Shift h" { GoToPreviousTab; }
+        bind "Shift l" { GoToNextTab; }
+        bind "," { GoToPreviousTab; }
+        bind "." { GoToNextTab; }
 
-        bind "2" { SwitchToMode "renametab"; TabNameInput 0; }
+        bind "1" { GoToTab 1; }
+        bind "2" { GoToTab 2; }
+        bind "3" { GoToTab 3; }
+        bind "4" { GoToTab 4; }
+        bind "5" { GoToTab 5; }
+
+        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
 
         // あまり使わないかも
         bind "p" { TogglePanePinned; SwitchToMode "normal"; }
@@ -60,6 +66,10 @@ keybinds clear-defaults=true {
         bind "j" { Resize "Increase down"; }
         bind "k" { Resize "Increase up"; }
         bind "l" { Resize "Increase right"; }
+        bind "L" { Resize "Decrease left"; }
+        bind "K" { Resize "Decrease down"; }
+        bind "J" { Resize "Decrease up"; }
+        bind "H" { Resize "Decrease right"; }
     }
     move {
         bind "h" { MovePane "left"; }
