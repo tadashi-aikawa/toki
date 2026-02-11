@@ -1,12 +1,9 @@
 layout {
   default_tab_template {
-      pane size=1 borderless=true {
-          plugin location="zellij:tab-bar"
-      }
-      children
-      pane size=1 borderless=true {
-          plugin location="zellij:status-bar"
-      }
+    children
+    pane size=1 borderless=true {
+      plugin location="compact-bar"
+    }
   }
 
   tab cwd="~/git/github.com/tadashi-aikawa" {
