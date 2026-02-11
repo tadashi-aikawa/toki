@@ -24,7 +24,7 @@ keybinds clear-defaults=true {
         bind "s" { NewPane "down"; SwitchToMode "normal"; }
         bind "v" { NewPane "right"; SwitchToMode "normal"; }
         bind "n" { NewPane "stacked"; SwitchToMode "normal"; }
-        bind "w" { CloseFocus; }
+        bind "x" { CloseFocus; }
         bind "c" { Clear; }
 
         bind "h" { MoveFocus "left";  }
@@ -40,6 +40,7 @@ keybinds clear-defaults=true {
 
         // タブ
         bind "t" { NewTab; SwitchToMode "normal"; }
+        bind "w" { CloseTab; }
 
         bind "Shift h" { GoToPreviousTab; }
         bind "Shift l" { GoToNextTab; }
@@ -133,9 +134,6 @@ keybinds clear-defaults=true {
     }
     shared_except "normal" "locked" "entersearch" "renametab" "renamepane" {
         bind "esc" { SwitchToMode "normal"; }
-    }
-    shared_among "pane" "tmux" {
-        bind "x" { CloseFocus; SwitchToMode "normal"; }
     }
     shared_among "scroll" "search" {
         bind "PageDown" { PageScrollDown; }
