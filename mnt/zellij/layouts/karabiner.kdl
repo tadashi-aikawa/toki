@@ -6,7 +6,7 @@ layout {
     }
   }
 
-  tab cwd="~/git/github.com/tadashi-aikawa/toki/karabiner/" {
+  tab name="⌨️ Karabiner" cwd="~/git/github.com/tadashi-aikawa/toki/karabiner/" {
     pane {
       pane name=" Neovim" size="80%" command="nvim" {
         args "-c" "e index.ts" "-c" "NoNeckPain" 

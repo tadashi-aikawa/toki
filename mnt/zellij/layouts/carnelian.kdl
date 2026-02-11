@@ -6,7 +6,7 @@ layout {
     }
   }
 
-  tab cwd="~/git/github.com/tadashi-aikawa/carnelian/" {
+  tab name="🔴 Carnelian" cwd="~/git/github.com/tadashi-aikawa/carnelian/" {
     pane {
       pane stacked=true {
         pane name=" Neovim" command="nvim"

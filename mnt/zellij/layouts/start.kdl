@@ -6,7 +6,7 @@ layout {
     }
   }
 
-  tab cwd="~/git/github.com/tadashi-aikawa" {
+  tab name="🚀 START" cwd="~/git/github.com/tadashi-aikawa" {
     pane {
       pane name=" Neovim update" command="zsh" {
         args "-c" "nvim -c ':lua require(\"lazy\").sync()'"
