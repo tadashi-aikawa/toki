@@ -17,7 +17,7 @@ keybinds clear-defaults=true {
     }
     // paneという名の実質メイン
     pane {
-        bind "Enter" { Write 13; } 
+        bind "Enter" { SwitchToMode "normal"; }
         bind "q" { Quit; }
 
         // ペイン
@@ -59,8 +59,6 @@ keybinds clear-defaults=true {
         bind "p" { TogglePanePinned; SwitchToMode "normal"; }
         bind "d" { Detach; }
         bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
-
-        bind "Ctrl w" { SwitchToMode "normal"; }
     }
     resize {
         bind "h" { Resize "Increase left"; }
