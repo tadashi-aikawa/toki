@@ -18,11 +18,10 @@ return {
         number = true,
       },
     },
-    templates = {
-      "builtin",
-      "bun.test",
-      "bun.typecheck",
-      "bun.lint",
+    disable_template_modules = {
+      "overseer.template.bun",
+      "overseer.template.pnpm",
+      "overseer.template.npm",
     },
   },
 }
