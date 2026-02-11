@@ -35,12 +35,8 @@ keybinds clear-defaults=true {
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "i" { ToggleFloatingPanes; SwitchToMode "normal"; }
 
-        bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
-
-        // タブ
-        bind "t" { NewTab; SwitchToMode "normal"; }
-        bind "w" { CloseTab; }
 
         bind "Shift h" { GoToPreviousTab; }
         bind "Shift l" { GoToNextTab; }
@@ -52,8 +48,6 @@ keybinds clear-defaults=true {
         bind "3" { GoToTab 3; }
         bind "4" { GoToTab 4; }
         bind "5" { GoToTab 5; }
-
-        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
 
         // あまり使わないかも
         bind "p" { TogglePanePinned; SwitchToMode "normal"; }
@@ -126,12 +120,24 @@ keybinds clear-defaults=true {
     }
     shared_except "locked" {
         bind "Ctrl Shift l" { SwitchToMode "locked"; }
+
+        // タブ
+        bind "Ctrl Shift Tab" { GoToPreviousTab; }
+        bind "Ctrl Tab" { GoToNextTab; }
+
+        bind "Ctrl t" { NewTab; SwitchToMode "normal"; }
+        bind "Alt w" { CloseTab; }
+
+        bind "Alt 2" { SwitchToMode "renametab"; TabNameInput 0; }
     }
     shared_except "normal" "locked" "entersearch" {
         bind "enter" { SwitchToMode "normal"; }
     }
     shared_except "normal" "locked" "entersearch" "renametab" "renamepane" {
         bind "esc" { SwitchToMode "normal"; }
+    }
+    shared_except "locked" "session" {
+        bind "Ctrl o" { SwitchToMode "session"; }
     }
     shared_among "scroll" "search" {
         bind "PageDown" { PageScrollDown; }

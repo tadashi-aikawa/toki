@@ -28,17 +28,24 @@ keybind = super+j=unbind
 keybind = super+k=unbind
 keybind = super+n=unbind
 keybind = super+p=unbind
-keybind = super+w=unbind
+keybind = super+t=unbind
 keybind = super+enter=unbind
 keybind = super+left=unbind  
 keybind = super+right=unbind
 keybind = super+plus=unbind
 keybind = super+minus=unbind
+# karabinerで無変換 q -> command+w とマップされたあとに Alt+w とマップ
+keybind = super+w=esc:w
 
 # aの左キーからのショートカット
-keybind = ctrl+t=new_tab
 keybind = ctrl+n=new_window
-keybind = f2=prompt_surface_title
+keybind = ctrl+t=unbind
+# Alt+2 にマップ
+keybind = f2=esc:2
+# ctrl+tab -> ctrl+tab
+keybind = ctrl+tab=text:\x1b[9;5u
+# ctrl+shift+tab -> ctrl+shift+tab
+keybind = ctrl+shift+tab=text:\x1b[9;6u
 
 # ctrl+shift+w (;q leader)
 keybind = ctrl+shift+w>s=new_split:down
