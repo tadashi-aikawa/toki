@@ -227,6 +227,15 @@ return {
       },
       sources = {
         git_recent = git_recent.source_config(),
+        select = {
+          kinds = {
+            overseer_template = {
+              transform = function(item)
+                return type(item.name) == "string" and item.name:match("^🎭") ~= nil
+              end,
+            },
+          },
+        },
         git_status = { layout = { layout = { width = 180 } } },
         git_diff = { layout = { layout = { width = 180 } } },
         git_log_file = { layout = { layout = { width = 180 } } },
