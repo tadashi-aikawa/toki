@@ -38,6 +38,7 @@ Usages:
 | jest        | TS       | Node       | pnpm  | Jest                | Biome         | Biome     |
 | vue         | TS or JS | Bun        | Bun   | Vue                 | ?(ESLint)     | prettierd |
 | nuxt        | TS       | Bun        | Bun   | Nuxt4               | -             | prettierd |
+| nuxt-pnpm   | TS       | pnpm       | pnpm  | Nuxt4               | -             | prettierd |
 | nuxt3       | TS       | pnpm       | pnpm  | Nuxt3               | -             | prettierd |
 | tailwind3   | TS       | Bun        | Bun   | Vue + TailwindCSS3  | -             | prettierd |
 | tailwind    | TS       | Bun        | Bun   | Vue + TailwindCSS   | -             | prettierd |
@@ -299,6 +300,30 @@ function command_nuxt() {
 
 $ cd ${path}
 $ bun dev -o
+"
+  exit 0
+}
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         nuxt-pnpm                        │
+# ╰──────────────────────────────────────────────────────────╯
+function command_nuxt_pnpm() {
+  local path="${1:?'pathは必須です'}"
+
+  pnpm create nuxt@latest "${path}"
+  cd "$path"
+  pnpm config set --location=project minimumReleaseAge 1440
+  pnpm i
+  pnpm add -D @fsouza/prettierd prettier-plugin-organize-imports
+  mkdir pages
+
+  cp -r "${TEMPLATE_DIR}"/nuxt-pnpm/* .
+
+  echo "
+🚀 Try
+
+$ cd ${path}
+$ pnpm dev -o
 "
   exit 0
 }
@@ -810,6 +835,7 @@ deno) command_deno "$@" ;;
 jest) command_jest "$@" ;;
 vue) command_vue "$@" ;;
 nuxt) command_nuxt "$@" ;;
+nuxt-pnpm) command_nuxt_pnpm "$@" ;;
 nuxt3) command_nuxt3 "$@" ;;
 html) command_html "$@" ;;
 tailwind3) command_tailwind3 "$@" ;;
