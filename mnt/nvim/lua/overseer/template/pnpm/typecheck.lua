@@ -1,20 +1,26 @@
 ---@type overseer.TemplateDefinition
-local util = require("overseer.template.util")
-
 return {
-  name = "pnpm typecheck",
+  name = "🎭pnpm typecheck",
   builder = function()
-    local watch_paths = util.resolve_watch_paths({ "app" })
     return {
       name = "pnpm typecheck",
-      cmd = { "pnpm" },
-      args = { "typecheck" },
+      strategy = {
+        "orchestrator",
+        tasks = {
+          { "pnpm typecheck" },
+        },
+      },
       components = {
-        { "restart_on_save", paths = watch_paths },
-        { "on_complete_notify", on_change = true },
-        { "on_output_parse", problem_matcher = "$tsc" },
-        "on_result_diagnostics",
-        { "on_result_diagnostics_trouble", args = { "focus=false" } },
+        { "open_output", on_start = "never" },
+        { "on_complete_notify", on_change = true, statuses = {} },
+        {
+          "on_children_status_sync",
+          task_names = { "pnpm typecheck" },
+        },
+        {
+          "on_complete_trouble_close_if_clean",
+          task_names = { "pnpm typecheck" },
+        },
         "default",
       },
     }
