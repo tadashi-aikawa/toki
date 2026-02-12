@@ -31,6 +31,7 @@ keybinds clear-defaults=true {
 
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "i" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "Shift i" { TogglePaneEmbedOrFloating; }
 
         bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
