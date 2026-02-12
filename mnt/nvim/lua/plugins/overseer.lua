@@ -22,6 +22,7 @@ return {
       "overseer.template.bun",
       "overseer.template.pnpm",
       "overseer.template.npm",
+      "overseer.template.python",
     },
   },
 }
