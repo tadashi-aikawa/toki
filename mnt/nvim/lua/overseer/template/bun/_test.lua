@@ -52,8 +52,7 @@ return {
         { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
         { "on_output_parse", parser = create_parser() },
-        "on_result_diagnostics",
-        { "on_result_diagnostics_trouble", args = { "focus=false" } },
+        { "on_result_diagnostics_quickfix", open = true, close = true },
         "default",
       },
     }
