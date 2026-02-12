@@ -10,7 +10,7 @@ keybinds clear-defaults=true {
         bind "Ctrl Shift /" { SwitchToMode "pane"; }
     }
     shared_except "locked" "resize" {
-        bind "Ctrl e" { SwitchToMode "resize"; }
+        // bind "Ctrl e" { SwitchToMode "resize"; }
     }
     shared_except "locked" "move" {
         bind "Ctrl m" { SwitchToMode "move"; }
@@ -95,7 +95,7 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "normal"
         }
-        bind "Ctrl o" { SwitchToMode "normal"; }
+        // bind "Ctrl o" { SwitchToMode "normal"; }
         bind "p" {
             LaunchOrFocusPlugin "plugin-manager" {
                 floating true
@@ -137,7 +137,7 @@ keybinds clear-defaults=true {
         bind "esc" { SwitchToMode "normal"; }
     }
     shared_except "locked" "session" {
-        bind "Ctrl o" { SwitchToMode "session"; }
+        // bind "Ctrl o" { SwitchToMode "session"; }
     }
     shared_among "scroll" "search" {
         bind "PageDown" { PageScrollDown; }
