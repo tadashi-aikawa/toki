@@ -26,7 +26,7 @@ return {
         { "restart_on_save" },
         { "on_complete_notify", on_change = true },
         { "on_output_parse", problem_matcher = "$ruff-format" },
-        { "on_result_diagnostics_quickfix", open = true, close = true },
+        { "on_result_diagnostics_quickfix_no_eventignore", open = true, close = true },
         "default",
       },
     }
