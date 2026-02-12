@@ -40,6 +40,18 @@ local function has_trouble_item_in_direction(view, direction)
   return false
 end
 
+local function cnext_cyclic()
+  if not pcall(vim.cmd, "cnext") then
+    vim.cmd("cfirst")
+  end
+end
+
+local function cprev_cyclic()
+  if not pcall(vim.cmd, "cprev") then
+    vim.cmd("clast")
+  end
+end
+
 return {
   "folke/trouble.nvim",
   cmd = "Trouble",
@@ -64,10 +76,10 @@ return {
               require("trouble").first()
             end
           else
-            vim.cmd("cnext")
+            cnext_cyclic()
           end
         else
-          vim.cmd("cnext")
+          cnext_cyclic()
         end
       end,
     },
@@ -83,10 +95,10 @@ return {
               require("trouble").last()
             end
           else
-            vim.cmd("cprev")
+            cprev_cyclic()
           end
         else
-          vim.cmd("cprev")
+          cprev_cyclic()
         end
       end,
     },
