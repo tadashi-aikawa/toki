@@ -9,9 +9,6 @@ keybinds clear-defaults=true {
     shared_except "locked" "pane" {
         bind "Ctrl Shift /" { SwitchToMode "pane"; }
     }
-    shared_except "locked" "resize" {
-        // bind "Ctrl e" { SwitchToMode "resize"; }
-    }
     shared_except "locked" "move" {
         bind "Ctrl m" { SwitchToMode "move"; }
     }
@@ -37,6 +34,7 @@ keybinds clear-defaults=true {
 
         bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
+        bind "Ctrl e" { SwitchToMode "resize"; }
 
         bind "Shift h" { GoToPreviousTab; }
         bind "Shift l" { GoToNextTab; }
