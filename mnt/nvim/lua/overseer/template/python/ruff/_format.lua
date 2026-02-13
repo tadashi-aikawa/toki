@@ -21,7 +21,7 @@ return {
     return {
       name = "ruff format",
       cmd = { "ruff" },
-      args = { "format", "--check", "--preview", "--output-format", "concise" },
+      args = { "format", "--check", "--output-format", "concise" },
       components = {
         { "restart_on_save" },
         { "on_complete_notify", on_change = true },
