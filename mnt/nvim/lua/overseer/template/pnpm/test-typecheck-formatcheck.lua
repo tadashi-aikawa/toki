@@ -9,7 +9,7 @@ return {
         tasks = {
           {
             "pnpm test",
-            "pnpm typecheck-silent",
+            "pnpm typecheck",
             "pnpm formatcheck",
           },
         },
@@ -21,7 +21,7 @@ return {
           "on_children_status_sync",
           task_names = {
             "pnpm test",
-            "pnpm typecheck-silent",
+            "pnpm typecheck",
             "pnpm formatcheck",
           },
         },
@@ -29,7 +29,7 @@ return {
           "on_complete_trouble_close_if_clean",
           task_names = {
             "pnpm test",
-            "pnpm typecheck-silent",
+            "pnpm typecheck",
             "pnpm formatcheck",
           },
         },
