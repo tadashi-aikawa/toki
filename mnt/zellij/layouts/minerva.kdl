@@ -1,0 +1,28 @@
+layout {
+  default_tab_template {
+    pane size=1 borderless=true {
+      plugin location="compact-bar"
+    }
+    children
+  }
+
+  tab name=" CSS" {
+    pane split_direction="vertical" {
+      pane name=" owl.css" size="50%" cwd="~/git/github.com/tadashi-aikawa/toki/mnt/obsidian/.obsidian/snippets/" {
+        command "nvim"
+        args    "-c" "e owl.css" "-c" "NoNeckPain" 
+      } 
+      pane name=" publish.css" size="50%" cwd="~/work/minerva/" {
+        command "nvim"
+        args    "-c" "e publish.css" "-c" "NoNeckPain" 
+      } 
+    }  
+  }
+
+  tab name=" JS" {
+    pane name=" publish.js" cwd="~/work/minerva/" {
+      command "nvim"
+      args    "-c" "e publish.js" "-c" "NoNeckPain" 
+    } 
+  }
+}
