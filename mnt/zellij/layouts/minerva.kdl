@@ -7,16 +7,10 @@ layout {
   }
 
   tab name=" CSS" {
-    pane split_direction="vertical" {
-      pane name=" owl.css" size="50%" cwd="~/git/github.com/tadashi-aikawa/toki/mnt/obsidian/.obsidian/snippets/" {
-        command "nvim"
-        args    "-c" "e owl.css" "-c" "NoNeckPain" 
-      } 
-      pane name=" publish.css" size="50%" cwd="~/work/minerva/" {
-        command "nvim"
-        args    "-c" "e publish.css" "-c" "NoNeckPain" 
-      } 
-    }  
+    pane name=" Neovim" cwd="~/git/github.com/tadashi-aikawa/toki/" {
+      command "zsh"
+      args    "-c" "nvim -O ~/work/minerva/publish.css mnt/obsidian/.obsidian/snippets/owl.css -c NoNeckPain"
+    } 
   }
 
   tab name=" JS" {
