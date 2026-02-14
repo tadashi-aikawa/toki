@@ -4,6 +4,7 @@ return {
     { "<space><space>o", "<CMD>OverseerRun<CR>" },
     { "<space><space>O", "<CMD>OverseerToggle<CR>" },
   },
+  cmd = "OverseerRun",
   opts = {
     task_list = {
       direction = "left",
