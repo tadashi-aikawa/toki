@@ -1,24 +1,26 @@
 import {
-  toNotificationMessage,
-  toRemoveNotificationMessage,
+  to$,
   toSetVar,
 } from "karabiner.ts";
 
-const MODE_NOTIFICATION_ID = "mode_notification_id";
-
 type Mode = "NORMAL" | "RANGE" | "SPECIAL";
+const toHammerspoonMode = (mode: Mode | "DEFAULT") =>
+  to$(
+    `/usr/bin/open -g "hammerspoon://karabiner-mode?mode=${mode}" >/dev/null 2>&1`,
+  );
+
 export const terminateMode = (mode: Mode) => [
-  toRemoveNotificationMessage(MODE_NOTIFICATION_ID),
   toSetVar(mode, 0),
   toSetVar("__layer", 0),
+  toHammerspoonMode("DEFAULT"),
 ];
 export const startMode = (mode: Mode) => [
-  toNotificationMessage(MODE_NOTIFICATION_ID, mode),
   toSetVar(mode, 1),
   toSetVar("__layer", 1),
+  toHammerspoonMode(mode),
 ];
 export const changeMode = (from: Mode, to: Mode) => [
-  toNotificationMessage(MODE_NOTIFICATION_ID, to),
   toSetVar(from, 0),
   toSetVar(to, 1),
+  toHammerspoonMode(to),
 ];
