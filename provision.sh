@@ -399,6 +399,9 @@ ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
 # keifu
 mise use -g cargo:keifu
 
+# hyperfine
+mise use -g hyperfine
+
 # awscli (miseではpythonのパスが上書きされてしまう)
 brew install awscli
 
