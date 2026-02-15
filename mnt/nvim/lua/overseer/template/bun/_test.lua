@@ -47,7 +47,7 @@ return {
     return {
       name = "bun test",
       cmd = { "bun" },
-      args = { "test" },
+      args = { "run", "test" },
       components = {
         { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
