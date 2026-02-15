@@ -402,6 +402,9 @@ mise use -g cargo:keifu
 # hyperfine
 mise use -g hyperfine
 
+# hexyl
+mise use -g hexyl
+
 # awscli (miseではpythonのパスが上書きされてしまう)
 brew install awscli
 
