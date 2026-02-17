@@ -1,19 +1,6 @@
 ---@type overseer.TemplateDefinition
 local util = require("overseer.template.util")
-local problem_matcher = require("overseer.vscode.problem_matcher")
-
-problem_matcher.register_problem_matcher("$ruff-format", {
-  fileLocation = { "relative", "${cwd}" },
-  severity = "warning",
-  pattern = {
-    vim_regexp = "\\v^(.*):(\\d+):(\\d+):\\s+([^:]+):\\s+(.*)$",
-    file = 1,
-    line = 2,
-    column = 3,
-    code = 4,
-    message = 5,
-  },
-})
+require("overseer.template.problem_matcher")
 
 return {
   name = "ruff format",
