@@ -1,16 +1,16 @@
 ---@type overseer.TemplateDefinition
 return {
-  name = "🎭pnpm test/typecheck/formatcheck",
+  name = "🎭pnpm typecheck/test(vitest)/formatcheck(prettier)",
   builder = function()
     return {
-      name = "pnpm test/typecheck/formatcheck",
+      name = "pnpm typecheck/test(vitest)/formatcheck(prettier)",
       strategy = {
         "orchestrator",
         tasks = {
           {
-            "pnpm test",
+            "pnpm test vitest",
             "pnpm typecheck",
-            "pnpm formatcheck",
+            "pnpm formatcheck prettier",
           },
         },
       },
@@ -20,17 +20,17 @@ return {
         {
           "on_children_status_sync",
           task_names = {
-            "pnpm test",
+            "pnpm test vitest",
             "pnpm typecheck",
-            "pnpm formatcheck",
+            "pnpm formatcheck prettier",
           },
         },
         {
           "on_complete_trouble_close_if_clean",
           task_names = {
-            "pnpm test",
+            "pnpm test vitest",
             "pnpm typecheck",
-            "pnpm formatcheck",
+            "pnpm formatcheck prettier",
           },
         },
         "default",
