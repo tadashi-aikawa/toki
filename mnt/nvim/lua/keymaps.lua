@@ -56,6 +56,11 @@ vim.keymap.set("n", "<Space>w", ":BufferCloseAllButVisible<CR>", { silent = true
 
 -- tab split
 vim.keymap.set("n", "<C-w>t", ":tab split<CR>", { silent = true })
+-- 再描画に加えて外部更新チェック
+vim.keymap.set("n", "<C-l>", function()
+  vim.cmd("checktime")
+  vim.cmd("normal! <C-l>")
+end, { silent = true })
 -- 行補完
 vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { silent = true })
 
