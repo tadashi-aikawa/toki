@@ -1,9 +1,9 @@
 ---@type overseer.TemplateDefinition
 return {
-  name = "🎭ruff",
+  name = "🎭ruff format/check",
   builder = function()
     return {
-      name = "ruff",
+      name = "ruff format/check",
       strategy = {
         "orchestrator",
         tasks = {

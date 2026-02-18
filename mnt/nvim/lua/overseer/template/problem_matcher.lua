@@ -130,4 +130,68 @@ M.biome_check_parser = function(line)
   return nil
 end
 
+--- Parser for `ruff format --check` output in stable mode.
+--- Captures lines like: "Would reformat: path/to/file.py"
+---@param line string
+---@return nil|vim.quickfix.entry
+M.ruff_format_check_parser = function(line)
+  local normalized = vim.trim(strip_ansi(line):gsub("\r$", ""))
+  if normalized == "" then
+    return nil
+  end
+
+  local file = normalized:match("^Would reformat:%s+(.+)$")
+  if not file then
+    return nil
+  end
+
+  file = vim.trim(file)
+  if file == "" then
+    return nil
+  end
+
+  return {
+    filename = file,
+    lnum = 1,
+    col = 1,
+    text = "format (would change)",
+    type = "W",
+  }
+end
+
+--- Parser for `ruff check --output-format concise` output.
+--- Handles ANSI/OSC8-decorated lines by normalizing them first.
+---@param line string
+---@return nil|vim.quickfix.entry
+M.ruff_check_parser = function(line)
+  local normalized = vim.trim(strip_ansi(line):gsub("\r$", ""))
+  if normalized == "" then
+    return nil
+  end
+
+  local filename, lnum, col, code, message =
+    normalized:match("^([^:]+):(%d+):(%d+):%s+([^: ]+)%s*(.*)$")
+  if not filename or not lnum or not col or not code then
+    return nil
+  end
+
+  filename = vim.trim(filename)
+  if filename == "" then
+    return nil
+  end
+
+  local text = vim.trim(string.format("%s %s", code, message or ""))
+  if text == "" then
+    text = code
+  end
+
+  return {
+    filename = filename,
+    lnum = tonumber(lnum),
+    col = tonumber(col),
+    text = text,
+    type = "W",
+  }
+end
+
 return M

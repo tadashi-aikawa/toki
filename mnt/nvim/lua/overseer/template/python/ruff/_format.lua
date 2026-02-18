@@ -1,6 +1,6 @@
 ---@type overseer.TemplateDefinition
 local util = require("overseer.template.util")
-require("overseer.template.problem_matcher")
+local template_problem_matcher = require("overseer.template.problem_matcher")
 
 return {
   name = "ruff format",
@@ -8,12 +8,18 @@ return {
     return {
       name = "ruff format",
       cmd = { "ruff" },
-      args = { "format", "--check", "--output-format", "concise" },
+      args = { "format", "--check" },
       components = {
         { "restart_on_save" },
         { "on_complete_notify", on_change = true },
-        { "on_output_parse", problem_matcher = "$ruff-format" },
-        { "on_result_diagnostics_quickfix_no_eventignore", open = true, close = true },
+        { "on_output_parse", parser = template_problem_matcher.ruff_format_check_parser },
+        {
+          "on_result_diagnostics_quickfix_no_eventignore",
+          open = true,
+          close = true,
+          merge_by_task = true,
+          show_task_name = true,
+        },
         "default",
       },
     }
