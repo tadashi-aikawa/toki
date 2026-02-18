@@ -433,6 +433,9 @@ brew install imagemagick
 # ffmpeg
 brew install ffmpeg
 
+# gifski
+brew install gifski
+
 # pngpaste
 brew install pngpaste
 
