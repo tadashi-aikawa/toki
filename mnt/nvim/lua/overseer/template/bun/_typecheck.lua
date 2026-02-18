@@ -13,7 +13,13 @@ return {
         { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
         { "on_output_parse", problem_matcher = "$tsc" },
-        { "on_result_diagnostics_quickfix_no_eventignore", open = true, close = true },
+        {
+          "on_result_diagnostics_quickfix_no_eventignore",
+          open = true,
+          close = true,
+          merge_by_task = true,
+          show_task_name = true,
+        },
         "default",
       },
     }

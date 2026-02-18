@@ -48,7 +48,27 @@ problem_matcher.register_problem_matcher("$ruff-format", {
 ---@param line string
 ---@return string
 local function strip_ansi(line)
+  line = line:gsub("\27%]8;;[^\7]*\7", "")
+  line = line:gsub("\27%]8;;.-\27\\", "")
   return line:gsub("\27%[[0-9;?]*[%a]", "")
+end
+
+---@param message string
+---@return string
+local function normalize_biome_message(message)
+  local cleaned = vim.trim(message)
+  cleaned = cleaned:gsub("%s+━+$", "")
+  cleaned = cleaned:gsub("%s+", " ")
+
+  local code = cleaned:match("^([%a]+/[%w%-%._/]+)")
+  if code then
+    if cleaned:find("FIXABLE", 1, true) then
+      return string.format("%s (FIXABLE)", code)
+    end
+    return code
+  end
+
+  return cleaned
 end
 
 --- Parser for `prettier --check` output.
@@ -75,6 +95,39 @@ M.prettier_check_parser = function(line)
     text = file,
     type = "W",
   }
+end
+
+--- Parser for `biome check` output.
+--- Handles both lint and format headers.
+---@param line string
+---@return nil|vim.quickfix.entry
+M.biome_check_parser = function(line)
+  local normalized = vim.trim(strip_ansi(line):gsub("\r$", ""))
+  if normalized == "" then
+    return nil
+  end
+
+  local filename, lnum, col, message = normalized:match("^([^:]+):(%d+):(%d+)%s+(.+)$")
+  if filename and lnum and col and message then
+    return {
+      filename = vim.trim(filename),
+      lnum = tonumber(lnum),
+      col = tonumber(col),
+      text = normalize_biome_message(message),
+    }
+  end
+
+  local format_file = normalized:match("^(.+)%s+format%s+━+")
+  if format_file then
+    return {
+      filename = vim.trim(format_file),
+      lnum = 1,
+      col = 1,
+      text = "format (would change)",
+    }
+  end
+
+  return nil
 end
 
 return M

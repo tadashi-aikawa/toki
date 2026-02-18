@@ -3,6 +3,9 @@ local M = {}
 ---@param line string
 ---@return string
 local function strip_ansi(line)
+  -- Remove OSC8 hyperlink sequences first, then generic CSI controls.
+  line = line:gsub("\27%]8;;[^\7]*\7", "")
+  line = line:gsub("\27%]8;;.-\27\\", "")
   return line:gsub("\27%[[0-9;?]*[%a]", "")
 end
 
@@ -83,15 +86,28 @@ end
 
 ---@return overseer.ParseFn
 M.create_bun_test_parser = function()
+  local pending_fail_context = nil
   local pending_error = nil
   local pending_details = {}
 
   return function(line)
     local normalized = normalize_line(line)
+    local fail_context = normalized:match("^%s*FAIL%s+(.+)$")
+      or normalized:match("^%s*[✗×]%s+(.+)$")
+    if fail_context then
+      pending_fail_context = vim.trim(fail_context)
+      return nil
+    end
+
+    local err_kind, err_msg = normalized:match("^%s*([%w_.]+Error):%s*(.+)$")
+    if err_kind and err_msg then
+      pending_error = err_kind .. ": " .. err_msg
+      return nil
+    end
+
     local err = normalized:match("^error:%s*(.+)$")
     if err then
       pending_error = err
-      pending_details = {}
       return nil
     end
 
@@ -105,10 +121,23 @@ M.create_bun_test_parser = function()
 
     local path, lnum, col = extract_location_from_bun_line(normalized)
     if path and lnum and col then
-      local msg = pending_error or "Test failed"
+      local parts = {}
+      if pending_fail_context then
+        table.insert(parts, pending_fail_context)
+      end
+      if pending_error then
+        local duplicated = pending_fail_context
+          and pending_error:find(pending_fail_context, 1, true) ~= nil
+        if not duplicated then
+          table.insert(parts, pending_error)
+        end
+      end
+
+      local msg = #parts > 0 and table.concat(parts, " | ") or "Test failed"
       if #pending_details > 0 then
         msg = msg .. " | " .. table.concat(pending_details, " ")
       end
+      pending_fail_context = nil
       pending_error = nil
       pending_details = {}
       return {
