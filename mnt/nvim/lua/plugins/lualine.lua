@@ -69,7 +69,6 @@ return {
         lualine_x = { { "diagnostics", sources = { "nvim_lsp" } } },
         lualine_y = {
           { "filetype", icon_only = true },
-          { "overseer" },
         },
         lualine_z = {
           {
@@ -107,7 +106,9 @@ return {
       },
       sections = {
         lualine_a = {},
-        lualine_b = {},
+        lualine_b = {
+          { "overseer" },
+        },
         lualine_c = {},
         lualine_x = { { "filename", path = 3 } },
         lualine_y = { "encoding", "fileformat" },
