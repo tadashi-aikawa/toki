@@ -19,6 +19,7 @@ return {
           merge_by_task = true,
           show_task_name = true,
         },
+        { "unique" },
         "default",
       },
     }
