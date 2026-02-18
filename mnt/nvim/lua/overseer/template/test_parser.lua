@@ -216,4 +216,90 @@ M.create_vitest_parser = function()
   end
 end
 
+---@return overseer.ParseFn
+M.create_unittest_parser = function()
+  local pending_fail_context = nil
+  local pending_location = nil
+  local in_traceback = false
+
+  local function build_message(error_text)
+    if pending_fail_context and error_text then
+      local duplicated = error_text:find(pending_fail_context, 1, true) ~= nil
+      if duplicated then
+        return error_text
+      end
+      return pending_fail_context .. " | " .. error_text
+    end
+    return error_text or pending_fail_context or "unittest failed"
+  end
+
+  local function flush_with_message(error_text)
+    if not pending_location then
+      return nil
+    end
+    local item = {
+      filename = pending_location.filename,
+      lnum = pending_location.lnum,
+      col = 1,
+      text = build_message(error_text),
+      type = "E",
+    }
+    pending_location = nil
+    in_traceback = false
+    return item
+  end
+
+  return function(line)
+    local normalized = normalize_line(line)
+    if vim.trim(normalized) == "" then
+      return nil
+    end
+
+    local status, fail_context = normalized:match("^%s*(FAIL):%s+(.+)$")
+    if not status then
+      status, fail_context = normalized:match("^%s*(ERROR):%s+(.+)$")
+    end
+    if status and fail_context then
+      pending_fail_context = status .. ": " .. vim.trim(fail_context)
+      pending_location = nil
+      in_traceback = false
+      return nil
+    end
+
+    if normalized:match("^%s*Traceback%s+%(most recent call last%)%s*:%s*$") then
+      in_traceback = true
+      return nil
+    end
+
+    if in_traceback then
+      local path, lnum = normalized:match('^%s*File%s+"([^"]+)",%s+line%s+(%d+),')
+      if path and lnum then
+        pending_location = {
+          filename = path,
+          lnum = tonumber(lnum),
+        }
+        return nil
+      end
+    end
+
+    local err_kind, err_msg = normalized:match("^%s*([%w_.]+):%s*(.*)$")
+    if err_kind and err_msg and pending_location then
+      if err_msg == "" then
+        return flush_with_message(err_kind)
+      end
+      return flush_with_message(err_kind .. ": " .. err_msg)
+    end
+
+    local err_kind_only = normalized:match("^%s*([%w_.]+)%s*$")
+    if err_kind_only and pending_location then
+      local is_exception = err_kind_only:match("Error$") ~= nil
+        or err_kind_only:match("Exception$") ~= nil
+      if is_exception then
+        return flush_with_message(err_kind_only)
+      end
+    end
+    return nil
+  end
+end
+
 return M
