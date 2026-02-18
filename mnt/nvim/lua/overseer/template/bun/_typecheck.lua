@@ -6,7 +6,7 @@ return {
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "src", "test", "tests" })
     return {
-      name = "bun typecheck",
+      name = "tsc?",
       cmd = { "bun" },
       args = { "typecheck" },
       components = {

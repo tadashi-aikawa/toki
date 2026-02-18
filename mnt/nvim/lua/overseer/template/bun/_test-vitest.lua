@@ -1,26 +1,20 @@
 ---@type overseer.TemplateDefinition
 local util = require("overseer.template.util")
-require("overseer.template.problem_matcher")
+local test_parser = require("overseer.template.test_parser")
 
 return {
-  name = "bun lint",
+  name = "bun vitest",
   builder = function()
-    local watch_paths = util.resolve_watch_paths({
-      "src",
-      "test",
-      "tests",
-      "config",
-      "configs",
-      "json",
-    })
+    local watch_paths = util.resolve_watch_paths({ "src", "test", "tests" })
+
     return {
-      name = "bun lint",
+      name = "vitest",
       cmd = { "bun" },
-      args = { "lint" },
+      args = { "run", "test" },
       components = {
         { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
-        { "on_output_parse", problem_matcher = "$biome-lint" },
+        { "on_output_parse", parser = test_parser.create_vitest_parser() },
         { "on_result_diagnostics_quickfix_no_eventignore", open = true, close = true },
         "default",
       },

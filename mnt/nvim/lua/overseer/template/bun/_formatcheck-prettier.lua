@@ -7,7 +7,7 @@ return {
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "app" })
     return {
-      name = "bun formatcheck",
+      name = "prettier",
       cmd = { "bun" },
       args = { "formatcheck" },
       components = {

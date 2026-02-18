@@ -5,7 +5,7 @@ return {
   name = "python run",
   builder = function()
     return {
-      name = "python run",
+      name = "run",
       cmd = { "python" },
       args = { "main.py" },
       components = {

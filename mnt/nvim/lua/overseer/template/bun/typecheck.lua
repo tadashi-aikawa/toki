@@ -15,11 +15,11 @@ return {
         { "on_complete_notify", on_change = true, statuses = {} },
         {
           "on_children_status_sync",
-          task_names = { "bun typecheck" },
+          task_names = { "tsc?" },
         },
         {
           "on_complete_trouble_close_if_clean",
-          task_names = { "bun typecheck" },
+          task_names = { "tsc?" },
         },
         "default",
       },

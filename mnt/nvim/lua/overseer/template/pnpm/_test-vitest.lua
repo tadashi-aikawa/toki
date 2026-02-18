@@ -7,7 +7,7 @@ return {
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "app" })
     return {
-      name = "pnpm test vitest",
+      name = "vitest",
       cmd = { "pnpm" },
       args = { "test", "--", "--reporter=basic", "--no-color" },
       components = {

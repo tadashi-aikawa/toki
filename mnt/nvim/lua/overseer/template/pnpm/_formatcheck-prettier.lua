@@ -7,7 +7,7 @@ return {
   builder = function()
     local watch_paths = util.resolve_watch_paths({ "app" })
     return {
-      name = "pnpm formatcheck prettier",
+      name = "prettier",
       cmd = { "pnpm" },
       args = { "formatcheck" },
       components = {
