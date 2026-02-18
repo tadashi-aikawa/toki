@@ -23,13 +23,6 @@ return {
             "biome check",
           },
         },
-        {
-          "on_complete_trouble_close_if_clean",
-          task_names = {
-            "tsc?",
-            "biome check",
-          },
-        },
         "default",
       },
     }

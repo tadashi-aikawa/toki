@@ -17,10 +17,6 @@ return {
           "on_children_status_sync",
           task_names = { "ruff format", "ruff check" },
         },
-        {
-          "on_complete_trouble_close_if_clean",
-          task_names = { "ruff format", "ruff check" },
-        },
         "default",
       },
     }

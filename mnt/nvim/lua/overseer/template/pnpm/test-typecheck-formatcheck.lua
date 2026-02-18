@@ -25,14 +25,6 @@ return {
             "prettier",
           },
         },
-        {
-          "on_complete_trouble_close_if_clean",
-          task_names = {
-            "vitest",
-            "tsc?",
-            "prettier",
-          },
-        },
         "default",
       },
     }

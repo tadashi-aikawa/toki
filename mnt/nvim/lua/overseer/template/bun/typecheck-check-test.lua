@@ -17,10 +17,6 @@ return {
           "on_children_status_sync",
           task_names = { "tsc?", "biome check", "bun test" },
         },
-        {
-          "on_complete_trouble_close_if_clean",
-          task_names = { "bun test", "biome check", "tsc?" },
-        },
         "default",
       },
     }
