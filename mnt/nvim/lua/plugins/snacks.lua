@@ -231,7 +231,7 @@ return {
           kinds = {
             overseer_template = {
               transform = function(item)
-                return type(item.name) == "string" and item.name:match("^🎭") ~= nil
+                return type(item.name) == "string" and item.name:match("^[🎭▶︎]") ~= nil
               end,
             },
           },
