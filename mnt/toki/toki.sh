@@ -11,6 +11,7 @@ SCRIPT_DIR="${DIR_PATH}/script"
 WEBP_SCREEN_SHOT_DIR=$HOME/Documents/Pictures/screenshots/webp
 MOV_DIR=$HOME/Documents/Pictures/screenshots/mov
 MP4_DIR=$HOME/Documents/Pictures/screenshots/mp4
+GIF_DIR=$HOME/Documents/Pictures/screenshots/gif
 
 function show_usage() {
   echo "
@@ -769,6 +770,27 @@ function command_mp4() {
 }
 
 # ╭──────────────────────────────────────────────────────────╮
+# │                            gif                           │
+# ╰──────────────────────────────────────────────────────────╯
+# Raycastで利用
+function command_gif() {
+  local ts
+  local dst_dir
+  local dst
+  local input
+  ts=$(date +"%Y%m%d_%H_%M_%S")
+  dst_dir="$GIF_DIR"
+  dst="${dst_dir}/${ts}.gif"
+
+  # shellcheck disable=SC2012
+  input=$MOV_DIR/$(ls -t "$MOV_DIR" | head -1)
+  ffmpeg -i "${input}" -f yuv4mpegpipe - | gifski -o "${dst}" -
+
+  echo "Created ${dst}"
+  exit 0
+}
+
+# ╭──────────────────────────────────────────────────────────╮
 # │                          vault                           │
 # ╰──────────────────────────────────────────────────────────╯
 function command_vault() {
@@ -854,6 +876,7 @@ mysql) command_mysql "$@" ;;
 mkdocs) command_mkdocs "$@" ;;
 webp) command_webp "$@" ;;
 mp4) command_mp4 "$@" ;;
+gif) command_gif "$@" ;;
 vault) command_vault "$@" ;;
 backup) command_backup "$@" ;;
 claude) command_claude "$@" ;;
