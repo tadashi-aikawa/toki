@@ -8,15 +8,32 @@ deno task dev
 
 変更すると[Karabiner Elements](https://karabiner-elements.pqrs.org/)の設定ファイルが勝手に更新されます。
 
-## Hammerspoon連携（モード常時表示）
+## モード表示
 
-`toNotificationMessage` の代わりに、`hammerspoon://` URLイベントでモード表示を更新します。
+Hammerspoonを使います。`.hammerspoon` 配下に `karabiner_mode_indicator.lua` を実行するパス作成してください。
 
-1. `hammerspoon/karabiner_mode_indicator.lua` を `~/.hammerspoon` から読み込む
-2. Hammerspoon を起動した状態で Karabiner のモードを切り替える
-
-`~/.hammerspoon/init.lua` の例:
-
+`~/.hammerspoon/init.lua`
 ```lua
-dofile("/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/toki/karabiner/hammerspoon/karabiner_mode_indicator.lua")
+dofile("<./hammerspoon/karabiner_mode_indicator.lua>のパス")
 ```
+
+`具体例`
+```lua
+dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_mode_indicator.lua")
+```
+
+### 画像の仕様
+
+画像は `hammerspoon/mode.png` を優先し、存在しない場合は `hammerspoon/hacker-owl.png` を使います。
+
+また、モードごとに画像は着色されます。
+
+
+| モード名 | 色   |
+| -------- | ---- |
+| NORMAL   | 青系 |
+| RANGE    | 緑系 |
+| SPECIAL  | 赤系 |
+
+
+白線・背景透明の画像がオススメです。
