@@ -20,11 +20,11 @@ local function loadModeIcon(fileName)
 	return scriptDir and hs.image.imageFromPath(scriptDir .. "/" .. fileName) or nil
 end
 
-local fallbackIcon = loadModeIcon("hacker-owl.png")
-local modeIcons = {
-	NORMAL = loadModeIcon("hacker-owl-normal.png"),
-	RANGE = loadModeIcon("hacker-owl-range.png"),
-	SPECIAL = loadModeIcon("hacker-owl-special.png"),
+local iconImage = loadModeIcon("hacker-owl.png")
+local modeColors = {
+	NORMAL = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.78 },
+	RANGE = { red = 0.42, green = 0.85, blue = 0.56, alpha = 0.78 },
+	SPECIAL = { red = 0.99, green = 0.49, blue = 0.49, alpha = 0.78 },
 }
 
 local function normalizeMode(mode)
@@ -60,7 +60,6 @@ local function newCanvas(frame)
 		.new(frame)
 		:level(hs.canvas.windowLevels.overlay)
 		:behavior({ "canJoinAllSpaces", "stationary", "ignoresCycle" })
-	local icon = fallbackIcon or modeIcons.NORMAL or modeIcons.RANGE or modeIcons.SPECIAL
 	local iconFrame = {
 		x = (WIDGET.size - WIDGET.iconSize) / 2,
 		y = (WIDGET.size - WIDGET.iconSize) / 2,
@@ -69,12 +68,20 @@ local function newCanvas(frame)
 	}
 
 	canvas[1] = {
-		type = icon and "image" or "rectangle",
-		action = icon and nil or "fill",
-		image = icon,
-		imageScaling = icon and "scaleToFit" or nil,
-		fillColor = icon and nil or { red = 0, green = 0, blue = 0, alpha = 0 },
-		frame = icon and iconFrame or { x = 0, y = 0, w = 0, h = 0 },
+		type = iconImage and "image" or "rectangle",
+		action = iconImage and nil or "fill",
+		image = iconImage,
+		imageScaling = iconImage and "scaleToFit" or nil,
+		fillColor = iconImage and nil or { red = 0, green = 0, blue = 0, alpha = 0 },
+		frame = iconImage and iconFrame or { x = 0, y = 0, w = 0, h = 0 },
+	}
+
+	canvas[2] = {
+		type = "rectangle",
+		action = "fill",
+		fillColor = modeColors.NORMAL,
+		compositeRule = iconImage and "sourceIn" or "sourceOver",
+		frame = iconImage and iconFrame or { x = 0, y = 0, w = 0, h = 0 },
 	}
 
 	return canvas
@@ -86,13 +93,23 @@ local function applyMode(canvas)
 		return
 	end
 
-	local icon = modeIcons[currentMode] or fallbackIcon
-	if icon then
+	local color = modeColors[currentMode] or modeColors.NORMAL
+	if iconImage then
 		canvas[1].type = "image"
 		canvas[1].action = nil
-		canvas[1].image = icon
+		canvas[1].image = iconImage
 		canvas[1].imageScaling = "scaleToFit"
 		canvas[1].frame = {
+			x = (WIDGET.size - WIDGET.iconSize) / 2,
+			y = (WIDGET.size - WIDGET.iconSize) / 2,
+			w = WIDGET.iconSize,
+			h = WIDGET.iconSize,
+		}
+		canvas[2].type = "rectangle"
+		canvas[2].action = "fill"
+		canvas[2].fillColor = color
+		canvas[2].compositeRule = "sourceIn"
+		canvas[2].frame = {
 			x = (WIDGET.size - WIDGET.iconSize) / 2,
 			y = (WIDGET.size - WIDGET.iconSize) / 2,
 			w = WIDGET.iconSize,
@@ -103,6 +120,11 @@ local function applyMode(canvas)
 		canvas[1].action = "fill"
 		canvas[1].fillColor = { red = 0, green = 0, blue = 0, alpha = 0 }
 		canvas[1].frame = { x = 0, y = 0, w = 0, h = 0 }
+		canvas[2].type = "rectangle"
+		canvas[2].action = "fill"
+		canvas[2].fillColor = { red = 0, green = 0, blue = 0, alpha = 0 }
+		canvas[2].compositeRule = "sourceOver"
+		canvas[2].frame = { x = 0, y = 0, w = 0, h = 0 }
 	end
 	canvas:show()
 end
