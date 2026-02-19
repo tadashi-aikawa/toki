@@ -20,7 +20,7 @@ local function loadModeIcon(fileName)
 	return scriptDir and hs.image.imageFromPath(scriptDir .. "/" .. fileName) or nil
 end
 
-local iconImage = loadModeIcon("hacker-owl.png")
+local iconImage = loadModeIcon("mode.png") or loadModeIcon("hacker-owl.png")
 local modeColors = {
 	NORMAL = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.78 },
 	RANGE = { red = 0.42, green = 0.85, blue = 0.56, alpha = 0.78 },
