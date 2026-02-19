@@ -452,7 +452,7 @@ brew install convmv
 brew install clipboard
 
 # yazi
-brew install yazi font-symbols-only-nerd-font
+# brew install yazi font-symbols-only-nerd-font TODO: #3478 の対応版がリリースされたら復帰
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
