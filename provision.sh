@@ -400,7 +400,7 @@ mkdir -p ~/.config/serie
 ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
 
 # keifu
-mise use -g cargo:keifu
+mise use -g github:trasta298/keifu@latest
 
 # hyperfine
 mise use -g hyperfine
