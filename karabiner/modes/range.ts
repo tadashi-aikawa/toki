@@ -34,10 +34,10 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
     }),
 
     {
-      ";": toJKeyWith("->", ["control", "shift"]),
+      ";": toJKeyWith("->", ["command", "shift"]),
       [UJM.ESC]: [...terminateMode("RANGE"), toKey("japanese_eisuu")],
       [UJM.半全]: [...terminateMode("RANGE"), toKey("japanese_eisuu")],
-      a: toJKeyWith("<-", ["control", "shift"]),
+      a: toJKeyWith("<-", ["command", "shift"]),
       b: toJKeyWith("<-", ["option", "shift"]),
       c: [...changeMode("RANGE", "NORMAL"), toKey("c", "command")],
       d: [...changeMode("RANGE", "NORMAL"), toJKey("bs")],
