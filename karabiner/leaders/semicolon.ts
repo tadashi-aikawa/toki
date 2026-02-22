@@ -35,6 +35,7 @@ export const semicolonLeaderDefinitions = [
         k: toJKeys("`", "`", "<-"),
         l: toJKey("_"),
         m: toJKey('"'),
+        n: [toKey("x", "control"), toKey("e", "control")], // [GitHub Copilot CLI] Editor
         o: toJKey("|"),
         p: toJKey("%"),
         q: toKey("w", ["control", "shift"]), // ctrl+shift+w
