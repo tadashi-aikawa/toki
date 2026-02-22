@@ -10,7 +10,7 @@ layout {
     pane {
       pane name=" Neovim" {
         command "nvim"
-        args    "-c" "OverseerRun 🎭bun\\ typecheck/lint/test"
+        args    "-c" "OverseerRun 🎭bun\\ typecheck/check(biome)/test"
       }
       pane split_direction="vertical" size=10 {
         command "bun"
