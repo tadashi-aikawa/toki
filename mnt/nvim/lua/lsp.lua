@@ -27,8 +27,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<C-j>i", vim.lsp.buf.implementation, opts)
     -- 実装をホバー
     vim.keymap.set("n", "<D-d>", "<cmd>Lspsaga peek_definition<CR>", opts)
-    -- 型の実装をホバー
-    vim.keymap.set("n", "<D-i>", "<cmd>Lspsaga peek_type_definition<CR>", opts)
+    -- 型の実装をホバー (↑で十分なはず) FIXME: 本当に不要なら削除
+    -- vim.keymap.set("n", "<D-i>", "<cmd>Lspsaga peek_type_definition<CR>", opts)
     -- 呼び出し元の表示
     vim.keymap.set("n", "<C-j>u", "<cmd>Lspsaga finder ref<CR>", opts)
     -- リネーム

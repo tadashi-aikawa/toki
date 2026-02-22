@@ -1,8 +1,15 @@
-import { map, rule, toKey, withModifier, writeToProfile } from "karabiner.ts";
+import {
+  map,
+  rule,
+  toKey,
+  withCondition,
+  withModifier,
+  writeToProfile,
+} from "karabiner.ts";
 import { normalModeDefinitions } from "./modes/normal.ts";
 import { rangeModeDefinitions } from "./modes/range.ts";
 import { specialModeDefinitions } from "./modes/special.ts";
-import { withinTerminal, withoutTerminal } from "./apps/apps.ts";
+import { App, withinTerminal, withoutTerminal } from "./apps/apps.ts";
 import { commandJLeaderDefinitions } from "./leaders/commandJ.ts";
 import { semicolonLeaderDefinitions } from "./leaders/semicolon.ts";
 import { defaultRule } from "./modes/default.ts";
@@ -15,6 +22,22 @@ import { UJM } from "./utils/keys.ts";
 writeToProfile("Default profile", [
   // Most prioritize
   rule("switch control <-> command").manipulators([
+    // CmuxではGhosttyと独立したキーマッピングができなそうなので、ここで制御
+    // キーマップ設定できるようになったら消えるはず
+    withCondition(App.is("Cmux"))([
+      // aに左
+      withModifier("control")({
+        n: toKey("n", "command"), // workspace 追加
+        t: toKey("t", "command"), // surface 追加
+      }),
+      // Spaceの2つ左
+      withModifier("command")({
+        [UJM["]"]]: toKey("]", ["control", "command"]), // workspace 次
+        [UJM["["]]: toKey("[", ["control", "command"]), // workspace 前
+        i: toKey("b", "command"), // sidebar 表示/非表示
+      }),
+    ]),
+
     // ターミナルだけはleft_controlがleft_commandのように振る舞うためマッピングを分岐させる必要がある
     ...withinTerminal([
       map("left_control").to("left_control"),

@@ -9,6 +9,7 @@ const appIdentifierMapper = {
   VSCode: "com.microsoft.VSCode",
   Kitty: "net.kovidgoyal.kitty",
   WezTerm: "com.github.wez.wezterm",
+  Cmux: "com.cmuxterm.app",
 } as const;
 
 export type AppName = keyof typeof appIdentifierMapper;
@@ -29,7 +30,13 @@ export const withOrConditions = (
  */
 export const withinTerminal = (manipulators: Manipulators) =>
   withOrConditions(
-    [App.is("Ghostty"), App.is("Kitty"), App.is("WezTerm"), App.is("VSCode")],
+    [
+      App.is("Ghostty"),
+      App.is("Kitty"),
+      App.is("WezTerm"),
+      App.is("VSCode"),
+      App.is("Cmux"),
+    ],
     manipulators,
   );
 
@@ -42,6 +49,7 @@ export const withoutTerminal = (manipulators: Manipulators) =>
     App.not("Kitty"),
     App.not("WezTerm"),
     App.not("VSCode"),
+    App.not("Cmux"),
   )(
     manipulators,
   );

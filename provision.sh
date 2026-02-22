@@ -92,12 +92,18 @@ brew install git
 # GUI Tools
 #----------------------------------------------------------------------
 
-# ターミナル
+# ターミナル(Ghostty)
 brew install --cask ghostty
 GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
 ln -snf "$MNT"/ghostty/config "$GHOSTTY_CONFIG_DIR"/config
 ln -snf "$MNT"/ghostty/shaders "$GHOSTTY_CONFIG_DIR"/shaders
+
+# ターミナル(cmux)
+brew tap manaflow-ai/cmux
+brew install --cask cmux
+ln -snf "$MNT"/cmux/cmux.sh ~/.cmux.sh
+ensure_zshrc "source ~/.cmux.sh"
 
 # ランチャー
 brew install --cask raycast
