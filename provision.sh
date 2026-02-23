@@ -349,6 +349,8 @@ fi
 
 # GitHub Copilot CLI
 mise use -g npm:@github/copilot
+ln -snf "$MNT"/copilot/copilot.sh ~/.copilot.sh
+ensure_zshrc "source ~/.copilot.sh"
 
 # fd
 mise use -g fd
