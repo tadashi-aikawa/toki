@@ -45,3 +45,8 @@ customCommands:
     description: Open commit diff in Neovim
     command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) && nvim -d /tmp/prev_$(basename {{.SelectedCommitFile.Name}}) $(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}} && rm /tmp/prev_$(basename {{.SelectedCommitFile.Name}})"
     output: terminal
+  - key: "w"
+    context: "localBranches"
+    description: "Create worktree in ~/worktrees/<repo>/<branch>"
+    command: 'repo=$(basename "$(git rev-parse --show-toplevel)"); branch={{.SelectedLocalBranch.Name | quote}}; mkdir -p "$HOME/worktrees/$repo" && git worktree add "$HOME/worktrees/$repo/$branch" "$branch"'
+    output: "terminal"
