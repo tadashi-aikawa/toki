@@ -1297,14 +1297,23 @@ This snippet combines both of the above snippets and irons out some inconsistenc
 
 .suggestion-item:has(
     .another-quick-switcher__item__meta__front_matter[title="fixme: true"]
-  )::after,
-.suggestion-item:has(
+  )::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, #dc2626 14%, transparent);
+  pointer-events: none;
+}
+
+.suggestion-item:not(
+    :has(.another-quick-switcher__item__meta__front_matter[title="fixme: true"])
+  ):has(
     .another-quick-switcher__item__meta__front_matter[title="status: ❌未解決"]
   )::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--text-accent) 8%, transparent);
+  background: color-mix(in srgb, #9b59b6 12%, transparent);
   pointer-events: none;
 }
 
