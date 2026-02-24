@@ -341,6 +341,10 @@ fi
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   # Codex CLI
   mise use -g npm:@openai/codex
+
+  ln -snf "$MNT"/codex/codex.sh ~/.codex.sh
+  ensure_zshrc "source ~/.codex.sh"
+
   ln -snf "$MNT"/codex/prompts ~/.codex/prompts
   ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
   ln -snf "$MNT"/codex/notify_macos.sh ~/.codex/notify_macos.sh
