@@ -16,7 +16,7 @@ return {
     return {
       name = "biome check",
       cmd = { "bun" },
-      args = { "lint" },
+      args = { "check" },
       components = {
         { "restart_on_save", paths = watch_paths },
         { "on_complete_notify", on_change = true },
