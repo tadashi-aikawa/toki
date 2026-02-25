@@ -1,16 +1,20 @@
-import { rule, toKey, withModifier } from "karabiner.ts";
-import { withinTerminal, withoutTerminal } from "../apps/apps.ts";
+import { rule, toKey, withCondition, withModifier } from "karabiner.ts";
+import { App, withinTerminal, withoutTerminal } from "../apps/apps.ts";
 import { toJKey, toJKeys, toJKeyWith, UJM } from "../utils/keys.ts";
 import { startMode } from "../modes/modes.ts";
 import { toDynamicPaste } from "../utils/commands.ts";
 
 const likeCtrlCommands = [
   {
-    "2": toKey("f2"),
     "8": toJKey("{"),
     "9": toJKey("}"),
     // ウィンドウを隠すに割り当てられているのを無効化するためきりかえ
     "h": toKey("h", "Hyper"),
+  },
+];
+const ctrlOnlyCommands = [
+  {
+    "2": toKey("f2"),
   },
 ];
 
@@ -33,6 +37,9 @@ const likeCtrlShiftCommands = [{
 
 export const defaultRule = rule("default").manipulators([
   ...withinTerminal([
+    withCondition(App.not("Cmux"))([
+      withModifier("control")(ctrlOnlyCommands),
+    ]),
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
     withModifier(["control", "shift"])(likeCtrlShiftCommands),

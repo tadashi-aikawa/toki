@@ -1,15 +1,8 @@
-import {
-  map,
-  rule,
-  toKey,
-  withCondition,
-  withModifier,
-  writeToProfile,
-} from "karabiner.ts";
+import { map, rule, toKey, withModifier, writeToProfile } from "karabiner.ts";
 import { normalModeDefinitions } from "./modes/normal.ts";
 import { rangeModeDefinitions } from "./modes/range.ts";
 import { specialModeDefinitions } from "./modes/special.ts";
-import { App, withinTerminal, withoutTerminal } from "./apps/apps.ts";
+import { withinTerminal, withoutTerminal } from "./apps/apps.ts";
 import { commandJLeaderDefinitions } from "./leaders/commandJ.ts";
 import { semicolonLeaderDefinitions } from "./leaders/semicolon.ts";
 import { defaultRule } from "./modes/default.ts";
