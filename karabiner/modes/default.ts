@@ -34,6 +34,7 @@ export const defaultRule = rule("default").manipulators([
   withCondition(App.is("Cmux"))([
     withModifier("command")([{
       "m": toKey("m", "Hyper"), // ウィンドウ最小化を実質無効化
+      "e": toKey("p", "command"), // ワークスペースとサーフェースの切り替えに
     }]),
   ]),
   ...withinTerminal([
