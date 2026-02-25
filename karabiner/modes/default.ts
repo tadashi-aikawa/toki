@@ -12,11 +12,6 @@ const likeCtrlCommands = [
     "h": toKey("h", "Hyper"),
   },
 ];
-const ctrlOnlyCommands = [
-  {
-    "2": toKey("f2"),
-  },
-];
 
 const likeAltCommands = [{
   h: toJKeyWith("tab", ["control", "shift"]), // 右のタブに移動
@@ -37,9 +32,6 @@ const likeCtrlShiftCommands = [{
 
 export const defaultRule = rule("default").manipulators([
   ...withinTerminal([
-    withCondition(App.not("Cmux"))([
-      withModifier("control")(ctrlOnlyCommands),
-    ]),
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
     withModifier(["control", "shift"])(likeCtrlShiftCommands),
