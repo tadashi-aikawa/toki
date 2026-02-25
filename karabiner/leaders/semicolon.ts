@@ -19,7 +19,7 @@ export const semicolonLeaderDefinitions = [
         [UJM[":"]]: toDynamicPaste('date "+%H:%M"'),
         [UJM["enter"]]: toKey("f18", ["option"]), // Homerow起動用
         [UJM["ESC"]]: toKey("f17", ["option"]), // Homerow search起動用
-        [UJM[" "]]: [toKey("f20", ["option"]), toKey("f20", ["option"])], // Scoot起動用. 2回押しなのは1度押しだとScootが安定しないから
+        [UJM[" "]]: toKey("f20", ["option"]), // Hammerspoon window hints起動用
         [UJM["半全"]]: toKey("/", ["control", "shift"]),
 
         ";": toJKey(";"),

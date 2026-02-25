@@ -22,6 +22,10 @@ dofile("<./hammerspoon/karabiner_mode_indicator.lua>のパス")
 dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_mode_indicator.lua")
 ```
 
+この設定を読み込んでいると、Karabiner 側の `option+f20` から `hs.hints.windowHints()` を直接呼び出してウィンドウ選択できます。
+ヒントは `vimperator` スタイルで表示され、アプリ名の先頭文字がプレフィックスになります（例: Obsidian は `O?`、Google Chrome は `G?`）。
+`?` 部分の並びは `ASDFGHJKLQWERTYUIOPZXCVBNM` を使用します。
+
 ### 画像の仕様
 
 画像は `hammerspoon/mode.png` を優先し、存在しない場合は `hammerspoon/hacker-owl.png` を使います。

@@ -4,6 +4,7 @@ end
 
 local currentMode = "DEFAULT"
 local canvases = {}
+local windowHintsHotkey = nil
 
 local WIDGET = {
 	size = 240,
@@ -26,6 +27,37 @@ local modeColors = {
 	RANGE = { red = 0.42, green = 0.85, blue = 0.56, alpha = 0.78 },
 	SPECIAL = { red = 0.99, green = 0.49, blue = 0.49, alpha = 0.78 },
 }
+local windowHintChars = {
+	"A",
+	"S",
+	"D",
+	"F",
+	"G",
+	"H",
+	"J",
+	"K",
+	"L",
+	"Q",
+	"W",
+	"E",
+	"R",
+	"T",
+	"Y",
+	"U",
+	"I",
+	"O",
+	"P",
+	"Z",
+	"X",
+	"C",
+	"V",
+	"B",
+	"N",
+	"M",
+}
+hs.hints.style = "vimperator"
+hs.hints.hintChars = windowHintChars
+hs.hints.hintCharsVimperator = windowHintChars
 
 local function normalizeMode(mode)
 	local m = string.upper(tostring(mode or "DEFAULT"))
@@ -169,6 +201,9 @@ local function teardown()
 	if _G.__karabiner_mode_indicator and _G.__karabiner_mode_indicator.screenWatcher then
 		_G.__karabiner_mode_indicator.screenWatcher:stop()
 	end
+	if _G.__karabiner_mode_indicator and _G.__karabiner_mode_indicator.windowHintsHotkey then
+		_G.__karabiner_mode_indicator.windowHintsHotkey:delete()
+	end
 
 	for _, canvasList in pairs(canvases) do
 		for _, canvas in ipairs(canvasList) do
@@ -188,6 +223,10 @@ hs.urlevent.bind("karabiner-mode", function(_, params)
 	setMode(params and params.mode)
 end)
 
+windowHintsHotkey = hs.hotkey.bind({ "alt" }, "f20", function()
+	hs.hints.windowHints()
+end)
+
 resetCanvases()
 setMode(currentMode)
 
@@ -195,4 +234,5 @@ _G.__karabiner_mode_indicator = {
 	teardown = teardown,
 	setMode = setMode,
 	screenWatcher = screenWatcher,
+	windowHintsHotkey = windowHintsHotkey,
 }
