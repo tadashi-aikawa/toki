@@ -145,9 +145,6 @@ brew install --cask gimp
 # TODO: v3が安定したら復活させる
 # brew install --cask bruno
 
-# Scoot
-brew install --cask scoot
-
 # Homerow
 brew install --cask homerow
 
@@ -348,6 +345,7 @@ if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   ln -snf "$MNT"/codex/prompts ~/.codex/prompts
   ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
   ln -snf "$MNT"/codex/notify_macos.sh ~/.codex/notify_macos.sh
+  ln -snf "$MNT"/codex/chappy.gif ~/.codex/chappy.gif
   # TODO: https://github.com/openai/codex/issues/3120 が対応されたら config.toml も
 fi
 
