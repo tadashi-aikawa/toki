@@ -31,6 +31,11 @@ const likeCtrlShiftCommands = [{
 }];
 
 export const defaultRule = rule("default").manipulators([
+  withCondition(App.is("Cmux"))([
+    withModifier("command")([{
+      "m": toKey("m", "Hyper"), // ウィンドウ最小化を実質無効化
+    }]),
+  ]),
   ...withinTerminal([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
