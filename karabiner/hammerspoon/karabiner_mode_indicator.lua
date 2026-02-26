@@ -58,6 +58,59 @@ local windowHintChars = {
 hs.hints.style = "vimperator"
 hs.hints.hintChars = windowHintChars
 hs.hints.hintCharsVimperator = windowHintChars
+hs.hints.showTitleThresh = 999
+hs.hints.titleMaxSize = 72
+
+local hintsPatch = _G.__karabiner_mode_indicator_hints_patch
+if not hintsPatch then
+	hintsPatch = {
+		originalDisplayHintsForDict = hs.hints.displayHintsForDict,
+	}
+	_G.__karabiner_mode_indicator_hints_patch = hintsPatch
+end
+
+if hs.hints.displayHintsForDict ~= hintsPatch.patchedDisplayHintsForDict then
+	local function flattenSingleVimperatorHints(dict)
+		local flattened = {}
+		local changed = false
+
+		for key, value in pairs(dict) do
+			if key == "count" then
+				flattened[key] = value
+			elseif type(value) == "table" and value.count == 1 then
+				local onlyWindow = nil
+				for subKey, subValue in pairs(value) do
+					if subKey ~= "count" and type(subValue) == "userdata" then
+						onlyWindow = subValue
+						break
+					end
+				end
+
+				if onlyWindow then
+					flattened[key] = onlyWindow
+					changed = true
+				else
+					flattened[key] = value
+				end
+			else
+				flattened[key] = value
+			end
+		end
+
+		return changed and flattened or dict
+	end
+
+	hintsPatch.patchedDisplayHintsForDict = function(dict, prefixstring, showTitles, allowNonStandard)
+		local targetDict = dict
+		if hs.hints.style == "vimperator" and (prefixstring or "") == "" then
+			targetDict = flattenSingleVimperatorHints(dict)
+		end
+
+		return hintsPatch.originalDisplayHintsForDict(targetDict, prefixstring, showTitles, allowNonStandard)
+	end
+
+	hs.hints.displayHintsForDict = hintsPatch.patchedDisplayHintsForDict
+end
 
 local function normalizeMode(mode)
 	local m = string.upper(tostring(mode or "DEFAULT"))
@@ -203,6 +256,10 @@ local function teardown()
 	end
 	if _G.__karabiner_mode_indicator and _G.__karabiner_mode_indicator.windowHintsHotkey then
 		_G.__karabiner_mode_indicator.windowHintsHotkey:delete()
+	end
+	if _G.__karabiner_mode_indicator_hints_patch then
+		hs.hints.displayHintsForDict = _G.__karabiner_mode_indicator_hints_patch.originalDisplayHintsForDict
+		_G.__karabiner_mode_indicator_hints_patch = nil
 	end
 
 	for _, canvasList in pairs(canvases) do
