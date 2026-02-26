@@ -224,7 +224,7 @@ hs.urlevent.bind("karabiner-mode", function(_, params)
 end)
 
 windowHintsHotkey = hs.hotkey.bind({ "alt" }, "f20", function()
-	hs.hints.windowHints(nil, function(win)
+	hs.hints.windowHints(hs.window.visibleWindows(), function(win)
 		if not win then
 			return
 		end
