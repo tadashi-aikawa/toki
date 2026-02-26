@@ -10,21 +10,28 @@ deno task dev
 
 ## モード表示
 
-Hammerspoonを使います。`.hammerspoon` 配下に `karabiner_mode_indicator.lua` を実行するパス作成してください。
+Hammerspoonを使います。`.hammerspoon` 配下に `karabiner_hammerspoon.lua` を実行するパス作成してください。
 
 `~/.hammerspoon/init.lua`
 ```lua
-dofile("<./hammerspoon/karabiner_mode_indicator.lua>のパス")
+dofile("<./hammerspoon/karabiner_hammerspoon.lua>のパス")
 ```
 
 `具体例`
 ```lua
-dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_mode_indicator.lua")
+dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_hammerspoon.lua")
 ```
 
-この設定を読み込んでいると、Karabiner 側の `option+f20` から `hs.hints.windowHints()` を直接呼び出してウィンドウ選択できます。
-ヒントは `vimperator` スタイルで表示され、アプリ名の先頭文字がプレフィックスになります（例: Obsidian は `O?`、Google Chrome は `G?`）。
+この設定を読み込んでいると、Karabiner 側の `option+f20` で独自実装の Window Hints を起動してウィンドウ選択できます。
+ヒントはアプリ名の先頭文字をプレフィックスとして表示します（例: Obsidian は `O?`、Google Chrome は `G?`）。
 `?` 部分の並びは `ASDFGHJKLQWERTYUIOPZXCVBNM` を使用します。
+アイコンサイズは `hammerspoon/karabiner_hammerspoon.lua` 内の `iconSize` で調整できます。
+
+### Hammerspoonファイル構成
+
+- `hammerspoon/karabiner_hammerspoon.lua`: エントリーポイント
+- `hammerspoon/karabiner/mode_indicator.lua`: モード表示ウィジェット
+- `hammerspoon/karabiner/window_hints.lua`: 独自 Window Hints
 
 ### 画像の仕様
 
