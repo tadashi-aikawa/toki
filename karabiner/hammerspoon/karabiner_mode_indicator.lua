@@ -224,7 +224,13 @@ hs.urlevent.bind("karabiner-mode", function(_, params)
 end)
 
 windowHintsHotkey = hs.hotkey.bind({ "alt" }, "f20", function()
-	hs.hints.windowHints()
+	hs.hints.windowHints(nil, function(win)
+		if not win then
+			return
+		end
+		local frame = win:frame()
+		hs.mouse.absolutePosition({ x = frame.x + frame.w / 2, y = frame.y + frame.h / 2 })
+	end)
 end)
 
 resetCanvases()
