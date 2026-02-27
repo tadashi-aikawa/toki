@@ -32,6 +32,7 @@ keybind = super+k=unbind
 keybind = super+n=unbind
 keybind = super+p=unbind
 keybind = super+t=unbind
+keybind = super+semicolon=unbind
 keybind = super+enter=unbind
 keybind = super+left=unbind  
 keybind = super+right=unbind
