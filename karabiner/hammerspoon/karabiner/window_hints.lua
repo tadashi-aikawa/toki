@@ -55,6 +55,17 @@ local DEFAULT_CONFIG = {
 	dimmedIconAlpha = 0.48,
 	bumpThreshold = 120,
 	bumpMove = 90,
+	showPreviewForOccluded = true,
+	previewWidth = 140,
+	previewPadding = 6,
+	occludedScale = 0.65,
+	occludedBgAlpha = 0.50,
+	occludedIconAlpha = 0.65,
+	occludedPreviewAlpha = 0.65,
+	visibleBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.80 },
+	visibleBorderWidth = 6,
+	dockBottomMargin = 24,
+	dockItemGap = 10,
 	onSelect = nil,
 }
 
@@ -147,6 +158,31 @@ local function estimatedKeyTextWidth(text, fontSize)
 	return math.floor(width)
 end
 
+local function isPointInRect(px, py, rect)
+	return px >= rect.x and px <= rect.x + rect.w and py >= rect.y and py <= rect.y + rect.h
+end
+
+local function isWindowOccluded(targetFrame, coveringFrames)
+	local cols, rows = 4, 4
+	for row = 0, rows - 1 do
+		for col = 0, cols - 1 do
+			local px = targetFrame.x + targetFrame.w * (col + 0.5) / cols
+			local py = targetFrame.y + targetFrame.h * (row + 0.5) / rows
+			local covered = false
+			for _, f in ipairs(coveringFrames) do
+				if isPointInRect(px, py, f) then
+					covered = true
+					break
+				end
+			end
+			if not covered then
+				return false
+			end
+		end
+	end
+	return true
+end
+
 local function rawPrefixLenToDisplayLen(prefixLen)
 	if prefixLen <= 0 then
 		return 0
@@ -194,41 +230,45 @@ function M.new(options)
 
 	local function setHintActive(hint, active)
 		local bg = cloneColor(config.bgColor)
-		if not active then
+		if hint.isOccluded then
+			bg.alpha = active and config.occludedBgAlpha or config.dimmedBgAlpha
+		elseif not active then
 			bg.alpha = config.dimmedBgAlpha
 		end
 		local prefixLen = 0
 		if active and currentInput ~= "" and startsWith(hint.key, currentInput) then
 			prefixLen = math.min(#currentInput, #hint.keyText)
 		end
+		local fSize = hint.effectiveFontSize or config.fontSize
 		local displayPrefixLen = rawPrefixLenToDisplayLen(prefixLen)
 		local prefixText = displayPrefixLen > 0 and string.sub(hint.displayKeyText, 1, displayPrefixLen) or ""
 		local restText = string.sub(hint.displayKeyText, displayPrefixLen + 1)
-		local totalTextWidth = estimatedKeyTextWidth(hint.displayKeyText, config.fontSize) + 8
-		local prefixTextWidth = estimatedKeyTextWidth(prefixText, config.fontSize) + 2
+		local totalTextWidth = estimatedKeyTextWidth(hint.displayKeyText, fSize) + 8
+		local prefixTextWidth = estimatedKeyTextWidth(prefixText, fSize) + 2
 		prefixTextWidth = math.max(0, math.min(totalTextWidth, prefixTextWidth))
 		local textLeft = hint.keyBoxFrame.x + (hint.keyBoxFrame.w - totalTextWidth) / 2
 		local textTop = hint.keyBoxFrame.y + (hint.keyBoxFrame.h - hint.keyTextHeight) / 2
 
 		hint.canvas[1].fillColor = bg
-		hint.canvas[2].imageAlpha = active and config.iconAlpha or config.dimmedIconAlpha
-		hint.canvas[3].text = prefixText
-		hint.canvas[3].frame = {
+		local activeIconAlpha = hint.isOccluded and config.occludedIconAlpha or config.iconAlpha
+		hint.canvas[hint.iconIdx].imageAlpha = active and activeIconAlpha or config.dimmedIconAlpha
+		hint.canvas[hint.keyPrefixIdx].text = prefixText
+		hint.canvas[hint.keyPrefixIdx].frame = {
 			x = textLeft,
 			y = textTop,
 			w = prefixTextWidth,
 			h = hint.keyTextHeight,
 		}
-		hint.canvas[4].text = restText
-		hint.canvas[4].frame = {
+		hint.canvas[hint.keyRestIdx].text = restText
+		hint.canvas[hint.keyRestIdx].frame = {
 			x = textLeft + prefixTextWidth,
 			y = textTop,
 			w = math.max(0, totalTextWidth - prefixTextWidth),
 			h = hint.keyTextHeight,
 		}
-		hint.canvas[3].textColor = active and config.keyHighlightColor or config.dimmedTextColor
-		hint.canvas[4].textColor = active and config.textColor or config.dimmedTextColor
-		hint.canvas[5].textColor = active and config.titleTextColor or config.dimmedTitleTextColor
+		hint.canvas[hint.keyPrefixIdx].textColor = active and config.keyHighlightColor or config.dimmedTextColor
+		hint.canvas[hint.keyRestIdx].textColor = active and config.textColor or config.dimmedTextColor
+		hint.canvas[hint.titleIdx].textColor = active and config.titleTextColor or config.dimmedTitleTextColor
 	end
 
 	local function keyBoxWidthForText(displayKeyText)
@@ -337,17 +377,44 @@ function M.new(options)
 
 	local function collectEntries()
 		local entries = {}
+		local focusedWin = hs.window.focusedWindow()
+		local focusedId = focusedWin and focusedWin:id() or nil
+		local orderedWins = hs.window.orderedWindows()
+		local orderedFrames = {}
+		for _, w in ipairs(orderedWins) do
+			local f = w:frame()
+			if f then
+				table.insert(orderedFrames, { id = w:id(), frame = f })
+			end
+		end
+
 		for _, win in ipairs(hs.window.visibleWindows()) do
 			local app = win:application()
 			local screen = win:screen()
-			if app and app:bundleID() and screen and win:isStandard() then
+			if app and app:bundleID() and screen and win:isStandard() and win:id() ~= focusedId then
 				local appTitle = app:title() or ""
+				local occluded = false
+				if config.showPreviewForOccluded then
+					local wf = win:frame()
+					local wid = win:id()
+					local coveringFrames = {}
+					for _, of in ipairs(orderedFrames) do
+						if of.id == wid then
+							break
+						end
+						table.insert(coveringFrames, of.frame)
+					end
+					if #coveringFrames > 0 and wf.w > 0 and wf.h > 0 then
+						occluded = isWindowOccluded(wf, coveringFrames)
+					end
+				end
 				table.insert(entries, {
 					win = win,
 					app = app,
 					appTitle = appTitle,
 					title = win:title() or "",
 					prefix = appPrefixChar(appTitle, hintChars[1], allowedPrefixes),
+					isOccluded = occluded,
 				})
 			end
 		end
@@ -395,6 +462,7 @@ function M.new(options)
 						titleText = title,
 						win = entry.win,
 						app = entry.app,
+						isOccluded = entry.isOccluded,
 					})
 				end
 			end
@@ -403,16 +471,16 @@ function M.new(options)
 		return hints
 	end
 
-	local function nextCenter(baseCenter, screenFrame, width, height, takenCenters)
+	local function nextCenter(baseCenter, screenFrame, width, height, takenRects)
 		local x = baseCenter.x
 		local y = baseCenter.y
 
 		for _ = 1, 80 do
 			local conflicted = false
-			for _, pos in ipairs(takenCenters) do
-				local dx = pos.x - x
-				local dy = pos.y - y
-				if (dx * dx + dy * dy) < (config.bumpThreshold * config.bumpThreshold) then
+			for _, r in ipairs(takenRects) do
+				local overlapX = math.abs(r.x - x) < (r.w + width) / 2
+				local overlapY = math.abs(r.y - y) < (r.h + height) / 2
+				if overlapX and overlapY then
 					conflicted = true
 					break
 				end
@@ -441,28 +509,37 @@ function M.new(options)
 		}
 	end
 
-	local function newHintCanvas(frame, icon, keyText, titleText, keyBoxWidth)
+	local function newHintCanvas(frame, icon, keyText, titleText, keyBoxWidth, previewImage, previewHeight, isOccluded, scale)
+		scale = scale or 1
 		local canvas = hs.canvas
 			.new(frame)
 			:level(hs.canvas.windowLevels.overlay)
 			:behavior({ "canJoinAllSpaces", "stationary", "ignoresCycle" })
 
-		local topRowHeight = math.max(config.iconSize, config.keyBoxSize)
-		local topRowWidth = config.iconSize + config.keyGap + keyBoxWidth
+		local iconSz = math.floor(config.iconSize * scale)
+		local keyBoxSz = math.floor(config.keyBoxSize * scale)
+		local fSize = math.floor(config.fontSize * scale)
+		local tFontSize = math.floor(config.titleFontSize * scale)
+		local pad = math.floor(config.padding * scale)
+		local gap = math.floor(config.keyGap * scale)
+		local rGap = math.floor(config.rowGap * scale)
+
+		local topRowHeight = math.max(iconSz, keyBoxSz)
+		local topRowWidth = iconSz + gap + keyBoxWidth
 		local topRowLeft = (frame.w - topRowWidth) / 2
-		local keyTextHeight = config.fontSize + 8
-		local titleTextHeight = config.titleFontSize + 8
+		local keyTextHeight = fSize + 8
+		local titleTextHeight = tFontSize + 8
 		local iconFrame = {
 			x = topRowLeft,
-			y = config.padding + (topRowHeight - config.iconSize) / 2,
-			w = config.iconSize,
-			h = config.iconSize,
+			y = pad + (topRowHeight - iconSz) / 2,
+			w = iconSz,
+			h = iconSz,
 		}
 		local keyBoxFrame = {
-			x = topRowLeft + config.iconSize + config.keyGap,
-			y = config.padding + (topRowHeight - config.keyBoxSize) / 2,
+			x = topRowLeft + iconSz + gap,
+			y = pad + (topRowHeight - keyBoxSz) / 2,
 			w = keyBoxWidth,
-			h = config.keyBoxSize,
+			h = keyBoxSz,
 		}
 		local keyPrefixFrame = {
 			x = keyBoxFrame.x,
@@ -477,59 +554,150 @@ function M.new(options)
 			h = keyTextHeight,
 		}
 		local titleTextFrame = {
-			x = config.padding,
-			y = config.padding + topRowHeight + config.rowGap,
-			w = frame.w - (config.padding * 2),
+			x = pad,
+			y = pad + topRowHeight + rGap,
+			w = frame.w - (pad * 2),
 			h = titleTextHeight,
 		}
 
-		canvas[1] = {
+		local bgColor = cloneColor(config.bgColor)
+		if isOccluded then
+			bgColor.alpha = config.occludedBgAlpha
+		end
+		local curIconAlpha = isOccluded and config.occludedIconAlpha or config.iconAlpha
+
+		local nextIdx = 1
+		canvas[nextIdx] = {
 			type = "rectangle",
 			action = "fill",
-			fillColor = cloneColor(config.bgColor),
+			fillColor = bgColor,
 			roundedRectRadii = { xRadius = 12, yRadius = 12 },
 			frame = { x = 0, y = 0, w = frame.w, h = frame.h },
 		}
-		canvas[2] = {
+		nextIdx = nextIdx + 1
+
+		if not isOccluded and config.visibleBorderColor then
+			canvas[nextIdx] = {
+				type = "rectangle",
+				action = "stroke",
+				strokeColor = cloneColor(config.visibleBorderColor),
+				strokeWidth = config.visibleBorderWidth or 3,
+				roundedRectRadii = { xRadius = 12, yRadius = 12 },
+				frame = { x = 0, y = 0, w = frame.w, h = frame.h },
+			}
+			nextIdx = nextIdx + 1
+		end
+
+		local iconIdx = nextIdx
+		canvas[nextIdx] = {
 			type = "image",
 			image = icon,
 			imageScaling = "scaleToFit",
-			imageAlpha = config.iconAlpha,
+			imageAlpha = curIconAlpha,
 			frame = iconFrame,
 		}
-		canvas[3] = {
+		nextIdx = nextIdx + 1
+
+		local keyPrefixIdx = nextIdx
+		canvas[nextIdx] = {
 			type = "text",
 			text = "",
 			textFont = config.fontName,
-			textSize = config.fontSize,
+			textSize = fSize,
 			textColor = config.keyHighlightColor,
 			textAlignment = "left",
 			textLineBreak = "clip",
 			frame = keyPrefixFrame,
 		}
-		canvas[4] = {
+		nextIdx = nextIdx + 1
+
+		local keyRestIdx = nextIdx
+		canvas[nextIdx] = {
 			type = "text",
 			text = keyToDisplayText(keyText),
 			textFont = config.fontName,
-			textSize = config.fontSize,
+			textSize = fSize,
 			textColor = config.textColor,
 			textAlignment = "left",
 			textLineBreak = "clip",
 			frame = keyRestFrame,
 		}
-		canvas[5] = {
+		nextIdx = nextIdx + 1
+
+		local titleIdx = nextIdx
+		canvas[nextIdx] = {
 			type = "text",
 			text = titleText or "",
 			textFont = config.fontName,
-			textSize = config.titleFontSize,
+			textSize = tFontSize,
 			textColor = config.titleTextColor,
 			textAlignment = "left",
 			textLineBreak = "truncateTail",
 			frame = titleTextFrame,
 		}
+		nextIdx = nextIdx + 1
+
+		if previewImage and previewHeight and previewHeight > 0 then
+			local pPad = math.floor(config.previewPadding * scale)
+			local previewY = pad + topRowHeight + rGap + titleTextHeight + pPad
+			local previewW = frame.w - (pad * 2)
+			canvas[nextIdx] = {
+				type = "image",
+				image = previewImage,
+				imageScaling = "scaleProportionally",
+				imageAlignment = "center",
+				imageAlpha = isOccluded and config.occludedPreviewAlpha or 0.85,
+				frame = {
+					x = pad,
+					y = previewY,
+					w = previewW,
+					h = previewHeight,
+				},
+			}
+		end
 
 		canvas:show()
-		return canvas, keyBoxFrame, keyTextHeight
+		return canvas, keyBoxFrame, keyTextHeight, iconIdx, keyPrefixIdx, keyRestIdx, titleIdx, fSize
+	end
+
+	local function computeHintSize(hint, scale)
+		scale = scale or 1
+		local iconSz = math.floor(config.iconSize * scale)
+		local keyBoxSz = math.floor(config.keyBoxSize * scale)
+		local fSize = math.floor(config.fontSize * scale)
+		local tFontSize = math.floor(config.titleFontSize * scale)
+		local pad = math.floor(config.padding * scale)
+		local titleWidth = estimatedTextWidth(hint.titleText, tFontSize, math.floor(120 * scale))
+		local keyBoxWidth = keyBoxWidthForText(hint.displayKeyText)
+		if scale ~= 1 then
+			local textWidth = estimatedKeyTextWidth(hint.displayKeyText, fSize)
+			local minWidth = math.floor((config.keyBoxMinWidth or config.keyBoxSize) * scale)
+			keyBoxWidth = math.max(minWidth, textWidth + (math.floor(config.keyBoxHorizontalPadding * scale) * 2))
+		end
+		local topRowWidth = iconSz + math.floor(config.keyGap * scale) + keyBoxWidth
+		local contentWidth = math.max(topRowWidth, titleWidth)
+		local width = pad * 2 + contentWidth
+		local topRowHeight = math.max(iconSz, keyBoxSz)
+		local titleRowHeight = tFontSize + 8
+		local height = pad * 2 + topRowHeight + math.floor(config.rowGap * scale) + titleRowHeight
+		return width, height, keyBoxWidth, scale
+	end
+
+	local function placeHint(hint, canvasFrame, previewImage, previewHeight, keyBoxWidth, scale)
+		local bundleID = hint.app and hint.app:bundleID() or nil
+		local icon = bundleID and hs.image.imageFromAppBundle(bundleID) or nil
+		local canvas, keyBoxFrame, keyTextHeight, iconIdx, keyPrefixIdx, keyRestIdx, titleIdx, fSize =
+			newHintCanvas(canvasFrame, icon, hint.keyText, hint.titleText, keyBoxWidth, previewImage, previewHeight, hint.isOccluded, scale)
+		hint.canvas = canvas
+		hint.keyBoxFrame = keyBoxFrame
+		hint.keyTextHeight = keyTextHeight
+		hint.iconIdx = iconIdx
+		hint.keyPrefixIdx = keyPrefixIdx
+		hint.keyRestIdx = keyRestIdx
+		hint.titleIdx = titleIdx
+		hint.effectiveFontSize = fSize
+		table.insert(openHints, hint)
+		hintByKey[hint.key] = hint
 	end
 
 	local function showHints()
@@ -542,27 +710,29 @@ function M.new(options)
 		closeHints(false)
 		ensureModal()
 
-		local takenCenters = {}
+		local visibleHints = {}
+		local occludedHints = {}
 		for _, hint in ipairs(hintEntries) do
+			if hint.isOccluded then
+				table.insert(occludedHints, hint)
+			else
+				table.insert(visibleHints, hint)
+			end
+		end
+
+		-- Place visible (front) hints at window center
+		local takenRects = {}
+		for _, hint in ipairs(visibleHints) do
 			local screen = hint.win:screen()
 			local windowFrame = hint.win:frame()
 			if screen then
-				local bundleID = hint.app and hint.app:bundleID() or nil
-				local icon = bundleID and hs.image.imageFromAppBundle(bundleID) or nil
-				local titleWidth = estimatedTextWidth(hint.titleText, config.titleFontSize, 120)
-				local keyBoxWidth = keyBoxWidthForText(hint.displayKeyText)
-				local topRowWidth = config.iconSize + config.keyGap + keyBoxWidth
-				local contentWidth = math.max(topRowWidth, titleWidth)
-				local width = config.padding * 2 + contentWidth
-				local topRowHeight = math.max(config.iconSize, config.keyBoxSize)
-				local titleRowHeight = config.titleFontSize + 8
-				local height = config.padding * 2 + topRowHeight + config.rowGap + titleRowHeight
+				local width, height, keyBoxWidth = computeHintSize(hint)
 				local center = nextCenter(
 					{ x = windowFrame.x + (windowFrame.w / 2), y = windowFrame.y + (windowFrame.h / 2) },
 					screen:frame(),
 					width,
 					height,
-					takenCenters
+					takenRects
 				)
 				local canvasFrame = {
 					x = center.x - (width / 2),
@@ -570,14 +740,82 @@ function M.new(options)
 					w = width,
 					h = height,
 				}
-				local canvas, keyBoxFrame, keyTextHeight =
-					newHintCanvas(canvasFrame, icon, hint.keyText, hint.titleText, keyBoxWidth)
-				hint.canvas = canvas
-				hint.keyBoxFrame = keyBoxFrame
-				hint.keyTextHeight = keyTextHeight
-				table.insert(openHints, hint)
-				hintByKey[hint.key] = hint
-				table.insert(takenCenters, center)
+				placeHint(hint, canvasFrame, nil, 0, keyBoxWidth)
+				table.insert(takenRects, { x = center.x, y = center.y, w = width, h = height })
+			end
+		end
+
+		-- Place occluded (background) hints in a dock at each screen's bottom
+		if #occludedHints > 0 then
+			local scale = config.occludedScale or 1
+			-- Group by screen and prepare sizes/snapshots
+			local screenGroups = {}
+			for _, hint in ipairs(occludedHints) do
+				local screen = hint.win:screen()
+				if screen then
+					local screenKey = tostring(screen:id())
+					if not screenGroups[screenKey] then
+						screenGroups[screenKey] = { screen = screen, items = {} }
+					end
+					local width, height, keyBoxWidth = computeHintSize(hint, scale)
+					local previewImage = nil
+					local previewHeight = 0
+					if config.showPreviewForOccluded then
+						local ok, snapshot = pcall(function()
+							return hint.win:snapshot()
+						end)
+						if ok and snapshot then
+							local imgSize = snapshot:size()
+							if imgSize and imgSize.w > 0 and imgSize.h > 0 then
+								previewImage = snapshot
+								local previewW = config.previewWidth
+								previewHeight = math.floor(previewW * imgSize.h / imgSize.w)
+								local pad = math.floor(config.padding * scale)
+								width = math.max(width, pad * 2 + previewW)
+								height = height + math.floor(config.previewPadding * scale) + previewHeight
+							end
+						end
+					end
+					table.insert(screenGroups[screenKey].items, {
+						hint = hint,
+						width = width,
+						height = height,
+						keyBoxWidth = keyBoxWidth,
+						previewImage = previewImage,
+						previewHeight = previewHeight,
+					})
+				end
+			end
+
+			-- Layout dock per screen
+			for _, group in pairs(screenGroups) do
+				local screenFrame = group.screen:frame()
+				local maxHeight = 0
+				local totalWidth = 0
+				for i, item in ipairs(group.items) do
+					totalWidth = totalWidth + item.width
+					if i > 1 then
+						totalWidth = totalWidth + config.dockItemGap
+					end
+					if item.height > maxHeight then
+						maxHeight = item.height
+					end
+				end
+
+				local startX = screenFrame.x + (screenFrame.w - totalWidth) / 2
+				local dockY = screenFrame.y + screenFrame.h - maxHeight - config.dockBottomMargin
+				local curX = startX
+
+				for _, item in ipairs(group.items) do
+					local canvasFrame = {
+						x = curX,
+						y = dockY + (maxHeight - item.height),
+						w = item.width,
+						h = item.height,
+					}
+					placeHint(item.hint, canvasFrame, item.previewImage, item.previewHeight, item.keyBoxWidth, scale)
+					curX = curX + item.width + config.dockItemGap
+				end
 			end
 		end
 
