@@ -63,11 +63,15 @@ local DEFAULT_CONFIG = {
 	occludedIconAlpha = 0.65,
 	occludedPreviewAlpha = 0.65,
 	visibleBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.80 },
-	visibleBorderWidth = 6,
+	visibleBorderWidth = 10,
 	activeOverlayColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.08 },
 	activeOverlayBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.95 },
 	activeOverlayBorderWidth = 10,
 	activeOverlayCornerRadius = 10,
+	hintOverlayColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.38 },
+	hintOverlayBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.85 },
+	hintOverlayBorderWidth = 4,
+	hintOverlayCornerRadius = 12,
 	dockBottomMargin = 24,
 	dockItemGap = 10,
 	onSelect = nil,
@@ -518,7 +522,17 @@ function M.new(options)
 		}
 	end
 
-	local function newHintCanvas(frame, icon, keyText, titleText, keyBoxWidth, previewImage, previewHeight, isOccluded, scale)
+	local function newHintCanvas(
+		frame,
+		icon,
+		keyText,
+		titleText,
+		keyBoxWidth,
+		previewImage,
+		previewHeight,
+		isOccluded,
+		scale
+	)
 		scale = scale or 1
 		local canvas = hs.canvas
 			.new(frame)
@@ -585,14 +599,29 @@ function M.new(options)
 		}
 		nextIdx = nextIdx + 1
 
-		if not isOccluded and config.visibleBorderColor then
+		if not isOccluded then
+			canvas[nextIdx] = {
+				type = "rectangle",
+				action = "fill",
+				fillColor = cloneColor(config.hintOverlayColor),
+				roundedRectRadii = {
+					xRadius = config.hintOverlayCornerRadius,
+					yRadius = config.hintOverlayCornerRadius,
+				},
+				frame = { x = 0, y = 0, w = frame.w, h = frame.h },
+			}
+			nextIdx = nextIdx + 1
+			local obw = config.hintOverlayBorderWidth
 			canvas[nextIdx] = {
 				type = "rectangle",
 				action = "stroke",
-				strokeColor = cloneColor(config.visibleBorderColor),
-				strokeWidth = config.visibleBorderWidth or 3,
-				roundedRectRadii = { xRadius = 12, yRadius = 12 },
-				frame = { x = 0, y = 0, w = frame.w, h = frame.h },
+				strokeColor = cloneColor(config.hintOverlayBorderColor),
+				strokeWidth = obw,
+				roundedRectRadii = {
+					xRadius = config.hintOverlayCornerRadius,
+					yRadius = config.hintOverlayCornerRadius,
+				},
+				frame = { x = obw / 2, y = obw / 2, w = frame.w - obw, h = frame.h - obw },
 			}
 			nextIdx = nextIdx + 1
 		end
@@ -695,8 +724,17 @@ function M.new(options)
 	local function placeHint(hint, canvasFrame, previewImage, previewHeight, keyBoxWidth, scale)
 		local bundleID = hint.app and hint.app:bundleID() or nil
 		local icon = bundleID and hs.image.imageFromAppBundle(bundleID) or nil
-		local canvas, keyBoxFrame, keyTextHeight, iconIdx, keyPrefixIdx, keyRestIdx, titleIdx, fSize =
-			newHintCanvas(canvasFrame, icon, hint.keyText, hint.titleText, keyBoxWidth, previewImage, previewHeight, hint.isOccluded, scale)
+		local canvas, keyBoxFrame, keyTextHeight, iconIdx, keyPrefixIdx, keyRestIdx, titleIdx, fSize = newHintCanvas(
+			canvasFrame,
+			icon,
+			hint.keyText,
+			hint.titleText,
+			keyBoxWidth,
+			previewImage,
+			previewHeight,
+			hint.isOccluded,
+			scale
+		)
 		hint.canvas = canvas
 		hint.keyBoxFrame = keyBoxFrame
 		hint.keyTextHeight = keyTextHeight
@@ -714,7 +752,9 @@ function M.new(options)
 		if not focusedWin then
 			return
 		end
-		local ok, frame = pcall(function() return focusedWin:frame() end)
+		local ok, frame = pcall(function()
+			return focusedWin:frame()
+		end)
 		if not ok or not frame or frame.w == 0 or frame.h == 0 then
 			return
 		end
