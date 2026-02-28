@@ -64,6 +64,10 @@ local DEFAULT_CONFIG = {
 	occludedPreviewAlpha = 0.65,
 	visibleBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.80 },
 	visibleBorderWidth = 6,
+	activeOverlayColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.08 },
+	activeOverlayBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.95 },
+	activeOverlayBorderWidth = 10,
+	activeOverlayCornerRadius = 10,
 	dockBottomMargin = 24,
 	dockItemGap = 10,
 	onSelect = nil,
@@ -212,6 +216,7 @@ function M.new(options)
 	local hintByKey = {}
 	local currentInput = ""
 	local isShowing = false
+	local activeOverlayCanvas = nil
 	local allowedPrefixes = {}
 	for _, char in ipairs(hintChars) do
 		allowedPrefixes[char] = true
@@ -222,6 +227,10 @@ function M.new(options)
 			if hint.canvas then
 				hint.canvas:delete()
 			end
+		end
+		if activeOverlayCanvas then
+			activeOverlayCanvas:delete()
+			activeOverlayCanvas = nil
 		end
 		openHints = {}
 		hintByKey = {}
@@ -700,14 +709,62 @@ function M.new(options)
 		hintByKey[hint.key] = hint
 	end
 
+	local function showActiveOverlay()
+		local focusedWin = hs.window.focusedWindow()
+		if not focusedWin then
+			return
+		end
+		local ok, frame = pcall(function() return focusedWin:frame() end)
+		if not ok or not frame or frame.w == 0 or frame.h == 0 then
+			return
+		end
+		local bw = config.activeOverlayBorderWidth
+		local canvas = hs.canvas.new({
+			x = frame.x,
+			y = frame.y,
+			w = frame.w,
+			h = frame.h,
+		})
+		canvas:level(hs.canvas.windowLevels.overlay)
+		canvas:behavior({ "canJoinAllSpaces", "stationary", "ignoresCycle" })
+		canvas:appendElements({
+			type = "rectangle",
+			action = "fill",
+			fillColor = config.activeOverlayColor,
+		})
+		canvas:appendElements({
+			type = "rectangle",
+			action = "stroke",
+			frame = { x = bw / 2, y = bw / 2, w = frame.w - bw, h = frame.h - bw },
+			strokeColor = config.activeOverlayBorderColor,
+			strokeWidth = bw,
+			roundedRectRadii = {
+				xRadius = config.activeOverlayCornerRadius,
+				yRadius = config.activeOverlayCornerRadius,
+			},
+		})
+		canvas:show()
+		activeOverlayCanvas = canvas
+	end
+
 	local function showHints()
 		local entries = collectEntries()
 		local hintEntries = buildHintEntries(entries)
+
+		closeHints(false)
+		showActiveOverlay()
+
 		if #hintEntries == 0 then
+			-- No hints to show; auto-dismiss overlay after a short delay
+			hs.timer.doAfter(0.5, function()
+				if activeOverlayCanvas then
+					activeOverlayCanvas:delete()
+					activeOverlayCanvas = nil
+				end
+			end)
 			return
 		end
 
-		closeHints(false)
 		ensureModal()
 
 		local visibleHints = {}
