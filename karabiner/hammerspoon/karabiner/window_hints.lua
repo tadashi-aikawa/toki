@@ -30,50 +30,95 @@ local DEFAULT_HINT_CHARS = {
 }
 
 local DEFAULT_CONFIG = {
+	-- ヒント表示のホットキー修飾キー
 	hotkeyModifiers = { "alt" },
+	-- ヒント表示のホットキー
 	hotkeyKey = "f20",
+	-- アプリアイコンのサイズ (px)
 	iconSize = 72,
+	-- キー表示ボックスの高さ (px)
 	keyBoxSize = 72,
+	-- キー表示ボックスの最小幅 (px)
 	keyBoxMinWidth = 72,
+	-- キー表示ボックスの左右パディング (px)
 	keyBoxHorizontalPadding = 10,
+	-- アイコンとキー表示ボックスの間隔 (px)
 	keyGap = 0,
+	-- ヒントバッジ全体の内側余白 (px)
 	padding = 12,
+	-- キー・タイトルのフォント名 (nilでシステムデフォルト)
 	fontName = nil,
+	-- キー文字のフォントサイズ
 	fontSize = 48,
+	-- タイトル文字のフォントサイズ
 	titleFontSize = 16,
+	-- アイコン行とタイトル行の間隔 (px)
 	rowGap = 8,
+	-- タイトルの最大表示文字数 (超過は省略)
 	titleMaxSize = 72,
+	-- タイトル行を表示するか
 	showTitles = true,
+	-- ヒントバッジの背景色
 	bgColor = { red = 0, green = 0, blue = 0, alpha = 0.72 },
+	-- 非アクティブ(入力不一致)時の背景アルファ値
 	dimmedBgAlpha = 0.22,
+	-- キー文字の色
 	textColor = { red = 1, green = 1, blue = 1, alpha = 1 },
+	-- 非アクティブ時のキー文字の色
 	dimmedTextColor = { red = 1, green = 1, blue = 1, alpha = 0.35 },
+	-- タイトル文字の色
 	titleTextColor = { red = 0.84, green = 0.84, blue = 0.86, alpha = 1 },
+	-- 非アクティブ時のタイトル文字の色
 	dimmedTitleTextColor = { red = 0.84, green = 0.84, blue = 0.86, alpha = 0.35 },
+	-- 入力済みキープレフィックスのハイライト色
 	keyHighlightColor = { red = 0.84, green = 0.84, blue = 0.86, alpha = 0.35 },
+	-- アプリアイコンの不透明度
 	iconAlpha = 0.95,
+	-- 非アクティブ時のアプリアイコンの不透明度
 	dimmedIconAlpha = 0.48,
+	-- ヒント同士の重なり検出しきい値 (px)
 	bumpThreshold = 120,
+	-- ヒント重なり時のずらし量 (px)
 	bumpMove = 90,
+	-- 遮蔽ウィンドウのプレビュー画像を表示するか
 	showPreviewForOccluded = true,
+	-- 遮蔽ウィンドウのプレビュー画像の幅 (px)
 	previewWidth = 140,
+	-- プレビュー画像の上余白 (px)
 	previewPadding = 6,
+	-- 遮蔽ヒントの縮小率 (1.0で等倍)
 	occludedScale = 0.65,
+	-- 遮蔽ヒントの背景アルファ値
 	occludedBgAlpha = 0.50,
+	-- 遮蔽ヒントのアイコン不透明度
 	occludedIconAlpha = 0.65,
+	-- 遮蔽ヒントのプレビュー画像の不透明度
 	occludedPreviewAlpha = 0.65,
+	-- 前面ヒントバッジのボーダー色 (未使用: hintOverlay系に置換済み)
 	visibleBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.80 },
+	-- 前面ヒントバッジのボーダー幅 (未使用: hintOverlay系に置換済み)
 	visibleBorderWidth = 10,
+	-- アクティブウィンドウのオーバーレイ塗り色
 	activeOverlayColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.08 },
+	-- アクティブウィンドウのオーバーレイボーダー色
 	activeOverlayBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.95 },
+	-- アクティブウィンドウのオーバーレイボーダー幅 (px)
 	activeOverlayBorderWidth = 10,
+	-- アクティブウィンドウのオーバーレイ角丸半径 (px)
 	activeOverlayCornerRadius = 10,
+	-- 前面ヒントバッジのオーバーレイ塗り色
 	hintOverlayColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.38 },
+	-- 前面ヒントバッジのオーバーレイボーダー色
 	hintOverlayBorderColor = { red = 0.40, green = 0.68, blue = 0.98, alpha = 0.85 },
+	-- 前面ヒントバッジのオーバーレイボーダー幅 (px)
 	hintOverlayBorderWidth = 4,
+	-- 前面ヒントバッジのオーバーレイ角丸半径 (px)
 	hintOverlayCornerRadius = 12,
+	-- 遮蔽ヒントドックの画面下端からのマージン (px)
 	dockBottomMargin = 24,
+	-- 遮蔽ヒントドック内のアイテム間隔 (px)
 	dockItemGap = 10,
+	-- ウィンドウ選択時のコールバック関数
 	onSelect = nil,
 }
 
