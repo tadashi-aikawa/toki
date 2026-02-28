@@ -191,6 +191,46 @@ local function isWindowOccluded(targetFrame, coveringFrames)
 	return true
 end
 
+local function findUncoveredCenter(windowFrame, coveringFrames)
+	local cx = windowFrame.x + windowFrame.w / 2
+	local cy = windowFrame.y + windowFrame.h / 2
+	if not coveringFrames or #coveringFrames == 0 then
+		return cx, cy
+	end
+
+	local cols, rows = 5, 5
+	local bestX, bestY = cx, cy
+	local bestDist = math.huge
+	local found = false
+
+	for row = 0, rows - 1 do
+		for col = 0, cols - 1 do
+			local px = windowFrame.x + windowFrame.w * (col + 0.5) / cols
+			local py = windowFrame.y + windowFrame.h * (row + 0.5) / rows
+			local covered = false
+			for _, f in ipairs(coveringFrames) do
+				if isPointInRect(px, py, f) then
+					covered = true
+					break
+				end
+			end
+			if not covered then
+				local dx = px - cx
+				local dy = py - cy
+				local dist = dx * dx + dy * dy
+				if dist < bestDist then
+					bestDist = dist
+					bestX = px
+					bestY = py
+					found = true
+				end
+			end
+		end
+	end
+
+	return bestX, bestY
+end
+
 local function rawPrefixLenToDisplayLen(prefixLen)
 	if prefixLen <= 0 then
 		return 0
@@ -407,19 +447,17 @@ function M.new(options)
 			if app and app:bundleID() and screen and win:isStandard() and win:id() ~= focusedId then
 				local appTitle = app:title() or ""
 				local occluded = false
-				if config.showPreviewForOccluded then
-					local wf = win:frame()
-					local wid = win:id()
-					local coveringFrames = {}
-					for _, of in ipairs(orderedFrames) do
-						if of.id == wid then
-							break
-						end
-						table.insert(coveringFrames, of.frame)
+				local coveringFrames = {}
+				local wf = win:frame()
+				local wid = win:id()
+				for _, of in ipairs(orderedFrames) do
+					if of.id == wid then
+						break
 					end
-					if #coveringFrames > 0 and wf.w > 0 and wf.h > 0 then
-						occluded = isWindowOccluded(wf, coveringFrames)
-					end
+					table.insert(coveringFrames, of.frame)
+				end
+				if config.showPreviewForOccluded and #coveringFrames > 0 and wf.w > 0 and wf.h > 0 then
+					occluded = isWindowOccluded(wf, coveringFrames)
 				end
 				table.insert(entries, {
 					win = win,
@@ -428,6 +466,7 @@ function M.new(options)
 					title = win:title() or "",
 					prefix = appPrefixChar(appTitle, hintChars[1], allowedPrefixes),
 					isOccluded = occluded,
+					coveringFrames = coveringFrames,
 				})
 			end
 		end
@@ -476,6 +515,7 @@ function M.new(options)
 						win = entry.win,
 						app = entry.app,
 						isOccluded = entry.isOccluded,
+						coveringFrames = entry.coveringFrames,
 					})
 				end
 			end
@@ -817,15 +857,16 @@ function M.new(options)
 			end
 		end
 
-		-- Place visible (front) hints at window center
+		-- Place visible (front) hints at uncovered area of window
 		local takenRects = {}
 		for _, hint in ipairs(visibleHints) do
 			local screen = hint.win:screen()
 			local windowFrame = hint.win:frame()
 			if screen then
 				local width, height, keyBoxWidth = computeHintSize(hint)
+				local baseCx, baseCy = findUncoveredCenter(windowFrame, hint.coveringFrames)
 				local center = nextCenter(
-					{ x = windowFrame.x + (windowFrame.w / 2), y = windowFrame.y + (windowFrame.h / 2) },
+					{ x = baseCx, y = baseCy },
 					screen:frame(),
 					width,
 					height,
