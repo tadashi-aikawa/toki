@@ -16,6 +16,7 @@ end
 
 local modeIndicatorModule = dofile(scriptDir .. "/karabiner/mode_indicator.lua")
 local windowHintsModule = dofile(scriptDir .. "/karabiner/window_hints.lua")
+local focusBorderModule = dofile(scriptDir .. "/karabiner/focus_border.lua")
 
 local function loadModeIcon(fileName)
 	return hs.image.imageFromPath(scriptDir .. "/" .. fileName)
@@ -75,6 +76,8 @@ local windowHints = windowHintsModule.new({
 	end,
 })
 
+local focusBorder = focusBorderModule.new({})
+
 local function showWindowHints()
 	windowHints.show()
 end
@@ -86,6 +89,9 @@ end)
 local function teardown()
 	if windowHints and windowHints.teardown then
 		windowHints.teardown()
+	end
+	if focusBorder and focusBorder.teardown then
+		focusBorder.teardown()
 	end
 	if modeIndicator and modeIndicator.teardown then
 		modeIndicator.teardown()
