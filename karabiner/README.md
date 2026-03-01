@@ -22,16 +22,12 @@ dofile("<./hammerspoon/karabiner_hammerspoon.lua>のパス")
 dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_hammerspoon.lua")
 ```
 
-この設定を読み込んでいると、Karabiner 側の `option+f20` で独自実装の Window Hints を起動してウィンドウ選択できます。
-ヒントはアプリ名の先頭文字をプレフィックスとして表示します（例: Obsidian は `O?`、Google Chrome は `G?`）。
-`?` 部分の並びは `ASDFGHJKLQWERTYUIOPZXCVBNM` を使用します。
-アイコンサイズは `hammerspoon/karabiner_hammerspoon.lua` 内の `iconSize` で調整できます。
-
 ### Hammerspoonファイル構成
 
-- `hammerspoon/karabiner_hammerspoon.lua`: エントリーポイント
+- `hammerspoon/karabiner_hammerspoon.lua`: エントリーポイント（モード表示専用）
 - `hammerspoon/karabiner/mode_indicator.lua`: モード表示ウィジェット
-- `hammerspoon/karabiner/window_hints.lua`: 独自 Window Hints
+
+> **Note:** Window Hints / Focus Border は [jinrai](https://github.com/tadashi-aikawa/jinrai) に分離しました。
 
 ### 画像の仕様
 
