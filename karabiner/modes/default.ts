@@ -43,6 +43,9 @@ export const defaultRule = rule("default").manipulators([
     withModifier(["control", "shift"])(likeCtrlShiftCommands),
   ]),
   withoutTerminal([
+    withModifier("command")({
+      w: toKey("w", "option"),
+    }),
     withModifier("control")(likeAltCommands),
     withModifier("command")(likeCtrlCommands),
     withModifier(["command", "shift"])(likeCtrlShiftCommands),

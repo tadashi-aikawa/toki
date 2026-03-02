@@ -18,7 +18,9 @@ writeToProfile("Default profile", [
     // ターミナルだけはleft_controlがleft_commandのように振る舞うためマッピングを分岐させる必要がある
     ...withinTerminal([
       map("left_control").to("left_control"),
-      map("left_command").to("left_command").toIfAlone("f19", "option"), // 単押しでミッションコントロール
+      map("left_command")
+        .to("left_command", undefined, { lazy: true }) // 修飾キー押しっぱなしの挙動に対応するため
+        .toIfAlone("f19", "option"), // 単押しでミッションコントロール
 
       withModifier("command")({
         q: toKey("f13", "option"), // raycast起動用
@@ -32,10 +34,12 @@ writeToProfile("Default profile", [
     withoutTerminal([
       // 単押しで(Obsidian -> エディタフォーカス)(Chrome -> 要素の選択)
       map("left_control")
-        .to("left_command")
+        .to("left_command", undefined, { lazy: true }) // 修飾キー押しっぱなしの挙動に対応するため
         .toIfAlone("c", ["command", "shift"])
         .parameters({ "basic.to_if_alone_timeout_milliseconds": 200 }),
-      map("left_command").to("left_control").toIfAlone("f19", "option"), // 単押しでミッションコントロール
+      map("left_command")
+        .to("left_control", undefined, { lazy: true }) // 修飾キー押しっぱなしの挙動に対応するため
+        .toIfAlone("f19", "option"), // 単押しでミッションコントロール
       map("left_control", "shift").to("left_command", "shift"),
       map("left_command", "shift").to("left_control", "shift"),
       withModifier("control")({
