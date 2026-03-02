@@ -1,4 +1,4 @@
-lot() {
+colot() {
   chafa --duration 0 --size 40x32 ~/.copilot/copilot.gif
   copilot \
     --allow-tool 'write' \
