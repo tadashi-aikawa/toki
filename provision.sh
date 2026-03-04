@@ -108,9 +108,6 @@ ensure_zshrc "source ~/.cmux.sh"
 # ランチャー
 brew install --cask raycast
 
-# タスク切換え
-brew install --cask alt-tab
-
 # キーマップ制御
 brew install --cask karabiner-elements
 
