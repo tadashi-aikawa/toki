@@ -349,7 +349,9 @@ fi
 
 # GitHub Copilot CLI
 mise use -g npm:@github/copilot
-ln -snf "$MNT"/copilot/copilot.sh ~/.copilot.sh
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  ln -snf "$MNT"/copilot/copilot.sh ~/.copilot.sh
+fi
 ensure_zshrc "source ~/.copilot.sh"
 
 # fd
