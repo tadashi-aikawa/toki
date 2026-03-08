@@ -16,6 +16,14 @@ return {
       return { "biome-check", "prettierd", stop_after_first = true }
     end
 
+    local markdown_formatter = function(bufnr)
+      local bufname = vim.api.nvim_buf_get_name(bufnr)
+      if bufname:match("/slides%.md$") then
+        return { "prettierd" }
+      end
+      return {}
+    end
+
     vim.api.nvim_create_user_command("FormatDisable", function()
       vim.b.disable_autoformat = true
     end, { desc = "Disable autoformat-on-save for current buffer" })
@@ -41,6 +49,7 @@ return {
         svelte = web_formatter,
         json = web_formatter,
         jsonc = web_formatter,
+        markdown = markdown_formatter,
         yaml = { "prettierd" },
         html = web_formatter,
         css = web_formatter,

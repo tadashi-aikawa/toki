@@ -18,6 +18,5 @@ return {
     virtual_symbol_position = "eol",
     virtual_symbol_suffix = "",
     enable_tailwind = true,
-    exclude_filetypes = { "markdown" },
   },
 }

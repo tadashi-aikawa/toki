@@ -62,7 +62,6 @@ return {
       default = { "dictionary", "lsp", "path", "snippets", "buffer" },
       per_filetype = {
         lua = { "dictionary", "lazydev", "lsp", "path", "snippets", "buffer" },
-        markdown = { "dictionary", "path", "snippets" },
       },
       providers = {
         lazydev = {

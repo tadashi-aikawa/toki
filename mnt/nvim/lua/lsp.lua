@@ -111,6 +111,7 @@ if not vim.g.vscode then
     "sqls",
     "svelte",
     "tailwindcss",
+    "unocss",
     -- "ty",
     "vtsls",
     "vue_ls",
