@@ -2,6 +2,15 @@
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
+      "Bash(make test:*)",
+      "Bash(pbcopy:*)",
+      "Bash(gh:*)",
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git status:*)",
+      "Bash(pnpm format:*)",
+      "Bash(pnpm pre:push:*)",
       "Bash(bun biome format:*)",
       "Bash(bun biome check:*)",
       "Bash(bun pre:push:*)",
@@ -10,52 +19,43 @@
       "Bash(bun check:*)",
       "Bash(bun test:*)",
       "Bash(busted:*)",
-      "Bash(gh repo view:*)",
-      "Bash(gh run list:*)",
-      "Bash(gh run view:*)",
-      "Bash(gh release list:*)",
-      "Bash(gh release view:*)",
-      "Bash(gh workflow list:*)",
-      "Bash(gh workflow view:*)",
-      "Bash(gh workflow run release.yaml)",
-      "Bash(gh issue list:*)",
-      "Bash(gh issue view:*)",
-      "Bash(git add:*)",
-      "Bash(git log:*)",
-      "Bash(git show:*)",
-      "Bash(grep:*)",
-      "Bash(make test:*)",
-      "Bash(pbcopy:*)",
-      "Bash(pnpm format:*)",
-      "Bash(pnpm pre:push:*)",
-      "Bash(printf:*)",
-      "Bash(pwd:*)",
-      "Bash(rg:*)",
       "Bash(stylua:*)",
+      "Read(./**)",
       "Read(~/.claude/*)",
-      "WebFetch(domain:docs.anthropic.com)",
-      "mcp__context7__resolve-library-id",
-      "mcp__context7__get-library-docs"
+      "WebFetch(domain:docs.anthropic.com)"
     ],
     "deny": [
       "Bash(sudo:*)",
       "Read(.env.*)",
       "Read(.env)",
       "Bash(rm -rf *)",
-      "Bash(rm -rf /)"
+      "Bash(rm -rf /)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)"
     ]
   },
   "hooks": {
-    "Stop": [
+    "Notification": [
       {
-        "matcher": "",
+        "matcher": "idle_prompt",
         "hooks": [
           {
             "type": "command",
-            "command": "osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Hero\"'"
+            "command": "~/.claude/hooks/notify.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify.sh"
           }
         ]
       }
     ]
-  }
+  },
+  "model": "opus"
 }
