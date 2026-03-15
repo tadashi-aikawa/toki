@@ -1,6 +1,7 @@
 [ui.list]
 date_format = "%Y-%m-%d %H:%M"
 date_width = 16
+columns = ["hash", "date", "name", "graph", "marker", "subject"]
 
 [ui.detail]
 height = 30
@@ -9,8 +10,8 @@ height = 30
 height = 40
 
 [core.user_command]
-commands_1 = { "name" = "git diff", commands = ["sh", "-c", "git diff --color=always {{first_parent_hash}} {{target_hash}} | delta --dark --paging=never --side-by-side --line-numbers --width {{area_width}}"] }
-commands_2 = { "name" = "Diffview.nvim", commands = ["nvim", "-c", "DiffviewOpen \"{{first_parent_hash}}\"..\"{{target_hash}}\""], mode = "exec" }
+commands_1 = { name = "git diff", commands = ["sh", "-c", "git diff --color=always {{first_parent_hash}} {{target_hash}} | delta --dark --paging=never --side-by-side --line-numbers --width {{area_width}}"] }
+commands_2 = { name = "Diffview.nvim", commands = ["nvim", "-c", "DiffviewOpen \"{{first_parent_hash}}\"..\"{{target_hash}}\""], type = "suspend" }
 
 [keybind]
-user_command_view_toggle_2 = ["shift-d"]
+user_command_2 = ["shift-d"]

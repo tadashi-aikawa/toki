@@ -323,7 +323,7 @@ mise use -g go:github.com/jorgerojas26/lazysql
 
 # Zellij
 mise use -g zellij
-ensure_zshrc 'alias "zl=zellij"'
+ensure_zshrc 'alias zl="zellij"'
 ln -snf "${MNT}"/zellij/config.kdl ~/.config/zellij/config.kdl
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   ln -snf "${MNT}"/zellij/layouts ~/.config/zellij/layouts
@@ -404,8 +404,9 @@ no git-graph && {
 }
 
 # serie
-mise use -g cargo:https://github.com/tadashi-aikawa/serie
-ensure_zshrc 'alias "s=serie --max-commits 100"'
+# mise use -g cargo:https://github.com/tadashi-aikawa/serie # FIXME: 不要になったら消す
+mise use -g cargo:serie
+ensure_zshrc 'alias s="serie --max-count 100"'
 mkdir -p ~/.config/serie
 ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
 
