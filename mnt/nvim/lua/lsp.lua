@@ -52,7 +52,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, opts)
 
     -- 診断をフローティングウィンドウで表示する
-    vim.keymap.set("n", "<D-f>", function()
+    -- WARN: <D-f>がcmuxに奪われたので変更した
+    vim.keymap.set("n", "gd", function()
       vim.diagnostic.open_float({
         scope = "cursor",
         focusable = true,
