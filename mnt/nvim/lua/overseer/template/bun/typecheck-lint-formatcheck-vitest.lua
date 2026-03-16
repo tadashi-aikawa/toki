@@ -1,0 +1,24 @@
+---@type overseer.TemplateDefinition
+return {
+  name = "🎭bun typecheck/lint(oxlint)/formatcheck(prettier)/vitest",
+  builder = function()
+    return {
+      name = "bun typecheck/lint(oxlint)/formatcheck(prettier)/vitest",
+      strategy = {
+        "orchestrator",
+        tasks = {
+          { "bun typecheck", "bun lint", "bun formatcheck", "bun vitest" },
+        },
+      },
+      components = {
+        { "open_output", on_start = "never" },
+        { "on_complete_notify", on_change = true, statuses = {} },
+        {
+          "on_children_status_sync",
+          task_names = { "tsc?", "oxlint", "prettier", "vitest" },
+        },
+        "default",
+      },
+    }
+  end,
+}

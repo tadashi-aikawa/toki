@@ -194,4 +194,53 @@ M.ruff_check_parser = function(line)
   }
 end
 
+--- Factory for oxlint default output parser.
+--- Parses multi-line output: error/warning line (×/⚠) followed by location line (╭─[file:line:col]).
+--- Returns a new parser instance with independent state per task.
+---@return fun(line: string): nil|vim.quickfix.entry
+M.create_oxlint_lint_parser = function()
+  local last_message = nil
+  local last_type = nil
+
+  return function(line)
+    local normalized = vim.trim(strip_ansi(line):gsub("\r$", ""))
+    if normalized == "" then
+      return nil
+    end
+
+    -- Match error line: × rule: message
+    local error_msg = normalized:match("^×%s+(.+)$")
+    if error_msg then
+      last_message = vim.trim(error_msg)
+      last_type = "E"
+      return nil
+    end
+
+    -- Match warning line: ⚠ rule: message
+    local warn_msg = normalized:match("^⚠%s+(.+)$")
+    if warn_msg then
+      last_message = vim.trim(warn_msg)
+      last_type = "W"
+      return nil
+    end
+
+    -- Match location line: ╭─[file:line:col]
+    local file, lnum, col = normalized:match("╭─%[([^:]+):(%d+):(%d+)%]")
+    if file and lnum and col and last_message then
+      local entry = {
+        filename = vim.trim(file),
+        lnum = tonumber(lnum),
+        col = tonumber(col),
+        text = last_message,
+        type = last_type or "E",
+      }
+      last_message = nil
+      last_type = nil
+      return entry
+    end
+
+    return nil
+  end
+end
+
 return M
