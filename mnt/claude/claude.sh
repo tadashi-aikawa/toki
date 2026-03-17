@@ -17,27 +17,3 @@ ccnew() {
   cmux select-workspace \
     --workspace "$ws_id"
 }
-
-# TODO: リファクタリングして切り出したい
-sss() {
-  cmux workspace-action rename "$1"
-}
-
-ssp() {
-  cmux set-status task "進行中" --icon sparkle --color "#007AFF"
-  cmux set-progress "$1" --label "$2"
-}
-
-ssw() {
-  cmux set-status task "待ち" --icon clock --color "#FF9500"
-  cmux clear-progress
-}
-
-ssd() {
-  cmux set-status task "完了" --icon checkmark --color "#34C759"
-}
-
-ssc() {
-  cmux clear-progress
-  cmux clear-status task
-}

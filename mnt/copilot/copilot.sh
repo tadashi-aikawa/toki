@@ -1,7 +1,4 @@
 colot() {
-  # FIXME: sss以降のコマンドは切り離してここで呼び出したい
-  source ~/.copilot.sh
-
   chafa --duration 0 --size 40x32 ~/.copilot/copilot.gif
   copilot \
     --allow-tool 'write' \

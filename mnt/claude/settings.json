@@ -2,10 +2,7 @@
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
-      "Bash(sss *)",
-      "Bash(ssp *)",
-      "Bash(ssw *)",
-      "Bash(ssc *)",
+      "Bash(ss *)",
       "Bash(make test:*)",
       "Bash(pbcopy:*)",
       "Bash(gh:*)",
