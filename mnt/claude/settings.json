@@ -23,6 +23,10 @@
       "Bash(stylua:*)",
       "Read(./**)",
       "Read(~/.claude/*)",
+      "WebSearch",
+      "WebFetch(domain:forum.obsidian.md)",
+      "WebFetch(domain:help.obsidian.md)",
+      "WebFetch(domain:zenn.dev)",
       "WebFetch(domain:docs.anthropic.com)"
     ],
     "deny": [
