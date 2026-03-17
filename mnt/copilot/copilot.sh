@@ -1,4 +1,7 @@
 colot() {
+  # FIXME: sss以降のコマンドは切り離してここで呼び出したい
+  source ~/.copilot.sh
+
   chafa --duration 0 --size 40x32 ~/.copilot/copilot.gif
   copilot \
     --allow-tool 'write' \
@@ -11,6 +14,7 @@ colot() {
     --deny-tool "shell(gh pr merge)" \
     --allow-tool "shell(pnpm pre:push:*)" \
     --allow-tool "shell(curl)" \
+    --allow-tool "shell(ss:*)" \
     --allow-url "api.github.com" \
     --allow-url "raw.githubusercontent.com" \
     --allow-url "github.com" \
@@ -22,3 +26,18 @@ export COPILOT_NOTIFY_ALLOW_TOOL_RULES="write,shell(git:*),shell(gh:*),shell(pnp
 export COPILOT_NOTIFY_DENY_TOOL_RULES="shell(git push),shell(git reset:*),shell(git clean:*),shell(gh api),shell(gh pr merge)"
 export COPILOT_NOTIFY_ALLOW_URLS="api.github.com,raw.githubusercontent.com,github.com,minerva.mamansoft.net"
 export COPILOT_NOTIFY_DEBUG=1
+
+gc() {
+  cmux set-status task 'TODO' --icon sparkle --color '#ff77ff'
+  colot "$@"
+}
+
+gcnew() {
+  ws_id=$(cmux new-workspace | awk '/^OK /{print $2}')
+  cmux set-status task 'TODO' --icon sparkle --color '#ff77ff' \
+    --workspace "$ws_id"
+  cmux send 'colot\n' \
+    --workspace "$ws_id"
+  cmux select-workspace \
+    --workspace "$ws_id"
+}
