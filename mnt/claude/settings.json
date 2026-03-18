@@ -39,6 +39,7 @@
       "Bash(git reset:*)"
     ]
   },
+  "model": "opus",
   "hooks": {
     "Notification": [
       {
@@ -72,5 +73,7 @@
       }
     ]
   },
-  "model": "opus"
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  }
 }
