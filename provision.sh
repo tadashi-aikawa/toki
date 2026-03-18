@@ -150,7 +150,8 @@ brew install --cask gimp
 # brew install --cask bruno
 
 # Homerow
-brew install --cask homerow
+# FIXME: 1.5で動かないので1.4.1に戻しているため. なおったら入れ直す
+# brew install --cask homerow
 
 # KeyCastr
 brew install --cask keycastr
