@@ -10,6 +10,7 @@ usage() {
   echo "  wait                      人間待ちステータスに設定"
   echo "  block <note>              ブロックステータスに設定 (note省略時は『動作確認待ち』)"
   echo "  done                      完了ステータスに設定"
+  echo "  workspace-name            現在のワークスペース名を取得"
   echo "  clear                     ステータスとプログレスをクリア"
   exit 1
 }
@@ -39,6 +40,9 @@ block)
   ;;
 done)
   cmux set-status task "完了" --icon checkmark --color "#34C759"
+  ;;
+workspace-name)
+  cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title'
   ;;
 clear)
   cmux clear-progress
