@@ -4,6 +4,9 @@ claudine() {
 }
 
 cc() {
+  if [[ -n "$1" && "$1" != -* ]]; then
+    cmux rename-workspace "$1"
+  fi
   cmux set-status task 'TODO' --icon sparkle --color '#ff77ff'
   claudine "$@"
 }
