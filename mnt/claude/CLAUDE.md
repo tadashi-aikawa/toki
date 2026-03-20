@@ -12,6 +12,8 @@
 - **禁止**: `ls`, `find`, `cat`, `awk`, `head`, `tail` などをパイプで組み合わせたファイル探索・読み取り
   - NG例: `ls | awk | grep`, `find | xargs ls`, `cat file.txt | grep`, `find ... | head`
 - **必須**: ファイル探索 → `Glob` ツール、ファイル内容検索 → `Grep` ツール、ファイル読み取り → `Read` ツール
+- **禁止**: python, bash, node などを直接実行してJSONファイルを解析 
+  - 代わりに `jq` を使う
 
 ## ファイル編集のベストプラクティス
 
