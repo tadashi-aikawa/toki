@@ -472,6 +472,8 @@ ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 
 # ss
 ln -snf "$MNT"/ss/ss.sh ~/bin/ss
+# task(独自)
+ln -snf "$MNT"/stask/stask.sh ~/bin/stask
 
 # convmf
 brew install convmv
