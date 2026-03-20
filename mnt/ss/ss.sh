@@ -27,7 +27,7 @@ start)
   cmux workspace-action rename "$1"
   ;;
 progress)
-  cmux set-status task "進行中" --icon sparkle --color "#007AFF"
+  cmux set-status task "進行中" --icon sparkle --color "#A2DBFF"
   cmux set-progress "$1" --label "$2"
   ;;
 wait)
@@ -35,7 +35,7 @@ wait)
   cmux clear-progress
   ;;
 block)
-  cmux set-status task "ブロック: ${1:-動作確認待ち}" --icon exclamationmark.triangle --color "#FF3B30"
+  cmux set-status task "ブロック: ${1:-動作確認待ち}" --icon exclamationmark.triangle --color "#FF858F"
   cmux clear-progress
   ;;
 done)
