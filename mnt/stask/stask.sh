@@ -25,7 +25,7 @@ fi
 
 name="$1"
 id=$(uuidgen | tr '[:upper:]' '[:lower:]' | cut -c1-5)
-datetime=$(date '+%Y-%m-%d %H:%M')
+datetime=$(date '+%Y-%m-%dT%H:%M')
 filepath="${TASKS_DIR}/${name}.md"
 
 if [[ -f "$filepath" ]]; then
@@ -33,11 +33,11 @@ if [[ -f "$filepath" ]]; then
   exit 1
 fi
 
-cat > "$filepath" <<EOF
+cat >"$filepath" <<EOF
 ---
 id: "${id}"
 summary: ""
-status: todo
+status: ⚪todo
 created: ${datetime}
 updated: ${datetime}
 note: ""

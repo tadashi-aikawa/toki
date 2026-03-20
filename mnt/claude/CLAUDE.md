@@ -6,6 +6,10 @@
 - 『応答』開始前には  `ss progress <進捗率(0~1)> <フェーズ名>...` コマンドを実行
 - 『応答』中でも進捗率やフェーズに変化があれば  `ss progress <進捗率(0~1)> <フェーズ名>...` コマンドを実行
 - 『応答』完了後には  `ss wait` コマンドを実行
+- `/task` でセッションを開始した場合:
+  - `ss start` は `/task` スキル内で実行済みのため省略する
+  - `ss progress` / `ss wait` 実行時に、`obsidian property:set` でタスクノートのフロントマター（`updated`, `status`, `note`）を更新する
+  - タスクノートのパス: `~/work/minerva/tasks/<タスク名>.md`
 
 ## ツール使用の絶対ルール (MUST FOLLOW - サブエージェント含む全ての操作に適用)
 
