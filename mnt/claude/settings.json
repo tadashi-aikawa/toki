@@ -14,6 +14,7 @@
       "Bash(gh:*)",
       "Bash(git add:*)",
       "Bash(git log:*)",
+      "Bash(git diff:*)",
       "Bash(git show:*)",
       "Bash(git status:*)",
       "Bash(pnpm format:*)",
