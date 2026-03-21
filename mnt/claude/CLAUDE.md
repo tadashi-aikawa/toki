@@ -1,37 +1,20 @@
 ## 基本ルール
 
 - 常に日本語でやりとりしてください
-- 最初のプロンプトが送信(依頼)されたら  `ss start "<依頼の要約>"` コマンドを実行
-    - `<依頼の要約>`: 先頭に依頼のタイプを現す絵文字をつける
-- 『応答』開始前には  `ss progress <進捗率(0~1)> <フェーズ名>...` コマンドを実行
-- 『応答』中でも進捗率やフェーズに変化があれば  `ss progress <進捗率(0~1)> <フェーズ名>...` コマンドを実行
-- 『応答』完了後には  `ss wait` コマンドを実行
-- `/task` でセッションを開始した場合:
-  - `ss start` は `/task` スキル内で実行済みのため省略する
-  - `ss progress` / `ss wait` 実行時に、`obsidian property:set` でタスクノートのフロントマター（`updated`, `status`, `note`）を更新する
-  - タスクノートのパス: `~/work/minerva/tasks/<タスク名>.md`
+- セッションライフサイクル（`ss` コマンド等）の詳細は `~/.claude/references/session-lifecycle.md` を参照
 
-## ツール使用の絶対ルール (MUST FOLLOW - サブエージェント含む全ての操作に適用)
+## ツール使用の絶対ルール (MUST FOLLOW)
 
-- **禁止**: `ls`, `find`, `cat`, `awk`, `head`, `tail` などをパイプで組み合わせたファイル探索・読み取り
-  - NG例: `ls | awk | grep`, `find | xargs ls`, `cat file.txt | grep`, `find ... | head`
-- **必須**: ファイル探索 → `Glob` ツール、ファイル内容検索 → `Grep` ツール、ファイル読み取り → `Read` ツール
-- **禁止**: python, bash, node などを直接実行してJSONファイルを解析 
-  - 代わりに `jq` を使う
+詳細は `~/.claude/references/tool-usage.md` を参照。サブエージェント含む全ての操作に適用。
 
 ## ファイル編集のベストプラクティス
 
-- **文字列の完全一致**: 改行、インデント、スペースを含めて完全に一致する文字列のみを使用する
-- **小さな単位での編集**: 大きな変更は避け、1-2行ずつの小さな変更に分割する
-- **エラー時の対応**: "String to replace not found in file" エラーが発生した場合は、該当箇所をReadで再確認してから再試行する
+詳細は `~/.claude/references/editing-guidelines.md` を参照。
 
 ## 作業記録の日時管理
 
-- 作業記録に日時を記載する前に `date '+%Y/%m/%d %H:%M:%S'` コマンドで現在時刻を確認する
-- 作業開始時と完了時の時刻は論理的に整合性を保つ
-- **禁止**: 未来の時刻や推測での時刻記載は絶対に行わない
+詳細は `~/.claude/references/datetime-management.md` を参照。
 
 ## 情報収集と検証のベストプラクティス
 
-- **AIツールの出力は必ず公式ソースで検証する**: GitHub Releases API・公式ブログ・CHANGELOG等で確認
-- **GitHubリリース情報取得時**: `gh api repos/owner/repo/releases/tags/version` で `body` フィールドの詳細も必ず確認する
+詳細は `~/.claude/references/information-verification.md` を参照。

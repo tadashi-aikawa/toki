@@ -338,6 +338,7 @@ fi
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   brew install --cask claude-code
   ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+  ln -snf "$MNT"/claude/references ~/.claude/references
   ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
   ln -snf "$MNT"/claude/hooks ~/.claude/hooks
   ln -snf "$MNT"/claude/claude.sh ~/.claude.sh
