@@ -74,7 +74,7 @@ cmd_create() {
     ;;
   esac
   local id
-  id=$(uuidgen | tr '[:upper:]' '[:lower:]' | cut -c1-10)
+  id=$(openssl rand -hex 5)
   local datetime
   datetime=$(date '+%Y-%m-%dT%H:%M')
   local filepath="${TASKS_DIR}/${name}.md"
