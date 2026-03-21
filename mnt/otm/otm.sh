@@ -7,7 +7,7 @@ usage() {
   echo "Subcommands:"
   echo "  create <絵文字><タスク名>         Minervaのタスクノートを新規作成"
   echo "  property --id <id> [options]    タスクノートのプロパティを更新"
-  echo "  path <id>                        タスクノートのフルパスを出力"
+  echo "  path --id <id>                   タスクノートのフルパスを出力"
   echo ""
   echo "Environment:"
   echo "  TASKS_DIR  タスクノートの保存先ディレクトリ (必須)"
@@ -42,9 +42,12 @@ usage_property() {
 }
 
 usage_path() {
-  echo "Usage: otm path <id>"
+  echo "Usage: otm path --id <id>"
   echo ""
   echo "タスクノートのフルパスを出力します。"
+  echo ""
+  echo "Options:"
+  echo "  --id <id>  タスクノートのid (必須)"
   exit 1
 }
 
@@ -99,19 +102,32 @@ note: ""
 
 
 
-## 作業メモ
-
-
-
 ## 総括
 
 ### 対応内容
 
+
+
 ### 対応による恩恵
+
+
+
+### 詳細
+
+
 
 ### 備考・注意事項
 
+
+
 ### 参考リンク
+
+
+
+## 作業メモ
+
+
+
 EOF
 
   echo "${id}"
@@ -231,11 +247,25 @@ cmd_property() {
 }
 
 cmd_path() {
-  if [[ $# -lt 1 ]]; then
+  local id=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --id)
+      id="$2"
+      shift 2
+      ;;
+    *)
+      echo "Error: 不明なオプション: $1" >&2
+      usage_path
+      ;;
+    esac
+  done
+
+  if [[ -z "$id" ]]; then
+    echo "Error: --id は必須です" >&2
     usage_path
   fi
-
-  local id="$1"
 
   # ファイル検索
   local matched_files
