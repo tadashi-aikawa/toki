@@ -11,6 +11,7 @@ usage() {
   echo "  block <note>              ブロックステータスに設定 (note省略時は『動作確認待ち』)"
   echo "  done                      完了ステータスに設定"
   echo "  workspace-name            現在のワークスペース名を取得"
+  echo "  task-id                   ワークスペース名の[<id>]からidを取得"
   echo "  clear                     ステータスとプログレスをクリア"
   exit 1
 }
@@ -43,6 +44,9 @@ done)
   ;;
 workspace-name)
   cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title'
+  ;;
+task-id)
+  cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title' | sed 's/^\[\(.*\)\].*/\1/'
   ;;
 clear)
   cmux clear-progress
