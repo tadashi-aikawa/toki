@@ -7,6 +7,7 @@ usage() {
   echo "Subcommands:"
   echo "  create <絵文字><タスク名>         Minervaのタスクノートを新規作成"
   echo "  property --id <id> [options]    タスクノートのプロパティを更新"
+  echo "  path <id>                        タスクノートのフルパスを出力"
   echo ""
   echo "Environment:"
   echo "  TASKS_DIR  タスクノートの保存先ディレクトリ (必須)"
@@ -40,6 +41,13 @@ usage_property() {
   exit 1
 }
 
+usage_path() {
+  echo "Usage: otm path <id>"
+  echo ""
+  echo "タスクノートのフルパスを出力します。"
+  exit 1
+}
+
 check_tasks_dir() {
   if [[ -z "${TASKS_DIR:-}" ]]; then
     echo "Error: TASKS_DIR が設定されていません" >&2
@@ -53,6 +61,15 @@ cmd_create() {
   fi
 
   local name="$1"
+
+  # Claude Codeのpermissionルール(glob pattern)で禁則文字となる文字を禁止
+  case "$name" in
+  *:* | *\** | *\?* | *\[* | *\]* | *\{* | *\}* | *\\*)
+    echo "Error: タスク名に使用できない文字が含まれています: : * ? [ ] { } \\" >&2
+    echo "  (Claude Codeのpermissionルールと競合するため)" >&2
+    exit 1
+    ;;
+  esac
   local id
   id=$(uuidgen | tr '[:upper:]' '[:lower:]' | cut -c1-5)
   local datetime
@@ -213,6 +230,34 @@ cmd_property() {
   fi
 }
 
+cmd_path() {
+  if [[ $# -lt 1 ]]; then
+    usage_path
+  fi
+
+  local id="$1"
+
+  # ファイル検索
+  local matched_files
+  matched_files=$(grep -rl "id: \"\?${id}\"\?" "$TASKS_DIR" || true)
+
+  if [[ -z "$matched_files" ]]; then
+    echo "Error: id '${id}' のタスクノートが見つかりません" >&2
+    exit 1
+  fi
+
+  local file_count
+  file_count=$(echo "$matched_files" | wc -l | tr -d ' ')
+
+  if [[ "$file_count" -gt 1 ]]; then
+    echo "Error: id '${id}' に一致するファイルが複数見つかりました:" >&2
+    echo "$matched_files" >&2
+    exit 1
+  fi
+
+  echo "$matched_files"
+}
+
 # --- メイン ---
 
 check_tasks_dir
@@ -230,6 +275,9 @@ create)
   ;;
 property)
   cmd_property "$@"
+  ;;
+path)
+  cmd_path "$@"
   ;;
 *)
   echo "Error: 不明なサブコマンド: ${subcommand}" >&2
