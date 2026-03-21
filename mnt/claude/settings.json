@@ -10,6 +10,7 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(jq:*)",
+      "Bash(wc:*)",
       "Bash(gh:*)",
       "Bash(git add:*)",
       "Bash(git log:*)",
@@ -26,10 +27,13 @@
       "Bash(bun test:*)",
       "Bash(busted:*)",
       "Bash(stylua:*)",
+      "Bash(otm *)",
       "Read(./**)",
       "Read(~/.claude/*)",
+      "Skill(task)",
       "Skill(task-progress)",
       "Skill(task-wait)",
+      "Skill(task-done)",
       "Skill(done)",
       "WebSearch",
       "WebFetch(domain:obsidian.md)",
@@ -86,5 +90,6 @@
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true
-  }
+  },
+  "effortLevel": "high"
 }
