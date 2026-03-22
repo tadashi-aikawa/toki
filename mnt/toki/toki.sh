@@ -23,6 +23,7 @@ Usages:
   toki vault <base_vault_dir>:  ObsidianのVault初期設定をします
   toki backup:                  workをbackupします
   toki claude [<jsonc file>]:   Claude Codeとやりとりした会話ログをMinervaのフキダシ形式に整形して取得します
+  toki claude-log <jsonl file>: Claude Codeの会話ログ(jsonl)からチャットと思考をMarkdownに抽出します
 
   toki -h|--help|help: ヘルプを表示します
 
@@ -849,6 +850,68 @@ function command_claude() {
   exit $?
 }
 
+# ╭──────────────────────────────────────────────────────────╮
+# │                        claude-log                        │
+# ╰──────────────────────────────────────────────────────────╯
+# Claude Codeの会話ログ(jsonl)からチャットと思考をMarkdownに抽出します
+function command_claude_log() {
+  local file="${1:?'jsonlファイルパスは必須です'}"
+
+  jq -r '
+    select(.type == "user" or .type == "assistant") |
+    if .type == "user" then
+      (
+        if (.message.content | type) == "string" then
+          .message.content
+        else
+          [.message.content[] | select(.type == "text") | .text] | join("\n")
+        end
+      ) |
+      gsub("<system-reminder>[^<]*</system-reminder>"; "") |
+      gsub("<command-message>[^<]*</command-message>\n?"; "") |
+      gsub("<command-name>[^<]*</command-name>\n?"; "") |
+      gsub("<command-args>"; "") |
+      gsub("</command-args>"; "") |
+      gsub("^\\s+|\\s+$"; "") |
+      if length > 0 and (startswith("Base directory for this skill") | not) then
+        "## 👤 User\n\n" + . + "\n\n---\n"
+      else
+        empty
+      end
+    elif .type == "assistant" then
+      [
+        (.message.content[] |
+          if .type == "thinking" and .thinking != "" then
+            "### 💭 Thinking\n\n" + .thinking + "\n"
+          elif .type == "text" and .text != "" then
+            (
+              .text |
+              gsub("<system-reminder>[^<]*</system-reminder>"; "") |
+              gsub("^\\s+|\\s+$"; "")
+            ) |
+            if length > 0 then
+              "### 💬 Response\n\n" + . + "\n"
+            else
+              empty
+            end
+          else
+            empty
+          end
+        )
+      ] |
+      if length > 0 then
+        "## 🤖 Assistant\n\n" + join("\n") + "\n---\n"
+      else
+        empty
+      end
+    else
+      empty
+    end
+  ' "$file" 2>/dev/null
+
+  exit 0
+}
+
 case "$command" in
 bun) command_bun "$@" ;;
 node) command_node "$@" ;;
@@ -880,6 +943,7 @@ gif) command_gif "$@" ;;
 vault) command_vault "$@" ;;
 backup) command_backup "$@" ;;
 claude) command_claude "$@" ;;
+claude-log) command_claude_log "$@" ;;
 *)
   echo "『き..きかぬ  きかぬのだ!!』"
   show_usage
