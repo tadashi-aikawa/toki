@@ -5,7 +5,7 @@ usage() {
   echo "Usage: otm <subcommand> [options]"
   echo ""
   echo "Subcommands:"
-  echo "  create <絵文字><タスク名>         Minervaのタスクノートを新規作成"
+  echo "  create <タスク名>              Minervaのタスクノートを新規作成"
   echo "  property --id <id> [options]    タスクノートのプロパティを更新"
   echo "  path --id <id>                   タスクノートのフルパスを出力"
   echo ""
@@ -15,12 +15,12 @@ usage() {
 }
 
 usage_create() {
-  echo "Usage: otm create <絵文字><タスク名>"
+  echo "Usage: otm create <タスク名>"
   echo ""
   echo "Minervaのタスクノートを新規作成します。"
   echo ""
   echo "Example:"
-  echo "  otm create 🔧テスト"
+  echo "  otm create テスト"
   exit 1
 }
 
