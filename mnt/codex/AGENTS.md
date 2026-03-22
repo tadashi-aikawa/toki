@@ -25,3 +25,10 @@
   - `gh api` は `-f` / `-F` 指定時に POST 扱いになるため、未明示だと意図せず作成APIを叩くことがある。
   - 例:
     - `gh api repos/{owner}/{repo}/issues --method GET -f state=closed -f per_page=100 --paginate`
+- python, bash, node などを直接実行してJSONファイルを解析しない
+  - 代わりに `jq` を使う
+
+## ファイル編集方法
+
+- Editツールを使う
+    - python, bash, node, ruby, perl などを直接実行してファイルを編集しない
