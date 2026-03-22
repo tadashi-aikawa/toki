@@ -1,6 +1,6 @@
 colot() {
   chafa --duration 0 --size 40x32 ~/.copilot/copilot.gif
-  copilot \
+  AGENT_NAME="github-copilot-cli" copilot \
     --allow-tool 'write' \
     --allow-tool "shell(git:*)" \
     --deny-tool "shell(git push)" \

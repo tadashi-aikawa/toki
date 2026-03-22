@@ -34,6 +34,7 @@ usage_property() {
   echo "  --summary <val>    summaryを更新"
   echo "  --status <val>     statusを更新 (todo|progress|wait|block|done)"
   echo "  --note <val>       noteを更新"
+  echo "  --assignee <val>   assigneeを更新 (human|claude-code|codex-cli|github-copilot-cli)"
   echo "  --updated          updatedを現在時刻で更新"
   echo ""
   echo "Example:"
@@ -62,6 +63,12 @@ cmd_create() {
   if [[ $# -lt 1 ]]; then
     usage_create
   fi
+
+  case "$1" in
+  -h | --help)
+    usage_create
+    ;;
+  esac
 
   local name="$1"
 
@@ -92,6 +99,7 @@ status: ⚪todo
 created: ${datetime}
 updated: ${datetime}
 note: ""
+assignee: ""
 ---
 
 ## 概要
@@ -148,11 +156,23 @@ map_status() {
   esac
 }
 
+validate_assignee() {
+  local val="$1"
+  case "$val" in
+  human | claude-code | codex-cli | github-copilot-cli) echo "$val" ;;
+  *)
+    echo "Error: 不明なassignee: ${val} (human|claude-code|codex-cli|github-copilot-cli)" >&2
+    exit 1
+    ;;
+  esac
+}
+
 cmd_property() {
   local id=""
   local summary=""
   local status=""
   local note=""
+  local assignee=""
   local update_updated=false
   local has_option=false
 
@@ -177,10 +197,18 @@ cmd_property() {
       has_option=true
       shift 2
       ;;
+    --assignee)
+      assignee="$2"
+      has_option=true
+      shift 2
+      ;;
     --updated)
       update_updated=true
       has_option=true
       shift
+      ;;
+    -h | --help)
+      usage_property
       ;;
     *)
       echo "Error: 不明なオプション: $1" >&2
@@ -239,6 +267,12 @@ cmd_property() {
     obsidian "property:set" "name=note" "value=${note}" "path=${rel_path}"
   fi
 
+  if [[ -n "$assignee" ]]; then
+    local validated_assignee
+    validated_assignee=$(validate_assignee "$assignee")
+    obsidian "property:set" "name=assignee" "value=${validated_assignee}" "path=${rel_path}"
+  fi
+
   if [[ "$update_updated" == true ]]; then
     local now
     now=$(date '+%Y-%m-%dT%H:%M')
@@ -254,6 +288,9 @@ cmd_path() {
     --id)
       id="$2"
       shift 2
+      ;;
+    -h | --help)
+      usage_path
       ;;
     *)
       echo "Error: 不明なオプション: $1" >&2
@@ -300,6 +337,9 @@ subcommand="$1"
 shift
 
 case "$subcommand" in
+-h | --help)
+  usage
+  ;;
 create)
   cmd_create "$@"
   ;;
