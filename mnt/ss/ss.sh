@@ -46,7 +46,13 @@ workspace-name)
   cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title'
   ;;
 task-id)
-  cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title' | sed 's/^\[\(.*\)\].*/\1/'
+  workspace_name=$(cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title')
+  if [[ "$workspace_name" =~ ^\[([0-9a-f]{10})\](\ .*)?$ ]]; then
+    echo "${BASH_REMATCH[1]}"
+  else
+    echo "Error: workspace name does not contain a valid task id: ${workspace_name}" >&2
+    exit 1
+  fi
   ;;
 clear)
   cmux clear-progress
