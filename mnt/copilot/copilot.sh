@@ -18,6 +18,7 @@ colot() {
     --allow-url "raw.githubusercontent.com" \
     --allow-url "github.com" \
     --allow-url "minerva.mamansoft.net" \
+    --add-dir "/Users/tadashi-aikawa/.claude/references/session-lifecycle.md" \
     --add-dir "/Users/tadashi-aikawa/work/minerva/tasks" \
     --add-dir "/Users/tadashi-aikawa/work/minerva/Notes" \
     "$@"
