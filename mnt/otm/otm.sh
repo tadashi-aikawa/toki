@@ -8,6 +8,7 @@ usage() {
   echo "  create <タスク名>              Minervaのタスクノートを新規作成"
   echo "  property --id <id> [options]    タスクノートのプロパティを更新"
   echo "  path --id <id>                   タスクノートのフルパスを出力"
+  echo "  file <keyword>                   Tasks Vault 内のファイルを検索"
   echo ""
   echo "Environment:"
   echo "  TASKS_DIR         タスクノートの保存先ディレクトリ (必須)"
@@ -50,6 +51,16 @@ usage_path() {
   echo ""
   echo "Options:"
   echo "  --id <id>  タスクノートのid (必須)"
+  exit 1
+}
+
+usage_file() {
+  echo "Usage: otm file <keyword>"
+  echo ""
+  echo "Tasks Vault 内のファイルを検索します。"
+  echo ""
+  echo "Example:"
+  echo "  otm file キーワード"
   exit 1
 }
 
@@ -330,6 +341,21 @@ cmd_path() {
   echo "$matched_files"
 }
 
+cmd_file() {
+  if [[ $# -ne 1 ]]; then
+    usage_file
+  fi
+
+  case "$1" in
+  -h | --help)
+    usage_file
+    ;;
+  esac
+
+  local keyword="$1"
+  obsidian "vault=${TASKS_VAULT_NAME}" file "file=${keyword}"
+}
+
 # --- メイン ---
 
 check_tasks_dir
@@ -353,6 +379,9 @@ property)
   ;;
 path)
   cmd_path "$@"
+  ;;
+file)
+  cmd_file "$@"
   ;;
 *)
   echo "Error: 不明なサブコマンド: ${subcommand}" >&2
