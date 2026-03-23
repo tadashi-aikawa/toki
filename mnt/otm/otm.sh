@@ -10,7 +10,8 @@ usage() {
   echo "  path --id <id>                   タスクノートのフルパスを出力"
   echo ""
   echo "Environment:"
-  echo "  TASKS_DIR  タスクノートの保存先ディレクトリ (必須)"
+  echo "  TASKS_DIR         タスクノートの保存先ディレクトリ (必須)"
+  echo "  TASKS_VAULT_NAME  タスクノートが属するObsidian Vault名 (必須)"
   exit 1
 }
 
@@ -55,6 +56,10 @@ usage_path() {
 check_tasks_dir() {
   if [[ -z "${TASKS_DIR:-}" ]]; then
     echo "Error: TASKS_DIR が設定されていません" >&2
+    usage
+  fi
+  if [[ -z "${TASKS_VAULT_NAME:-}" ]]; then
+    echo "Error: TASKS_VAULT_NAME が設定されていません" >&2
     usage
   fi
 }
@@ -247,36 +252,36 @@ cmd_property() {
 
   local filepath="$matched_files"
 
-  # vault rootを取得してvault相対パスを算出
+  # TASKS_VAULT_NAMEを使ってvault相対パスを算出
   local vault_root
-  vault_root=$(obsidian vault info=path)
+  vault_root=$(obsidian "vault=${TASKS_VAULT_NAME}" vault info=path)
   local rel_path="${filepath#$vault_root/}"
 
   # 各プロパティを更新
   if [[ -n "$summary" ]]; then
-    obsidian "property:set" "name=summary" "value=${summary}" "path=${rel_path}"
+    obsidian "vault=${TASKS_VAULT_NAME}" "property:set" "name=summary" "value=${summary}" "path=${rel_path}"
   fi
 
   if [[ -n "$status" ]]; then
     local mapped_status
     mapped_status=$(map_status "$status")
-    obsidian "property:set" "name=status" "value=${mapped_status}" "path=${rel_path}"
+    obsidian "vault=${TASKS_VAULT_NAME}" "property:set" "name=status" "value=${mapped_status}" "path=${rel_path}"
   fi
 
   if [[ -n "$note" ]]; then
-    obsidian "property:set" "name=note" "value=${note}" "path=${rel_path}"
+    obsidian "vault=${TASKS_VAULT_NAME}" "property:set" "name=note" "value=${note}" "path=${rel_path}"
   fi
 
   if [[ -n "$assignee" ]]; then
     local validated_assignee
     validated_assignee=$(validate_assignee "$assignee")
-    obsidian "property:set" "name=assignee" "value=${validated_assignee}" "path=${rel_path}"
+    obsidian "vault=${TASKS_VAULT_NAME}" "property:set" "name=assignee" "value=${validated_assignee}" "path=${rel_path}"
   fi
 
   if [[ "$update_updated" == true ]]; then
     local now
     now=$(date '+%Y-%m-%dT%H:%M')
-    obsidian "property:set" "name=updated" "value=${now}" "type=datetime" "path=${rel_path}"
+    obsidian "vault=${TASKS_VAULT_NAME}" "property:set" "name=updated" "value=${now}" "type=datetime" "path=${rel_path}"
   fi
 }
 
