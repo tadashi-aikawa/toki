@@ -27,8 +27,9 @@ ss start "<依頼の要約>"
 
 ```
 ss progress <進捗率(0~1)> <フェーズ名>...
-/task-progress <id>
 ```
+
+`task-progress` スキルに `<id>` を指定して呼び出す。
 
 
 ### タスクノートと紐づいていない場合
@@ -44,8 +45,9 @@ ss progress <進捗率(0~1)> <フェーズ名>...
 
 ```
 ss wait
-/task-wait <id>
 ```
+
+`task-wait` スキルに `<id>` を指定して呼び出す。
 
 ### タスクノートと紐づいていない場合
 
