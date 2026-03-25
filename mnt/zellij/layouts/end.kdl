@@ -1,16 +1,30 @@
 layout {
   tab name="🏠 END" cwd="~/git/github.com/tadashi-aikawa" {
-    pane name="🍏Toki status" cwd="toki" command="git" {
-      args "status"
+    pane split_direction="vertical" {
+      pane name="🔄Another Quick Switcher" cwd="obsidian-another-quick-switcher" command="git" {
+        args "status"
+      }
+      pane name="⚡jinrai" cwd="jinrai" command="git" {
+        args "status"
+      }
+      pane name="⏳kokukoku" cwd="jinrai" command="git" {
+        args "status"
+      }
+      pane name="🔔copilot-plugin-notify" cwd="copilot-plugin-notify" command="git" {
+        args "status"
+      }
     }
-    pane name="🔴Carnelian status" cwd="carnelian" command="git" {
-      args "status"
-    }
-    pane name="🔄Another Quick Switcher status" cwd="obsidian-another-quick-switcher" command="git" {
-      args "status"
-    }
-    pane name="🔔copilot-plugin-notify" cwd="copilot-plugin-notify" command="git" {
-      args "status"
+
+    pane split_direction="vertical" {
+      pane name="🍏Toki" cwd="toki" command="git" {
+        args "status"
+      }
+      pane name="🔴Carnelian" cwd="carnelian" command="git" {
+        args "status"
+      }
+      pane name="🥷skills" cwd="skills" command="git" {
+        args "status"
+      }
     }
   }
 }
