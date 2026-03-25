@@ -26,6 +26,7 @@ shift
 case "$command" in
 start)
   cmux workspace-action rename "$1"
+  cmux set-progress "0.1" --label "タスクノート作成中......"
   ;;
 progress)
   cmux set-status task "進行中" --icon sparkle --color "#A2DBFF"
