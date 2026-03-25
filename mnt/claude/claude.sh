@@ -1,5 +1,5 @@
 claudine() {
-  chafa --duration 0 --size 30x24 ~/.claude/claudine.gif
+  # chafa --duration 0 --size 30x24 ~/.claude/claudine.gif
   GH_TOKEN=$GH_READONLY_TOKEN AGENT_NAME="claude-code" claude --permission-mode auto "$@"
 }
 
