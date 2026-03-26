@@ -391,6 +391,9 @@ mise use -g xh
 # jq
 mise use -g jq
 
+# yq
+mise use -g yq
+
 # btop
 brew install btop
 
