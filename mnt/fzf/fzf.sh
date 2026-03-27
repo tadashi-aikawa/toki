@@ -4,3 +4,5 @@ export FZF_DEFAULT_OPTS="
   --height 45%
   --margin 0,5%
 "
+
+alias iz='cd $(dirname $(fzf))'
