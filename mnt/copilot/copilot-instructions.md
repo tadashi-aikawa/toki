@@ -1,9 +1,6 @@
-## ⚠️ CRITICAL: 最初のターンで必ず実行すること（例外なし）
+## はじめに
 
-**ユーザーへの応答より前に、以下を実行すること:**
-
-1. `~/.claude/references/session-lifecycle.md` を Read ツールで読み込む
-2. そのファイルに記載された手順に従い、指定コマンドを実行する
+`~/.claude/references/session-lifecycle.md` を Read ツールで読み込んで内容を理解してください。
 
 ## 基本ルール
 
