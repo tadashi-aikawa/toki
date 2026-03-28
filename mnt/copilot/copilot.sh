@@ -1,5 +1,5 @@
 colot() {
-  # chafa --duration 0 --size 40x32 ~/.copilot/copilot.gif
+  chafa --size 30x24 ~/.copilot/colot-mini.webp
   mkdir -p /tmp/copilot-log/
   AGENT_NAME="github-copilot-cli" copilot \
     --no-auto-update \
