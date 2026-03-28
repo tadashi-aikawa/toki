@@ -509,3 +509,6 @@ ensure_yazi_install "stelcodes/bunny"
 brew install poppler
 # resvg (for yazi)
 brew install resvg
+
+# gitleaks
+mise use -g gitleaks
