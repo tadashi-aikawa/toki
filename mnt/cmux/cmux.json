@@ -1,0 +1,42 @@
+{
+  "commands": [
+    {
+      "name": "Karabiner Dev",
+      "restart": "confirm",
+      "workspace": {
+        "name": "🧑‍💻Toki: Karabiner Dev",
+        "cwd": "~/git/github.com/tadashi-aikawa/toki/karabiner/",
+        "color": "#2B2146",
+        "layout": {
+          "direction": "vertical",
+          "split": 0.8,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "Neovim",
+                    "command": "nvim",
+                    "focus": true
+                  }
+                ]
+              }
+            },
+            {
+              "pane": {
+                "surfaces": [
+                  {
+                    "type": "terminal",
+                    "name": "serve",
+                    "command": "deno task dev"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
