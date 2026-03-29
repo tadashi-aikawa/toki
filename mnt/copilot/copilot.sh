@@ -18,6 +18,7 @@ colot() {
     --allow-tool "shell(ss:*)" \
     --allow-tool "shell(otm:*)" \
     --allow-tool "shell(obsidian file:*)" \
+    --allow-tool "shell(printf:*)" \
     --allow-url "api.github.com" \
     --allow-url "raw.githubusercontent.com" \
     --allow-url "github.com" \
