@@ -405,6 +405,12 @@
           "hideHotkeyGuide": true
         }
       ],
+      "move to header": [
+        {
+          "modifiers": [],
+          "key": "Enter"
+        }
+      ],
       "clear input": [],
       "move to next hit": [
         {
@@ -921,9 +927,7 @@
         "property": true
       },
       "keysOfPropertyToSearch": [
-        "description",
-        "created",
-        "status"
+        "description"
       ],
       "relativeUpdatedPeriodSource": "property",
       "relativeUpdatedPeriodPropertyKey": "updated",
@@ -973,8 +977,7 @@
         "property": true
       },
       "keysOfPropertyToSearch": [
-        "description",
-        "updated"
+        "description"
       ],
       "relativeUpdatedPeriodSource": "property",
       "relativeUpdatedPeriodPropertyKey": "updated",
@@ -1024,9 +1027,7 @@
         "property": true
       },
       "keysOfPropertyToSearch": [
-        "description",
-        "created",
-        "status"
+        "description"
       ],
       "relativeUpdatedPeriodSource": "property",
       "relativeUpdatedPeriodPropertyKey": "updated",
@@ -1291,9 +1292,7 @@
         "property": true
       },
       "keysOfPropertyToSearch": [
-        "created",
-        "updated",
-        "description"
+        "created"
       ],
       "relativeUpdatedPeriodSource": "property",
       "relativeUpdatedPeriodPropertyKey": "updated",
