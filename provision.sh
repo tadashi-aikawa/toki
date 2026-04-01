@@ -336,7 +336,7 @@ fi
 
 # Claude Code
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  brew install --cask claude-code
+  curl -fsSL https://claude.ai/install.sh | bash
   ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
   ln -snf "$MNT"/claude/references ~/.claude/references
   ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
