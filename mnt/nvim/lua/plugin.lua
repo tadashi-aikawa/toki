@@ -34,3 +34,9 @@ require("lazy").setup({
     end,
   },
 })
+
+-- built-in undotree command
+vim.api.nvim_create_user_command("Undotree", function()
+  vim.cmd.packadd("nvim.undotree")
+  vim.cmd.Undotree()
+end, {})
