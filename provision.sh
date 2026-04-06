@@ -204,6 +204,7 @@ ln -snf "${MNT}"/nvim/init.lua ~/.config/nvim/init.lua
 ln -snf "${MNT}"/nvim/snippets ~/.config/nvim/snippets
 ln -snf "${MNT}"/nvim/after ~/.config/nvim/after
 ln -snf "${MNT}"/nvim/luasnippets ~/.config/nvim/luasnippets
+mise use -g tree-sitter
 
 # Obsidian(一部設定のみ)
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
