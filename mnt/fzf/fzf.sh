@@ -5,4 +5,8 @@ export FZF_DEFAULT_OPTS="
   --margin 0,5%
 "
 
-alias iz='cd $(dirname $(fzf))'
+iz() {
+  local selected
+  selected=$(fzf) || return
+  cd -- "${selected:h}" || exit
+}
