@@ -426,7 +426,7 @@ no git-graph && {
 # serie
 # mise use -g cargo:https://github.com/tadashi-aikawa/serie # FIXME: 不要になったら消す
 mise use -g cargo:serie
-ensure_zshrc 'alias s="serie --max-count 100"'
+ensure_zshrc 'alias s="serie -p kitty --max-count 100"'
 mkdir -p ~/.config/serie
 ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
 
