@@ -46,6 +46,10 @@ vim.keymap.set("n", "<D-k>", "[c", { silent = true })
 vim.keymap.set("n", "<Space>L", ":botright cw<CR>", { silent = true })
 -- URLをブラウザで開く
 vim.keymap.set("n", "go", ":ObsidianFollowLink<CR>", { silent = true })
+-- エスケープを装飾して開き直す
+vim.keymap.set("n", "<Space>O", function()
+  vim.api.nvim_open_term(0, {})
+end, { silent = true })
 
 -- バッファ切り替え
 vim.keymap.set("n", "<Space>r", ":b#<CR>", { silent = true })
