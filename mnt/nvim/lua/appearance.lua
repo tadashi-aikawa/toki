@@ -29,6 +29,9 @@ vim.api.nvim_set_hl(0, "DiffText", { fg = "white", bg = "#888820", strikethrough
 vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#552020", strikethrough = false })
 vim.api.nvim_set_hl(0, "DiffviewFilePanelSelected", { bg = "#888888", fg = "#efef33" })
 
+-- v0.12.0で追加されたハイライト機能は使わない. nvim-highlight-colorsと競合するし代用はまだできないため
+vim.lsp.document_color.enable(false)
+
 -- LSP
 vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = "#888888", fg = "#efef33" })
 
