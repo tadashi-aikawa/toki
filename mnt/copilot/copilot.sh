@@ -1,4 +1,8 @@
 colot() {
+  export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+  export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+  export OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true
+
   chafa --size 30x24 ~/.copilot/colot-mini.webp
   mkdir -p /tmp/copilot-log/
   AGENT_NAME="github-copilot-cli" copilot \
