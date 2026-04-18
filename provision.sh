@@ -335,20 +335,6 @@ fi
 # CLI Tools
 #----------------------------------------------------------------------
 
-# Claude Code
-if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  curl -fsSL https://claude.ai/install.sh | bash
-  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
-  ln -snf "$MNT"/claude/references ~/.claude/references
-  ln -snf "$MNT"/claude/settings.json ~/.claude/settings.json
-  ln -snf "$MNT"/claude/hooks ~/.claude/hooks
-  ln -snf "$MNT"/claude/claude.sh ~/.claude.sh
-  ln -snf "$MNT"/claude/claudine.gif ~/.claude/claudine.gif
-
-  # FIXME: skillsにする
-  ln -snf "$MNT"/claude/commands ~/.claude/commands
-fi
-
 # Codex CLI
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
   mise use -g npm:@openai/codex
