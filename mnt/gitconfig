@@ -77,3 +77,5 @@
 	required = true
 [init]
 	defaultBranch = main
+[gtr "editor"]
+	default = nvim

@@ -459,6 +459,13 @@ brew install pngpaste
 # Git LFS
 brew install git-lfs
 
+# gtr
+brew tap coderabbitai/tap
+brew install git-gtr
+git gtr config set gtr.editor.default nvim --global
+ln -snf "$MNT"/gtr/gtr.sh ~/.gtr.sh
+ensure_zshrc "source ~/.gtr.sh"
+
 # toki
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 
