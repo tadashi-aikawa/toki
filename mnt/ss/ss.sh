@@ -5,7 +5,7 @@ usage() {
   echo "Usage: ss <command> [args...]"
   echo ""
   echo "Commands:"
-  echo "  start <name>              ワークスペースをリネーム"
+  echo "  start                     ワークスペースを開始"
   echo "  progress <rate> <label>   進行中ステータスに設定 (rate: 0~1)"
   echo "  wait                      人間待ちステータスに設定"
   echo "  block <note>              ブロックステータスに設定 (note省略時は『動作確認待ち』)"
