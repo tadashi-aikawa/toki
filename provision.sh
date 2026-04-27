@@ -125,8 +125,7 @@ brew install --cask hammerspoon
 brew install --cask google-japanese-ime
 
 # LinearMouse
-# FIXME: 0.11.0 がインストールできるようになったら
-# brew install --cask linearmouse
+brew install --cask linearmouse
 
 # Slack
 brew install --cask slack
