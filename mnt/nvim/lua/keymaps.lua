@@ -85,6 +85,12 @@ vim.keymap.set("n", "<Space>-", ":s/*/\\~/g<CR>", { silent = true })
 -- ghostwriter.nvimのタスク状態を初期化
 vim.keymap.set("n", "<Space>_", ":s/\\v- \\[.\\] (.+) `.+`/- [ ] \\1/<CR><Cmd>nohlsearch<CR>", { silent = true })
 
+-- カレントウィンドウのファイル絶対パスをコピー
+vim.keymap.set("n", "<Space>cc", function()
+  local absolute_path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", absolute_path)
+  vim.notify("Copy: " .. absolute_path)
+end, { silent = true })
 -- カレントウィンドウのファイル相対パスをコピー
 vim.keymap.set("n", "<Space>cy", function()
   local relative_path = vim.fn.expand("%:~:.")
