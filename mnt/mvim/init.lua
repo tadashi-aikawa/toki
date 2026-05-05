@@ -67,8 +67,6 @@ vim.o.winborder = "rounded"
 vim.opt.cursorline = true
 -- ステータスバーの表示設定 (default: 2)
 vim.opt.laststatus = 3 -- ステータスバーは分割しない
--- suggestionsの上限 (default: 0)
-vim.opt.pumheight = 10
 -- Yankの範囲をハイライト
 vim.api.nvim_set_hl(0, "YankHighlight", { reverse = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -82,20 +80,32 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- │                   オートコンプリート                    │
 -- ╰─────────────────────────────────────────────────────────╯
 
--- INSERTモードで自動的に補完メニューを表示するか (default: false)
-vim.o.autocomplete = true
--- 補完メニューの表示方法 (default: "menu,popup")
-vim.opt.completeopt = "popup,preinsert" -- preinsertで1つめの候補を自動選択
--- ignorecaseが有効な場合に候補の大文字小文字を推論 (default: false)
-vim.opt.infercase = true -- この設定がないと候補が自動選択されない
--- 補完メニューの罫線スタイル (default: 未設定)
-vim.o.pumborder = "rounded"
+vim.pack.add({
+	"https://github.com/saghen/blink.lib",
+	"https://github.com/saghen/blink.cmp",
+})
+local cmp = require("blink.cmp")
+cmp.build():wait(60000)
+cmp.setup({
+	keymap = {
+		-- Enterで候補を挿入する
+		preset = "enter",
+	},
+	completion = {
+		list = {
+			selection = {
+				-- 選択している項目を自動で挿入するか (default: true)
+				auto_insert = false,
+			},
+		},
+	},
+})
 
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                           LSP                           │
 -- ╰─────────────────────────────────────────────────────────╯
 
--- nvim-lspconfig ~ basedpyright(Python)のみ有効
+-- nvim-lspconfig
 vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
 vim.lsp.enable({
 	-- 別途インストールも必要: mise use -g npm:basedpyright

@@ -65,7 +65,5 @@ vim.o.winborder = "rounded"
 vim.opt.cursorline = true
 -- ステータスバーの表示設定 (default: 2)
 vim.opt.laststatus = 3 -- ステータスバーは分割しない
--- suggestionsの上限 (default: 0)
-vim.opt.pumheight = 10
 -- v0.12.0で追加されたハイライト機能は使わない. nvim-highlight-colorsと競合するし代用はまだできないため
 vim.lsp.document_color.enable(false)
