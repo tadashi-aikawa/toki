@@ -1,23 +1,10 @@
 vim.cmd("colorscheme tokyonight")
 
--- 行番号の表示
-vim.opt.number = true
-
--- カーソル行強化
-vim.opt.cursorline = true
-
--- ステータスバーは分割しない
-vim.opt.laststatus = 3
-
--- suggestionsの上限
-vim.opt.pumheight = 10
-
 -- Line
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#888888" })
 -- Comment
 vim.api.nvim_set_hl(0, "Comment", { fg = "#888888" })
 -- Highlight
-vim.api.nvim_set_hl(0, "YankHighlight", { reverse = true })
 vim.api.nvim_set_hl(0, "Visual", { bg = "#565612" })
 -- Current line
 vim.api.nvim_set_hl(0, "CursorLine", { bg = nil })
@@ -28,9 +15,6 @@ vim.api.nvim_set_hl(0, "DiffChange", { bg = "#444477", strikethrough = false })
 vim.api.nvim_set_hl(0, "DiffText", { fg = "white", bg = "#888820", strikethrough = false })
 vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#552020", strikethrough = false })
 vim.api.nvim_set_hl(0, "DiffviewFilePanelSelected", { bg = "#888888", fg = "#efef33" })
-
--- v0.12.0で追加されたハイライト機能は使わない. nvim-highlight-colorsと競合するし代用はまだできないため
-vim.lsp.document_color.enable(false)
 
 -- LSP
 vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { bg = "#888888", fg = "#efef33" })
@@ -49,12 +33,3 @@ vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#FFC777", bg = nil 
 vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#FFC777", bg = nil })
 -- インラインコード (render-markdownにあわせる)
 vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#22c55e", bg = "#224422" })
-
--- Yankした範囲をハイライトさせる
--- TODO: undo-glowを導入したため無効化. 定着したら削除する
--- vim.api.nvim_create_autocmd("TextYankPost", {
---   pattern = "*",
---   callback = function()
---     vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 200 })
---   end,
--- })
