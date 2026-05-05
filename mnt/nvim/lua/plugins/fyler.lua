@@ -128,13 +128,16 @@ local function toggle_preview(explorer)
   local row = fyler_win_config.row
   local col = math.floor((vim.o.columns - total_width) / 2)
 
-  vim.api.nvim_win_set_config(fyler_win, vim.tbl_extend("force", fyler_win_config, {
-    relative = "editor",
-    row = row,
-    col = col,
-    width = fyler_width,
-    height = total_height,
-  }))
+  vim.api.nvim_win_set_config(
+    fyler_win,
+    vim.tbl_extend("force", fyler_win_config, {
+      relative = "editor",
+      row = row,
+      col = col,
+      width = fyler_width,
+      height = total_height,
+    })
+  )
 
   local buf = prepare_preview_buffer(entry.path)
 
@@ -181,6 +184,28 @@ return {
     },
     views = {
       finder = {
+        columns = {
+          git = {
+            symbols = {
+              Untracked = "?",
+              Added = "",
+              Modified = "",
+              Deleted = "",
+              Renamed = "R",
+              Copied = "C",
+              Conflict = "!",
+              Ignored = " ",
+            },
+          },
+          diagnostic = {
+            symbols = {
+              Error = "",
+              Warn = "",
+              Info = "",
+              Hint = "",
+            },
+          },
+        },
         icon = {
           directory_empty = "",
           directory_expanded = "",
