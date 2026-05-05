@@ -3,7 +3,14 @@ local preview_path
 local preview_augroup
 local fyler_win
 local fyler_win_config
+local fyler_origin_win
 local close_preview
+
+local function restore_origin_win(win)
+  if win and vim.api.nvim_win_is_valid(win) then
+    vim.api.nvim_set_current_win(win)
+  end
+end
 
 local function focus_fyler()
   if fyler_win and vim.api.nvim_win_is_valid(fyler_win) then
@@ -83,8 +90,14 @@ end
 
 local function close_preview_before_action(action)
   return function(explorer)
+    local origin_win = fyler_origin_win
     close_preview()
     explorer:action_call(action)
+
+    if action == "n_close" then
+      restore_origin_win(origin_win)
+      fyler_origin_win = nil
+    end
   end
 end
 
@@ -119,6 +132,11 @@ local function toggle_preview(explorer)
 
   fyler_win = explorer.win.winid
   fyler_win_config = vim.api.nvim_win_get_config(fyler_win)
+  if explorer.win.origin_win and vim.api.nvim_win_is_valid(explorer.win.origin_win) then
+    fyler_origin_win = explorer.win.origin_win
+  else
+    fyler_origin_win = nil
+  end
 
   local margin = 2
   local total_width = math.floor(vim.o.columns * 0.95)
