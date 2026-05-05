@@ -178,6 +178,28 @@ return {
   keys = {
     { "<Space>t", "<cmd>Fyler kind=float<cr>", desc = "Open Fyler" },
   },
+  config = function(_, opts)
+    require("fyler").setup(opts)
+
+    local refresh_generation = 0
+    local group = vim.api.nvim_create_augroup("FylerAutoRefresh", { clear = true })
+
+    vim.api.nvim_create_autocmd({ "DiagnosticChanged", "BufWritePost", "FocusGained", "TermClose" }, {
+      group = group,
+      callback = function()
+        refresh_generation = refresh_generation + 1
+        local current_generation = refresh_generation
+
+        vim.defer_fn(function()
+          if current_generation ~= refresh_generation then
+            return
+          end
+
+          vim.api.nvim_exec_autocmds("User", { pattern = "DispatchRefresh" })
+        end, 500)
+      end,
+    })
+  end,
   opts = {
     integrations = {
       icon = "nvim_web_devicons",
@@ -210,6 +232,9 @@ return {
           directory_empty = "",
           directory_expanded = "",
           directory_collapsed = "",
+        },
+        watcher = {
+          enabled = true,
         },
         mappings = {
           ["q"] = close_preview_before_action("n_close"),
