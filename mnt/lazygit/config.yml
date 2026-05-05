@@ -13,6 +13,7 @@ keybinding:
   files:
     commitChanges: "C" # 基本的に使わない
     commitChangesWithEditor: "c"
+    forceFetch: "" # Force push safelyのキーバインドで上書き
 
 git:
   branchLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' {{branchName}} --
@@ -31,7 +32,7 @@ customCommands:
     description: Open the previous version of the file in Neovim
     command: "git show {{.SelectedLocalCommit.Sha}}^1:{{.SelectedCommitFile.Name}} > /tmp/$(basename {{.SelectedCommitFile.Name}}) && nvim /tmp/$(basename {{.SelectedCommitFile.Name}}) && rm /tmp/$(basename {{.SelectedCommitFile.Name}})"
     output: terminal
-  - key: ""
+  - key: "F"
     description: Force push safely
     context: global
     command: "git push --force-with-lease --force-if-includes origin HEAD"
