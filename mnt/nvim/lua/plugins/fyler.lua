@@ -1,5 +1,7 @@
 local preview_win
 local preview_path
+local preview_buf
+local preview_buf_is_scratch
 local preview_augroup
 local fyler_win
 local fyler_win_config
@@ -36,7 +38,18 @@ local function open_fyler()
   show_line_numbers(vim.api.nvim_get_current_win())
 end
 
+local function is_image_path(path)
+  local ok, image = pcall(require, "snacks.image")
+  return ok and image.supports_file(path) and image.config.enabled ~= false
+end
+
 local function prepare_preview_buffer(path)
+  if is_image_path(path) then
+    local buf = vim.api.nvim_create_buf(false, true)
+    require("snacks.image").buf.attach(buf, { src = path })
+    return buf, true
+  end
+
   local buf = vim.fn.bufadd(path)
   vim.fn.bufload(buf)
   vim.bo[buf].buflisted = false
@@ -54,7 +67,31 @@ local function prepare_preview_buffer(path)
 
   pcall(vim.treesitter.start, buf)
 
-  return buf
+  return buf, false
+end
+
+local function apply_preview_window_options(win, path)
+  if not win or not vim.api.nvim_win_is_valid(win) then
+    return
+  end
+
+  if is_image_path(path) then
+    vim.wo[win].number = false
+    vim.wo[win].relativenumber = false
+  else
+    show_line_numbers(win)
+  end
+
+  vim.wo[win].wrap = false
+end
+
+local function cleanup_preview_buffer()
+  if preview_buf_is_scratch and preview_buf and vim.api.nvim_buf_is_valid(preview_buf) then
+    vim.api.nvim_buf_delete(preview_buf, { force = true })
+  end
+
+  preview_buf = nil
+  preview_buf_is_scratch = nil
 end
 
 local function set_preview_keymaps(buf)
@@ -75,10 +112,18 @@ local function update_preview(entry)
     return
   end
 
-  local buf = prepare_preview_buffer(entry.path)
+  local previous_preview_buf = preview_buf
+  local previous_preview_buf_is_scratch = preview_buf_is_scratch
+  local buf, buf_is_scratch = prepare_preview_buffer(entry.path)
   vim.api.nvim_win_set_buf(preview_win, buf)
-  show_line_numbers(preview_win)
-  vim.wo[preview_win].wrap = false
+  preview_buf = buf
+  preview_buf_is_scratch = buf_is_scratch
+
+  if previous_preview_buf_is_scratch and previous_preview_buf and vim.api.nvim_buf_is_valid(previous_preview_buf) then
+    vim.api.nvim_buf_delete(previous_preview_buf, { force = true })
+  end
+
+  apply_preview_window_options(preview_win, entry.path)
   set_preview_keymaps(buf)
   preview_path = entry.path
 end
@@ -94,6 +139,7 @@ function close_preview()
     vim.api.nvim_win_close(preview_win, true)
   end
   preview_win = nil
+  cleanup_preview_buffer()
 
   if fyler_win and vim.api.nvim_win_is_valid(fyler_win) and fyler_win_config then
     vim.api.nvim_win_set_config(fyler_win, fyler_win_config)
@@ -172,7 +218,7 @@ local function toggle_preview(explorer)
     })
   )
 
-  local buf = prepare_preview_buffer(entry.path)
+  local buf, buf_is_scratch = prepare_preview_buffer(entry.path)
 
   preview_win = vim.api.nvim_open_win(buf, false, {
     relative = "editor",
@@ -185,10 +231,11 @@ local function toggle_preview(explorer)
     zindex = 40,
   })
 
-  show_line_numbers(preview_win)
-  vim.wo[preview_win].wrap = false
+  apply_preview_window_options(preview_win, entry.path)
   set_preview_keymaps(buf)
 
+  preview_buf = buf
+  preview_buf_is_scratch = buf_is_scratch
   preview_path = entry.path
   preview_augroup = vim.api.nvim_create_augroup("fyler_preview", { clear = true })
   vim.api.nvim_create_autocmd("CursorMoved", {
