@@ -255,19 +255,19 @@ blockquote em {
 |  横幅小さめ
 */
 @media (min-width: 500px) {
-  .internal-embed .image-wrapper img[alt~="90%"] {
+  .internal-embed .image-wrapper img[alt~="90%"]:not([width]) {
     width: 90%;
   }
-  .internal-embed .image-wrapper img[alt~="80%"] {
+  .internal-embed .image-wrapper img[alt~="80%"]:not([width]) {
     width: 80%;
   }
-  .internal-embed .image-wrapper img[alt~="75%"] {
+  .internal-embed .image-wrapper img[alt~="75%"]:not([width]) {
     width: 75%;
   }
-  .internal-embed .image-wrapper img[alt~="60%"] {
+  .internal-embed .image-wrapper img[alt~="60%"]:not([width]) {
     width: 60%;
   }
-  .internal-embed .image-wrapper img[alt~="50%"] {
+  .internal-embed .image-wrapper img[alt~="50%"]:not([width]) {
     width: 50%;
   }
 }
