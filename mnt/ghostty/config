@@ -1,3 +1,6 @@
+# 設定しないとcmuxでfallbackされた別テーマになってしまうため
+theme = Ghostty Default Style Dark
+
 # プレゼンの場合は22
 font-size = 16
 font-family = "CaskaydiaCove Nerd Font"
