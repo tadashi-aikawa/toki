@@ -24,6 +24,18 @@ local function focus_preview()
   end
 end
 
+local function show_line_numbers(win)
+  if win and vim.api.nvim_win_is_valid(win) then
+    vim.wo[win].number = true
+    vim.wo[win].relativenumber = false
+  end
+end
+
+local function open_fyler()
+  vim.cmd("Fyler kind=float")
+  show_line_numbers(vim.api.nvim_get_current_win())
+end
+
 local function prepare_preview_buffer(path)
   local buf = vim.fn.bufadd(path)
   vim.fn.bufload(buf)
@@ -65,6 +77,8 @@ local function update_preview(entry)
 
   local buf = prepare_preview_buffer(entry.path)
   vim.api.nvim_win_set_buf(preview_win, buf)
+  show_line_numbers(preview_win)
+  vim.wo[preview_win].wrap = false
   set_preview_keymaps(buf)
   preview_path = entry.path
 end
@@ -131,6 +145,7 @@ local function toggle_preview(explorer)
   end
 
   fyler_win = explorer.win.winid
+  show_line_numbers(fyler_win)
   fyler_win_config = vim.api.nvim_win_get_config(fyler_win)
   if explorer.win.origin_win and vim.api.nvim_win_is_valid(explorer.win.origin_win) then
     fyler_origin_win = explorer.win.origin_win
@@ -170,8 +185,7 @@ local function toggle_preview(explorer)
     zindex = 60,
   })
 
-  vim.wo[preview_win].number = true
-  vim.wo[preview_win].relativenumber = false
+  show_line_numbers(preview_win)
   vim.wo[preview_win].wrap = false
   set_preview_keymaps(buf)
 
@@ -194,7 +208,7 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "<Space>t", "<cmd>Fyler kind=float<cr>", desc = "Open Fyler" },
+    { "<Space>t", open_fyler, desc = "Open Fyler" },
   },
   config = function(_, opts)
     require("fyler").setup(opts)
@@ -224,6 +238,7 @@ return {
     },
     views = {
       finder = {
+        columns_order = { "git", "diagnostic", "link", "permission", "size" },
         columns = {
           git = {
             symbols = {
