@@ -182,7 +182,7 @@ local function toggle_preview(explorer)
     height = total_height,
     style = "minimal",
     border = "rounded",
-    zindex = 60,
+    zindex = 40,
   })
 
   show_line_numbers(preview_win)
