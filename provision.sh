@@ -212,8 +212,9 @@ ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
 # TODO: v3が安定したら復活させる
 # brew install --cask bruno
 
+# brew install --cask homerow # FIXME: 1.5.3で動かないので1.4.1に戻しているため. なおったら入れ直す
+
 brew install --cask raycast
-brew install --cask homerow
 brew install --cask slack
 brew install --cask shottr
 brew install --cask gimp
