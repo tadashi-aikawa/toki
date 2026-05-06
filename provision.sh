@@ -52,37 +52,35 @@ function ensure_yazi_install() {
   fi
 }
 
-#----------------------------------------------------------------------
-# Clean up
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                         Clean up                         │
+# ╰──────────────────────────────────────────────────────────╯
 
 launchctl remove homebrew.mxcl.colima 2>/dev/null || true
 brew services cleanup
 
-#----------------------------------------------------------------------
-# Shell
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                          Shell                           │
+# ╰──────────────────────────────────────────────────────────╯
 
 brew install zsh-autosuggestions
 ensure_zshrc "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-#----------------------------------------------------------------------
-# config / rc files / dot files
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │              config / rc files / dot files               │
+# ╰──────────────────────────────────────────────────────────╯
 
 # gitconfig
 ln -snf "$MNT"/gitconfig ~/.gitconfig
-
 # .inputrc
 ln -snf "$MNT"/inputrc ~/.inputrc
-
 # .zshrc
 ln -snf "$MNT"/zshrc_base.sh ~/.zshrc_base.sh
 ensure_zshrc "source ~/.zshrc_base.sh"
 
-#----------------------------------------------------------------------
-# Base
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                        Base tools                        │
+# ╰──────────────────────────────────────────────────────────╯
 
 brew install wget
 
@@ -92,105 +90,82 @@ brew install unzip
 ensure_zshrc 'export PATH=/opt/homebrew/Cellar/unzip/6.0_8/bin:$PATH'
 
 brew install sevenzip
-
 brew install git
 
-#----------------------------------------------------------------------
-# GUI Tools
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                        常駐ツール                        │
+# ╰──────────────────────────────────────────────────────────╯
 
-# ターミナル(Ghostty)
-brew install --cask ghostty
-GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
-mkdir -p "$GHOSTTY_CONFIG_DIR"
-ln -snf "$MNT"/ghostty/config "$GHOSTTY_CONFIG_DIR"/config
-ln -snf "$MNT"/ghostty/shaders "$GHOSTTY_CONFIG_DIR"/shaders
-
-# ターミナル(cmux)
-brew tap manaflow-ai/cmux
-brew install --cask cmux
-ln -snf "$MNT"/cmux/cmux.sh ~/.cmux.sh
-ensure_zshrc "source ~/.cmux.sh"
-
-# ランチャー
-brew install --cask raycast
-
-# キーマップ制御
 brew install --cask karabiner-elements
-
-# hammerspoon
 brew install --cask hammerspoon
-
-# 日本語入力
 brew install --cask google-japanese-ime
-
-# LinearMouse
 brew install --cask linearmouse
 
-# Slack
-brew install --cask slack
-
-# スクリーンショット
-brew install --cask shottr
-
-# DBeaver
-brew install --cask dbeaver-community
-
-# VSCode
-brew install --cask visual-studio-code
-mkdir -p ~/Library/Application\ Support/Code/User
-ln -snf "$MNT"/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-
-# GIMP
-brew install --cask gimp
-
-# Bruno
-# TODO: v3が安定したら復活させる
-# brew install --cask bruno
-
-# Homerow
-# FIXME: 1.5で動かないので1.4.1に戻しているため. なおったら入れ直す
-# brew install --cask homerow
-
-# KeyCastr
-brew install --cask keycastr
-
-#----------------------------------------------------------------------
-# Runtime manager
-#----------------------------------------------------------------------
-
-# mise
+# ╭──────────────────────────────────────────────────────────╮
+# │                           mise                           │
+# ╰──────────────────────────────────────────────────────────╯
 no mise && {
   curl https://mise.run | sh
   # 大丈夫かな?
   eval "$(~/.local/bin/mise activate bash)"
 }
-
 # shellcheck disable=SC2034
 # miseの-yフラグ省略
 MISE_YES=1
 mise settings experimental=true
-
 # shellcheck disable=SC2016
 ensure_zshrc 'eval "$(~/.local/bin/mise activate zsh)"'
 # shellcheck disable=SC2016
 ensure_bashrc 'eval "$(~/.local/bin/mise activate bash)"'
 
-#----------------------------------------------------------------------
-# Prompt
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                          Docker                          │
+# ╰──────────────────────────────────────────────────────────╯
+brew install docker docker-compose colima
+brew services start colima
+# docker composeコマンド
+mkdir -p ~/.docker/cli-plugins
+ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
-# Starship
+# ╭──────────────────────────────────────────────────────────╮
+# │                          Zellij                          │
+# ╰──────────────────────────────────────────────────────────╯
+mise use -g zellij
+ensure_zshrc 'alias zl="zellij"'
+ln -snf "${MNT}"/zellij/config.kdl ~/.config/zellij/config.kdl
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  ln -snf "${MNT}"/zellij/layouts ~/.config/zellij/layouts
+fi
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         Starship                         │
+# ╰──────────────────────────────────────────────────────────╯
 mise use -g starship
 ln -snf "$MNT"/starship/starship.sh ~/.starship.sh
 ensure_zshrc "source ~/.starship.sh"
 mkdir -p ~/.config
 ln -snf "$MNT"/starship/starship.toml ~/.config/starship.toml
 
-#----------------------------------------------------------------------
-# Editor
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                        ターミナル                        │
+# ╰──────────────────────────────────────────────────────────╯
+
+# Ghostty
+brew install --cask ghostty
+GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
+mkdir -p "$GHOSTTY_CONFIG_DIR"
+ln -snf "$MNT"/ghostty/config "$GHOSTTY_CONFIG_DIR"/config
+ln -snf "$MNT"/ghostty/shaders "$GHOSTTY_CONFIG_DIR"/shaders
+
+# cmux
+brew tap manaflow-ai/cmux
+brew install --cask cmux
+ln -snf "$MNT"/cmux/cmux.sh ~/.cmux.sh
+ensure_zshrc "source ~/.cmux.sh"
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         エディタ                         │
+# ╰──────────────────────────────────────────────────────────╯
 
 # Neovim
 mise use -g neovim
@@ -223,26 +198,52 @@ ln -snf "${MNT}"/obsidian/.obsidian/hotkeys.json "${MAIN_VAULT_ROOT}"/.obsidian/
 ln -snf "${MNT}"/obsidian/.obsidian/snippets/owl.css "${MAIN_VAULT_ROOT}"/.obsidian/snippets/owl.css
 ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data.json "${MAIN_VAULT_ROOT}"/.obsidian/plugins/obsidian-another-quick-switcher/data.json
 
-#----------------------------------------------------------------------
-# Languages / Runtimes / LSP
-#----------------------------------------------------------------------
+# VSCode
+brew install --cask visual-studio-code
+mkdir -p ~/Library/Application\ Support/Code/User
+ln -snf "$MNT"/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 
-# Node.js
+# ╭──────────────────────────────────────────────────────────╮
+# │                     その他GUIツール                      │
+# ╰──────────────────────────────────────────────────────────╯
+
+# Bruno
+# TODO: v3が安定したら復活させる
+# brew install --cask bruno
+
+brew install --cask raycast
+brew install --cask homerow
+brew install --cask slack
+brew install --cask shottr
+brew install --cask gimp
+brew install --cask dbeaver-community
+brew install --cask keycastr
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                Languages / Runtimes / LSP                │
+# ╰──────────────────────────────────────────────────────────╯
+
+# TypeScript
+mise use -g npm:typescript
+# Web系ランタイム
 mise use -g node@24
-
-# pnpm
 mise use -g pnpm
-
-# Bun
 mise use -g bun
-
-# Deno
 mise use -g deno
+# Vue
+mise use -g npm:@vue/language-server
+mise use -g npm:@vtsls/language-server # Volar3から
+# Prettier
+mise use -g npm:@fsouza/prettierd
+mise use -g npm:prettier
+# HTML/CSS/JSON/ESLint LSP
+mise use -g npm:vscode-langservers-extracted
+mise use -g npm:@olrtg/emmet-language-server
+mise use -g npm:@tailwindcss/language-server
 
-# Golang
-mise use -g go@1.22
-mise use -g go@1.23
-mise use -g go@1.24
+# Go
+mise use -g go
 # shellcheck disable=SC2016
 ensure_zshrc 'export GOPATH=$HOME/go'
 # shellcheck disable=SC2016
@@ -272,31 +273,12 @@ mise use -g shellcheck
 mise use -g shfmt
 
 # Lua
-mise use -g lua@5.1 # Neovim 0.10にあわせる
+mise use -g lua@5.1 # Neovim 0.12にあわせる
 mise use -g lua-language-server
 mise use -g stylua
 
-# Prettier
-mise use -g npm:@fsouza/prettierd
-mise use -g npm:prettier
-
-# HTML/CSS/JSON/ESLint LSP
-mise use -g npm:vscode-langservers-extracted
-mise use -g npm:@olrtg/emmet-language-server
-mise use -g npm:@tailwindcss/language-server
-
 # YAML
 mise use -g npm:yaml-language-server
-
-# TypeScript
-mise use -g npm:typescript
-
-# Vue
-mise use -g npm:@vue/language-server
-mise use -g npm:@vtsls/language-server # Volar3から
-
-# Svelte
-mise use -g npm:svelte-language-server
 
 # Markdown
 mise use -g marksman
@@ -305,39 +287,9 @@ mise use -g marksman
 mise use -g go:github.com/sqls-server/sqls
 mise use -g cargo:sleek
 
-# Docker
-brew install docker docker-compose colima
-brew services start colima
-# docker composeコマンド
-mkdir -p ~/.docker/cli-plugins
-ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-
-#----------------------------------------------------------------------
-# TUI Tools
-#----------------------------------------------------------------------
-
-# Lazygit
-mise use -g lazygit
-mkdir -p ~/Library/Application\ Support/lazygit
-ln -snf "${MNT}"/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
-
-# Lazydocker
-mise use -g lazydocker
-
-# Lazysql
-mise use -g go:github.com/jorgerojas26/lazysql
-
-# Zellij
-mise use -g zellij
-ensure_zshrc 'alias zl="zellij"'
-ln -snf "${MNT}"/zellij/config.kdl ~/.config/zellij/config.kdl
-if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  ln -snf "${MNT}"/zellij/layouts ~/.config/zellij/layouts
-fi
-
-#----------------------------------------------------------------------
-# CLI Tools
-#----------------------------------------------------------------------
+# ╭──────────────────────────────────────────────────────────╮
+# │                        TUI Tools                         │
+# ╰──────────────────────────────────────────────────────────╯
 
 # Codex CLI
 if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
@@ -361,131 +313,8 @@ if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
 fi
 ensure_zshrc "source ~/.copilot.sh"
 
-# fd
-mise use -g fd
-
-# ripgrep
-mise use -g ripgrep
-
-# bat
-mise use -g bat
-
-# dust
-mise use -g dust
-
-# dysk
-mise use -g cargo:dysk
-
-# xh
-mise use -g xh
-
-# jq
-mise use -g jq
-
-# yq
-mise use -g yq
-
-# btop
-brew install btop
-
-# zoxide
-mise use -g zoxide
-ln -snf "$MNT"/zoxide/zoxide.sh ~/.zoxide.sh
-ensure_zshrc "source ~/.zoxide.sh"
-
-# eza
-mise use -g eza
-ln -snf "$MNT"/eza/eza.sh ~/.eza.sh
-ensure_zshrc "source ~/.eza.sh"
-
-# fzf
-mise use -g fzf
-ln -snf "$MNT"/fzf/fzf.sh ~/.fzf.sh
-ensure_zshrc "source ~/.fzf.sh"
-ensure_zshrc "source <(fzf --zsh)"
-
-# delta
-mise use -g delta
-
-# git-graph
-no git-graph && {
-  wget https://github.com/mlange-42/git-graph/releases/download/0.6.0/git-graph-0.6.0-macos-amd64.tar.gz -O /tmp/git-graph.tar.gz
-  tar xvf /tmp/git-graph.tar.gz -C ~/bin/
-}
-
-# serie
-# mise use -g cargo:https://github.com/tadashi-aikawa/serie # FIXME: 不要になったら消す
-mise use -g cargo:serie
-ensure_zshrc 'alias s="serie -p kitty --max-count 100"'
-mkdir -p ~/.config/serie
-ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
-
-# keifu
-mise use -g github:trasta298/keifu@latest
-
-# hyperfine
-mise use -g hyperfine
-
-# hexyl
-mise use -g hexyl
-
-# awscli (miseではpythonのパスが上書きされてしまう)
-brew install awscli
-
-# Task
-mise use -g task
-
-# watchexec
-mise use -g watchexec
-
-# Marp CLI
-mise use -g marp-cli
-
-# Bruno CLI
-# TODO: v3が安定したら復活させる
-mise use -g npm:@usebruno/cli@2.15.1
-
-# chafa
-brew install chafa
-
-# imagemagick(magick)
-brew install imagemagick
-
-# ffmpeg
-brew install ffmpeg
-
-# gifski
-brew install gifski
-
-# pngpaste
-brew install pngpaste
-
-# Git LFS
-brew install git-lfs
-
-# gtr
-brew tap coderabbitai/tap
-brew install git-gtr
-git gtr config set gtr.editor.default nvim --global
-ln -snf "$MNT"/gtr/gtr.sh ~/.gtr.sh
-ensure_zshrc "source ~/.gtr.sh"
-
-# toki
-ln -snf "$MNT"/toki/toki.sh ~/bin/toki
-
-# ss
-ln -snf "$MNT"/ss/ss.sh ~/bin/ss
-# otm
-ln -snf "$MNT"/otm/otm.sh ~/bin/otm
-
-# convmf
-brew install convmv
-
-# Clipboard Project
-brew install clipboard
-
 # yazi
-# brew install yazi font-symbols-only-nerd-font TODO: #3478 の対応版がリリースされたら復帰
+brew install yazi font-symbols-only-nerd-font poppler resvg
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
@@ -503,10 +332,83 @@ ensure_yazi_install "yazi-rs/plugins:toggle-pane"
 ensure_yazi_install "orhnk/system-clipboard"
 ensure_yazi_install "stelcodes/bunny"
 
-# poppler (for yazi)
-brew install poppler
-# resvg (for yazi)
-brew install resvg
+# Lazygit
+mise use -g lazygit
+mkdir -p ~/Library/Application\ Support/lazygit
+ln -snf "${MNT}"/lazygit/config.yml ~/Library/Application\ Support/lazygit/config.yml
 
-# gitleaks
+# Lazydocker
+mise use -g lazydocker
+
+# btop
+brew install btop
+
+# serie
+mise use -g cargo:serie
+ensure_zshrc 'alias s="serie -p kitty --max-count 100"'
+mkdir -p ~/.config/serie
+ln -snf "$MNT"/serie/config.toml ~/.config/serie/config.toml
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                        CLI Tools                         │
+# ╰──────────────────────────────────────────────────────────╯
+
+mise use -g bat
+mise use -g cargo:dysk
+mise use -g delta
+mise use -g dust
+mise use -g fd
 mise use -g gitleaks
+mise use -g hexyl
+mise use -g hyperfine
+mise use -g jq
+mise use -g ripgrep
+mise use -g task
+mise use -g watchexec
+mise use -g xh
+mise use -g yq
+
+brew install awscli # miseではpythonのパスが上書きされてしまう
+brew install chafa
+brew install clipboard
+brew install convmv
+brew install ffmpeg
+brew install gifski
+brew install git-lfs
+brew install imagemagick
+brew install pngpaste
+
+# zoxide
+mise use -g zoxide
+ln -snf "$MNT"/zoxide/zoxide.sh ~/.zoxide.sh
+ensure_zshrc "source ~/.zoxide.sh"
+
+# eza
+mise use -g eza
+ln -snf "$MNT"/eza/eza.sh ~/.eza.sh
+ensure_zshrc "source ~/.eza.sh"
+
+# fzf
+mise use -g fzf
+ln -snf "$MNT"/fzf/fzf.sh ~/.fzf.sh
+ensure_zshrc "source ~/.fzf.sh"
+ensure_zshrc "source <(fzf --zsh)"
+
+# Bruno CLI
+# TODO: v3が安定したら復活させる
+mise use -g npm:@usebruno/cli@2.15.1
+
+# gtr
+brew tap coderabbitai/tap
+brew install git-gtr
+git gtr config set gtr.editor.default nvim --global
+ln -snf "$MNT"/gtr/gtr.sh ~/.gtr.sh
+ensure_zshrc "source ~/.gtr.sh"
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                  独自CLIコマンド(~/bin)                  │
+# ╰──────────────────────────────────────────────────────────╯
+
+ln -snf "$MNT"/toki/toki.sh ~/bin/toki
+ln -snf "$MNT"/ss/ss.sh ~/bin/ss
+ln -snf "$MNT"/otm/otm.sh ~/bin/otm # あまり使ってないのでいらないかも
