@@ -8,6 +8,17 @@ local fyler_win_config
 local fyler_origin_win
 local close_preview
 
+local FLOAT_MAX_WIDTH = 120
+local PREVIEW_TOTAL_MAX_WIDTH = 240
+
+local function fit_width(max_width)
+  return math.max(1, math.min(math.floor(vim.o.columns * 0.95), max_width))
+end
+
+local function center_col(width)
+  return math.floor((vim.o.columns - width) / 2)
+end
+
 local function restore_origin_win(win)
   if win and vim.api.nvim_win_is_valid(win) then
     vim.api.nvim_set_current_win(win)
@@ -200,12 +211,12 @@ local function toggle_preview(explorer)
   end
 
   local margin = 2
-  local total_width = math.floor(vim.o.columns * 0.95)
+  local total_width = fit_width(PREVIEW_TOTAL_MAX_WIDTH)
   local total_height = fyler_win_config.height
   local fyler_width = math.floor(total_width * 0.45)
   local preview_width = total_width - fyler_width - margin
   local row = fyler_win_config.row
-  local col = math.floor((vim.o.columns - total_width) / 2)
+  local col = center_col(total_width)
 
   vim.api.nvim_win_set_config(
     fyler_win,
@@ -315,6 +326,16 @@ return {
         },
         watcher = {
           enabled = true,
+        },
+        win = {
+          kinds = {
+            float = {
+              width = fit_width(FLOAT_MAX_WIDTH),
+              height = "70%",
+              top = "10%",
+              left = center_col(fit_width(FLOAT_MAX_WIDTH)),
+            },
+          },
         },
         mappings = {
           ["q"] = close_preview_before_action("n_close"),
