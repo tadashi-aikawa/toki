@@ -296,7 +296,7 @@ return {
     },
     views = {
       finder = {
-        columns_order = { "git", "diagnostic", "link", "permission", "size" },
+        columns_order = { "git", "diagnostic", "size", "link" },
         columns = {
           git = {
             symbols = {
