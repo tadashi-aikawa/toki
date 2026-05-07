@@ -113,3 +113,86 @@ vim.lsp.enable({
 	-- 別途インストールも必要: mise use -g lua-language-server
 	"lua_ls",
 })
+
+-- ╭─────────────────────────────────────────────────────────╮
+-- │                         Picker                          │
+-- ╰─────────────────────────────────────────────────────────╯
+
+-- snack.nvim
+vim.pack.add({ "https://github.com/folke/snacks.nvim" })
+local snacks = require("snacks")
+snacks.setup({
+	picker = {
+		main = { current = true },
+		sources = {
+			git_status = { layout = { layout = { width = 180 } } },
+			lines = {
+				sort = { fields = { "idx", "score:desc" } },
+				matcher = { fuzzy = false },
+				---@diagnostic disable-next-line: assign-type-mismatch 普通にプレビュー
+				layout = { preview = true },
+			},
+			recent = {
+				sort = { fields = { "idx", "score:desc" } },
+				matcher = { fuzzy = false },
+				hidden = true,
+			},
+			files = {
+				hidden = true,
+			},
+		},
+		win = {
+			input = {
+				keys = {
+					-- NORMALモードは基本的に使わない
+					["<esc>"] = { "close", mode = { "i", "n" } },
+				},
+			},
+		},
+		layout = {
+			cycle = true,
+			preset = "vertical",
+			layout = {
+				backdrop = false,
+				width = 120,
+				min_width = 80,
+				height = 0.9,
+				min_height = 30,
+				box = "vertical",
+				-- min_heightより小さいときは枠線を出すと先頭の候補が消えるので調整
+				border = vim.o.lines <= 32 and "none" or "rounded",
+				title = "{title} {live} {flags}",
+				title_pos = "center",
+				{ win = "preview", title = "{preview}", height = 0.5, border = "bottom" },
+				{ win = "input", height = 1, border = "bottom" },
+				{ win = "list", border = "none" },
+			},
+		},
+		formatters = {
+			file = {
+				filename_first = true,
+				truncate = 100,
+			},
+		},
+	},
+})
+-- ファイル名で検索
+vim.keymap.set({ "n", "i" }, "<C-j>f", function()
+	Snacks.picker.files()
+end, { desc = "Find Files" })
+-- 最近開いたファイルの検索
+vim.keymap.set({ "n", "i" }, "<C-j>r", function()
+	Snacks.picker.recent()
+end, { desc = "Grep" })
+-- Grep
+vim.keymap.set({ "n", "i" }, "<C-j>g", function()
+	Snacks.picker.grep()
+end, { desc = "Grep" })
+-- ファイル内検索
+vim.keymap.set({ "n", "i" }, "<C-j>l", function()
+	Snacks.picker.lines()
+end, { desc = "Line search in current file" })
+-- Gitで変更があったファイルの検索
+vim.keymap.set({ "n", "i" }, "<C-j>s", function()
+	Snacks.picker.git_status()
+end, { desc = "Git status search" })
