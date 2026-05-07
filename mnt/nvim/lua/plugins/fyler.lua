@@ -8,7 +8,9 @@ local fyler_win_config
 local fyler_origin_win
 local close_preview
 
+local FLOAT_MIN_WIDTH = 40
 local FLOAT_MAX_WIDTH = 120
+local PREVIEW_MIN_WIDTH = 80
 local PREVIEW_TOTAL_MAX_WIDTH = 240
 
 local function fit_width(max_width)
@@ -19,6 +21,40 @@ local function center_col(width)
   return math.floor((vim.o.columns - width) / 2)
 end
 
+local function display_width(text)
+  return vim.fn.strdisplaywidth(tostring(text or ""))
+end
+
+local function fyler_content_width(winid, namespace)
+  if not winid or not vim.api.nvim_win_is_valid(winid) then
+    return 0
+  end
+
+  local bufnr = vim.api.nvim_win_get_buf(winid)
+  local content_width = 0
+
+  for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+    content_width = math.max(content_width, display_width(line))
+  end
+
+  if namespace then
+    local ok, extmarks = pcall(vim.api.nvim_buf_get_extmarks, bufnr, namespace, 0, -1, { details = true })
+    if ok then
+      for _, extmark in ipairs(extmarks) do
+        local details = extmark[4] or {}
+        local virt_text_width = 0
+        for _, chunk in ipairs(details.virt_text or {}) do
+          virt_text_width = virt_text_width + display_width(chunk[1])
+        end
+
+        content_width = math.max(content_width, (details.virt_text_win_col or extmark[3] or 0) + virt_text_width)
+      end
+    end
+  end
+
+  return content_width
+end
+
 local function patch_fyler_display_width()
   local UiComponent = require("fyler.lib.ui.component")
   local Renderer = require("fyler.lib.ui.renderer")
@@ -27,10 +63,6 @@ local function patch_fyler_display_width()
     return
   end
   Renderer._toki_display_width_patched = true
-
-  local function display_width(text)
-    return vim.fn.strdisplaywidth(tostring(text or ""))
-  end
 
   UiComponent.width = function(self)
     if self.tag == "text" then
@@ -330,7 +362,12 @@ local function toggle_preview(explorer)
   local margin = 2
   local total_width = fit_width(PREVIEW_TOTAL_MAX_WIDTH)
   local total_height = fyler_win_config.height
-  local fyler_width = math.floor(total_width * 0.45)
+  local max_fyler_width = math.max(1, total_width - margin - PREVIEW_MIN_WIDTH)
+  local fyler_width = math.min(
+    math.max(FLOAT_MIN_WIDTH, fyler_content_width(fyler_win, explorer.win.namespace) + 2),
+    FLOAT_MAX_WIDTH,
+    max_fyler_width
+  )
   local preview_width = total_width - fyler_width - margin
   local row = fyler_win_config.row
   local col = center_col(total_width)
