@@ -451,6 +451,7 @@ return {
     },
     views = {
       finder = {
+        confirm_simple = true,
         columns_order = { "git", "diagnostic", "size", "link" },
         columns = {
           git = {
