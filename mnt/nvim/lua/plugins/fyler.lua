@@ -19,6 +19,123 @@ local function center_col(width)
   return math.floor((vim.o.columns - width) / 2)
 end
 
+local function patch_fyler_display_width()
+  local UiComponent = require("fyler.lib.ui.component")
+  local Renderer = require("fyler.lib.ui.renderer")
+
+  if Renderer._toki_display_width_patched then
+    return
+  end
+  Renderer._toki_display_width_patched = true
+
+  local function display_width(text)
+    return vim.fn.strdisplaywidth(tostring(text or ""))
+  end
+
+  UiComponent.width = function(self)
+    if self.tag == "text" then
+      local text = self.value
+      if text == nil and self.option and self.option.virt_text then
+        text = self.option.virt_text[1][1]
+      end
+      return display_width(text)
+    end
+
+    if self.tag == "row" then
+      local width = 0
+      for i = 1, #self.children do
+        width = width + self.children[i]:width()
+      end
+
+      return width
+    end
+
+    if self.children then
+      local width = 0
+      for i = 1, #self.children do
+        width = math.max(width, self.children[i]:width())
+      end
+
+      return width
+    end
+
+    error("UNIMPLEMENTED")
+  end
+
+  Renderer._render_column_in_row = function(self, component, current_col)
+    current_col = current_col or 0
+    local column_start_col = current_col
+    local column_width = component:width()
+    local column_lines = {}
+    local column_highlights = {}
+    local column_extmarks = {}
+
+    local saved_line = vim.deepcopy(self.line)
+    local saved_highlights = vim.deepcopy(self.highlight)
+    local saved_extmarks = vim.deepcopy(self.extmark)
+    local saved_flag = vim.deepcopy(self.flag)
+
+    self.line = {}
+    self.highlight = {}
+    self.extmark = {}
+    self.flag.in_row = false
+    self.flag.column_offset = column_start_col
+
+    for _, child in ipairs(component.children) do
+      self:_render_child(child)
+    end
+
+    column_lines = vim.deepcopy(self.line)
+    column_highlights = vim.deepcopy(self.highlight)
+    column_extmarks = vim.deepcopy(self.extmark)
+
+    self.line = saved_line
+    self.highlight = saved_highlights
+    self.extmark = saved_extmarks
+    self.flag = saved_flag
+
+    local lines_needed = self.flag.row_base_line + #column_lines
+    while #self.line < lines_needed do
+      table.insert(self.line, "")
+    end
+
+    for i, line_content in ipairs(column_lines) do
+      local target_line_idx = self.flag.row_base_line + i
+      local current_line = self.line[target_line_idx] or ""
+
+      if line_content and line_content ~= "" then
+        local padding_needed = column_start_col - display_width(current_line)
+        if padding_needed > 0 then
+          current_line = current_line .. string.rep(" ", padding_needed)
+        end
+
+        self.line[target_line_idx] = current_line .. line_content
+      end
+    end
+
+    for _, hl in ipairs(column_highlights) do
+      table.insert(self.highlight, {
+        line = self.flag.row_base_line + hl.line,
+        col_start = column_start_col + hl.col_start,
+        col_end = column_start_col + hl.col_end,
+        highlight_group = hl.highlight_group,
+      })
+    end
+
+    for _, extmark in ipairs(column_extmarks) do
+      table.insert(self.extmark, {
+        line = self.flag.row_base_line + extmark.line,
+        col = column_start_col + (extmark.col or 0),
+        virt_text = extmark.virt_text,
+        virt_text_pos = extmark.virt_text_pos,
+        hl_mode = extmark.hl_mode,
+      })
+    end
+
+    return "", column_start_col + column_width
+  end
+end
+
 local function restore_origin_win(win)
   if win and vim.api.nvim_win_is_valid(win) then
     vim.api.nvim_set_current_win(win)
@@ -270,6 +387,7 @@ return {
   },
   config = function(_, opts)
     require("fyler").setup(opts)
+    patch_fyler_display_width()
 
     local refresh_generation = 0
     local group = vim.api.nvim_create_augroup("FylerAutoRefresh", { clear = true })
