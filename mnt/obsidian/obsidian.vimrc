@@ -65,7 +65,7 @@ exmap vnew obcommand carnelian:carnelian_create-new-note-vertically
 noremap <M-]> :obcommand<Space>shukuchi:open-link<CR>
 noremap <M-S-]> :obcommand<Space>shukuchi:open-link-in-new-tabgroup<CR>
 noremap g] :obcommand<Space>shukuchi:open-link-in-new-tabgroup-horizontally<CR>
-noremap <Space>n :obcommand<Space>shukuchi:open-link-in-new-tab<CR>
+noremap gn :obcommand<Space>shukuchi:open-link-in-new-tab<CR>
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                      プロパティ操作                      │
