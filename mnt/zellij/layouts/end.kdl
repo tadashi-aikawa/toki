@@ -7,7 +7,7 @@ layout {
       pane name="⚡jinrai" cwd="jinrai" command="git" {
         args "status"
       }
-      pane name="⏳kokukoku" cwd="jinrai" command="git" {
+      pane name="⏳kokukoku" cwd="kokukoku" command="git" {
         args "status"
       }
       pane name="🔔copilot-plugin-notify" cwd="copilot-plugin-notify" command="git" {
