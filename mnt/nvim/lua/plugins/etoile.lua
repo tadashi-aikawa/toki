@@ -10,10 +10,14 @@ return {
   keys = {
     { "<Space>t", "<cmd>Etoile<CR>", desc = "Etoile" },
   },
+  ---@class etoile.Config
+  ---@diagnostic disable: missing-fields
   opts = {
     keymaps = {
       open_split = "<C-s>",
       open_vsplit = "<C-CR>",
+      search_next = "<Leader>m",
+      search_prev = "<Leader>.",
     },
   },
 }
