@@ -1,8 +1,8 @@
 return {
-  "sindrets/diffview.nvim",
+  "dlyongemallo/diffview.nvim",
   cmd = "DiffviewOpen",
   keys = {
-    { "<Space>v", ":DiffviewOpen<CR>", silent = true },
+    { "<Space>v", ":DiffviewToggle<CR>", silent = true },
     { "<Space>f", ":DiffviewFileHistory %<CR>", silent = true },
   },
   opts = {

@@ -1,7 +1,7 @@
 return {
   "isakbm/gitgraph.nvim",
   cond = true,
-  dependencies = { "sindrets/diffview.nvim" },
+  dependencies = { "dlyongemallo/diffview.nvim" },
   opts = {
     symbols = {
       commit = "",
