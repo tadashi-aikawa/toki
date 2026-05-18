@@ -65,7 +65,7 @@ exmap vnew obcommand carnelian:carnelian_create-new-note-vertically
 noremap <M-]> :obcommand<Space>shukuchi:open-link<CR>
 noremap <M-S-]> :obcommand<Space>shukuchi:open-link-in-new-tabgroup<CR>
 noremap g] :obcommand<Space>shukuchi:open-link-in-new-tabgroup-horizontally<CR>
-noremap gn :obcommand<Space>shukuchi:open-link-in-new-tab<CR>
+noremap <Space>] :obcommand<Space>shukuchi:open-link-in-new-tab<CR>
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                      プロパティ操作                      │
@@ -103,7 +103,6 @@ noremap <Space>o :obcommand<Space>carnelian:carnelian_transform-to-v2-ogp-card<C
 noremap <Space>c :obcommand<Space>carnelian:carnelian_clear-task-status<CR>
 
 " surround
-noremap <Space>] :surround<Space>[[<Space>]]<CR>
 noremap <Space>" :surround<Space>"<Space>"<CR>
 noremap <Space>' :surround<Space>'<Space>'<CR>
 " 装飾
