@@ -5,6 +5,8 @@
 " クリップボードとヤンクを共有
 set clipboard=unnamed
 
+replacewithregister _
+
 " スペースは2key bindingで利用するため単体無効化
 unmap <Space>
 
@@ -140,4 +142,5 @@ noremap <Space>k :obcommand<Space>obsidian-git:prev-hunk<CR>
 noremap <Space>y :obcommand<Space>carnelian:carnelian_open-active-file-in-yazi<CR>
 noremap <Space>, :obcommand<Space>carnelian:carnelian_open-vault-in-terminal<CR>
 noremap <Space>g :obcommand<Space>carnelian:carnelian_open-vault-in-lazygit<CR>
+
 
