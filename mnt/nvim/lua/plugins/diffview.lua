@@ -4,6 +4,7 @@ return {
   keys = {
     { "<Space>v", ":DiffviewToggle<CR>", silent = true },
     { "<Space>f", ":DiffviewFileHistory %<CR>", silent = true },
+    { "<Leader>i", ":DiffviewToggleFiles<CR>", silent = true },
   },
   opts = {
     hooks = {
