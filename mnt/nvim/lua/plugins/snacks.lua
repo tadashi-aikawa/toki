@@ -233,6 +233,23 @@ return {
               transform = function(item)
                 return type(item.name) == "string" and item.name:match("^[🎭▶︎]") ~= nil
               end,
+              layout = {
+                hidden = { "preview" },
+                layout = {
+                  backdrop = false,
+                  width = 0.5,
+                  min_width = 80,
+                  max_width = 100,
+                  height = 0.4,
+                  min_height = 2,
+                  box = "vertical",
+                  border = true,
+                  title = "{title}",
+                  title_pos = "center",
+                  { win = "input", height = 1, border = "bottom" },
+                  { win = "list", border = "none" },
+                },
+              },
             },
           },
         },
