@@ -16,8 +16,14 @@ return {
     keymaps = {
       open_split = "<C-s>",
       open_vsplit = "<C-CR>",
+      open_tab_keep = "<C-w>t",
+      expand_all = "zo",
+      collapse_parent = "zc",
       search_next = "<Leader>m",
       search_prev = "<Leader>.",
+    },
+    confirm = {
+      copy = true,
     },
   },
 }
