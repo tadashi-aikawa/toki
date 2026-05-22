@@ -47,6 +47,7 @@ clear)
   cmux clear-progress
   cmux clear-status task
   cmux workspace-action --action clear-color
+  cmux clear-notifications
   ;;
 *)
   echo "Unknown command: $command" >&2
