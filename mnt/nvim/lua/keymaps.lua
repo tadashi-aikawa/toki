@@ -3,9 +3,6 @@
 -- ╰─────────────────────────────────────────────────────────╯
 -- プラグインのキーバインドはプラグインの方で行う
 
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 -- Mac対応
 vim.keymap.set({ "n", "v", "i", "c", "t", "o" }, "<D-left>", "<Home>", { silent = true })
 vim.keymap.set({ "n", "v", "i", "c", "t", "o" }, "<D-right>", "<End>", { silent = true })
