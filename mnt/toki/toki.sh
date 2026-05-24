@@ -168,14 +168,20 @@ function command_pnpm() {
   cd "$path"
   git init
   pnpm init
-  pnpm config set --location=project minimumReleaseAge 10080
-  pnpm add -D typescript tsx @types/node @tsconfig/recommended @biomejs/biome
+  pnpm config set --location=project minimumReleaseAge 1440
+  # esbuildはtsxが利用
+  pnpm --allow-build=esbuild add -D typescript tsx @types/node @tsconfig/recommended @biomejs/biome
 
   pnpm exec biome init
   edit_biome_json
 
-  pnpm pkg set scripts.dev="tsx watch ./index.ts"
-  pnpm pkg set scripts.check="tsc --noEmit --watch"
+  add_property_to_json package.json '
+  {
+    "scripts": {
+      "dev": "tsx watch ./index.ts",
+      "check": "tsc --noEmit --watch"
+    }
+  }'
 
   cp -r "${TEMPLATE_DIR}"/pnpm/* .
 
@@ -224,7 +230,7 @@ function command_jest() {
   cd "$path"
   git init
   pnpm init
-  pnpm config set --location=project minimumReleaseAge 10080
+  pnpm config set --location=project minimumReleaseAge 1440
   pnpm add -D typescript @tsconfig/recommended @biomejs/biome \
     jest babel-jest @babel/core @babel/preset-env \
     @babel/preset-typescript @jest/globals
@@ -232,8 +238,13 @@ function command_jest() {
   pnpm exec biome init
   edit_biome_json
 
-  pnpm pkg set scripts.test="jest"
-  pnpm pkg set scripts.test:watch="jest --watchAll"
+  add_property_to_json package.json '
+  {
+    "scripts": {
+      "test": "jest",
+      "test:watch": "jest --watchAll"
+    }
+  }'
 
   cp -r "${TEMPLATE_DIR}"/jest/* .
 
@@ -337,7 +348,7 @@ function command_nuxt3() {
   local path="${1:?'pathは必須です'}"
 
   mkdir -p "${path}" && cd "${path}"
-  pnpm config set --location=project minimumReleaseAge 10080
+  pnpm config set --location=project minimumReleaseAge 1440
   pnpm create nuxt@latest . -t v3
   pnpm add --optional typescript
   mkdir pages
@@ -433,7 +444,7 @@ function command_playwright() {
   local path="${1:?'pathは必須です'}"
 
   mkdir -p "$path" && cd "$path"
-  pnpm config set --location=project minimumReleaseAge 10080
+  pnpm config set --location=project minimumReleaseAge 1440
   git init
   echo "⏎ -> ⏎ -> ⏎ -> n -> ⏎"
 
