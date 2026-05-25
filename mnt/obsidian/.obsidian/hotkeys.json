@@ -983,15 +983,6 @@
       "key": "Escape"
     }
   ],
-  "carnelian:carnelian_focus-editor-content": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "C"
-    }
-  ],
   "obsidian-another-quick-switcher:search-command_recent-updated-search": [
     {
       "modifiers": [
@@ -1001,6 +992,16 @@
         "Shift"
       ],
       "key": "F13"
+    }
+  ],
+  "carnelian:carnelian_focus-editor-content": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Shift"
+      ],
+      "key": "C"
     }
   ]
 }

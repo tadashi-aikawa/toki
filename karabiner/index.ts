@@ -33,10 +33,10 @@ writeToProfile("Default profile", [
       }),
     ]),
     withoutTerminal([
-      // 単押しで(Obsidian -> エディタフォーカス)(Chrome -> 要素の選択)
+      // 単押しで(Obsidian -> エディタフォーカス)
       map("left_control")
         .to("left_command", undefined, { lazy: true }) // 修飾キー押しっぱなしの挙動に対応するため
-        .toIfAlone("c", ["command", "shift"])
+        .toIfAlone("c", ["command", "option", "shift"])
         .parameters({ "basic.to_if_alone_timeout_milliseconds": 200 }),
       map("left_command")
         .to("left_control", undefined, { lazy: true }) // 修飾キー押しっぱなしの挙動に対応するため
