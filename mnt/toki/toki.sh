@@ -118,6 +118,13 @@ function command_bun() {
   bun biome init
   edit_biome_json
 
+  add_property_to_json package.json '
+  {
+    "scripts": {
+      "dev": "bun --hot index.ts"
+    }
+  }'
+
   cp -r "${TEMPLATE_DIR}"/bun/* .
 
   echo "
