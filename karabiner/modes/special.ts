@@ -21,6 +21,7 @@ export const specialModeDefinitions = layer(UNUSED_KEY, "SPECIAL")
       l: toKey("keypad_6"),
       m: toKey("keypad_1"),
       o: toKey("keypad_9"),
+      r: toKey("a", "Hyper"), // JINRAI: 空き領域にウィンドウを移動・最大化
       s: toKey("c", ["control", "option"]), // 中央1/2へウィンドウサイズ変更
       t: toJKeyWith("->", ["control", "option", "command"]), // 次のスクリーンへウィンドウを移動
       u: toKey("keypad_7"),
