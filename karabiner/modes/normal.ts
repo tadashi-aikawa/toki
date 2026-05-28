@@ -43,9 +43,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       },
     ]),
 
-    withoutTerminal([
-      withModifier("command")(likeCtrlCommands),
-    ]),
+    withoutTerminal([withModifier("command")(likeCtrlCommands)]),
 
     withModifier("shift")({
       h: toJKeys("<-", 10),
@@ -81,11 +79,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       q: toKey("w", "command"),
       r: changeMode("NORMAL", "SPECIAL"),
       s: toKey("s", ["control", "shift"]),
-      t: [
-        toKey("t", "Hyper"),
-        toKey("p", "Hyper"),
-        toKey("return_or_enter", ["control", "option"]),
-      ],
+      t: toKey("t", "Hyper"),
       u: toJKey("bs"),
       v: toKey("v", "command"),
       w: toJKeyWith("->", "option"),
