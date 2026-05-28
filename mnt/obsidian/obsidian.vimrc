@@ -78,6 +78,8 @@ noremap <Space>] :obcommand<Space>shukuchi:open-link-in-new-tab<CR>
 
 " 最適プロパティ挿入
 noremap <Space>. :obcommand<Space>carnelian:carnelian_add-property-suitably<CR>
+" statusプロパティへ移動
+noremap <Space>s :obcommand<Space>carnelian:carnelian_focus-status-property<CR>
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                       エディタ操作                       │
