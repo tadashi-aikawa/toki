@@ -10,6 +10,7 @@ usage() {
   echo "  wait                      人間待ちステータスに設定"
   echo "  block <note>              ブロックステータスに設定 (note省略時は『動作確認待ち』)"
   echo "  workspace-name            現在のワークスペース名を取得"
+  echo "  plan                      最新のplan.mdを開く"
   echo "  clear                     ステータスとプログレスをクリア"
   exit 1
 }
@@ -42,6 +43,15 @@ block)
   ;;
 workspace-name)
   cmux tree --json | jq -r '(.caller.workspace_ref) as $ref | .windows[].workspaces[] | select(.ref == $ref) | .title'
+  ;;
+plan)
+  plan_file=$(find ~/.copilot/session-state -name "plan.md" -exec stat -f '%m %N' {} \; 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
+  if [[ -z "${plan_file:-}" ]]; then
+    echo "plan.md が見つかりません" >&2
+    exit 1
+  fi
+  cmux markdown "$plan_file"
+  nvim --remote-tab "$plan_file" 2>/dev/null || nvim "$plan_file"
   ;;
 clear)
   cmux clear-progress
