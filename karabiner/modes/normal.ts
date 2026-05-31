@@ -78,7 +78,7 @@ export const normalModeDefinitions = layer(UNUSED_KEY, "NORMAL")
       o: toJKey("del"),
       q: toKey("w", "command"),
       r: changeMode("NORMAL", "SPECIAL"),
-      s: toKey("s", ["control", "shift"]),
+      s: [toKey("/", ["control", "shift"]), ...terminateMode("NORMAL")], // Zellij
       t: toKey("t", "Hyper"),
       u: toJKey("bs"),
       v: toKey("v", "command"),

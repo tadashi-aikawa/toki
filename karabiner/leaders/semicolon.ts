@@ -19,9 +19,8 @@ export const semicolonLeaderDefinitions = [
         [UJM[":"]]: toDynamicPaste('date "+%H:%M"'),
         [UJM["enter"]]: toKey("f18", ["option"]), // Homerow起動用
         [UJM["ESC"]]: toKey("f17", ["option"]), // Homerow search起動用
-        [UJM[" "]]: toKey("f20", ["option"]), // Hammerspoon window hints起動用
-        [UJM["半全"]]: toKey("/", ["control", "shift"]),
-
+        [UJM[" "]]: toKey("f20", ["option"]), // JINRAI window hints起動用
+        [UJM["半全"]]: toKey("s", ["control", "shift"]), // JINRAI Window Mover起動用
         ";": toJKey(";"),
         a: toJKey("^"),
         c: toJKeys("`", "`", "`"),
