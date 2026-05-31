@@ -22,9 +22,10 @@ export const specialModeDefinitions = layer(UNUSED_KEY, "SPECIAL")
       m: toKey("keypad_1"),
       o: toKey("keypad_9"),
       r: toKey("a", "Hyper"), // JINRAI: 空き領域にウィンドウを移動・最大化
-      s: toKey("c", ["control", "option"]), // 中央1/2へウィンドウサイズ変更
+      s: toKey("c", ["control", "option"]), // JINRAI: 中央位置で横方向にリサイズ他段階
       t: toJKeyWith("->", ["control", "option", "command"]), // 次のスクリーンへウィンドウを移動
       u: toKey("keypad_7"),
+      v: toKey("v", ["control", "option"]), // JINRAI: 中央位置で縦方向にリサイズ他段階
       w: toJKeyWith("<-", ["control", "option"]), // 左半分へウィンドウサイズ変更
       [UJM.enter]: toKey("keypad_0"),
       [UJM.半全]: terminateMode("SPECIAL"),
