@@ -41,6 +41,8 @@ keybind = super+left=unbind
 keybind = super+right=unbind
 keybind = super+plus=unbind
 keybind = super+minus=unbind
+# Note: ObsidianでGhosttyを削除してしまう誤動作の対策に効くかもしれないので実験
+keybind = super+shift+w=unbind
 # karabinerで無変換 q -> command+w とマップされたあとに Alt+w とマップ
 keybind = super+w=esc:w
 
