@@ -55,7 +55,7 @@ noremap <M-w>l :obcommand<Space>editor:focus-right<CR>
 noremap <M-w>v :obcommand<Space>workspace:split-vertical<CR>
 noremap <M-w>s :obcommand<Space>workspace:split-horizontal<CR>
 
-# 交換
+" 交換
 noremap <M-w>r :obcommand<Space>carnelian:carnelian_swap-adjacent-tab-group<CR>
 
 " 閉じる
