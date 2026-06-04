@@ -51,6 +51,10 @@ customCommands:
     description: Open commit diff in Neovim
     command: 'nvim -c "DiffviewOpen \"{{.SelectedLocalCommit.Sha}}^1\"..\"{{.SelectedLocalCommit.Sha}}\""'
     output: terminal
+  - key: "<c-m>"
+    context: commits
+    description: Copy commit markdown link
+    command: 'sha={{.SelectedLocalCommit.Sha | quote}}; msg=$(git log -1 --format=%s "$sha"); repo_url=$(gh repo view --json url -q .url); printf "[%s](%s/commit/%s)" "$msg" "$repo_url" "$sha" | pbcopy'
   - key: "w"
     context: "localBranches"
     description: "Create worktree in ~/worktrees/<repo>/<branch>"
