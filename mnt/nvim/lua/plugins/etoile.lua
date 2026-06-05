@@ -9,6 +9,7 @@ return {
   cmd = "Etoile",
   keys = {
     { "<Space>t", "<cmd>Etoile<CR>", desc = "Etoile" },
+    { "<Space><Space>t", "<cmd>EtoileCurrent<CR>", desc = "Etoile" },
   },
   ---@class etoile.Config
   ---@diagnostic disable: missing-fields
