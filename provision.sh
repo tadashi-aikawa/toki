@@ -280,6 +280,8 @@ mise use -g stylua
 
 # YAML
 mise use -g npm:yaml-language-server
+# TOML
+mise use -g taplo
 
 # Markdown
 mise use -g marksman

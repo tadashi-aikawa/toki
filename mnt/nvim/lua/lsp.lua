@@ -112,6 +112,7 @@ if not vim.g.vscode then
     "sqls",
     "svelte",
     "tailwindcss",
+    "taplo",
     "unocss",
     -- "ty",
     "vtsls",
