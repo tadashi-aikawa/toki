@@ -934,7 +934,14 @@
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
-      "targetExtensions": [],
+      "targetExtensions": [
+        "md",
+        "png",
+        "webp",
+        "avif",
+        "canvas",
+        "base"
+      ],
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
@@ -965,7 +972,7 @@
       "excludePrefixPathPatterns": [
         "Daily Notes"
       ],
-      "expand": false,
+      "expand": true,
       "minFuzzyScore": 0.5
     },
     {
@@ -984,7 +991,14 @@
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
-      "targetExtensions": [],
+      "targetExtensions": [
+        "md",
+        "png",
+        "webp",
+        "avif",
+        "canvas",
+        "base"
+      ],
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
@@ -1015,7 +1029,7 @@
       ],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": false,
+      "expand": true,
       "minFuzzyScore": 0.5
     },
     {
@@ -1034,7 +1048,14 @@
       "searchTarget": "file",
       "allowFuzzySearchForSearchTarget": true,
       "minFuzzyMatchScore": 0.5,
-      "targetExtensions": [],
+      "targetExtensions": [
+        "md",
+        "png",
+        "webp",
+        "avif",
+        "canvas",
+        "base"
+      ],
       "includeCurrentFile": false,
       "floating": false,
       "autoPreview": true,
@@ -1066,7 +1087,7 @@
       ],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": false,
+      "expand": true,
       "minFuzzyScore": 0
     },
     {
