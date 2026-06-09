@@ -402,6 +402,7 @@ ensure_zshrc "source <(fzf --zsh)"
 mise use -g npm:@usebruno/cli@2.15.1
 
 # gtr
+brew trust --formula coderabbitai/tap/git-gtr
 brew tap coderabbitai/tap
 brew install git-gtr
 git gtr config set gtr.editor.default nvim --global
