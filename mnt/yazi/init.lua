@@ -1,15 +1,19 @@
 -- ╭─────────────────────────────────────────────────────────╮
--- │                     Builtin Plugins                     │
+-- │                     Preset Plugins                      │
 -- ╰─────────────────────────────────────────────────────────╯
 require("zoxide"):setup({
 	update_db = true,
 })
+require("session"):setup({
+	sync_yanked = true,
+})
+
+-- ╭─────────────────────────────────────────────────────────╮
+-- │                     Offical Plugins                     │
+-- ╰─────────────────────────────────────────────────────────╯
 require("git"):setup()
 require("full-border"):setup({
 	type = ui.Border.ROUNDED,
-})
-require("session"):setup({
-	sync_yanked = true,
 })
 
 -- ╭─────────────────────────────────────────────────────────╮
