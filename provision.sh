@@ -294,19 +294,20 @@ mise use -g cargo:sleek
 # │                        TUI Tools                         │
 # ╰──────────────────────────────────────────────────────────╯
 
-# Codex CLI
-if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
-  mise use -g npm:@openai/codex
-
-  ln -snf "$MNT"/codex/codex.sh ~/.codex.sh
-  ensure_zshrc "source ~/.codex.sh"
-
-  ln -snf "$MNT"/codex/prompts ~/.codex/prompts
-  ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
-  ln -snf "$MNT"/codex/notify_macos.sh ~/.codex/notify_macos.sh
-  ln -snf "$MNT"/codex/chappy.gif ~/.codex/chappy.gif
-  # TODO: https://github.com/openai/codex/issues/3120 が対応されたら config.toml も
+# Claude Code
+if [[ "$MY_MAC_TAG" != "macbook_pro_home" ]]; then
+  curl -fsSL https://claude.ai/install.sh | bash
 fi
+
+# Codex CLI
+mise use -g npm:@openai/codex
+
+ln -snf "$MNT"/codex/codex.sh ~/.codex.sh
+ensure_zshrc "source ~/.codex.sh"
+
+ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
+ln -snf "$MNT"/codex/notify_macos.sh ~/.codex/notify_macos.sh
+# TODO: https://github.com/openai/codex/issues/3120 が対応されたら config.toml も
 
 # GitHub Copilot CLI
 mise use -g npm:@github/copilot
