@@ -297,6 +297,9 @@ mise use -g cargo:sleek
 # Claude Code
 if [[ "$MY_MAC_TAG" != "macbook_pro_home" ]]; then
   curl -fsSL https://claude.ai/install.sh | bash
+
+  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+  ln -snf "$MNT"/claude/references ~/.claude/references
 fi
 
 # Codex CLI
