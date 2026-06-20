@@ -4,7 +4,6 @@ return {
   cmd = { "SlidevPreviewStart", "SlidevPreviewStartAndOpen" },
   opts = {},
   keys = {
-    { ",sj", "<cmd>SlidevPreviewClicksIncrement<cr>", desc = "Slidev clicks +1" },
-    { ",sk", "<cmd>SlidevPreviewClicksDecrement<cr>", desc = "Slidev clicks -1" },
+    { ",sm", "<cmd>SlidevPreviewControl<cr>" },
   },
 }
