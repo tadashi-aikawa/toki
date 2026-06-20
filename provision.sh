@@ -295,12 +295,11 @@ mise use -g cargo:sleek
 # ╰──────────────────────────────────────────────────────────╯
 
 # Claude Code
-if [[ "$MY_MAC_TAG" != "macbook_pro_home" ]]; then
+no claude && {
   curl -fsSL https://claude.ai/install.sh | bash
-
-  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
-  ln -snf "$MNT"/claude/references ~/.claude/references
-fi
+}
+ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -snf "$MNT"/claude/references ~/.claude/references
 
 # Codex CLI
 mise use -g npm:@openai/codex
