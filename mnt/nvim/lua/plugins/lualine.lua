@@ -53,7 +53,9 @@ return {
         },
       },
       winbar = {
-        lualine_a = {},
+        lualine_a = {
+          require("slidev-preview").winbar,
+        },
         lualine_b = {
           {
             "filename",
