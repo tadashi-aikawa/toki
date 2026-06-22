@@ -37,6 +37,13 @@ export const defaultRule = rule("default").manipulators([
       "e": toKey("p", "command"), // ワークスペースとサーフェースの切り替えに
     }]),
   ]),
+  withCondition(App.is("Slack"))([
+    withModifier("control")([{
+      "a": toKey("3", "control"),
+      "i": toKey("d", ["command", "shift"]),
+      "o": toKey(".", "command"),
+    }]),
+  ]),
   ...withinTerminal([
     withModifier("control")(likeCtrlCommands),
     withModifier("command")(likeAltCommands),
