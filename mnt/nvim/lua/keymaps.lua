@@ -79,8 +79,6 @@ end, { silent = true })
 
 -- Marpの強調タスクを取り消しに変更
 vim.keymap.set("n", "<Space>-", ":s/*/\\~/g<CR>", { silent = true })
--- ghostwriter.nvimのタスク状態を初期化
-vim.keymap.set("n", "<Space>_", ":s/\\v- \\[.\\] (.+) `.+`/- [ ] \\1/<CR><Cmd>nohlsearch<CR>", { silent = true })
 
 -- カレントウィンドウのファイル絶対パスをコピー
 vim.keymap.set("n", "<Space>cc", function()
