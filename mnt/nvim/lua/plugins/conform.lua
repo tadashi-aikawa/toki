@@ -62,8 +62,8 @@ return {
         end
 
         local bufname = vim.api.nvim_buf_get_name(bufnr)
-        -- Obsidianのdata.jsonに対するフォーマットと異なり差分が生じるため
-        if bufname:match("/data.json$") then
+        -- Obsidianのdata.jsonはフォーマット差分が生じるため除外するが、carnelian/data.jsonは対象にする
+        if bufname:match("/data%.json$") and not bufname:match("/carnelian/data%.json$") then
           return nil --
         end
         -- conformで定義したformatterが存在しないならLSPのフォーマッターを使う
