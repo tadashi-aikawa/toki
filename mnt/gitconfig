@@ -7,6 +7,7 @@
     pager = delta --side-by-side
     editor = nvim
     quotepath = false
+    hooksPath = /Users/tadashi-aikawa/.config/git/hooks
 
 [interactive]
     diffFilter = delta --color-only
