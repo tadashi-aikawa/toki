@@ -366,6 +366,7 @@ mise use -g delta
 mise use -g dust
 mise use -g fd
 mise use -g gitleaks
+mise use -g betterleaks
 mise use -g hexyl
 mise use -g hyperfine
 mise use -g jq
