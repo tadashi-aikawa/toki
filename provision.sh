@@ -336,6 +336,7 @@ ensure_yazi_install "yazi-rs/plugins:smart-enter"
 ensure_yazi_install "yazi-rs/plugins:git"
 ensure_yazi_install "yazi-rs/plugins:full-border"
 ensure_yazi_install "yazi-rs/plugins:toggle-pane"
+ensure_yazi_install "yazi-rs/plugins:chmod"
 ensure_yazi_install "orhnk/system-clipboard"
 ensure_yazi_install "stelcodes/bunny"
 
