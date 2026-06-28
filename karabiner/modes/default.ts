@@ -9,40 +9,48 @@ const likeCtrlCommands = [
     "8": toJKey("{"),
     "9": toJKey("}"),
     // ウィンドウを隠すに割り当てられているのを無効化するためきりかえ
-    "h": toKey("h", "Hyper"),
+    h: toKey("h", "Hyper"),
   },
 ];
 
-const likeAltCommands = [{
-  h: toJKeyWith("tab", ["control", "shift"]), // 右のタブに移動
-  l: toJKeyWith("tab", "control"), // 左のタブに移動
-  u: toKey("f7"), // カタカナ変換
-  w: toKey("w", "option"), // ウィンドウ切り替え
-  "2": toJKeys("#", "#", " "),
-  "3": toJKeys("#", "#", "#", " "),
-  "4": toJKeys("#", "#", "#", "#", " "),
-  "5": toJKeys("#", "#", "#", "#", "#", " "),
-}];
+const likeAltCommands = [
+  {
+    h: toJKeyWith("tab", ["control", "shift"]), // 右のタブに移動
+    l: toJKeyWith("tab", "control"), // 左のタブに移動
+    u: toKey("f7"), // カタカナ変換
+    w: toKey("w", "option"), // ウィンドウ切り替え
+    "2": toJKeys("#", "#", " "),
+    "3": toJKeys("#", "#", "#", " "),
+    "4": toJKeys("#", "#", "#", "#", " "),
+    "5": toJKeys("#", "#", "#", "#", "#", " "),
+  },
+];
 
-const likeCtrlShiftCommands = [{
-  j: toKey("f15", ["control", "command"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
-  k: toKey("f16", ["control", "command"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
-  ";": toDynamicPaste('date "+%Y%m%d"'),
-}];
+const likeCtrlShiftCommands = [
+  {
+    j: toKey("f5", ["control", "command"]), // ctrl+shift+j はシステムのキーバインドが優先されてしまうため,
+    k: toKey("f6", ["control", "command"]), // ctrl+shift+k はシステムのキーバインドが優先されてしまうため,
+    ";": toDynamicPaste('date "+%Y%m%d"'),
+  },
+];
 
 export const defaultRule = rule("default").manipulators([
   withCondition(App.is("Cmux"))([
-    withModifier("command")([{
-      "m": toKey("m", "Hyper"), // ウィンドウ最小化を実質無効化
-      "e": toKey("p", "command"), // ワークスペースとサーフェースの切り替えに
-    }]),
+    withModifier("command")([
+      {
+        m: toKey("m", "Hyper"), // ウィンドウ最小化を実質無効化
+        e: toKey("p", "command"), // ワークスペースとサーフェースの切り替えに
+      },
+    ]),
   ]),
   withCondition(App.is("Slack"))([
-    withModifier("control")([{
-      "a": toKey("3", "control"),
-      "i": toKey("d", ["command", "shift"]),
-      "o": toKey(".", "command"),
-    }]),
+    withModifier("control")([
+      {
+        a: toKey("3", "control"),
+        i: toKey("d", ["command", "shift"]),
+        o: toKey(".", "command"),
+      },
+    ]),
   ]),
   ...withinTerminal([
     withModifier("control")(likeCtrlCommands),

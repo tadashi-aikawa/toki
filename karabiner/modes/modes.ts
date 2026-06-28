@@ -1,7 +1,4 @@
-import {
-  to$,
-  toSetVar,
-} from "karabiner.ts";
+import { to$, toSetVar } from "karabiner.ts";
 
 type Mode = "NORMAL" | "RANGE" | "SPECIAL";
 const toHammerspoonMode = (mode: Mode | "DEFAULT") =>

@@ -17,12 +17,8 @@ export const rangeModeDefinitions = layer(UNUSED_KEY, "RANGE")
     sticky: true,
   })
   .manipulators([
-    ...withinTerminal([
-      withModifier("control")(likeCtrlCommands),
-    ]),
-    withoutTerminal([
-      withModifier("command")(likeCtrlCommands),
-    ]),
+    ...withinTerminal([withModifier("control")(likeCtrlCommands)]),
+    withoutTerminal([withModifier("command")(likeCtrlCommands)]),
 
     withModifier("shift")({
       h: toJKeyWith("<-", "shift", 25),
