@@ -17,7 +17,7 @@ surface_dim = "#444477"
 prefix = "ctrl+shift+/" # 無変換 -> s のcombination key
 
 # ワークスペース
-new_workspace = "prefix+n"
+new_workspace = "ctrl+n"
 new_worktree = "prefix+t"
 previous_workspace = "ctrl+cmd+k"
 next_workspace = "ctrl+cmd+j"
