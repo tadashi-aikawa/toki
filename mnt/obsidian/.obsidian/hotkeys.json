@@ -917,24 +917,6 @@
     }
   ],
   "mrj-jump-to-link:activate-jump-to-anywhere": [],
-  "carnelian:carnelian_move-to-next-inspection": [
-    {
-      "modifiers": [
-        "Ctrl",
-        "Mod"
-      ],
-      "key": "F15"
-    }
-  ],
-  "carnelian:carnelian_move-to-previous-inspection": [
-    {
-      "modifiers": [
-        "Ctrl",
-        "Mod"
-      ],
-      "key": "F16"
-    }
-  ],
   "obsidian-silhouette:push-timer": [
     {
       "modifiers": [
@@ -1002,6 +984,24 @@
         "Shift"
       ],
       "key": "C"
+    }
+  ],
+  "carnelian:carnelian_move-to-next-inspection": [
+    {
+      "modifiers": [
+        "Ctrl",
+        "Mod"
+      ],
+      "key": "F5"
+    }
+  ],
+  "carnelian:carnelian_move-to-previous-inspection": [
+    {
+      "modifiers": [
+        "Ctrl",
+        "Mod"
+      ],
+      "key": "F6"
     }
   ]
 }
