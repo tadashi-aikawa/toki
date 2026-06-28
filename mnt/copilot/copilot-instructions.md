@@ -1,7 +1,3 @@
-## はじめに
-
-`~/.claude/references/session-lifecycle.md` を Read ツールで読み込んで内容を理解してください。
-
 ## 基本ルール
 
 - 常に日本語でやりとりしてください
