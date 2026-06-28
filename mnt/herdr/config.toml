@@ -7,7 +7,6 @@ delivery = "terminal"
 [experimental]
 kitty_graphics = true
 
-pane_history = false
 [theme]
 name = "catppuccin"
 auto_switch = false
@@ -40,6 +39,3 @@ toggle_sidebar = "cmd+i"
 
 # その他
 settings = "prefix+shift+s"
-
-[ui]
-show_agent_labels_on_pane_borders = false
