@@ -35,6 +35,12 @@ git clone https://github.com/tadashi-aikawa/toki
 ./provision.sh
 ```
 
+### Gitフックの設定
+
+```bash
+git config core.hooksPath hooks
+```
+
 ### Karabiner Elementsのファイル生成
 
 `./karabiner/` に移動してREADMEを参照。
