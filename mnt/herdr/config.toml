@@ -11,6 +11,8 @@ pane_history = false
 [theme]
 name = "catppuccin"
 auto_switch = false
+[theme.custom]
+surface_dim = "#444477"
 
 [keys]
 prefix = "ctrl+shift+/" # 無変換 -> s のcombination key
