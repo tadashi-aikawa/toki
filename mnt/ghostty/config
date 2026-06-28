@@ -48,7 +48,6 @@ keybind = super+w=esc:w
 # aの左キーからのショートカット
 keybind = ctrl+n=new_window
 keybind = ctrl+t=unbind
-keybind = ctrl+n=unbind
 # Alt+2 にマップ
 keybind = f2=esc:2
 # ctrl+tab -> ctrl+tab
