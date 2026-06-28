@@ -34,6 +34,10 @@ split_vertical = "prefix+v"
 split_horizontal = "prefix+s"
 resize_mode = "prefix+e"
 
+# エージェント
+next_agent = "shift+cmd+j"
+previous_agent = "shift+cmd+k"
+
 # サイドバー
 toggle_sidebar = "cmd+i"
 
