@@ -1,0 +1,40 @@
+[ui.toast]
+delivery = "terminal"
+
+[experimental]
+kitty_graphics = true
+
+pane_history = false
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+shift+/" # 無変換 -> s のcombination key
+
+# ワークスペース
+new_workspace = "prefix+n"
+new_worktree = "prefix+t"
+previous_workspace = "ctrl+cmd+k"
+next_workspace = "ctrl+cmd+j"
+rename_workspace = "cmd+shift+r"
+
+# タブ
+new_tab = "ctrl+t"
+previous_tab = "ctrl+shift+tab"
+next_tab = "ctrl+tab"
+rename_tab = "ctrl+2"
+
+# ペイン
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
+resize_mode = "prefix+e"
+
+# サイドバー
+toggle_sidebar = "cmd+i"
+
+# その他
+settings = "prefix+shift+s"
+
+[ui]
+show_agent_labels_on_pane_borders = false
