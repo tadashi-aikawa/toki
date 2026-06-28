@@ -43,11 +43,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set({ "n", "i" }, "<D-CR>", "<cmd>Lspsaga code_action<CR>", opts)
 
     -- 次の診断へ移動 (Ctrl+Shift+jにリマップ)
-    vim.keymap.set("n", "<C-D-f15>", function()
+    vim.keymap.set("n", "<C-D-f5>", function()
       vim.diagnostic.jump({ float = false, count = 1 })
     end, opts)
     -- 前の診断へ移動 (Ctrl+Shift+kにリマップ)
-    vim.keymap.set("n", "<C-D-f16>", function()
+    vim.keymap.set("n", "<C-D-f6>", function()
       vim.diagnostic.jump({ float = false, count = -1 })
     end, opts)
 
