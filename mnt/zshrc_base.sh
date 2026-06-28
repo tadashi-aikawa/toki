@@ -1,5 +1,8 @@
 export PATH=${PATH}:~/bin
 
+# emacsを明示しないとherdrで<C-a><C-e>が効かなくなる
+bindkey -e
+
 alias i="cd"
 alias s="bat"
 
