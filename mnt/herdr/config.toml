@@ -43,3 +43,4 @@ toggle_sidebar = "cmd+i"
 
 # その他
 settings = "prefix+shift+s"
+onboarding = false
