@@ -22,6 +22,7 @@ new_worktree = "prefix+t"
 previous_workspace = "ctrl+cmd+k"
 next_workspace = "ctrl+cmd+j"
 rename_workspace = "cmd+shift+r"
+goto = "prefix+f"
 
 # タブ
 new_tab = "ctrl+t"
@@ -33,6 +34,7 @@ rename_tab = "ctrl+2"
 split_vertical = "prefix+v"
 split_horizontal = "prefix+s"
 resize_mode = "prefix+e"
+last_pane = "prefix+r"
 
 # エージェント
 next_agent = "shift+cmd+j"
