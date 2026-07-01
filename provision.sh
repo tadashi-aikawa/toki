@@ -425,3 +425,4 @@ ensure_zshrc "source ~/.gtr.sh"
 ln -snf "$MNT"/toki/toki.sh ~/bin/toki
 ln -snf "$MNT"/ss/ss.sh ~/bin/ss
 ln -snf "$MNT"/otm/otm.sh ~/bin/otm # あまり使ってないのでいらないかも
+ln -snf "$MNT"/plan/plan.sh ~/bin/plan

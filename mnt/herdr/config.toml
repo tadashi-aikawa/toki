@@ -46,3 +46,8 @@ toggle_sidebar = "cmd+i"
 # その他
 settings = "prefix+shift+s"
 onboarding = false
+
+[[keys.command]]
+key = "prefix+p"
+type = "shell"
+command = "plan"
