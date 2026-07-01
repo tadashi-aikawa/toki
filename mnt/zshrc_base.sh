@@ -71,6 +71,13 @@ function v() {
   fi
 }
 
+function hvim() {
+  local tmp=$(mktemp /tmp/herdr-XXXXXX)
+  herdr pane read "$(herdr pane current | jq -r .result.pane.pane_id)" \
+    --source recent-unwrapped --lines "${1:-1000}" >"$tmp"
+  nvim + "$tmp"
+  rm -f "$tmp"
+}
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                       コマンド履歴                       │
