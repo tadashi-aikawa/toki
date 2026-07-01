@@ -378,6 +378,7 @@ mise use -g betterleaks
 mise use -g hexyl
 mise use -g hyperfine
 mise use -g jq
+mise use -g npm:@rivolink/leaf
 mise use -g ripgrep
 mise use -g task
 mise use -g watchexec
