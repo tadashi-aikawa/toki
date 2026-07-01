@@ -164,11 +164,6 @@ mkdir -p "$GHOSTTY_CONFIG_DIR"
 ln -snf "$MNT"/ghostty/config "$GHOSTTY_CONFIG_DIR"/config
 ln -snf "$MNT"/ghostty/shaders "$GHOSTTY_CONFIG_DIR"/shaders
 
-# cmux
-brew install --cask cmux
-ln -snf "$MNT"/cmux/cmux.sh ~/.cmux.sh
-ensure_zshrc "source ~/.cmux.sh"
-
 # ╭──────────────────────────────────────────────────────────╮
 # │                         エディタ                         │
 # ╰──────────────────────────────────────────────────────────╯
