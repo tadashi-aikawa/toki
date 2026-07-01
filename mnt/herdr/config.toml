@@ -12,6 +12,8 @@ name = "catppuccin"
 auto_switch = false
 [theme.custom]
 surface_dim = "#444477"
+# idle状態をgrayに
+green = "#aaaaaa"
 
 [keys]
 prefix = "ctrl+shift+/" # 無変換 -> s のcombination key
