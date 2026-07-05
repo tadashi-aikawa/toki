@@ -109,6 +109,7 @@ if not vim.g.vscode then
     "basedpyright",
     "ruff",
     "rust_analyzer",
+    "sourcekit",
     "sqls",
     "svelte",
     "tailwindcss",
