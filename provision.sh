@@ -369,6 +369,7 @@ mise use -g npm:difit
 mise use -g dust
 mise use -g fd
 mise use -g gitleaks
+mise use -g npm:hunkdiff
 mise use -g betterleaks
 mise use -g hexyl
 mise use -g hyperfine
