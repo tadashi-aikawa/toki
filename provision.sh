@@ -304,8 +304,7 @@ ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -snf "$MNT"/claude/references ~/.claude/references
 
 # Codex CLI
-# mise use -g npm:@openai/codex # FIXME: 問題なおったら
-mise use -g npm:@openai/codex@0.143.0-alpha.6
+mise use -g npm:@openai/codex
 
 ln -snf "$MNT"/codex/codex.sh ~/.codex.sh
 ensure_zshrc "source ~/.codex.sh"
