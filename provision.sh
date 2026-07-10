@@ -363,7 +363,6 @@ mise use -g npm:difit
 mise use -g dust
 mise use -g fd
 mise use -g gitleaks
-mise use -g npm:hunkdiff
 mise use -g betterleaks
 mise use -g hexyl
 mise use -g hyperfine
@@ -384,6 +383,11 @@ brew install gifski
 brew install git-lfs
 brew install imagemagick
 brew install pngpaste
+
+# hunk
+mise use -g npm:hunkdiff
+ln -snf ~/.local/share/mise/installs/npm-hunkdiff/latest/lib/node_modules/hunkdiff/skills/hunk-review ~/.codex/skills/hunk-review
+ln -snf ~/.local/share/mise/installs/npm-hunkdiff/latest/lib/node_modules/hunkdiff/skills/hunk-review ~/.claude/skills/hunk-review
 
 # zoxide
 mise use -g zoxide
