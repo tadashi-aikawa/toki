@@ -199,12 +199,6 @@ ln -snf "${MNT}"/obsidian/.obsidian/hotkeys.json "${MAIN_VAULT_ROOT}"/.obsidian/
 ln -snf "${MNT}"/obsidian/.obsidian/snippets/owl.css "${MAIN_VAULT_ROOT}"/.obsidian/snippets/owl.css
 ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data.json "${MAIN_VAULT_ROOT}"/.obsidian/plugins/obsidian-another-quick-switcher/data.json
 
-# VSCode
-brew install --cask visual-studio-code
-mkdir -p ~/Library/Application\ Support/Code/User
-ln -snf "$MNT"/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-ln -snf "$MNT"/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-
 # ╭──────────────────────────────────────────────────────────╮
 # │                     その他GUIツール                      │
 # ╰──────────────────────────────────────────────────────────╯
