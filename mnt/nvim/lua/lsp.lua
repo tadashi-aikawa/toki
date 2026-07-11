@@ -93,6 +93,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 if not vim.g.vscode then
   vim.lsp.enable({
+    "astro",
     "bashls",
     "biome",
     "cssls",

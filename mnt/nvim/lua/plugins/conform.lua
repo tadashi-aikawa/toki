@@ -55,6 +55,9 @@ return {
         css = web_formatter,
         scss = web_formatter,
         less = web_formatter,
+
+        -- Astroだけはprettierdの方がいいらしい
+        astro = { "prettierd" },
       },
       format_on_save = function(bufnr)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then

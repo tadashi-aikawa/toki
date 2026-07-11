@@ -238,6 +238,8 @@ mise use -g npm:vscode-langservers-extracted
 mise use -g npm:@olrtg/emmet-language-server
 mise use -g npm:@tailwindcss/language-server
 mise use -g npm:unocss-language-server
+# Astro
+mise use -g npm:@astrojs/language-server
 
 # Go
 mise use -g go

@@ -8,6 +8,7 @@ return {
   end,
   config = function()
     require("nvim-treesitter").install({
+      "astro",
       "bash",
       "css",
       "diff",
