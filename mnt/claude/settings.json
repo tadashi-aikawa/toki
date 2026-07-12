@@ -11,7 +11,19 @@
       "Bash(rg:*)",
       "Bash(jq:*)",
       "Bash(wc:*)",
-      "Bash(gh:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run watch:*)",
+      "Bash(gh release list:*)",
+      "Bash(gh release view:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh search:*)",
       "Bash(git add:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -32,7 +44,7 @@
       "Read(~/.claude/**)",
       "Read(~/work/minerva/Notes/**)",
       "Read(~/work/minerva/tasks/**)",
-      "Read(~/work/minerva/_Privates/Deaily Notes/**)",
+      "Read(~/work/minerva/_Privates/Daily Notes/**)",
       "WebSearch",
       "WebFetch(domain:obsidian.md)",
       "WebFetch(domain:forum.obsidian.md)",
@@ -44,15 +56,45 @@
     ],
     "deny": [
       "Bash(sudo:*)",
-      "Read(.env.*)",
-      "Read(.env)",
+      "Read(//**/.env)",
+      "Read(//**/.env.*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.netrc)",
+      "Read(~/.docker/config.json)",
+      "Read(~/work/secret/**)",
+      "Edit(//**/.env)",
+      "Edit(//**/.env.*)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.aws/**)",
+      "Edit(~/.gnupg/**)",
+      "Edit(~/.config/gh/**)",
+      "Edit(~/.netrc)",
+      "Edit(~/.docker/config.json)",
+      "Edit(~/work/secret/**)",
       "Bash(rm -rf *)",
       "Bash(rm -rf /)",
       "Bash(git push:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git clean:*)"
     ]
   },
-  "model": "claude-opus-4-6",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|Grep|Glob|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/security-guard.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "model": "claude-fable-5[1m]",
   "statusLine": {
     "type": "command",
     "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir // .cwd'); model=$(echo \"$input\" | jq -r '.model.display_name // empty'); repo=$(echo \"$input\" | jq -r '.workspace.repo | if . then .owner + \"/\" + .name else empty end'); used=$(echo \"$input\" | jq -r '.context_window.used_percentage // empty'); five_used=$(echo \"$input\" | jq -r '.rate_limits.five_hour.used_percentage // empty'); week_used=$(echo \"$input\" | jq -r '.rate_limits.seven_day.used_percentage // empty'); five_reset=$(echo \"$input\" | jq -r '.rate_limits.five_hour.resets_at // empty'); week_reset=$(echo \"$input\" | jq -r '.rate_limits.seven_day.resets_at // empty'); g=$(printf '\\033[32m'); y=$(printf '\\033[33m'); r=$(printf '\\033[31m'); d=$(printf '\\033[90m'); rs=$(printf '\\033[0m'); i_dir=$(printf '\\357\\201\\273'); i_br=$(printf '\\357\\204\\246'); i_md=$(printf '\\357\\225\\204'); i_cx=$(printf '\\357\\227\\234'); i_5h=$(printf '\\357\\200\\227'); i_1w=$(printf '\\357\\201\\263'); i_ar=$(printf '\\342\\206\\222'); [ -n \"$repo\" ] && dir_part=\"$i_dir $repo\" || dir_part=\"$i_dir $cwd\"; raw_branch=$(git -C \"$cwd\" symbolic-ref --short HEAD 2>/dev/null || git -C \"$cwd\" rev-parse --short HEAD 2>/dev/null); [ -n \"$raw_branch\" ] && git_part=\" $i_br $raw_branch\" || git_part=\"\"; [ -n \"$model\" ] && model_part=\" ${d}|${rs} $i_md $model\" || model_part=\"\"; if [ -n \"$used\" ]; then used_int=$(printf '%.0f' \"$used\"); ctx_part=\" ${d}|${rs} $i_cx ctx:${used_int}%\"; else ctx_part=\"\"; fi; lim() { if [ \"$1\" -ge 50 ]; then printf '%s' \"$g\"; elif [ \"$1\" -ge 20 ]; then printf '%s' \"$y\"; else printf '%s' \"$r\"; fi; }; if [ -n \"$five_used\" ]; then rem=$((100 - $(printf '%.0f' \"$five_used\"))); c=$(lim \"$rem\"); rt=\"\"; [ -n \"$five_reset\" ] && rt=\" ${d}(${i_ar}$(date -r \"$five_reset\" +%H:%M))${rs}\"; five_part=\" ${d}|${rs} $i_5h ${c}5h:${rem}%${rs}${rt}\"; else five_part=\"\"; fi; if [ -n \"$week_used\" ]; then rem=$((100 - $(printf '%.0f' \"$week_used\"))); c=$(lim \"$rem\"); rt=\"\"; [ -n \"$week_reset\" ] && rt=\" ${d}(${i_ar}$(date -r \"$week_reset\" '+%-m/%-d %H:%M'))${rs}\"; week_part=\" ${d}|${rs} $i_1w ${c}1w:${rem}%${rs}${rt}\"; else week_part=\"\"; fi; printf \"%s%s%s%s%s%s\" \"$dir_part\" \"$git_part\" \"$model_part\" \"$ctx_part\" \"$five_part\" \"$week_part\""
