@@ -300,7 +300,9 @@ mise use -g cargo:sleek
 no claude && {
   curl -fsSL https://claude.ai/install.sh | bash
 }
-ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  ln -snf "$MNT"/claude/CLAUDE.md ~/.claude/CLAUDE.md
+fi
 ln -snf "$MNT"/claude/references ~/.claude/references
 
 # Codex CLI
@@ -309,7 +311,9 @@ mise use -g npm:@openai/codex
 ln -snf "$MNT"/codex/codex.sh ~/.codex.sh
 ensure_zshrc "source ~/.codex.sh"
 
-ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  ln -snf "$MNT"/codex/AGENTS.md ~/.codex/AGENTS.md
+fi
 ln -snf "$MNT"/codex/notify_macos.sh ~/.codex/notify_macos.sh
 # TODO: https://github.com/openai/codex/issues/3120 が対応されたら config.toml も
 
