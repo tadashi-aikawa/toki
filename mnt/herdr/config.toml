@@ -32,6 +32,7 @@ new_tab = "ctrl+t"
 previous_tab = "ctrl+shift+tab"
 next_tab = "ctrl+tab"
 rename_tab = "ctrl+2"
+close_tab = "alt+w" # Ghosttyでcmd+wとしてくる前提
 
 # ペイン
 split_vertical = "prefix+v"
