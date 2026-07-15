@@ -19,35 +19,18 @@ GitHubリポジトリのリリース作業を自動化します。
    - GitHubリリースページを定期的に確認
    - 新しいリリースが作成されたことを確認
 
-5. **関連issueに返信**
-   - リリースに関係するissue(コミットメッセージに記載された#つきの番号)に対して
-      - リリースした旨をコメントする
-      - ステータスをclosedに変更
-
-6. **Bluesky投稿準備**
+5. **Bluesky投稿準備**
    - リリース情報を取得してフォーマット
    - 投稿内容を出力 (ユーザーが手動でそれをコピー)
    - ユーザーが手動でBlueskyに投稿（OGPカード表示や動画添付が可能）
 
+6. **Slack投稿準備**
+   - リリース情報を取得してフォーマット
+   - 投稿内容を出力 (ユーザーが手動でそれをコピー)
+   - ユーザーが手動でSlackに投稿
+
 7. **リポジトリの最新化**
    - `git pull` でremoteの変更点を取り込む
-
-### 4について
-
-#### コメントフォーマット
-
-```
-<投稿者全員にメンション>
-
-Released in [<バージョン>](<リリースノートのURL>) 🚀 
-```
-
-**具体例:** https://github.com/tadashi-aikawa/obsidian-another-quick-switcher/releases/tag/13.7.1 の場合
-
-```
-@craziedde 
-Released in [v13.7.1](https://github.com/tadashi-aikawa/obsidian-another-quick-switcher/releases/tag/13.7.1) 🚀 
-```
 
 ### 5について
 
@@ -60,6 +43,25 @@ Released in [v13.7.1](https://github.com/tadashi-aikawa/obsidian-another-quick-s
 
 ${GitHubリリースページのURL}
 ```
+
+### 6について
+
+#### 投稿フォーマット
+
+````
+:rocket: *JINRAI ${バージョン} をリリースしました* :hyakutake_growthup:
+
+・箇条書きで新機能やメインの変更点を列挙
+
+変更点の詳細はリリースノートをご覧ください。
+
+${GitHubリリースページのURL}
+
+`アップデート方法 (JINRAI起動中の場合)`
+```
+pkill -x JINRAI && brew update && brew upgrade --cask jinrai && open -a JINRAI
+```
+````
 
 ## 必要な設定
 
