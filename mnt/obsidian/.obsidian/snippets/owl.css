@@ -241,6 +241,34 @@ blockquote em {
 }
 
 /*
+|  owleryメンバーの顔アイコン(箇条書き内で行内表示にする)
+*/
+.internal-embed[src$="minerva-face.webp"] img,
+.internal-embed[src$="neo-face.webp"] img,
+.internal-embed[src$="obsidia-face.webp"] img,
+.internal-embed[src$="jinrai-face.webp"] img {
+  display: inline !important;
+  vertical-align: text-bottom;
+  margin: 0 !important;
+}
+/* Live Preview(エディタ)では画像がinline-blockのラッパーごと行に置かれるため、ラッパー側の縦位置を調整する */
+.markdown-source-view .internal-embed[src$="minerva-face.webp"],
+.markdown-source-view .internal-embed[src$="neo-face.webp"],
+.markdown-source-view .internal-embed[src$="obsidia-face.webp"],
+.markdown-source-view .internal-embed[src$="jinrai-face.webp"] {
+  vertical-align: middle;
+}
+/* 顔アイコン直後の要素は注釈(.internal-embed + *)扱いにしない */
+.internal-embed[src$="minerva-face.webp"] + *,
+.internal-embed[src$="neo-face.webp"] + *,
+.internal-embed[src$="obsidia-face.webp"] + *,
+.internal-embed[src$="jinrai-face.webp"] + * {
+  display: inline !important;
+  justify-content: initial;
+  font-size: inherit;
+}
+
+/*
 |  ブログ記事などカバーの写真用
 */
 .internal-embed[alt*="cover-"] img {
