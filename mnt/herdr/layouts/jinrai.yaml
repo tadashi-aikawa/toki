@@ -1,0 +1,23 @@
+workspaces:
+  - name: JINRAIサイト
+    root: ~/git/github.com/tadashi-aikawa/jinrai
+    tabs:
+      - label: main
+        panes:
+          # 左ペイン: リポジトリルート(全体の42%)
+          - focus: true
+            command: claude
+          # 右上
+          - split: right
+            ratio: 0.8
+            cwd: ./site
+            command: pnpm dev
+          # 右中央
+          - split: down
+            ratio: 0.33
+            cwd: ./docs
+            command: uv run zensical serve
+          # 右下
+          - split: down
+            ratio: 0.5
+            command: pkill -x JINRAI && ./scripts/make-app.sh && open .build/JINRAI.app
