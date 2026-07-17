@@ -3,6 +3,7 @@ onboarding = false
 prompt_new_tab_name = false
 show_agent_labels_on_pane_borders = true
 
+agent_panel_sort = "spaces"
 [ui.sidebar.agents]
 row_gap = 1
 rows = [["state_icon", "workspace", "tab"], ["state_text", "agent"]]
@@ -68,5 +69,14 @@ key = "prefix+g"
 type = "popup"
 command = "lazygit"
 description = "run lazygit"
-width = "80%"
-height = "80%"
+width = "90%"
+height = "90%"
+
+
+[[keys.command]]
+key = "prefix+y"
+type = "popup"
+command = "yazi"
+description = "run yazi"
+width = "90%"
+height = "90%"
