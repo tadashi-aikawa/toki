@@ -72,11 +72,18 @@ description = "run lazygit"
 width = "90%"
 height = "90%"
 
-
 [[keys.command]]
 key = "prefix+y"
 type = "popup"
 command = "yazi"
 description = "run yazi"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+i"
+type = "shell"
+command = "difit"
+description = "run difit"
 width = "90%"
 height = "90%"
