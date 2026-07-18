@@ -10,8 +10,22 @@ height = 30
 height = 40
 
 [core.user_command]
-commands_1 = { name = "git diff", commands = ["sh", "-c", "git diff --color=always {{first_parent_hash}} {{target_hash}} | delta --dark --paging=never --side-by-side --line-numbers --width {{area_width}}"] }
-commands_2 = { name = "Diffview.nvim", commands = ["nvim", "-c", "DiffviewOpen \"{{first_parent_hash}}\"..\"{{target_hash}}\""], type = "suspend" }
+commands_1 = { name = "git diff", commands = [
+  "sh",
+  "-c",
+  "git diff --color=always {{first_parent_hash}} {{target_hash}} | delta --dark --paging=never --side-by-side --line-numbers --width {{area_width}}",
+] }
+commands_2 = { name = "Diffview.nvim", commands = [
+  "nvim",
+  "-c",
+  "DiffviewOpen \"{{first_parent_hash}}\"..\"{{target_hash}}\"",
+], type = "suspend" }
+commands_3 = { name = "difit", commands = [
+  "sh",
+  "-c",
+  "difit {{target_hash}}",
+], type = "suspend" }
 
 [keybind]
 user_command_2 = ["shift-d"]
+user_command_3 = ["shift-i"]
