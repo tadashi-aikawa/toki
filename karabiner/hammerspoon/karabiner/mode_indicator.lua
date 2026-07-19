@@ -33,6 +33,7 @@ function M.new(options)
 	local widget = mergeTable(DEFAULT_WIDGET, options.widget)
 	local modeColors = mergeTable(DEFAULT_MODE_COLORS, options.modeColors)
 	local iconImage = options.iconImage
+	local modeImages = options.modeImages or {}
 
 	local currentMode = "DEFAULT"
 	local canvases = {}
@@ -105,28 +106,31 @@ function M.new(options)
 			return
 		end
 
-		local color = modeColors[currentMode] or modeColors.NORMAL
-		if iconImage then
+		local modeImage = modeImages[currentMode]
+		local baseImage = modeImage or iconImage
+		if baseImage then
+			local iconFrame = {
+				x = (widget.size - widget.iconSize) / 2,
+				y = (widget.size - widget.iconSize) / 2,
+				w = widget.iconSize,
+				h = widget.iconSize,
+			}
 			canvas[1].type = "image"
 			canvas[1].action = nil
-			canvas[1].image = iconImage
+			canvas[1].image = baseImage
 			canvas[1].imageScaling = "scaleToFit"
-			canvas[1].frame = {
-				x = (widget.size - widget.iconSize) / 2,
-				y = (widget.size - widget.iconSize) / 2,
-				w = widget.iconSize,
-				h = widget.iconSize,
-			}
+			canvas[1].frame = iconFrame
 			canvas[2].type = "rectangle"
 			canvas[2].action = "fill"
-			canvas[2].fillColor = color
-			canvas[2].compositeRule = "sourceIn"
-			canvas[2].frame = {
-				x = (widget.size - widget.iconSize) / 2,
-				y = (widget.size - widget.iconSize) / 2,
-				w = widget.iconSize,
-				h = widget.iconSize,
-			}
+			if modeImage then
+				-- モード専用画像は着色せずそのまま表示する
+				canvas[2].fillColor = { red = 0, green = 0, blue = 0, alpha = 0 }
+				canvas[2].compositeRule = "sourceOver"
+			else
+				canvas[2].fillColor = modeColors[currentMode] or modeColors.NORMAL
+				canvas[2].compositeRule = "sourceIn"
+			end
+			canvas[2].frame = iconFrame
 		else
 			canvas[1].type = "rectangle"
 			canvas[1].action = "fill"

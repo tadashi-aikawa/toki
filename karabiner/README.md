@@ -31,16 +31,15 @@ dofile("/Users/tadashi-aikawa/git/toki/karabiner/hammerspoon/karabiner_hammerspo
 
 ### 画像の仕様
 
-画像は `hammerspoon/mode.png` を優先し、存在しない場合は `hammerspoon/hacker-owl.png` を使います。
+モードごとの専用画像 `hammerspoon/mode-<モード名小文字>.png`（例: `mode-normal.png`）が存在する場合、そのモードでは専用画像を**着色せずそのまま**表示します。
 
-また、モードごとに画像は着色されます。
+専用画像がないモードは共通画像にフォールバックします。共通画像は `hammerspoon/mode.png` を優先し、存在しない場合は `hammerspoon/hacker-owl.png` を使います。共通画像はモードごとに着色されます。
 
-
-| モード名 | 色   |
-| -------- | ---- |
-| NORMAL   | 青系 |
-| RANGE    | 緑系 |
-| SPECIAL  | 赤系 |
+| モード名 | 専用画像           | 色   |
+| -------- | ------------------ | ---- |
+| NORMAL   | `mode-normal.png`  | 青系 |
+| RANGE    | `mode-range.png`   | 緑系 |
+| SPECIAL  | `mode-special.png` | 赤系 |
 
 
 白線・背景透明の画像がオススメです。

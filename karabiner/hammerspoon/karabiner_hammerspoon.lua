@@ -17,8 +17,16 @@ end
 
 local iconImage = loadModeIcon("mode.png") or loadModeIcon("hacker-owl.png")
 
+-- モード専用画像があればそのまま表示する(着色なし)。なければ iconImage + モード色で表示
+local modeImages = {
+	NORMAL = loadModeIcon("mode-normal.png"),
+	RANGE = loadModeIcon("mode-range.png"),
+	SPECIAL = loadModeIcon("mode-special.png"),
+}
+
 local modeIndicator = modeIndicatorModule.new({
 	iconImage = iconImage,
+	modeImages = modeImages,
 })
 
 hs.urlevent.bind("karabiner-mode", function(_, params)
