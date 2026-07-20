@@ -51,6 +51,11 @@ customCommands:
     description: Open commit diff in Neovim
     command: 'nvim -c "DiffviewOpen \"{{.SelectedLocalCommit.Sha}}^1\"..\"{{.SelectedLocalCommit.Sha}}\""'
     output: terminal
+  - key: "H"
+    context: commits
+    description: Open commit diff in hunk
+    command: "hunk diff {{.SelectedLocalCommit.Sha}}^1..{{.SelectedLocalCommit.Sha}}"
+    output: terminal
   - key: "<c-m>"
     context: commits
     description: Copy commit markdown link
