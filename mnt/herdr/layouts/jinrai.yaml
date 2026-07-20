@@ -1,5 +1,5 @@
 workspaces:
-  - name: JINRAIサイト
+  - name: JINRAI
     root: ~/git/github.com/tadashi-aikawa/jinrai
     tabs:
       - label: main
