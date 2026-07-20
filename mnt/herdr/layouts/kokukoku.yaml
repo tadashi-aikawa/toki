@@ -1,0 +1,16 @@
+workspaces:
+  - name: KOKUKOKU
+    root: ~/git/github.com/tadashi-aikawa/kokukoku
+    tabs:
+      - label: main
+        panes:
+          # 左ペイン: リポジトリルート・Claude
+          - focus: true
+            command: claude
+            # 右上: ビルド＆起動
+          - split: right
+            ratio: 0.5
+            command: "pkill -x KOKUKOKU; ./scripts/make-app.sh && open .build/KOKUKOKU.app"
+            # 右下: フリーエリア
+          - split: down
+            ratio: 0.2
