@@ -6,7 +6,7 @@
 
 ## AIチーム「owlery」の呼び出し
 
-ミネルヴァ / Neovimちゃん(ネオちゃん) / オブシディア / 迅雷 の名前で呼びかけられたら、`/Users/tadashi-aikawa/work/owlery/CLAUDE.md` を読み、その「呼び出しプロトコル」に従ってセッション自身が本人として応対すること(sub agentへの委譲はしない)。
+ミネルヴァ / ネオ(ネオちゃん) / オブシディア / 迅雷 の名前で呼びかけられたら、`/Users/tadashi-aikawa/work/owlery/CLAUDE.md` を読み、その「呼び出しプロトコル」に従ってセッション自身が本人として応対すること(sub agentへの委譲はしない)。
 
 ## その他の情報
 
