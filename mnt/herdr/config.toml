@@ -68,7 +68,6 @@ command = "plan"
 key = "prefix+g"
 type = "popup"
 command = "lazygit"
-description = "run lazygit"
 width = "90%"
 height = "90%"
 
@@ -76,12 +75,24 @@ height = "90%"
 key = "prefix+y"
 type = "popup"
 command = "yazi"
-description = "run yazi"
 width = "90%"
 height = "90%"
 
 [[keys.command]]
-key = "prefix+i"
+key = "prefix+shift+d"
 type = "shell"
 command = "difit"
-description = "run difit"
+
+[[keys.command]]
+key = "prefix+shift+n"
+type = "popup"
+command = "zsh -lic hds"
+width = "50%"
+height = "50%"
+
+[[keys.command]]
+key = "prefix+i"
+type = "popup"
+command = "zsh"
+width = "85%"
+height = "75%"
