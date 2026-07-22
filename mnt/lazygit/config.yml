@@ -49,12 +49,12 @@ customCommands:
   - key: "D"
     context: commits
     description: Open commit diff in Neovim
-    command: 'nvim -c "DiffviewOpen \"{{.SelectedLocalCommit.Sha}}^1\"..\"{{.SelectedLocalCommit.Sha}}\""'
+    command: 'nvim -c "DiffviewOpen \"{{.SelectedCommitRange.From}}^1\"..\"{{.SelectedCommitRange.To}}\""'
     output: terminal
   - key: "H"
     context: commits
-    description: Open commit diff in hunk
-    command: "hunk diff {{.SelectedLocalCommit.Sha}}^1..{{.SelectedLocalCommit.Sha}}"
+    description: Open selected commit diff in hunk
+    command: "hunk diff {{.SelectedCommitRange.From}}^1..{{.SelectedCommitRange.To}}"
     output: terminal
   - key: "<c-m>"
     context: commits
