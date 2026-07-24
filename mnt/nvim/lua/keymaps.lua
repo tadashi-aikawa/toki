@@ -36,9 +36,6 @@ vim.keymap.set("i", "<F18>", "<C-x><C-p>") -- Ubuntu(WSL)ではS-F6がF18とな�
 -- cnext / cprevious
 vim.keymap.set("n", "<Space>J", ":cnext<CR>", { silent = true })
 vim.keymap.set("n", "<Space>K", ":cprevious<CR>", { silent = true })
--- diff next / diff previous
-vim.keymap.set("n", "<D-j>", "]c", { silent = true })
-vim.keymap.set("n", "<D-k>", "[c", { silent = true })
 -- quickfix list open
 vim.keymap.set("n", "<Space>L", ":botright cw<CR>", { silent = true })
 -- URLをブラウザで開く
