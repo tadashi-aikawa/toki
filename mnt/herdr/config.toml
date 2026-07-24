@@ -84,6 +84,13 @@ type = "shell"
 command = "difit"
 
 [[keys.command]]
+key = "prefix+shift+h"
+type = "popup"
+command = "hunk diff"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
 key = "prefix+shift+n"
 type = "popup"
 command = "zsh -lic hds"
