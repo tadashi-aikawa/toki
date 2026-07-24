@@ -12,7 +12,7 @@ return {
     },
   },
   keys = {
-    { ",sm", "<cmd>SlidevPreviewControl<cr>" },
+    { ",v", "<cmd>SlidevPreviewControl<cr>" },
   },
   init = function()
     vim.api.nvim_create_autocmd("ColorScheme", {
