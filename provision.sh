@@ -228,6 +228,7 @@ brew install --cask keycastr
 mise use -g npm:typescript
 # Web系ランタイム
 mise use -g node@24
+mise use -g npm
 mise use -g pnpm
 mise use -g bun
 mise use -g deno
