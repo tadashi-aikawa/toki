@@ -1,6 +1,7 @@
 {
   "includeCoAuthoredBy": false,
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Bash(ss:*)",
       "Bash(make test:*)",
@@ -11,6 +12,7 @@
       "Bash(rg:*)",
       "Bash(jq:*)",
       "Bash(wc:*)",
+      "Bash(herdr:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr diff:*)",
@@ -42,9 +44,13 @@
       "Bash(stylua:*)",
       "Read(./**)",
       "Read(~/.claude/**)",
+      "Read(~/git/github.com/tadashi-aikawa/**)",
+      "Edit(~/work/owlery/**)",
       "Read(~/work/minerva/Notes/**)",
+      "Edit(~/work/minerva/Notes/**)",
       "Read(~/work/minerva/tasks/**)",
       "Read(~/work/minerva/_Privates/Daily Notes/**)",
+      "Edit(~/work/minerva/_Privates/Daily Notes/**)",
       "WebSearch",
       "WebFetch(domain:obsidian.md)",
       "WebFetch(domain:forum.obsidian.md)",
@@ -76,12 +82,9 @@
       "Edit(~/work/secret/**)",
       "Bash(rm -rf *)",
       "Bash(rm -rf /)",
-      "Bash(git push:*)",
-      "Bash(git reset:*)",
-      "Bash(git clean:*)"
+      "Bash(git push:*)"
     ]
   },
-  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -111,8 +114,17 @@
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "codex@openai-codex": true
   },
-  "effortLevel": "medium",
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
+  "effortLevel": "high",
   "tui": "fullscreen"
 }
