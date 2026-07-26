@@ -371,6 +371,7 @@ mise use -g bat
 mise use -g cargo:dysk
 mise use -g delta
 mise use -g npm:difit
+mise use -g aqua:k1LoW/mo
 mise use -g dust
 mise use -g fd
 mise use -g gitleaks
