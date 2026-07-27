@@ -246,6 +246,7 @@ blockquote em {
 .internal-embed[src$="minerva-face.webp"] img,
 .internal-embed[src$="neo-face.webp"] img,
 .internal-embed[src$="obsidia-face.webp"] img,
+.internal-embed[src$="mimiko-face.webp"] img,
 .internal-embed[src$="jinrai-face.webp"] img {
   display: inline !important;
   vertical-align: text-bottom;
@@ -255,6 +256,7 @@ blockquote em {
 .markdown-source-view .internal-embed[src$="minerva-face.webp"],
 .markdown-source-view .internal-embed[src$="neo-face.webp"],
 .markdown-source-view .internal-embed[src$="obsidia-face.webp"],
+.markdown-source-view .internal-embed[src$="mimiko-face.webp"],
 .markdown-source-view .internal-embed[src$="jinrai-face.webp"] {
   vertical-align: middle;
 }
@@ -262,6 +264,7 @@ blockquote em {
 .internal-embed[src$="minerva-face.webp"] + *,
 .internal-embed[src$="neo-face.webp"] + *,
 .internal-embed[src$="obsidia-face.webp"] + *,
+.internal-embed[src$="mimiko-face.webp"] + *,
 .internal-embed[src$="jinrai-face.webp"] + * {
   display: inline !important;
   justify-content: initial;
