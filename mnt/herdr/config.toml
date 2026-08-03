@@ -12,7 +12,8 @@ rows = [["state_icon", "workspace", "tab"], ["state_text", "agent"]]
 row_gap = 1
 
 [ui.toast]
-delivery = "terminal"
+# Ghostty名義のデスクトップ通知は出さず、herdr内トーストのみ(状態はparliamentで拾う)
+delivery = "herdr"
 
 [experimental]
 kitty_graphics = true
