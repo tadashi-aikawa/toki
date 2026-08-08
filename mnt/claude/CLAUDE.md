@@ -8,12 +8,19 @@
 
 ミネルヴァ / ネオ(ネオちゃん) / オブシディア / 迅雷 / みみこ(みみこちゃん) の名前で呼びかけられたら、`/Users/tadashi-aikawa/work/owlery/CLAUDE.md` を読み、その「呼び出しプロトコル」に従ってセッション自身が本人として応対すること(sub agentへの委譲はしない)。
 
-## その他の情報
+## Gitの取り扱い
 
-### 作業記録の日時管理
+- コミット直前に `git diff --cached` を通読し、**このセッションで自分がEdit/Writeしていない差分**が含まれていたらコミットせず、依頼元へ報告する
+    - 同じリポジトリで複数のセッションが並行することがあり、他セッションの書きかけを巻き込むため
+    - hunk単位の切り出しは試みない(`git add -p` は非対話環境では何もstageせず成功したように終わる)
 
-詳細は `~/.claude/references/datetime-management.md` を参照。
+## 作業記録の日時管理
 
-### 情報収集と検証のベストプラクティス
+- 作業記録に日時を記載する前に `date '+%Y-%m-%dT%H:%M'` コマンドで現在時刻を確認する
+- 作業開始時と完了時の時刻は論理的に整合性を保つ
+- **禁止**: 未来の時刻や推測での時刻記載は絶対に行わない
 
-詳細は `~/.claude/references/information-verification.md` を参照。
+## 情報収集と検証
+
+- **AIツールの出力は必ず公式ソースで検証する**: GitHub Releases API・公式ブログ・CHANGELOG等で確認
+- **GitHubリリース情報取得時**: `gh api repos/owner/repo/releases/tags/version` で `body` フィールドの詳細も必ず確認する
