@@ -141,5 +141,8 @@
     }
   },
   "effortLevel": "high",
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "worktree": {
+    "baseRef": "head"
+  }
 }
