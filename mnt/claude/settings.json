@@ -27,6 +27,7 @@
       "Bash(gh search:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
+      "Bash(cd /Users/tadashi-aikawa/work/owlery && git commit:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
       "Bash(git show:*)",
@@ -84,9 +85,13 @@
       "Bash(rm -rf /)",
       "Bash(git push:*)"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "additionalDirectories": [
+      "/Users/tadashi-aikawa/work/owlery",
+      "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament"
+    ]
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PreToolUse": [
       {
