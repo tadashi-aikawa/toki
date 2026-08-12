@@ -8,6 +8,23 @@
 
 ミネルヴァ / ネオ(ネオちゃん) / オブシディア / 迅雷 / みみこ(みみこちゃん) の名前で呼びかけられたら、または名指しなしで「owlery」「owleryメンバー」宛と分かる依頼をされたら、`/Users/tadashi-aikawa/work/owlery/CLAUDE.md` を読み、その「呼び出しプロトコル」に従ってセッション自身が本人として応対すること(名指しがない場合は役割が最も近いメンバーとして名乗って応対する。sub agentへの委譲はしない)。
 
+## parliamentのCodexセッション表示名
+
+- rootセッションで最初の依頼の主題を理解したら、12〜28文字の簡潔な日本語タイトルを1つ作る
+    - リポジトリ名だけ、または「調査」「実装」のような汎用名だけにはしない
+    - セッション名は最初の主題で固定し、同じセッションでは以後の主題が変わっても上書きしない
+- `herdr pane current` を単独で実行する
+- 返却JSONから `.result.pane.pane_id` と `.result.pane.agent_session.value` を取得でき、`.result.pane.agent == "codex"` の場合だけ、取得値を展開して次を単独で実行する
+
+    ```bash
+    herdr pane report-metadata <PANE_ID> --source codex-session-title --token "session_title=<SESSION_ID>:<TITLE>"
+    ```
+
+- 同じsession IDではこの報告を1回だけ行い、既存の `session_title` を上書きしない
+- sub agentでは実行しない。`herdr pane current` は親ペインを返し、rootセッションの表示名を上書きするため
+- herdr外で最初のコマンドが失敗した場合は、報告せず依頼を続行する
+- 2コマンドを変数展開・パイプ・ifなどで1つのシェルコマンドにまとめない
+
 ## Gitの取り扱い
 
 - stage直前に `git status` を確認し、**このセッションで自分がEdit/Writeしていないファイル**があれば `git add -A` を使わず、自分が触ったパスだけ個別にstageする
