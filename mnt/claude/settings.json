@@ -102,6 +102,16 @@
             "command": "~/.claude/hooks/security-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 10,
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-task-note.sh'"
+          }
+        ]
       }
     ],
     "SessionStart": [
