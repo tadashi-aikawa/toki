@@ -144,6 +144,7 @@ mise use -g herdr
 mkdir -p ~/.config/herdr
 ln -snf "$MNT"/herdr/config.toml ~/.config/herdr/config.toml
 ln -snf "$MNT"/herdr/herdr.sh ~/.herdr.sh
+ln -snf "$MNT"/herdr/agent-detection ~/.config/herdr/agent-detection
 ensure_zshrc "source ~/.herdr.sh"
 # herdr-spreader
 mise use -g cargo:https://github.com/yuk1ty/herdr-spreader@tag:v0.2.0

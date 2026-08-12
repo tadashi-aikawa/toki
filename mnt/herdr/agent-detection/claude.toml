@@ -1,0 +1,285 @@
+id = "claude"
+version = "2026.08.12.1"
+min_engine_version = 2
+updated_at = "2026-08-12T00:00:00Z"
+aliases = ["claude-code"]
+
+[[rules]]
+id = "osc_title_working"
+state = "working"
+priority = 1100
+region = "osc_title"
+visible_working = true
+# Braille covers <= 2.1.227; half-circles are the 2.1.228 busy spinner.
+regex = ['^[\x{2800}-\x{28FF}\x{25D0}-\x{25D1}] ']
+
+[[rules]]
+id = "btw_overlay_working"
+state = "working"
+priority = 975
+region = "bottom_non_empty_lines(5)"
+visible_working = true
+line_regex = [
+  '^\s*/btw(?:\s|$)',
+  '(?i)esc to close\s*$',
+]
+
+[[rules]]
+id = "transcript_viewer"
+state = "unknown"
+priority = 1000
+region = "bottom_non_empty_lines(3)"
+skip_state_update = true
+contains = ["showing detailed transcript"]
+any = [
+  { contains = ["ctrl+o", "to toggle"] },
+  { contains = ["ctrl+e", "show all"] },
+  { contains = ["ctrl+e", "collapse"] },
+  { contains = ["↑↓ scroll"] },
+  { contains = ["? for shortcuts"] },
+]
+
+[[rules]]
+id = "live_blocked_form"
+state = "blocked"
+priority = 980
+region = "after_last_horizontal_rule"
+visible_blocker = true
+contains = ["esc to cancel"]
+any = [
+  { contains = ["enter to confirm"] },
+  { contains = ["enter to select"], any = [
+    { contains = ["tab/arrow keys to navigate"] },
+    { contains = ["arrow keys to navigate"] },
+    { contains = ["arrows to navigate"] },
+    { contains = ["↑/↓ to navigate"] },
+    { contains = ["↑↓ to navigate"] },
+  ] },
+]
+
+[[rules]]
+id = "dynamic_workflow_prompt"
+state = "blocked"
+priority = 980
+region = "whole_recent"
+visible_blocker = true
+contains = ["run a dynamic workflow?", "esc to cancel"]
+
+[[rules]]
+id = "live_prompt_box"
+state = "idle"
+priority = 950
+region = "prompt_box_body"
+visible_idle = true
+line_regex = ['^\s*❯']
+not = [
+  { contains = ["enter to select"] },
+  { contains = ["esc to cancel"] },
+  { contains = ["tab/arrow keys"] },
+  { contains = ["arrow keys to navigate"] },
+  { contains = ["↑/↓ to navigate"] },
+]
+
+[[rules]]
+id = "model_picker_menu"
+state = "unknown"
+priority = 900
+region = "whole_recent"
+skip_state_update = true
+contains = ["select model", "enter to set as default", "esc to cancel"]
+not = [
+  { contains = ["do you want to proceed?"] },
+  { contains = ["enter to select"] },
+]
+
+[[rules]]
+id = "bash_permission_prompt"
+state = "blocked"
+priority = 850
+region = "whole_recent"
+visible_blocker = true
+contains = ["do you want to proceed?"]
+any = [
+  { contains = ["bash command"] },
+  { contains = ["bash("] },
+  { contains = ["contains expansion"] },
+  { contains = ["tab to amend"] },
+  { contains = ["ctrl+e to explain"] },
+]
+all = [
+  { any = [{ line_regex = ['(?i)^\s*❯?\s*yes\b'] }, { line_regex = ['(?i)^\s*1\.\s*yes\b'] }, { line_regex = ['(?i)^\s*2\.\s*no\b'] }] },
+]
+
+[[rules]]
+id = "generic_permission_prompt"
+state = "blocked"
+priority = 840
+region = "after_last_horizontal_rule"
+visible_blocker = true
+contains = ["do you want to proceed?", "esc to cancel"]
+all = [
+  { any = [
+    { line_regex = ['(?i)^\s*❯?\s*1\.\s*yes\b'] },
+    { line_regex = ['(?i)^\s*2\.\s*yes\b'] },
+    { line_regex = ['(?i)^\s*2\.\s*no\b'] },
+    { line_regex = ['(?i)^\s*3\.\s*no\b'] },
+  ] },
+]
+
+[[rules]]
+id = "legacy_no_prompt_blocker"
+state = "blocked"
+priority = 300
+region = "whole_recent"
+any = [
+  { contains = ["do you want to"], any = [{ contains = ["yes"] }, { contains = ["❯"] }] },
+  { contains = ["would you like to"], any = [{ contains = ["yes"] }, { contains = ["❯"] }] },
+  { contains = ["waiting for permission"] },
+  { contains = ["do you want to allow this connection?"] },
+  { contains = ["tab to amend"] },
+  { contains = ["ctrl+e to explain"] },
+  { contains = ["do you want to proceed?", "esc to cancel"] },
+  { contains = ["review your answers"] },
+  { contains = ["skip interview and plan immediately"] },
+]
+not = [
+  { regex = ['(?m)^\s*❯\s*$'] },
+]
+
+[[rules]]
+id = "osc_title_idle"
+state = "idle"
+priority = 250
+region = "osc_title"
+visible_idle = true
+regex = ['^\x{2733} ']
+
+[[rules]]
+id = "osc_progress_idle"
+state = "idle"
+priority = 250
+region = "osc_progress"
+regex = ['^4;0']
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                      独自追加ルール                      │
+# ╰──────────────────────────────────────────────────────────╯
+
+[[rules]]
+# タダシ環境のローカルoverride(2026-07-18 ネオ / 2026-07-29 ネオ更新): remote版2026.07.13.1にこのルール1本だけ追加。
+# shell完了待ち(ターン終了後もbackground shellが走っている)中にidle/done表示になる問題の対策。
+# remote版が大きく更新されたら、このファイルを新remote版+本ルールで作り直すこと。
+#
+# 2026-07-29更新: Claude Codeのstatus lineが「N shells still running」から
+# モード行の中黒区切りセグメント「⏵⏵ auto mode on · 1 shell · ← 1 agent」へ変わり、
+# 旧正規表現 '\d+ shells? still running' が一切マッチしなくなっていた(静かな再発)。
+#   - 中黒(U+00B7)/カンマ/行頭/行末に錨を打つ。裸の '\d+ shells?' だと
+#     bg agentの作業名(例: "Refactoring 3 shells helper")で誤発火するため不可
+#   - セグメント内はカンマ区切りで並ぶことがある(実測: 「· 3 shells, 1 monitor ·」)
+#   - 行頭も許すのは、モード表示が出ない場合にセグメントが行頭へ来る可能性への保険
+#   - regionを8→12行に広げたのは、bg agentのリストがモード行を押し上げるため
+# 対象は shell に限らない(2026-07-29 タダシ承認)。困りごとの本体は「裏で仕事が残っているのに
+# doneに見える」ことなので、モード行に並ぶ実行中セグメント(shell / monitor)をまとめて見る。
+# 新種のセグメントが増えたらここへ足すこと。
+#
+# **`agents?`(← N agents)は対象に入れない**(2026-08-02 に一度入れて同日に撤回。タダシ判断)。
+# あのセグメントは**background agentが完了した後も残り続ける**ため、「実行中」と
+# 「完了済み・結果未確認」を区別しない ── 実測で、Backgroundパネルが消えている(=全完了した)
+# ペインにモード行の「· ← 1 agent」だけが残り、idleのセッションがworking表示になった。
+# 入力を始めると消えるので、「workingが突然idleへ落ちる」不可解な挙動の正体でもあった。
+#
+# **本当に走っているときは、この語彙が無くても取れている**(実測):
+#   - OSCタイトルが点字スピナー(⠐ …)になり osc_title_working(1100)がマッチする。
+#     完了後の残留ペインはタイトルが「✳ …」= idleの印に変わるので、ここで既に別物
+#   - 画面にも「Waiting for N background agent(s) to finish」が出る(完了後は
+#     「Sautéed for 9m 8s」のような**過去形の要約**に変わる)
+# 将来どうしても画面テキストから拾う必要が出たら、**モード行のセグメントではなく
+# この「Waiting for … to finish」を錨にすること**。あれは実行中にしか出ない。
+id = "background_shell_still_running"
+state = "working"
+priority = 960
+region = "bottom_non_empty_lines(12)"
+visible_working = true
+line_regex = ['(?:^|[·,])\s*\d+\s+(?:shells?|monitors?)\s*(?:[·,]|$)']
+
+[[rules]]
+# タダシ環境のローカルoverride 2本目(2026-08-02 ネオ、タダシ承認)。
+# 長考中(Calculating…)やフォアグラウンドのツール実行中(Bashでcodexを回している等)に
+# idleへ落ち、出力が静止した時点でdoneと誤表示される問題の対策。
+#
+# remote版のルールには「画面テキストからworkingを示すルールが1本も無い」。
+# workingを支えているのはOSCタイトルの点字スピナー(osc_title_working)だけで、
+# その証拠が失われると画面テキストではどのルールにもマッチせずidleへ落ちる。
+#
+#   - スピナーの語彙(Calculating… / Puzzling… / Schlepping… …)はランダムなので錨に使えない
+#   - 「esc to interrupt」は**常には出ない**。2026-08-02の実機観測で、Tip行が表示されている間は
+#     ヒントがTipに差し替わり、スピナー行が「✢ Enchanting… (1m 11s · ↓ 3.5k tokens)」だけになる。
+#     この状態でも Agent は動いているので、esc だけを錨にすると**その間だけ死ぬ**
+#   - 全パターンを通して残るのは**行頭のスピナー記号 + 末尾の経過時間の括弧**。
+#     時間表記は「(30s …)」と「(1m 11s …)」の両方が出る
+#   - 裸の「esc to interrupt」だと**会話文で言及した瞬間に誤発火する**
+#     (旧 background ルールが「N shells still running」で踏んだのと同じ穴)ので、
+#     どの形でも**経過時間の括弧か行末の括弧閉じ**を必ず要求して錨を締める
+#   - tokens 表記は出ないパターンがあるので錨にしない
+#   - スピナー記号の範囲を U+2720〜U+274F にしているのは、**⏺(U+23FA)を入れないため**。
+#     あれは完了した発言・ツール結果の行頭にも付くので、混ぜると静止画面で誤発火する
+#
+# **`line_regex` の配列は OR ではなく AND**(2026-08-02 実測)。並べた全パターンが region 内の
+# どこかにマッチして初めてルールが成立する。冗長性のつもりで候補を並べると**並べるほど
+# マッチしにくくなる** ── 実際、escを含む3本を並べたらTip表示中の実画面(escが出ない)が
+# 落ちた。代替形は**1本の中で `|` で書く**こと。
+#
+# priority 965 は **background ルール(960)より上**。どちらも state=working だが、
+# [[parliament]]は「どのルールで working になったか」で**Agent自身が動いている(agent)**と
+# **裏の処理だけが残っている(background-shell)**を描き分けている。同値にすると
+# **スピナーが回っている画面が「背景処理(手は空いている)」と表示されうる**
+# ── スピナーはモード行のセグメントより強い証拠なので、必ずこちらを勝たせる。
+# live_prompt_box(950 idle)には勝ち、live_blocked_form(980 blocked)には負ける。
+# ただし bash_permission_prompt(850)と generic_permission_prompt(840)はこのルールより
+# 下なので、**not句で影を作らないようにする** ── 許可プロンプトが出ている画面は
+# タダシの手番であって、稼働中として潰してはいけない。
+id = "agent_spinner_running"
+state = "working"
+priority = 965
+region = "bottom_non_empty_lines(12)"
+visible_working = true
+line_regex = [
+  '(?i)^\s*[\x{2720}-\x{274F}]\s+.*\(\s*(?:\d+m\s+)?\d+s\b[^)]*\)\s*$|esc to interrupt\)\s*$',
+]
+not = [
+  { contains = ["do you want to proceed?"] },
+  { contains = ["waiting for permission"] },
+]
+
+[[rules]]
+# タダシ環境のローカルoverride 3本目(2026-08-03 ネオ)。
+# 「background agentの完了を待っている」状態をworkingとして拾う。
+#
+# **モード行の「← N agents」ではなくこの行を錨にする**のが要点。あのセグメントは
+# background agentが完了した後も残り続けるので、「実行中」と「完了済み・結果未確認」を
+# 区別できない(2026-08-02 に一度採用して同日に撤回した)。
+# 対してこの行は**スピナー行そのもの**で、実行中にしか描かれない ──
+# 完了すると「✻ Sautéed for 9m 8s」のような過去形の要約に置き換わる(実測)。
+# **持続するchrome(モード行)ではなく、生きているステータス行に錨を打つ**のが分かれ目。
+#
+# なぜ必要か: OSCタイトルの点字スピナーは `pane get` には出るのに、
+# **`agent explain` の osc_title リージョンは空のことがある**(実測: region_bytes=0 が継続)。
+# つまり osc_title_working は当てにできず、これが無いと
+# 「sub agentを待っている親ペイン」がidleへ落ちる。parliament は
+# **親ペインが動いていることを sub agent の生死判定の裏付けに使っている**ので、
+# ここが落ちると長考中のsub agentが「完了(推定)」に化ける。
+#
+# state=working / priority 960 は background ルールと同じ扱い。Agent自身の手は空いていて、
+# 裏で仕事が残っているだけなので、parliament 側でも background-shell として描かせる。
+#
+# 単複("1 background agent" / "2 background agents")の両方が出る。
+# スピナー記号は任意にしてあるが、**行がこの文だけで構成されていること**を要求して
+# 会話文での言及と分けている。
+id = "waiting_for_background_agents"
+state = "working"
+priority = 960
+region = "bottom_non_empty_lines(12)"
+visible_working = true
+line_regex = [
+  '(?i)^\s*(?:[\x{2720}-\x{274F}]\s+)?waiting for \d+ background agents? to finish\s*$',
+]
