@@ -1,8 +1,8 @@
 #!/bin/bash
-# parliament: owlery互換Vaultのタスクノートを、編集前に検証する。
+# parliament: owlery互換Vaultのタスク・knowledgeノートを、編集前に検証する。
 #
 # Claude CodeのEdit/WriteとCodex CLIのapply_patchを一時領域へ再現し、
-# shared/tasks直下のMarkdownだけをlintする。違反時はexit 2で実編集を拒否する。
+# shared/tasks・shared/knowledge直下のMarkdownをlintする。違反時はexit 2で実編集を拒否する。
 set -uo pipefail
 unset CDPATH
 # macOS BSD awkはUTF-8ロケールで異なる日本語見出しを等値扱いするため、バイト比較へ固定する。
@@ -59,6 +59,7 @@ resolve_vault() {
 
 VAULT_ROOT=$(resolve_vault)
 TASK_DIR=$VAULT_ROOT/shared/tasks
+KNOWLEDGE_DIR=$VAULT_ROOT/shared/knowledge
 
 resolve_tool_path() {
     local candidate
@@ -81,9 +82,19 @@ is_task_path() {
     [ "$(dirname -- "$absolute")" = "$TASK_DIR" ] && [ "${absolute##*.}" = md ]
 }
 
+is_linted_note_path() {
+    local absolute=$1
+    local parent
+
+    parent=$(dirname -- "$absolute")
+    { [ "$parent" = "$TASK_DIR" ] || [ "$parent" = "$KNOWLEDGE_DIR" ]; } && \
+        [ "${absolute##*.}" = md ]
+}
+
 lint_file() {
     local candidate=$1
     local display_path=$2
+    local lint_task_frontmatter=$3
     local frontmatter
     local frontmatter_json
     local status=''
@@ -91,7 +102,7 @@ lint_file() {
     local progress_errors
     local errors=''
 
-    if ! frontmatter=$(awk '
+    if [ "$lint_task_frontmatter" -eq 1 ] && ! frontmatter=$(awk '
         NR == 1 {
             if ($0 != "---") exit 3
             next
@@ -106,14 +117,20 @@ lint_file() {
         }
     ' "$candidate"); then
         errors="${errors}\n- 違反: frontmatterを区切る先頭と末尾の --- が必要です。\n  正しいルール（引用）: 「タスクノートは templates/task.md に準拠し、フロントマターを必ず付ける」"
-    elif ! frontmatter_json=$(printf '%s\n' "$frontmatter" | yq -o=json '.' 2>/dev/null); then
+    elif [ "$lint_task_frontmatter" -eq 1 ] && ! frontmatter_json=$(printf '%s\n' "$frontmatter" | yq -o=json '.' 2>/dev/null); then
         errors="${errors}\n- 違反: frontmatterをYAMLとして解釈できません。\n  正しいルール（引用）: 「タスクノートは templates/task.md に準拠し、フロントマターを必ず付ける」"
-    else
+    elif [ "$lint_task_frontmatter" -eq 1 ]; then
         status=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.status | type) == "string" then .status else "" end')
         if ! printf '%s\n' "$frontmatter_json" | jq -e \
             '.status as $status | ($status | type) == "string" and (["todo", "doing", "waiting", "pending", "done"] | index($status)) != null' \
             >/dev/null; then
             errors="${errors}\n- 違反: status「${status:-<文字列ではない値>}」は値域外です。\n  正しいルール（引用）: 「status の値域は todo / doing / waiting / pending / done」"
+        fi
+
+        # status行の行末コメントは旧テンプレート由来の残骸。値が必ず埋まるフィールドのため
+        # done・sessionsのように空欄時の書式提示としてコメントを残す必要がない。
+        if printf '%s\n' "$frontmatter" | grep -qE '^status:[[:space:]]*[^[:space:]#]*[[:space:]]+#'; then
+            errors="${errors}\n- 違反: status 行に行末コメントが残っています(旧テンプレート由来の残骸)。\n  正しいルール（引用）: 「status の行末にはコメントを書かない。templates/task.md の status: 行にコメントはなく、残っているものは旧テンプレート由来の残骸」\n  補足: done・sessions のコメントは逆に消さずに残す(空欄のまま他者へ渡るため)"
         fi
 
         if [ "$status" = waiting ] && ! printf '%s\n' "$frontmatter_json" | jq -e \
@@ -141,7 +158,10 @@ lint_file() {
             in_progress = 1
             next
         }
-        in_progress && /^## / {
+        # 検査対象は「## 経過」直下のトップレベル項目のみ。
+        # 経過欄に ### 小見出しを立てて設計メモ等を書くノートがあるため、
+        # 見出しは深さを問わず経過欄の終端として扱う(ATX記法=# の後に空白)。
+        in_progress && /^#+ / {
             in_progress = 0
         }
         in_progress && /^- / && $0 !~ /^- [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T([0-9][0-9]:[0-9][0-9]|\?\?:\?\?)( |$)/ {
@@ -153,7 +173,7 @@ lint_file() {
     fi
 
     if [ -n "$errors" ]; then
-        printf 'タスクノートlint: %s\n%b\n' "$display_path" "$errors" >&2
+        printf 'Vaultノートlint: %s\n%b\n' "$display_path" "$errors" >&2
         return 2
     fi
 }
@@ -166,11 +186,15 @@ materialize_claude() {
     local raw_path
     local absolute
     local candidate=$TMP_ROOT/candidate.md
+    local lint_task_frontmatter=0
 
     raw_path=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_input.file_path // empty')
     [ -n "$raw_path" ] || exit 0
     absolute=$(resolve_tool_path "$raw_path") || fail "対象パス ${raw_path} を解決できません。"
-    is_task_path "$absolute" || exit 0
+    is_linted_note_path "$absolute" || exit 0
+    if is_task_path "$absolute"; then
+        lint_task_frontmatter=1
+    fi
 
     if [ "$tool_name" = Write ]; then
         printf '%s\n' "$HOOK_INPUT" | jq -j '.tool_input.content // ""' >"$candidate"
@@ -192,7 +216,7 @@ materialize_claude() {
             fail "Edit後の候補 ${absolute} を再現できません。"
         fi
     fi
-    lint_file "$candidate" "$absolute"
+    lint_file "$candidate" "$absolute" "$lint_task_frontmatter"
 }
 
 patch_paths() {
@@ -208,6 +232,7 @@ materialize_codex() {
     local mirrored
     local rewritten=$TMP_ROOT/patch.txt
     local touched=0
+    local lint_task_frontmatter
     local apply_patch_bin=${PARLIAMENT_APPLY_PATCH_BIN:-}
 
     patch_command=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_input.command // empty')
@@ -216,7 +241,7 @@ materialize_codex() {
     while IFS= read -r raw_path; do
         [ -n "$raw_path" ] || continue
         absolute=$(resolve_tool_path "$raw_path") || fail "patch対象 ${raw_path} を解決できません。"
-        if is_task_path "$absolute"; then
+        if is_linted_note_path "$absolute"; then
             touched=1
         fi
     done < <(patch_paths "$patch_command")
@@ -262,10 +287,14 @@ materialize_codex() {
     while IFS= read -r raw_path; do
         [ -n "$raw_path" ] || continue
         absolute=$(resolve_tool_path "$raw_path") || fail "patch対象 ${raw_path} を解決できません。"
-        is_task_path "$absolute" || continue
+        is_linted_note_path "$absolute" || continue
         mirrored=$TMP_ROOT/mirror$absolute
         [ -f "$mirrored" ] || continue
-        lint_file "$mirrored" "$absolute" || return 2
+        lint_task_frontmatter=0
+        if is_task_path "$absolute"; then
+            lint_task_frontmatter=1
+        fi
+        lint_file "$mirrored" "$absolute" "$lint_task_frontmatter" || return 2
     done < <(patch_paths "$patch_command" | awk 'NF && !seen[$0]++')
 }
 
