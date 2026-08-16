@@ -122,9 +122,9 @@ lint_file() {
     elif [ "$lint_task_frontmatter" -eq 1 ]; then
         status=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.status | type) == "string" then .status else "" end')
         if ! printf '%s\n' "$frontmatter_json" | jq -e \
-            '.status as $status | ($status | type) == "string" and (["todo", "doing", "waiting", "pending", "done"] | index($status)) != null' \
+            '.status as $status | ($status | type) == "string" and (["todo", "doing", "waiting", "pending", "done", "declined"] | index($status)) != null' \
             >/dev/null; then
-            errors="${errors}\n- 違反: status「${status:-<文字列ではない値>}」は値域外です。\n  正しいルール（引用）: 「status の値域は todo / doing / waiting / pending / done」"
+            errors="${errors}\n- 違反: status「${status:-<文字列ではない値>}」は値域外です。\n  正しいルール（引用）: 「status の値域は todo / doing / waiting / pending / done / declined」"
         fi
 
         # status行の行末コメントは旧テンプレート由来の残骸。値が必ず埋まるフィールドのため
@@ -154,17 +154,40 @@ lint_file() {
     fi
 
     progress_errors=$(awk '
-        $0 == "## 経過" {
+        function marker_length(line, marker,    i) {
+            if (substr(line, 1, 1) != marker) return 0
+            for (i = 1; substr(line, i, 1) == marker; i++);
+            return i - 1
+        }
+        # 規約や書式を説明するノートは、コードフェンス内へ見出しや箇条書きの例示を貼る。
+        # フェンスの内側は本文ではないため、経過欄の開始・終端・違反判定すべてから除外する。
+        # CommonMarkに合わせ、3スペースまでインデントされたbacktick / tildeのフェンスも扱う。
+        # 開きより短い閉じ記号は無視する(判定は standup-pack.sh と同じ意味論)。
+        {
+            probe = $0
+            for (i = 0; i < 3 && substr(probe, 1, 1) == " "; i++) probe = substr(probe, 2)
+            marker = substr(probe, 1, 1)
+            marker_len = 0
+            if (marker == "`" || marker == "~") marker_len = marker_length(probe, marker)
+            if (!fenced && (marker == "`" || marker == "~") && marker_len >= 3) {
+                fenced = 1
+                fence_marker = marker
+                fence_len = marker_len
+            } else if (fenced && marker == fence_marker && marker_len >= fence_len && substr(probe, marker_len + 1) ~ /^[ \t]*$/) {
+                fenced = 0
+            }
+        }
+        !fenced && $0 == "## 経過" {
             in_progress = 1
             next
         }
         # 検査対象は「## 経過」直下のトップレベル項目のみ。
         # 経過欄に ### 小見出しを立てて設計メモ等を書くノートがあるため、
         # 見出しは深さを問わず経過欄の終端として扱う(ATX記法=# の後に空白)。
-        in_progress && /^#+ / {
+        !fenced && in_progress && /^#+ / {
             in_progress = 0
         }
-        in_progress && /^- / && $0 !~ /^- [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T([0-9][0-9]:[0-9][0-9]|\?\?:\?\?)( |$)/ {
+        !fenced && in_progress && /^- / && $0 !~ /^- [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T([0-9][0-9]:[0-9][0-9]|\?\?:\?\?)( |$)/ {
             print NR ":" $0
         }
     ' "$candidate")
