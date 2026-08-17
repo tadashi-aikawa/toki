@@ -328,7 +328,7 @@ fi
 ensure_zshrc "source ~/.copilot.sh"
 
 # yazi
-brew install yazi font-symbols-only-nerd-font poppler resvg
+# brew install yazi font-symbols-only-nerd-font poppler resvg # FIXME: 2026.8.15 が動いたら
 ln -snf "$MNT"/yazi/yazi.sh ~/.yazi.sh
 mkdir -p ~/.config/yazi
 ln -snf "$MNT"/yazi/yazi.toml ~/.config/yazi/yazi.toml
