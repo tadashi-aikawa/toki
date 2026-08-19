@@ -151,6 +151,17 @@ lint_file() {
             '(.sessions == null) or ((.sessions | type) == "array")' >/dev/null; then
             errors="${errors}\n- 違反: sessions に値がある場合はYAMLリストが必要です。欠落・nullは許容されます。\n  正しいルール（引用）: 「sessions は欠落・nullを許容する。値がある場合はYAMLリストで記述する」"
         fi
+
+        # blocked_by はタスク依存のエッジ元。plaintextを通すと、依存が本文に書かれただけの
+        # 状態と区別できずparliamentのエッジ解決から静かに漏れるため、Wikiリンク形式を強制する。
+        if ! printf '%s\n' "$frontmatter_json" | jq -e \
+            '(.blocked_by == null) or ((.blocked_by | type) == "array")' >/dev/null; then
+            errors="${errors}\n- 違反: blocked_by に値がある場合はYAMLリストが必要です。欠落・nullは許容されます。\n  正しいルール（引用）: 「進行の前提になっている未完了タスクがあるなら、frontmatterの blocked_by へそのタスクノートへのWikiリンクをリストで記入する」「複数可(前提タスクが複数あるのは自然な状態で、タスクを割るサインではない)」"
+        elif ! printf '%s\n' "$frontmatter_json" | jq -e \
+            '(.blocked_by == null) or (.blocked_by | all(if type == "string" then test("^\\[\\[[^\\[\\]]+\\]\\]$") else false end))' \
+            >/dev/null; then
+            errors="${errors}\n- 違反: blocked_by の各要素は \"[[タスク名]]\" 形式のWikiリンク文字列が必要です。\n  正しいルール（引用）: 「値域は shared/tasks/ のタスクノートへのWikiリンク(parent / project と同形式のクォート付き)のみ。人・外部の待ち先は書かない(それは waiting_for の領分)」"
+        fi
     fi
 
     progress_errors=$(awk '
