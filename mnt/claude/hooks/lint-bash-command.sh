@@ -25,6 +25,35 @@ TOOL_NAME=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_name // empty')
 COMMAND=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_input.command // empty')
 [ -n "$COMMAND" ] || exit 0
 
+# Claude Code / Codex内のsub agentはagent_id / agent_typeが付く。外部から
+# 起動されたCodexには付かないため、rollout先頭のoriginatorで補う。
+# transcript_pathやoriginatorを読めない場合は、本人セッションの正当な
+# report-metadataを止めないよう、委譲先と断定しない。
+delegation_source() {
+    local agent_id agent_type transcript_path first_line originator
+    agent_id=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.agent_id | strings')
+    agent_type=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.agent_type | strings')
+    if [ -n "$agent_id" ] || [ -n "$agent_type" ]; then
+        printf 'sub agent'
+        return 0
+    fi
+
+    transcript_path=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.transcript_path | strings')
+    [ -n "$transcript_path" ] && [ -r "$transcript_path" ] || return 1
+    first_line=''
+    IFS= read -r first_line < "$transcript_path" || true
+    [ -n "$first_line" ] || return 1
+    originator=$(printf '%s\n' "$first_line" | jq -r \
+        'select(.type == "session_meta") | .payload.originator | strings' 2>/dev/null) || return 1
+    case "$originator" in
+        'Claude Code' | codex_exec)
+            printf 'Codex (%s)' "$originator"
+            return 0
+            ;;
+    esac
+    return 1
+}
+
 # ============================================================================
 # ルール1: ロケール未固定の集合演算(sort -u / uniq / comm / join)
 #
@@ -191,11 +220,122 @@ MSG
 }
 
 # ============================================================================
+# ルール2: 委譲先からのherdrメタデータ書き込み
+#
+# sub agentや外部起動のCodexで `herdr pane current` を実行すると、
+# 委譲元のペインが返る。そのペインへrename / report-metadataすると
+# 委譲元の名義を上書きするため、読み取りは許可して書き込みだけ拒否する。
+# ============================================================================
+read -r -d '' HERDR_WRITE_AWK <<'AWK' || true
+function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t]+$/, "", s); return s }
+
+function is_wrapper(w) {
+    return w == "command" || w == "exec" || w == "nohup" || w == "time" ||
+        w == "env" || w == "xargs" || w == "stdbuf" || w == "timeout" ||
+        w == "nice" || w == "sudo" || w == "caffeinate" ||
+        w == "do" || w == "then" || w == "else" || w == "elif" ||
+        w == "if" || w == "while" || w == "until" || w == "!"
+}
+
+function check_segment(seg,   n, tokens, i, tok, cmd, noun, verb) {
+    seg = trim(seg)
+    if (seg == "") return
+    n = split(seg, tokens, /[ \t]+/)
+    i = 1
+    while (i <= n) {
+        tok = tokens[i]
+        if (tok ~ /^[A-Za-z_][A-Za-z_0-9]*=/) {
+            i++
+            continue
+        }
+        if (is_wrapper(tok)) {
+            i++
+            while (i <= n && (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/)) i++
+            continue
+        }
+        break
+    }
+    if (i + 2 > n) return
+    cmd = tokens[i]
+    sub(/^\\/, "", cmd)
+    sub(/.*\//, "", cmd)
+    if (cmd != "herdr") return
+    noun = tokens[i + 1]
+    verb = tokens[i + 2]
+    if ((noun == "agent" && verb == "rename") ||
+        (noun == "pane" && verb == "report-metadata")) print seg
+}
+
+{
+    line = $0
+
+    if (in_heredoc) {
+        check = line
+        if (heredoc_dash) sub(/^\t+/, "", check)
+        if (check == heredoc_delim) in_heredoc = 0
+        next
+    }
+
+    if (pending != "") { line = pending " " line; pending = "" }
+    if (line ~ /\\$/) {
+        pending = line
+        sub(/\\$/, "", pending)
+        next
+    }
+
+    if (match(line, /(^|[^<])<<-?[ \t]*\\?["']?[A-Za-z_][A-Za-z_0-9]*["']?/)) {
+        if (substr(line, RSTART, 1) != "<") { RSTART++; RLENGTH-- }
+        delim = substr(line, RSTART, RLENGTH)
+        line = substr(line, 1, RSTART - 1) " " substr(line, RSTART + RLENGTH)
+        sub(/^<</, "", delim)
+        heredoc_dash = (substr(delim, 1, 1) == "-")
+        sub(/^-/, "", delim)
+        delim = trim(delim)
+        sub(/^\\/, "", delim)
+        gsub(/["']/, "", delim)
+        heredoc_delim = delim
+        in_heredoc = 1
+    }
+
+    gsub(/\\["']/, " ", line)
+    gsub(/'[^']*'/, " __QS__ ", line)
+    gsub(/"[^"]*"/, " __QS__ ", line)
+    sub(/(^|[ \t])#.*$/, "", line)
+
+    gsub(/\|\||&&/, "\n", line)
+    gsub(/[|;&(){}`]/, "\n", line)
+    n = split(line, segs, "\n")
+    for (s = 1; s <= n; s++) check_segment(segs[s])
+}
+AWK
+
+rule_delegated_herdr_write() {
+    local offending source
+    offending=$(printf '%s\n' "$COMMAND" | awk "$HERDR_WRITE_AWK")
+    [ -n "$offending" ] || return 0
+    source=$(delegation_source) || source=''
+    [ -n "$source" ] || return 0
+    {
+        printf 'Bashコマンドlint: 委譲先からのherdrメタデータ書き込みを拒否しました。\n'
+        printf '  判定: %s\n' "$source"
+        printf '  該当箇所:\n'
+        printf '%s\n' "$offending" | sed 's/^/    - /'
+        cat <<'MSG'
+  理由: 委譲先の `herdr pane current` は委譲元のペインを返すため、
+  rename / report-metadataを続けると委譲元の表示名やメタデータを上書きします。
+  委譲先はherdrへの報告対象外です。この報告をスキップして依頼を続行してください。
+MSG
+    } >&2
+    return 2
+}
+
+# ============================================================================
 # ルールの登録と実行
 # ============================================================================
 
 RULES=(
     rule_locale_fixed_set_ops
+    rule_delegated_herdr_write
 )
 
 RESULT=0
