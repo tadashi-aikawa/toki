@@ -1,5 +1,6 @@
 {
   "includeCoAuthoredBy": false,
+  "outputStyle": "Concise",
   "permissions": {
     "allow": [
       "Bash(ss:*)",
@@ -184,10 +185,7 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "autoMode": {
-    "soft_deny": [
-      "$defaults",
-      "Bash(git push . HEAD\\:main:*)"
-    ],
+    "soft_deny": ["$defaults", "Bash(git push . HEAD\\:main:*)"],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
