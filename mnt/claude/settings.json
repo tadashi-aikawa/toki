@@ -41,6 +41,8 @@
       "Bash(bun run test:*)",
       "Bash(bun check:*)",
       "Bash(bun test:*)",
+      "Bash(bun .claude/skills/standup/scripts/standup-reply-server.ts:*)",
+      "Bash(bun /Users/tadashi-aikawa/work/owlery/.claude/skills/standup/scripts/standup-reply-server.ts:*)",
       "Bash(busted:*)",
       "Bash(stylua:*)",
       "Read(./**)",
@@ -118,8 +120,18 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-bash-command.sh'",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
             "timeout": 10,
-            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-bash-command.sh'"
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-future-datetime.sh'"
           }
         ]
       }
@@ -172,6 +184,10 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push . HEAD\\:main:*)"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
@@ -197,10 +213,7 @@
       "**Trusted repo**: /Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament and its origin remote (github.com:tadashi-aikawa/parliament.git) — visibility not confirmed, treat as private by default; confidential material OK to commit here, secrets never cleared by visibility alone",
       "**Org-specific CLIs**: herdr (156×), codex (10×) — routine within this project's workflow per CLAUDE.md (EnterWorktree/ExitWorktree flow, session/pane coordination)",
       "routine under /Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament/ prefix: git worktree operations, bun run pre:push, herdr socket/CLI interaction as described in CLAUDE.md"
-    ],
-    "soft_deny": [
-      "$defaults",
-      "Bash(git push . HEAD\\:main:*)"
     ]
-  }
+  },
+  "agentPushNotifEnabled": true
 }
