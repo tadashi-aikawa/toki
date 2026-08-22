@@ -14,7 +14,7 @@
 
 ## タダシへの質問
 
-- タダシの回答を待ってターンを終える質問は、平文・AskUserQuestionで出さず**質問票**で発行する。手順:
+- タダシの回答を待ってターンを終える質問は、平文・AskUserQuestionで出さず**質問票**で発行する。**複数案からの選択・採否・承認・GO/NO-GOを求める場合も含む**。単に調査結果や推奨案を報告し、判断を求めない場合は対象外。手順:
     1. `parliament ask --guide` で書き方を読む
     2. `parliament ask --template > /tmp/q.html` の雛形へ肉付けする
     3. `parliament ask /tmp/q.html [--task <タスクノート名>]` で発行する(parliamentに要操作表示され、回答は `<id>.answer.json` への保存とセッションへの1行注入で届く)
