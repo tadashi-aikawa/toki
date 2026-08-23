@@ -42,8 +42,6 @@
       "Bash(bun run test:*)",
       "Bash(bun check:*)",
       "Bash(bun test:*)",
-      "Bash(bun .claude/skills/standup/scripts/standup-reply-server.ts:*)",
-      "Bash(bun /Users/tadashi-aikawa/work/owlery/.claude/skills/standup/scripts/standup-reply-server.ts:*)",
       "Bash(busted:*)",
       "Bash(stylua:*)",
       "Read(./**)",
