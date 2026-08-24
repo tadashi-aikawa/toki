@@ -923,6 +923,93 @@ MSG
 }
 
 # ============================================================================
+# ルール5: 生の `codex exec`
+#
+# `codex exec` はstdinがEOFを返さない環境(Claude Code / CodexのBashツール)で
+# 「Reading additional input from stdin...」のまま**プロンプト送信前に無限ブロック**する。
+# `< /dev/null` を付ける運用ルールはVaultに書いてあったが読み忘れで4回再発した
+# (実測: 空振り50分×2、32分、28分。`| tail` 併用時は進捗も見えない)ため、
+# 生の呼び出しを止めて `parliament codex-exec`(stdinを閉じる・出力をファイルへ落とす・
+# ハング/タイムアウト自己検知つき)へ誘導する。
+#
+# `< /dev/null` が付いていても止める ── stdinの他に「パイプでバッファされて進捗が
+# 見えない」「待ちループの自作」という事故の残り半分があり、ラッパーはそこまで畳む。
+# ラッパー内部のcodex exec実行はBashツールを通らないので、このhookには当たらない。
+#
+# **追わないと決めたもの**(このhookは躾けであって防御ではない):
+#   - コマンド名の引用・分割・変数越しの起動(ルール3と同じ)
+#   - `codex e` のような略記(実在しない)や、interactiveな素の `codex`(ブロックしない)
+# ============================================================================
+read -r -d '' CODEX_EXEC_AWK <<'AWK' || true
+function check_segment(seg,   n, tokens, i, tok, cmd) {
+    seg = trim(seg)
+    if (seg == "") return
+    n = split(seg, tokens, /[ \t]+/)
+    i = 1
+    while (i <= n) {
+        tok = tokens[i]
+        if (tok ~ /^[A-Za-z_][A-Za-z_0-9]*=/) {
+            i++
+            continue
+        }
+        if (is_wrapper(tok)) {
+            i++
+            while (i <= n && (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/)) i++
+            continue
+        }
+        break
+    }
+    if (i + 1 > n) return
+    cmd = tokens[i]
+    sub(/^\\/, "", cmd)
+    sub(/.*\//, "", cmd)
+    if (cmd == "codex" && tokens[i + 1] == "exec") print seg
+}
+
+{
+    line = $0
+    if (heredoc_body(line)) next
+
+    if (pending != "") { line = pending " " line; pending = "" }
+    if (line ~ /\\$/) {
+        pending = line
+        sub(/\\$/, "", pending)
+        next
+    }
+    # 引用が閉じないまま行が終わったら、閉じるまで繋いで1つの論理行として解析する
+    if (unclosed_quote(line)) { pending = line; next }
+
+    line = heredoc_open(line)
+    line = unescape_ops(line)
+    line = strip_quotes(line)
+    dispatch(line)
+}
+AWK
+
+rule_raw_codex_exec() {
+    local offending
+    offending=$(printf '%s\n' "$COMMAND" | awk "$AWK_PRELUDE
+$CODEX_EXEC_AWK")
+    [ -n "$offending" ] || return 0
+    {
+        printf 'Bashコマンドlint: 生の codex exec を拒否しました。\n'
+        printf '  該当箇所:\n'
+        printf '%s\n' "$offending" | sed 's/^/    - /'
+        cat <<'MSG'
+  理由: codex exec はstdinがEOFを返さないこの環境で、プロンプト送信前に
+  「Reading additional input from stdin...」のまま無限ブロックします(実測で最長50分の空振り)。
+  パイプ(| tail 等)を挟むと進捗も見えなくなります。
+  直し方: parliament codex-exec を使ってください。stdinを閉じ、出力をファイルへ落とし、
+  ハング検知とタイムアウトつきで完了まで待ちます(待ちループの自作は不要です):
+    parliament codex-exec -C <repo> "<プロンプト>"
+    parliament codex-exec -C <repo> --prompt-file /tmp/prompt.md --effort high
+  詳細: parliament codex-exec(引数なし)で使い方が出ます。
+MSG
+    } >&2
+    return 2
+}
+
+# ============================================================================
 # ルールの登録と実行
 # ============================================================================
 
@@ -931,6 +1018,7 @@ RULES=(
     rule_delegated_herdr_write
     rule_editor_bypass_write
     rule_inplace_edit
+    rule_raw_codex_exec
 )
 
 RESULT=0
