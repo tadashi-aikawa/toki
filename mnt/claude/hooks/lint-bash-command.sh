@@ -939,9 +939,28 @@ MSG
 # **追わないと決めたもの**(このhookは躾けであって防御ではない):
 #   - コマンド名の引用・分割・変数越しの起動(ルール3と同じ)
 #   - `codex e` のような略記(実在しない)や、interactiveな素の `codex`(ブロックしない)
+#   - 引用されたグローバルオプション値の後ろのexec(`codex -c model="o3" exec`)。
+#     引用は __QS__ に潰れて値の区切りが読めなくなるため、通る側へ倒れる
 # ============================================================================
 read -r -d '' CODEX_EXEC_AWK <<'AWK' || true
-function check_segment(seg,   n, tokens, i, tok, cmd) {
+# 値を**次の語**に取るラッパーのオプション。共通の読み飛ばし(`-任意` と数値)だけだと
+# `timeout -s KILL 600 codex exec` の `KILL` で走査が止まり、すり抜ける(codexレビューで実測)
+function wrapper_takes_arg(tok) {
+    return tok == "-s" || tok == "--signal" || tok == "-u" || tok == "--user" ||
+        tok == "-g" || tok == "--group" || tok == "-k" || tok == "--kill-after"
+}
+
+# 値を**次の語**に取るcodexのグローバルオプション(`codex -c k=v exec` の形を見逃さない)
+function codex_takes_arg(tok) {
+    return tok == "-c" || tok == "--config" || tok == "-m" || tok == "--model" ||
+        tok == "-p" || tok == "--profile" || tok == "-s" || tok == "--sandbox" ||
+        tok == "-C" || tok == "--cd" || tok == "-i" || tok == "--image" ||
+        tok == "-o" || tok == "--output-last-message" || tok == "--output-schema" ||
+        tok == "--enable" || tok == "--disable" || tok == "--local-provider" ||
+        tok == "--color" || tok == "--add-dir"
+}
+
+function check_segment(seg,   n, tokens, i, j, tok, cmd) {
     seg = trim(seg)
     if (seg == "") return
     n = split(seg, tokens, /[ \t]+/)
@@ -954,7 +973,11 @@ function check_segment(seg,   n, tokens, i, tok, cmd) {
         }
         if (is_wrapper(tok)) {
             i++
-            while (i <= n && (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/)) i++
+            while (i <= n) {
+                if (wrapper_takes_arg(tokens[i])) { i += 2; continue }
+                if (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/) { i++; continue }
+                break
+            }
             continue
         }
         break
@@ -963,7 +986,14 @@ function check_segment(seg,   n, tokens, i, tok, cmd) {
     cmd = tokens[i]
     sub(/^\\/, "", cmd)
     sub(/.*\//, "", cmd)
-    if (cmd == "codex" && tokens[i + 1] == "exec") print seg
+    if (cmd != "codex") return
+    # グローバルオプションを読み飛ばし、最初のサブコマンドがexecなら拒否する
+    j = i + 1
+    while (j <= n && tokens[j] ~ /^-/) {
+        if (codex_takes_arg(tokens[j])) j += 2
+        else j++
+    }
+    if (j <= n && tokens[j] == "exec") print seg
 }
 
 {
@@ -1003,7 +1033,96 @@ $CODEX_EXEC_AWK")
   ハング検知とタイムアウトつきで完了まで待ちます(待ちループの自作は不要です):
     parliament codex-exec -C <repo> "<プロンプト>"
     parliament codex-exec -C <repo> --prompt-file /tmp/prompt.md --effort high
+  Bashツールからは run_in_background: true で起動してください(実行時間は事前に
+  分からないため、フォアグラウンド呼び出しは別ルールが止めます)。
   詳細: parliament codex-exec(引数なし)で使い方が出ます。
+MSG
+    } >&2
+    return 2
+}
+
+# ============================================================================
+# ルール6: フォアグラウンドの `parliament codex-exec`
+#
+# Claude CodeのBashツールはフォアグラウンド実行に上限がある(既定2分、指定しても
+# 最大10分)。`parliament codex-exec` の既定 `--timeout` は900秒なので、素で呼ぶと
+# **ラッパーより先にBashツールが打ち切り、レビュー成果ごと失う**(2026-08-24 実測:
+# effort highのレビューは540秒でも完走しなかった)。`run_in_background: true` で
+# 起動すれば上限が当たらず、終了通知で結果を受け取れる。
+#
+# **フォアグラウンドは `--timeout` の値によらず常に拒否する**(2026-08-24 タダシ判断)。
+# 当初は「実効 --timeout ≦ 540秒なら通す」逃げ道を置いたが、codexの実行時間は
+# 実行前に分からないので、この逃げ道は「短いと踏んでtimeoutを縮める → 外れて
+# 1回分を丸ごと失い、バックグラウンドでやり直す」という二重の無駄へ誘導していた。
+# 常にバックグラウンドなら、短い依頼で増えるのは通知1往復ぶんの待ちだけ。
+#
+# `run_in_background` はBashツールのhook入力にしか無い。Codex CLI経由など**フラグの
+# 無い環境ではフォアグラウンド扱いになり常に拒否される**。codexからの入れ子呼び出しは
+# 現状想定していない(必要になったら、その環境を識別する口をこのルールに作る)。
+# ============================================================================
+read -r -d '' CODEX_EXEC_FG_AWK <<'AWK' || true
+function check_segment(seg,   n, tokens, i, tok, cmd) {
+    seg = trim(seg)
+    if (seg == "") return
+    n = split(seg, tokens, /[ \t]+/)
+    i = 1
+    while (i <= n) {
+        tok = tokens[i]
+        if (tok ~ /^[A-Za-z_][A-Za-z_0-9]*=/) {
+            i++
+            continue
+        }
+        if (is_wrapper(tok)) {
+            i++
+            while (i <= n && (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/)) i++
+            continue
+        }
+        break
+    }
+    if (i + 1 > n) return
+    cmd = tokens[i]
+    sub(/^\\/, "", cmd)
+    sub(/.*\//, "", cmd)
+    if (cmd == "parliament" && tokens[i + 1] == "codex-exec") print seg
+}
+
+{
+    line = $0
+    if (heredoc_body(line)) next
+
+    if (pending != "") { line = pending " " line; pending = "" }
+    if (line ~ /\\$/) {
+        pending = line
+        sub(/\\$/, "", pending)
+        next
+    }
+    # 引用が閉じないまま行が終わったら、閉じるまで繋いで1つの論理行として解析する
+    if (unclosed_quote(line)) { pending = line; next }
+
+    line = heredoc_open(line)
+    line = unescape_ops(line)
+    line = strip_quotes(line)
+    dispatch(line)
+}
+AWK
+
+rule_codex_exec_foreground() {
+    local in_background offending
+    in_background=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_input.run_in_background == true')
+    [ "$in_background" = true ] && return 0
+    offending=$(printf '%s\n' "$COMMAND" | awk "$AWK_PRELUDE
+$CODEX_EXEC_FG_AWK")
+    [ -n "$offending" ] || return 0
+    {
+        printf 'Bashコマンドlint: フォアグラウンドの parliament codex-exec を拒否しました。\n'
+        printf '  該当箇所:\n'
+        printf '%s\n' "$offending" | sed 's/^/    - /'
+        cat <<'MSG'
+  理由: Bashツールのフォアグラウンド実行には上限(既定2分、最大10分)があり、
+  codexの実行時間は事前に分からないため、上限を超えた時点でラッパーより先に
+  ツール側が打ち切ってレビュー成果ごと失います。
+  直し方: Bashツールを run_in_background: true で起動してください。
+  上限が当たらず、完了時に終了通知が届きます(待ちループの自作は不要です)。
 MSG
     } >&2
     return 2
@@ -1019,6 +1138,7 @@ RULES=(
     rule_editor_bypass_write
     rule_inplace_edit
     rule_raw_codex_exec
+    rule_codex_exec_foreground
 )
 
 RESULT=0
