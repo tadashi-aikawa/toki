@@ -1,5 +1,4 @@
 promptToReturnFromSubprocess: false
-
 gui:
   nerdFontsVersion: "3"
   timeFormat: 06/01/02 15:04
@@ -8,24 +7,21 @@ gui:
   theme:
     inactiveBorderColor:
       - "#777777"
-
 keybinding:
   files:
     commitChanges: "C" # 基本的に使わない
     commitChangesWithEditor: "c"
     forceFetch: "" # Force push safelyのキーバインドで上書き
-
 git:
   branchLogCmd: git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' {{branchName}} --
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+      command: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
   log:
     showWholeGraph: true
   disableForcePushing: true
   allBranchesLogCmds:
     - git log --graph --color=always --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%C(#a0a0a0 reverse)%h%Creset %C(cyan)%ad%Creset %C(#dd4814)%ae%Creset %C(yellow reverse)%d%Creset %n%C(white bold)%s%Creset%n' --
-
 customCommands:
   - key: "<c-e>"
     context: commitFiles
