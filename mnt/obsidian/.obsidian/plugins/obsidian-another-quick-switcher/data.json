@@ -947,19 +947,8 @@
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
-      "excludeFrontMatterKeys": [
-        "aliases",
-        "alias",
-        "tag",
-        "tags",
-        "cssclass",
-        "publish",
-        "cover",
-        "url",
-        "created",
-        "updated",
-        "permalink"
-      ],
+      "excludeFrontMatterKeys": [],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": ":e ",
@@ -972,7 +961,7 @@
       "excludePrefixPathPatterns": [
         "Daily Notes"
       ],
-      "expand": true,
+      "expand": false,
       "minFuzzyScore": 0.5
     },
     {
@@ -1004,19 +993,8 @@
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
-      "excludeFrontMatterKeys": [
-        "aliases",
-        "alias",
-        "tag",
-        "tags",
-        "cssclass",
-        "publish",
-        "cover",
-        "url",
-        "created",
-        "updated",
-        "permalink"
-      ],
+      "excludeFrontMatterKeys": [],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": "",
@@ -1029,7 +1007,7 @@
       ],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": true,
+      "expand": false,
       "minFuzzyScore": 0.5
     },
     {
@@ -1061,19 +1039,8 @@
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 100,
       "showFrontMatter": true,
-      "excludeFrontMatterKeys": [
-        "aliases",
-        "alias",
-        "tag",
-        "tags",
-        "cssclass",
-        "publish",
-        "cover",
-        "url",
-        "created",
-        "updated",
-        "permalink"
-      ],
+      "excludeFrontMatterKeys": [],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": true,
       "commandPrefix": ":f ",
@@ -1087,7 +1054,7 @@
       ],
       "includePrefixPathPatterns": [],
       "excludePrefixPathPatterns": [],
-      "expand": true,
+      "expand": false,
       "minFuzzyScore": 0
     },
     {
@@ -1118,6 +1085,7 @@
         "cssclass",
         "publish"
       ],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": ":l ",
@@ -1167,6 +1135,7 @@
         "cssclass",
         "publish"
       ],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": ":s ",
@@ -1209,6 +1178,7 @@
         "cssclass",
         "publish"
       ],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": "",
@@ -1255,6 +1225,7 @@
         "cssclass",
         "publish"
       ],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": "",
@@ -1291,6 +1262,7 @@
         "cssclass",
         "publish"
       ],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": "",
@@ -1326,14 +1298,8 @@
       "autoPreview": true,
       "autoPreviewDelayMilliSeconds": 300,
       "showFrontMatter": true,
-      "excludeFrontMatterKeys": [
-        "aliases",
-        "alias",
-        "tag",
-        "tags",
-        "cssclass",
-        "publish"
-      ],
+      "excludeFrontMatterKeys": [],
+      "includeFrontMatterKeys": [],
       "defaultInput": "",
       "restoreLastInput": false,
       "commandPrefix": "",
