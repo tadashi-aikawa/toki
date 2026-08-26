@@ -150,7 +150,50 @@ printf '%s' "$CMD" | grep -qE '(^|\s)(mkfs|diskutil\s+erase|dd\s+.*of=/dev/)' &&
 # 3. 外部送信・リモートコード実行
 printf '%s' "$CMD" | grep -qE '\|\s*(env\s+)?(ba|z|da)?sh\b' && block "パイプ経由のシェル実行"
 printf '%s' "$CMD" | grep -qE '\|\s*(curl|wget|nc|ncat)\b' && block "パイプ経由の外部送信"
-printf '%s' "$CMD" | grep -qE '(curl|wget)\s[^;|&]*(-d\b|--data|--data-[a-z]+|--json|-F\b|--form|--upload-file|-T\s|--post-data|--post-file|--body-data|--body-file|--method)' && block "curl/wget によるデータ送信"
+# curl/wget のデータ送信。ただし宛先がすべてローカルホストなら外部へ出ないので許す
+# (秘密情報の同梱は上の「1. 秘密情報パスへの言及」が別途止める)
+is_localhost_only() {
+  local seg="$1" tok host h found=0
+  set -f # トークン中の * によるファイル名展開を止める
+  for tok in $seg; do
+    tok="${tok#[\"\']}"
+    tok="${tok%[\"\']}"
+    case "$tok" in
+      -*) continue ;; # オプションは宛先ではない(値が別トークンのものは次周で見る)
+      *://*) host="${tok#*://}" ;;
+      localhost|localhost/*|127.0.0.1|127.0.0.1/*) host="$tok" ;;
+      *:[0-9]*)
+        # スキーム省略 (localhost:8080/foo)。ホスト名に使えない文字を含むトークンは
+        # 送信ボディ ({"a":1} 等) なので宛先とみなさない
+        h="${tok%%[/?#]*}"
+        h="${h%%:*}"
+        case "$h" in
+          '' | *[!A-Za-z0-9.-]*) continue ;;
+        esac
+        host="$tok"
+        ;;
+      *) continue ;;
+    esac
+    host="${host%%[/?#]*}"
+    case "$host" in
+      \[*\]*) host="${host%%\]*}]" ;; # [::1]:8080 → [::1]
+      *) host="${host%%:*}" ;;
+    esac
+    # userinfo付き (localhost@evil.com) や localhost.evil.com は下のcaseに一致せず弾かれる
+    case "$host" in
+      localhost | 127.0.0.1 | 0.0.0.0 | '[::1]' | ::1) found=1 ;;
+      *) set +f; return 1 ;;
+    esac
+  done
+  set +f
+  [ "$found" -eq 1 ]
+}
+
+while IFS= read -r seg; do
+  printf '%s' "$seg" | grep -qE '(curl|wget)\s.*(-d\b|--data|--data-[a-z]+|--json|-F\b|--form|--upload-file|-T\s|--post-data|--post-file|--body-data|--body-file|--method)' || continue
+  is_localhost_only "$seg" && continue
+  block "curl/wget によるデータ送信 (ローカルホスト宛のみ許可)"
+done < <(printf '%s\n' "$CMD" | tr ';|&' '\n')
 printf '%s' "$CMD" | grep -qE '(^|\s)(scp|sftp)\s' && block "scp/sftp による転送はタダシの確認が必要"
 printf '%s' "$CMD" | grep -qE '(^|\s)rsync\s[^;|&]*[^ ]+:' && block "rsync によるリモート転送"
 printf '%s' "$CMD" | grep -qE '(^|\s)ssh\s' && block "ssh によるリモート実行はタダシの確認が必要"
