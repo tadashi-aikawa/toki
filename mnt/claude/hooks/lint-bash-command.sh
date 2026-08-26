@@ -1035,7 +1035,7 @@ $CODEX_EXEC_AWK")
     parliament codex-exec -C <repo> --prompt-file /tmp/prompt.md --effort high
   Bashツールからは run_in_background: true で起動してください(実行時間は事前に
   分からないため、フォアグラウンド呼び出しは別ルールが止めます)。
-  詳細: parliament codex-exec(引数なし)で使い方が出ます。
+  詳細: parliament codex-exec --help で使い方が出ます(codexを起動しないのでフォアグラウンドで叩けます)。
 MSG
     } >&2
     return 2
@@ -1059,8 +1059,36 @@ MSG
 # `run_in_background` はBashツールのhook入力にしか無い。Codex CLI経由など**フラグの
 # 無い環境ではフォアグラウンド扱いになり常に拒否される**。codexからの入れ子呼び出しは
 # 現状想定していない(必要になったら、その環境を識別する口をこのルールに作る)。
+#
+# **codexを起動しない呼び出しは通す**(2026-08-25。それまではサブコマンド名だけを見ていて、
+# `parliament codex-exec --help` まで拒否していた ── 使い方を読む導線が塞がると、
+# Agentが仕様を推測で書く)。通すのは次の2形だけで、どちらも `runCodexExec` が
+# **引数解析より先に**捌くのでcodexプロセスに到達しない:
+#   - `--help` / `-h` 単独(doc mode。標準出力へ使い方を出して0で終わる)
+#   - 引数なし(`-C <repo> が無い` で使い方を出して終わる)
+# 他の引数と混ざった形は通さない ── `-C /repo "..." --help` のような形の意味を
+# lint側で決めない(CLIも「単独で使う」で弾く)。
 # ============================================================================
 read -r -d '' CODEX_EXEC_FG_AWK <<'AWK' || true
+# codexを起動しない呼び出しか(`start` はサブコマンド名の次の位置)。
+# リダイレクトは引数に数えない。`--help 2>&1 | head` は `dispatch` を通ると
+# `parliament codex-exec --help 2>` になるので、数えると誤って拒否する。
+function is_doc_call(tokens, n, start,   i, tok, args, docs) {
+    args = 0
+    docs = 0
+    for (i = start; i <= n; i++) {
+        tok = tokens[i]
+        if (tok ~ /^[0-9]*[<>]/) {
+            # 演算子だけのトークンは、次のトークンが行き先(`> /tmp/help.txt`)
+            if (tok ~ /^[0-9]*[<>]+$/) i++
+            continue
+        }
+        args++
+        if (tok == "--help" || tok == "-h") docs++
+    }
+    return args == docs && args <= 1
+}
+
 function check_segment(seg,   n, tokens, i, tok, cmd) {
     seg = trim(seg)
     if (seg == "") return
@@ -1083,7 +1111,9 @@ function check_segment(seg,   n, tokens, i, tok, cmd) {
     cmd = tokens[i]
     sub(/^\\/, "", cmd)
     sub(/.*\//, "", cmd)
-    if (cmd == "parliament" && tokens[i + 1] == "codex-exec") print seg
+    if (cmd != "parliament" || tokens[i + 1] != "codex-exec") return
+    if (is_doc_call(tokens, n, i + 2)) return
+    print seg
 }
 
 {
