@@ -138,6 +138,12 @@ lint_file() {
             errors="${errors}\n- 違反: status: waiting では waiting_for に単数の待ち先が必要です。\n  正しいルール（引用）: 「waiting へフリップするときは、frontmatter の waiting_for に待ち先を必ず記入する。値域は単数」"
         fi
 
+        if ! printf '%s\n' "$frontmatter_json" | jq -e \
+            '(.waiting_for == null) or ((.waiting_for | type) == "string" and ((.waiting_for | length) == 0 or (.waiting_for | test("^[a-z][a-z0-9-]*$"))))' \
+            >/dev/null; then
+            errors="${errors}\n- 違反: waiting_for は小文字英数字とハイフンで構成する人の識別子が必要です。\n  正しいルール（引用）: 「値域は人の識別子のみ。何を待つかは書かず経過欄へ」\n  正しい例: waiting_for: tadashi"
+        fi
+
         done_value=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.done | type) == "string" then .done else "" end')
         if [ "$status" = "done" ]; then
             if [[ ! "$done_value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([0-9]{2}:[0-9]{2}|\?\?:\?\?)$ ]]; then
