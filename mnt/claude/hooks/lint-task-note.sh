@@ -99,7 +99,11 @@ lint_file() {
     local frontmatter_json
     local status=''
     local done_value=''
+    local frontmatter_end
+    local note_errors
     local progress_errors
+    local section_errors
+    local linebreak_errors
     local errors=''
 
     if [ "$lint_task_frontmatter" -eq 1 ] && ! frontmatter=$(awk '
@@ -170,11 +174,42 @@ lint_file() {
         fi
     fi
 
-    progress_errors=$(awk '
+    # frontmatterはYAMLであってMarkdownではない。ここを本文と混ぜると、YAMLコメントへ
+    # 「## 経過」と書くだけで欠落検査を回避できてしまう。終端が見つからないときだけ0を返し、
+    # その場合は何もスキップしない(検査を緩める方向へは倒さない)。
+    frontmatter_end=$(awk '
+        { sub(/\r$/, "") }
+        NR == 1 && $0 != "---" { exit }
+        NR > 1 && $0 == "---" {
+            print NR
+            exit
+        }
+    ' "$candidate")
+    [ -n "$frontmatter_end" ] || frontmatter_end=0
+
+    # 経過欄まわりの違反(トップレベル項目の書式・経過より後のLV2節・経過見出しの欠落)は、
+    # どれもコードフェンスの内外判定を共有するため1パスで拾い、行頭のタグで振り分ける。
+    note_errors=$(awk -v task_note="$lint_task_frontmatter" -v fm_end="$frontmatter_end" '
         function marker_length(line, marker,    i) {
             if (substr(line, 1, 1) != marker) return 0
             for (i = 1; substr(line, i, 1) == marker; i++);
             return i - 1
+        }
+        # CRLFのノートを素通しさせない。行末の \r が残ると「## 経過」の完全一致が外れ、
+        # 経過欄の検査ごと丸ごと回避できてしまう(検査を緩める方向の差なので黙って通せない)。
+        {
+            sub(/\r$/, "")
+        }
+        # ここまで来て残るCRは、CommonMarkでは改行だがawkのレコード区切りではない。
+        # このズレを許すと1レコードに複数行が畳み込まれ、見出しも箇条書きも認識できない。
+        # 読めない入力として拒否する(黙って通すと検査を素通りしたことに誰も気づけない)。
+        /\r/ {
+            print "linebreak:" NR
+            unreadable = 1
+        }
+        # CRの検査だけはfrontmatterにも効かせる。以降のMarkdown検査は本文だけを見る。
+        NR <= fm_end {
+            next
         }
         # 規約や書式を説明するノートは、コードフェンス内へ見出しや箇条書きの例示を貼る。
         # フェンスの内側は本文ではないため、経過欄の開始・終端・違反判定すべてから除外する。
@@ -194,7 +229,17 @@ lint_file() {
                 fenced = 0
             }
         }
-        !fenced && $0 == "## 経過" {
+        # 「## 経過」は最後のLV2見出しでなければならない(タスクノートのみの規約)。
+        # 経過欄の中の ### 小見出しは従来どおり許容するため、LV2だけを違反として拾う。
+        # seen_progress は in_progress と違い見出しで下ろさない ── 経過より後のLV2節が
+        # 複数あるノートで、2つ目以降を取りこぼさないようにするため。
+        !fenced && task_note == 1 && seen_progress && /^## / {
+            print "section:" NR ":" $0
+        }
+        # 末尾空白も経過欄の開始として扱う。Markdownは見出しタイトルを詰めて読むため、
+        # 「## 経過 」は画面上は経過節であり、ここで外すとhookだけが見逃す不整合になる。
+        !fenced && /^## 経過[ \t]*$/ {
+            seen_progress = 1
             in_progress = 1
             next
         }
@@ -205,11 +250,30 @@ lint_file() {
             in_progress = 0
         }
         !fenced && in_progress && /^- / && $0 !~ /^- [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T([0-9][0-9]:[0-9][0-9]|\?\?:\?\?)( |$)/ {
-            print NR ":" $0
+            print "progress:" NR ":" $0
+        }
+        # 「## 経過」そのものが無ければ、経過欄の書式検査もLV2位置検査も空振りする。
+        # 見出しを消す・改名するだけで経過欄のlintをまとめて回避できてしまうため、
+        # 欠落そのものをタスクノートの違反として扱う(テンプレ準拠ルール上も元々違反)。
+        # 読めない入力のときは原因がそちらなので、二重には指摘しない。
+        END {
+            if (task_note == 1 && !seen_progress && !unreadable) print "missing:1"
         }
     ' "$candidate")
+    progress_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^progress://p')
+    section_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^section://p')
+    linebreak_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^linebreak:/  行: /p')
+    if [ -n "$linebreak_errors" ]; then
+        errors="${errors}\n- 違反: 改行として扱われないCRが行の途中にあります。この状態では見出しも箇条書きも読み取れません。\n${linebreak_errors}\n  正しい直し方: 改行コードをLFに揃えてください(CRLFは可、CR単独は不可)。"
+    fi
+    if printf '%s\n' "$note_errors" | grep -q '^missing:'; then
+        errors="${errors}\n- 違反: 「## 経過」の見出しがありません。\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」\n  補足: 経過欄は着手・判断・完了を残す唯一の場所。中身がまだ無くても見出しは残す"
+    fi
     if [ -n "$progress_errors" ]; then
         errors="${errors}\n- 違反: 経過欄のトップレベル項目がISO日時で始まっていません。\n${progress_errors}\n  正しいルール（引用）: 「経過欄のトップレベル項目は YYYY-MM-DDTHH:mm または YYYY-MM-DDT??:?? を先頭に書く。日付のみと空白区切りは禁止」"
+    fi
+    if [ -n "$section_errors" ]; then
+        errors="${errors}\n- 違反: 「## 経過」より後にLV2見出しがあります。\n${section_errors}\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」「補足のLV2節(後続タスク候補・タダシへの確認事項・補足など)を足すときは成果物と経過の間に置く」\n  補足: 経過欄の中の ### 小見出しは従来どおり可"
     fi
 
     if [ -n "$errors" ]; then

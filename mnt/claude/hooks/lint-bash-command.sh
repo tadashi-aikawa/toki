@@ -29,12 +29,31 @@ TOOL_NAME=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_name // empty')
 COMMAND=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.tool_input.command // empty')
 [ -n "$COMMAND" ] || exit 0
 
+# hook入力を送ってきたのがCodexなら、そのrolloutの `originator` を返す(`codex-tui` /
+# `codex_exec` / `Claude Code` 等)。Codexのrolloutは先頭行が `session_meta` で、
+# Claude Codeのtranscriptにはこの型が無いので、**先頭行の型だけでクライアントを判別できる**。
+# hook入力の他のフィールド(`turn_id` / `model` の有無)は両CLIの仕様変更で揺れるので使わない。
+# transcript_pathや先頭行を読めない場合は判別不能として失敗を返す(呼び出し側が安全側を決める)。
+# 通常ファイルに限る(`-f`)── FIFOやデバイスでも `-r` は成功し、`read` がブロックしうる。
+codex_originator() {
+    local transcript_path first_line originator
+    transcript_path=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.transcript_path | strings')
+    [ -n "$transcript_path" ] && [ -f "$transcript_path" ] && [ -r "$transcript_path" ] || return 1
+    first_line=''
+    IFS= read -r first_line < "$transcript_path" || true
+    [ -n "$first_line" ] || return 1
+    originator=$(printf '%s\n' "$first_line" | jq -r \
+        'select(.type == "session_meta") | .payload.originator | strings' 2>/dev/null) || return 1
+    [ -n "$originator" ] || return 1
+    printf '%s' "$originator"
+}
+
 # Claude Code / Codex内のsub agentはagent_id / agent_typeが付く。外部から
 # 起動されたCodexには付かないため、rollout先頭のoriginatorで補う。
 # transcript_pathやoriginatorを読めない場合は、本人セッションの正当な
 # report-metadataを止めないよう、委譲先と断定しない。
 delegation_source() {
-    local agent_id agent_type transcript_path first_line originator
+    local agent_id agent_type originator
     agent_id=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.agent_id | strings')
     agent_type=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.agent_type | strings')
     if [ -n "$agent_id" ] || [ -n "$agent_type" ]; then
@@ -42,13 +61,7 @@ delegation_source() {
         return 0
     fi
 
-    transcript_path=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.transcript_path | strings')
-    [ -n "$transcript_path" ] && [ -r "$transcript_path" ] || return 1
-    first_line=''
-    IFS= read -r first_line < "$transcript_path" || true
-    [ -n "$first_line" ] || return 1
-    originator=$(printf '%s\n' "$first_line" | jq -r \
-        'select(.type == "session_meta") | .payload.originator | strings' 2>/dev/null) || return 1
+    originator=$(codex_originator) || return 1
     case "$originator" in
         'Claude Code' | codex_exec)
             printf 'Codex (%s)' "$originator"
@@ -938,7 +951,7 @@ MSG
 #
 # **追わないと決めたもの**(このhookは躾けであって防御ではない):
 #   - コマンド名の引用・分割・変数越しの起動(ルール3と同じ)
-#   - `codex e` のような略記(実在しない)や、interactiveな素の `codex`(ブロックしない)
+#   - interactiveな素の `codex`(ブロックしない)
 #   - 引用されたグローバルオプション値の後ろのexec(`codex -c model="o3" exec`)。
 #     引用は __QS__ に潰れて値の区切りが読めなくなるため、通る側へ倒れる
 # ============================================================================
@@ -955,9 +968,9 @@ function codex_takes_arg(tok) {
     return tok == "-c" || tok == "--config" || tok == "-m" || tok == "--model" ||
         tok == "-p" || tok == "--profile" || tok == "-s" || tok == "--sandbox" ||
         tok == "-C" || tok == "--cd" || tok == "-i" || tok == "--image" ||
-        tok == "-o" || tok == "--output-last-message" || tok == "--output-schema" ||
         tok == "--enable" || tok == "--disable" || tok == "--local-provider" ||
-        tok == "--color" || tok == "--add-dir"
+        tok == "--remote" || tok == "--remote-auth-token-env" ||
+        tok == "-a" || tok == "--ask-for-approval" || tok == "--add-dir"
 }
 
 function check_segment(seg,   n, tokens, i, j, tok, cmd) {
@@ -987,13 +1000,13 @@ function check_segment(seg,   n, tokens, i, j, tok, cmd) {
     sub(/^\\/, "", cmd)
     sub(/.*\//, "", cmd)
     if (cmd != "codex") return
-    # グローバルオプションを読み飛ばし、最初のサブコマンドがexecなら拒否する
+    # グローバルオプションを読み飛ばし、最初のサブコマンドがexec(alias: e)なら拒否する
     j = i + 1
     while (j <= n && tokens[j] ~ /^-/) {
         if (codex_takes_arg(tokens[j])) j += 2
         else j++
     }
-    if (j <= n && tokens[j] == "exec") print seg
+    if (j <= n && (tokens[j] == "exec" || tokens[j] == "e")) print seg
 }
 
 {
@@ -1022,11 +1035,11 @@ rule_raw_codex_exec() {
 $CODEX_EXEC_AWK")
     [ -n "$offending" ] || return 0
     {
-        printf 'Bashコマンドlint: 生の codex exec を拒否しました。\n'
+        printf 'Bashコマンドlint: 生の codex exec (短縮形 codex e)を拒否しました。\n'
         printf '  該当箇所:\n'
         printf '%s\n' "$offending" | sed 's/^/    - /'
         cat <<'MSG'
-  理由: codex exec はstdinがEOFを返さないこの環境で、プロンプト送信前に
+  理由: codex exec (短縮形 codex e)はstdinがEOFを返さないこの環境で、プロンプト送信前に
   「Reading additional input from stdin...」のまま無限ブロックします(実測で最長50分の空振り)。
   パイプ(| tail 等)を挟むと進捗も見えなくなります。
   直し方: parliament codex-exec を使ってください。stdinを閉じ、出力をファイルへ落とし、
@@ -1056,9 +1069,16 @@ MSG
 # 1回分を丸ごと失い、バックグラウンドでやり直す」という二重の無駄へ誘導していた。
 # 常にバックグラウンドなら、短い依頼で増えるのは通知1往復ぶんの待ちだけ。
 #
-# `run_in_background` はBashツールのhook入力にしか無い。Codex CLI経由など**フラグの
-# 無い環境ではフォアグラウンド扱いになり常に拒否される**。codexからの入れ子呼び出しは
-# 現状想定していない(必要になったら、その環境を識別する口をこのルールに作る)。
+# **このルールはClaude CodeのBashツールにしか当てない**。Codexのhook入力に
+# `run_in_background` は無く(`tool_input` は `{ "command": ... }` だけ)、素朴に見ると
+# 常にフォアグラウンド扱いで拒否される(2026-08-27 迅雷の再検証で実測。`&` を付けても
+# 拒否されるのはこのルールの仕様どおり)。しかしCodexのシェルツール(unified exec)には
+# 上限で打ち切る仕組みが無い ── `yield_time_ms` を過ぎるとプロセスを保持したまま
+# モデルへ制御を返し、モデルが後続ツール(code modeでは `wait`、通常のshellツールでは
+# `write_stdin`)で回収する(codex-rs 0.149.1 `unified_exec/`)。
+# 守るべき事故(ツールがラッパーより先に打ち切る)が起きないので、Codexでは通す。
+# 判定は `codex_originator`(rollout先頭の `session_meta`)。判別できなければ
+# Claude Code側へ倒す(安全側 = 拒否)。
 #
 # **codexを起動しない呼び出しは通す**(2026-08-25。それまではサブコマンド名だけを見ていて、
 # `parliament codex-exec --help` まで拒否していた ── 使い方を読む導線が塞がると、
@@ -1143,6 +1163,8 @@ rule_codex_exec_foreground() {
     offending=$(printf '%s\n' "$COMMAND" | awk "$AWK_PRELUDE
 $CODEX_EXEC_FG_AWK")
     [ -n "$offending" ] || return 0
+    # transcriptを読むのは対象コマンドと分かってから(無関係なBash呼び出しでファイルを開かない)
+    codex_originator >/dev/null && return 0
     {
         printf 'Bashコマンドlint: フォアグラウンドの parliament codex-exec を拒否しました。\n'
         printf '  該当箇所:\n'
