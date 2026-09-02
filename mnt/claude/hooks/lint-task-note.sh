@@ -255,13 +255,18 @@ lint_file() {
             for (i = 1; i <= n; i++) if (cells[i] !~ /^:?-+:?$/) return 0
             return 1
         }
-        # 短縮hashは16進7〜40桁。全数字のものは拾わない ── parliamentの地の文hash判定と
-        # 同じ線で、日付・IDを誤検知して正しい記述を止める方が害が大きいため。
-        function is_hash_token(token,    len) {
+        # 短縮hashの字面か。16進7〜40桁だけを見る。**位置でhashだと確定している場所**
+        # (表のhash列)の検査用で、全数字の短縮hashも実在するため文字種で落とさない。
+        function is_hash_shape(token,    len) {
             len = length(token)
             if (len < 7 || len > 40) return 0
-            if (token !~ /^[0-9a-f]+$/) return 0
-            return token ~ /[a-f]/
+            return token ~ /^[0-9a-f]+$/
+        }
+        # 地の文からhashを**拾える**か。字面に加えてa-fを1桁要求する ── parliamentの地の文
+        # hash判定と同じ線で、日付・IDを誤検知して正しい記述を止める方が害が大きいため。
+        # 拾う側だけのヒューリスティックで、hash列の検査には使わない。
+        function is_hash_token(token) {
+            return is_hash_shape(token) && token ~ /[a-f]/
         }
         # バッククォート囲みのhashを持つ行か。奇数番目の区切りの内側だけを見る
         # (awkのERE区間指定 {7,40} は実装差があるため、分割して長さで判定する)。
@@ -337,7 +342,7 @@ lint_file() {
         function unwrap_hash(cell,    body) {
             if (cell !~ /^`.*`$/) return ""
             body = substr(cell, 2, length(cell) - 2)
-            return is_hash_token(body) ? body : ""
+            return is_hash_shape(body) ? body : ""
         }
         BEGIN {
             baseline = ENVIRON["PARLIAMENT_LINT_BASELINE"]

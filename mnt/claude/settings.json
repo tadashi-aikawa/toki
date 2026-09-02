@@ -1,6 +1,5 @@
 {
   "includeCoAuthoredBy": false,
-  "outputStyle": "Concise",
   "permissions": {
     "allow": [
       "Bash(ss:*)",
@@ -92,7 +91,7 @@
       "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament"
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "fable[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -129,8 +128,18 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-future-datetime.sh'",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "EnterWorktree|Agent",
+        "hooks": [
+          {
+            "type": "command",
             "timeout": 10,
-            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-future-datetime.sh'"
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/lint-worktree-cwd.sh'"
           }
         ]
       }
@@ -179,11 +188,16 @@
       }
     }
   },
+  "outputStyle": "Concise",
   "language": "japanese",
   "effortLevel": "high",
   "tui": "fullscreen",
+  "agentPushNotifEnabled": true,
   "autoMode": {
-    "soft_deny": ["$defaults", "Bash(git push . HEAD\\:main:*)"],
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push . HEAD\\:main:*)"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
@@ -210,6 +224,5 @@
       "**Org-specific CLIs**: herdr (156×), codex (10×) — routine within this project's workflow per CLAUDE.md (EnterWorktree/ExitWorktree flow, session/pane coordination)",
       "routine under /Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament/ prefix: git worktree operations, bun run pre:push, herdr socket/CLI interaction as described in CLAUDE.md"
     ]
-  },
-  "agentPushNotifEnabled": true
+  }
 }
