@@ -854,7 +854,7 @@ function command_vault() {
 # │                          backup                          │
 # ╰──────────────────────────────────────────────────────────╯
 function command_backup() {
-  7zz a -p -xr!node_modules -xr!venv -xr!.venv -xr!.git ~/tmp/backup.7z ~/work ~/.ssh ~/Documents/Pictures/AI
+  7zz a -p -xr!node_modules -xr!.build -xr!out -xr!venv -xr!.venv -xr!.git ~/tmp/backup.7z ~/work ~/.ssh ~/Documents/Pictures/AI
   ls -l ~/tmp/backup.7z
   exit 0
 }
