@@ -88,6 +88,14 @@ artifact_divider() {
 
 ARTIFACT_COLUMN_COUNT=$(printf '%s\n' "$ARTIFACT_COLUMNS" | awk -F'|' '{ print NF }')
 
+# 4見出し常設の検査対象は created がこの日付より後、つまり 2026-09-17 以降のタスクノート。
+# 制定前の既存ノートへ遡及しないための境界で、規約の施行日が動くならここだけを直す。
+# 制定日(2026-09-16)当日の起票は大半が制定時刻(16:23)より前で、日付だけでは
+# 制定前後を区別できないため、当日分はまるごと対象外に倒す。
+SECTIONS_RULE_SINCE_EXCLUSIVE='2026-09-16'
+# 常設が必要なLV2見出し。「## 経過」は欠落を専用の検査が拾うのでここには入れない。
+SECTIONS_REQUIRED='内容|進捗|成果物'
+
 resolve_tool_path() {
     local candidate
     local parent
@@ -128,9 +136,13 @@ lint_file() {
     local frontmatter_json
     local status=''
     local done_value=''
+    local created_value=''
+    # 4見出しの常設検査を効かせるか。制定より前に作られたノートへは遡及しない。
+    local lint_sections=0
     local frontmatter_end
     local note_errors
     local progress_errors
+    local heading_errors
     local section_errors
     local linebreak_errors
     local artifact_errors
@@ -173,7 +185,7 @@ lint_file() {
         fi
 
         if ! printf '%s\n' "$frontmatter_json" | jq -e \
-            '(.waiting_for == null) or ((.waiting_for | type) == "string" and ((.waiting_for | length) == 0 or (.waiting_for | test("^[a-z][a-z0-9-]*$"))))' \
+            '(.waiting_for == null) or ((.waiting_for | type) == "string" and ((.waiting_for | length) == 0 or (.waiting_for | test("^[a-z0-9][a-z0-9-]*$"))))' \
             >/dev/null; then
             errors="${errors}\n- 違反: waiting_for は小文字英数字とハイフンで構成する人の識別子が必要です。\n  正しいルール（引用）: 「値域は人の識別子のみ。何を待つかは書かず経過欄へ」\n  正しい例: waiting_for: tadashi"
         fi
@@ -202,6 +214,14 @@ lint_file() {
             >/dev/null; then
             errors="${errors}\n- 違反: blocked_by の各要素は \"[[タスク名]]\" 形式のWikiリンク文字列が必要です。\n  正しいルール（引用）: 「値域は shared/tasks/ のタスクノートへのWikiリンク(parent / project と同形式のクォート付き)のみ。人・外部の待ち先は書かない(それは waiting_for の領分)」"
         fi
+
+        # 4見出しの常設は2026-09-16T16:23の制定で、既存ノートへ遡及しない決定になっている。
+        # created が読めないノートは対象外に倒す(検査は誤検知より取りこぼしを選ぶ)。
+        created_value=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.created | type) == "string" then .created else "" end')
+        if [[ "$created_value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && \
+            [[ "${created_value:0:10}" > "$SECTIONS_RULE_SINCE_EXCLUSIVE" ]]; then
+            lint_sections=1
+        fi
     fi
 
     # frontmatterはYAMLであってMarkdownではない。ここを本文と混ぜると、YAMLコメントへ
@@ -221,8 +241,10 @@ lint_file() {
     # 成果物節のコミット表の違反は、どれもコードフェンスの内外判定を共有するため1パスで拾い、
     # 行頭のタグで振り分ける。変更前の中身を1ファイル目に読ませ、そこに無い行だけを新規とみなす。
     note_errors=$(PARLIAMENT_LINT_BASELINE=$baseline \
-        PARLIAMENT_LINT_ARTIFACT_COLUMNS=$ARTIFACT_COLUMNS awk \
-        -v task_note="$lint_task_frontmatter" -v fm_end="$frontmatter_end" '
+        PARLIAMENT_LINT_ARTIFACT_COLUMNS=$ARTIFACT_COLUMNS \
+        PARLIAMENT_LINT_SECTIONS=$SECTIONS_REQUIRED awk \
+        -v task_note="$lint_task_frontmatter" -v fm_end="$frontmatter_end" \
+        -v check_sections="$lint_sections" '
         function marker_length(line, marker,    i) {
             if (substr(line, 1, 1) != marker) return 0
             for (i = 1; substr(line, i, 1) == marker; i++);
@@ -348,6 +370,7 @@ lint_file() {
             baseline = ENVIRON["PARLIAMENT_LINT_BASELINE"]
             want_n = split(ENVIRON["PARLIAMENT_LINT_ARTIFACT_COLUMNS"], want, "|")
             for (i = 1; i <= want_n; i++) at[want[i]] = i
+            req_n = split(ENVIRON["PARLIAMENT_LINT_SECTIONS"], req, "|")
         }
         # CRLFのノートを素通しさせない。行末の \r が残ると「## 経過」の完全一致が外れ、
         # 経過欄の検査ごと丸ごと回避できてしまう(検査を緩める方向の差なので黙って通せない)。
@@ -388,6 +411,14 @@ lint_file() {
             } else if (fenced && marker == fence_marker && marker_len >= fence_len && substr(probe, marker_len + 1) ~ /^[ \t]*$/) {
                 fenced = 0
             }
+        }
+        # 本文のLV2見出しを名前で拾い、常設が必要な見出しの欠落をENDで見る。
+        # 末尾空白は見出しタイトルの一部ではない(Markdownは詰めて読む)ので落とす。
+        # next を取る規則より前に置く ── 「## 成果物」「## 経過」はそこで抜けてしまう。
+        !fenced && /^## / {
+            heading_title = substr($0, 4)
+            sub(/[ \t]+$/, "", heading_title)
+            seen_heading[heading_title] = 1
         }
         # 成果物節はコミットを必須4列の表で書く(タスクノートのみの規約)。節の範囲は
         # 「## 成果物」から次のLV2見出しまでで、フェンス内の例示は本文ではないので拾わない。
@@ -439,9 +470,16 @@ lint_file() {
             # 成果物節がノート末尾で終わる場合、終端の見出しが来ないのでここで締める。
             flush_artifact()
             if (task_note == 1 && !seen_progress && !unreadable) print "missing:1"
+            # 4見出しの常設検査。読めない入力のときは原因がそちらなので指摘しない。
+            if (check_sections == 1 && !unreadable) {
+                for (i = 1; i <= req_n; i++) {
+                    if (!(req[i] in seen_heading)) print "heading:" req[i]
+                }
+            }
         }
     ' "$baseline" "$candidate")
     progress_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^progress://p')
+    heading_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^heading:/  欠落: ## /p')
     section_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^section://p')
     artifact_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^artifact://p')
     linebreak_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^linebreak:/  行: /p')
@@ -449,13 +487,16 @@ lint_file() {
         errors="${errors}\n- 違反: 改行として扱われないCRが行の途中にあります。この状態では見出しも箇条書きも読み取れません。\n${linebreak_errors}\n  正しい直し方: 改行コードをLFに揃えてください(CRLFは可、CR単独は不可)。"
     fi
     if printf '%s\n' "$note_errors" | grep -q '^missing:'; then
-        errors="${errors}\n- 違反: 「## 経過」の見出しがありません。\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」\n  補足: 経過欄は着手・判断・完了を残す唯一の場所。中身がまだ無くても見出しは残す"
+        errors="${errors}\n- 違反: 「## 経過」の見出しがありません。\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 進捗 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」\n  補足: 経過欄は着手・判断・完了を残す唯一の場所。中身がまだ無くても見出しは残す"
+    fi
+    if [ -n "$heading_errors" ]; then
+        errors="${errors}\n- 違反: タスクノートに常設するLV2見出しが欠けています。\n${heading_errors}\n  正しいルール（引用）: 「本文は ## 内容 / ## 進捗 / ## 成果物 / ## 経過 を常設する。工程が1つでも進捗欄を省かず、成果物が無くても見出しは残して本文に「なし」と書く」\n  補足: 検査対象は created が 2026-09-17 以降のタスクノートのみ(制定日当日までの既存ノートへは遡及しない)"
     fi
     if [ -n "$progress_errors" ]; then
         errors="${errors}\n- 違反: 経過欄のトップレベル項目がISO日時で始まっていません。\n${progress_errors}\n  正しいルール（引用）: 「経過欄のトップレベル項目は YYYY-MM-DDTHH:mm または YYYY-MM-DDT??:?? を先頭に書く。日付のみと空白区切りは禁止」"
     fi
     if [ -n "$section_errors" ]; then
-        errors="${errors}\n- 違反: 「## 経過」より後にLV2見出しがあります。\n${section_errors}\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」「補足のLV2節(後続タスク候補・タダシへの確認事項・補足など)を足すときは成果物と経過の間に置く」\n  補足: 経過欄の中の ### 小見出しは従来どおり可"
+        errors="${errors}\n- 違反: 「## 経過」より後にLV2見出しがあります。\n${section_errors}\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 進捗 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」「補足のLV2節(後続タスク候補・タダシへの確認事項・補足など)を足すときは成果物と経過の間に置く」\n  補足: 経過欄の中の ### 小見出しは従来どおり可"
     fi
     if [ -n "$artifact_errors" ]; then
         errors="${errors}\n- 違反: 成果物節のコミットが必須${ARTIFACT_COLUMN_COUNT}列の表になっていません。\n${artifact_errors}\n  正しいルール（引用）: 「タスクの成果物にコミットが含まれるなら、成果物欄へ次の${ARTIFACT_COLUMN_COUNT}列の表で1コミット1行で書く。列はこの${ARTIFACT_COLUMN_COUNT}つだけで順序もこのとおり」「成果物欄でバッククォート囲みのhashを書けるのは表の中だけ」\n  正しい例:\n  $(artifact_row "$ARTIFACT_COLUMNS")\n  $(artifact_divider "$ARTIFACT_COLUMNS")\n  $(artifact_row "$ARTIFACT_EXAMPLE")\n  補足: 検査対象はその編集で新しく現れる行だけ。既存ノートの旧形式(箇条書きのhash)は無編集なら通る"
