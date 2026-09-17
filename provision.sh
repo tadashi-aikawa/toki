@@ -396,11 +396,6 @@ brew install git-lfs
 brew install imagemagick
 brew install pngpaste
 
-# hunk
-mise use -g npm:hunkdiff
-ln -snf ~/.local/share/mise/installs/npm-hunkdiff/latest/lib/node_modules/hunkdiff/skills/hunk-review ~/.codex/skills/hunk-review
-ln -snf ~/.local/share/mise/installs/npm-hunkdiff/latest/lib/node_modules/hunkdiff/skills/hunk-review ~/.claude/skills/hunk-review
-
 # zoxide
 mise use -g zoxide
 ln -snf "$MNT"/zoxide/zoxide.sh ~/.zoxide.sh
