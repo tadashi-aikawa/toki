@@ -51,7 +51,7 @@ async function handler(request: Request): Promise<Response> {
     hostname: "db",
     port: 3306,
     username: "user",
-    password: "password",
+    password: "password", // betterleaks:allow
     db: "mydb",
   });
 

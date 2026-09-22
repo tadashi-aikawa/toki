@@ -4,7 +4,7 @@ from project.app.models import Animal
 
 with transaction.atomic():
     User.objects.all().delete()
-    User.objects.create_superuser(id=1, username="admin", password="password", email="")
+    User.objects.create_superuser(id=1, username="admin", password="password", email="")  # betterleaks:allow
     User.objects.bulk_create(
         [
             User(id=2, username="ミネルヴァ"),
