@@ -91,7 +91,7 @@
       "/Users/tadashi-aikawa/git/github.com/tadashi-aikawa/parliament"
     ]
   },
-  "model": "fable[1m]",
+  "model": "claude-opus-5-5[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -194,10 +194,7 @@
   "tui": "fullscreen",
   "agentPushNotifEnabled": true,
   "autoMode": {
-    "soft_deny": [
-      "$defaults",
-      "Bash(git push . HEAD\\:main:*)"
-    ],
+    "soft_deny": ["$defaults", "Bash(git push . HEAD\\:main:*)"],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
