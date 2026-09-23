@@ -166,6 +166,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 5,
+            "command": "bash '/Users/tadashi-aikawa/.claude/hooks/stop-english-reply.sh'"
+          }
+        ]
+      }
     ]
   },
   "worktree": {
@@ -194,7 +205,10 @@
   "tui": "fullscreen",
   "agentPushNotifEnabled": true,
   "autoMode": {
-    "soft_deny": ["$defaults", "Bash(git push . HEAD\\:main:*)"],
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push . HEAD\\:main:*)"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
