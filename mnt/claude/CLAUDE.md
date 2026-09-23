@@ -18,6 +18,12 @@
 - 「オケ」「オーケストレーション」で進めるよう言われたら `orchestrate` skillを発動する。実装者(`astra` / `sol` / `opus`)の選択・省略時の扱い・同一ベンダーのガードはskillに従う
 - 発動後、次の委譲・レビュー・報告のどれをやるか迷ったら、進める前に `orchestrate` skillを再発動する
 
+## Codexへの実装委譲
+
+- Claude CodeからCodexへ実装や修正を委譲するときは、オケの有無によらず起動時に `--model gpt-6-sol --effort high` を明示する。`codex:rescue` を使う場合も同じ
+- 難しいタスクでは `--model gpt-6-astra --effort high` を明示してよい
+- 起動方法の詳細は `~/work/owlery/shared/knowledge/Codexへの実装委譲の線引き.md` に従う
+
 ## タダシへの質問
 
 - タダシの回答を待ってターンを終える質問は、平文・AskUserQuestionで出さず**質問票**で発行する。**複数案からの選択・採否・承認・GO/NO-GOを求める場合も含む**。単に調査結果や推奨案を報告し、判断を求めない場合は対象外。手順:
