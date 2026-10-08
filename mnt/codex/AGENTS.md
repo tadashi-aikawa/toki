@@ -86,6 +86,14 @@
 - 画像は特別な理由がない限り非可逆のWebPで置く。PNGは容量を食うので使わない
     - 例外と品質の目安: `~/work/owlery/shared/knowledge/タダシのプロジェクトで画像は非可逆のWebPで置く.md`
 
+## Playwrightのブラウザ
+
+- Playwrightでブラウザを起動するときは、付属Chromiumではなく手元のGoogle Chromeを使う
+    - 指定: `chromium.launch({ channel: 'chrome' })` / `playwright.config.ts` の `use: { channel: 'chrome' }` / Playwright MCPは `--browser chrome`
+    - 理由: 付属Chromiumは脆弱性修正の反映が遅れる。Chromeは常に最新化されている
+- 付属Chromiumはこのマシンに入っておらず、`~/.zshenv` の `PLAYWRIGHT_CHROMIUM_DOWNLOAD_HOST` で再ダウンロードも塞いである
+    - `Executable doesn't exist` が出ても `playwright install chromium` で入れ直さず、環境変数を外して回避もしない。`channel: 'chrome'` を指定する
+
 ## 人間が読む文章の分解
 
 - 対象: Agentが作成する説明文。チャット・ターミナルの返答も含む

@@ -1,0 +1,3 @@
+# Playwright付属のChromiumを再ダウンロードさせない(Chromeを使わせるため)
+# 付属Chromiumは脆弱性修正の反映が遅れる。chromium系(headless shell・tip-of-tree含む)だけが対象で、Firefox・WebKit・ffmpegは影響しない
+export PLAYWRIGHT_CHROMIUM_DOWNLOAD_HOST=http://127.0.0.1:9

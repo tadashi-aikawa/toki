@@ -77,6 +77,8 @@ ln -snf "$MNT"/inputrc ~/.inputrc
 # .zshrc
 ln -snf "$MNT"/zshrc_base.sh ~/.zshrc_base.sh
 ensure_zshrc "source ~/.zshrc_base.sh"
+# .zshenv(対話・ログインに関わらず全zshが読む。AI CLIの `zsh -c` にも効かせたい環境変数を置く)
+ln -snf "$MNT"/zshenv ~/.zshenv
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                        Base tools                        │

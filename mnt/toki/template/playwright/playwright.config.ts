@@ -18,8 +18,9 @@ export default defineConfig({
 
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"], channel: "chromium" },
+      // 付属Chromiumではなく手元のGoogle Chromeを使う(付属Chromiumは脆弱性修正の反映が遅れる)
+      name: "chrome",
+      use: { ...devices["Desktop Chrome"], channel: "chrome" },
     },
   ],
 });

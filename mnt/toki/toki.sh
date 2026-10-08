@@ -456,7 +456,7 @@ function command_playwright() {
   echo "⏎ -> ⏎ -> ⏎ -> n -> ⏎"
 
   pnpm create playwright
-  pnpm exec playwright install chromium
+  # 付属Chromiumは入れない。テンプレートのconfigが手元のGoogle Chrome(channel: "chrome")を使う
   rm -rf tests-examples
 
   pnpm add -D @biomejs/biome
