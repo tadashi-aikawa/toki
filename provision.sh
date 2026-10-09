@@ -218,7 +218,6 @@ ln -snf "${MNT}"/obsidian/.obsidian/plugins/obsidian-another-quick-switcher/data
 
 brew install --cask raycast
 brew install --cask slack
-brew install --cask shottr
 brew install --cask gimp
 brew install --cask dbeaver-community
 brew install --cask keycastr
