@@ -221,6 +221,9 @@ brew install --cask slack
 brew install --cask gimp
 brew install --cask dbeaver-community
 brew install --cask keycastr
+if [[ "$MY_MAC_TAG" == "macbook_pro_home" ]]; then
+  brew install --cask 1password
+fi
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                Languages / Runtimes / LSP                │
