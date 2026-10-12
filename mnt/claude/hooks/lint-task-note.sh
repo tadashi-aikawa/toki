@@ -57,6 +57,177 @@ resolve_vault() {
     realpath -q "$configured" || fail "Vaultパス ${configured} を解決できません。"
 }
 
+# parliamentの置き場(`questions` = 質問票 / `checks` = 確認項目)。serverとCLIと同じく
+# `<section>.dir`(TOML専用)→ 既定の `~/.parliament/<section>` の順で引く。
+# 置き場を読む検査の中でだけ呼ぶ(設定の読み違いを他の検査へ波及させない)。
+# `checks.dir` の値域はserverとCLI(`configuredDirectory`)と同じで、外れた値は fail する
+# ── 相対パスはプロセスのcwdで解決され、CLIが書いた置き場とlintが読む置き場が分かれるため。
+# `questions.dir` はCLIが値域を検査しないので、ここでも従来どおり文字列なら受ける。
+resolve_store_dir() {
+    local section=$1
+    local config_path=${PARLIAMENT_CONFIG:-$HOME/.config/parliament/config.toml}
+    local config_json
+    local configured=''
+    local home_prefix
+
+    config_path=$(expand_home "$config_path")
+    if [ -n "${PARLIAMENT_CONFIG:-}" ] && [ ! -f "$config_path" ]; then
+        fail "明示された設定ファイル ${config_path} が見つかりません。"
+    fi
+    if [ -f "$config_path" ]; then
+        config_json=$(yq -p=toml -o=json '.' "$config_path" 2>/dev/null) || \
+            fail "設定ファイル ${config_path} をTOMLとして読めません。"
+        if [ "$section" = checks ]; then
+            configured=$(printf '%s\n' "$config_json" | jq -r '
+                if .checks == null or .checks.dir == null then "unset"
+                elif (.checks | type) != "object" or (.checks.dir | type) != "string" then "bad-type"
+                else "value:" + .checks.dir end' 2>/dev/null) || configured=bad-type
+            home_prefix=$(printf '\176/')
+            case "$configured" in
+                unset) configured='' ;;
+                value:/*|"value:$home_prefix"*) configured=${configured#value:} ;;
+                value:*) fail "設定ファイル ${config_path} の checks.dir は絶対パスか ~/ で始まるパスを指定してください: ${configured#value:}" ;;
+                *) fail "設定ファイル ${config_path} の checks.dir は文字列で指定してください。" ;;
+            esac
+            case "/$configured/" in
+                */../*) fail "設定ファイル ${config_path} の checks.dir に .. を含むパスは指定できません: ${configured}" ;;
+            esac
+        else
+            configured=$(printf '%s\n' "$config_json" | jq -r --arg section "$section" \
+                'if (.[$section] | type) == "object" and (.[$section].dir | type) == "string" then .[$section].dir else "" end')
+        fi
+    fi
+    [ -n "$configured" ] || configured=$HOME/.parliament/$section
+    expand_home "$configured"
+}
+
+# パスの有無を ENOENT と「辿れない」に分けて返す。0 ある / 1 無い / 2 有無を確かめられない。
+# `[ -e ]` は親ディレクトリに検索権限が無くても偽になるので、それだけで「無い」と言い切らない。
+# 無いと言えるのは、最も近い実在の祖先が辿れるディレクトリのときだけ(CLIの readdir の ENOENT と同じ)。
+path_state() {
+    local target=$1
+    local parent
+
+    [ -e "$target" ] && return 0
+    parent=$(dirname -- "$target")
+    [ "$parent" = "$target" ] && return 1
+    if [ -e "$parent" ]; then
+        [ -d "$parent" ] && [ -x "$parent" ] && return 1
+        return 2
+    fi
+    path_state "$parent"
+    [ $? -eq 2 ] && return 2
+    return 1
+}
+
+# --task がこのタスクを指す開いた確認項目を「item:<paneId>#<番号> 対象: 観点」で1項目1行に出し、
+# 読めないファイルを「unreadable:<パス>」で1件1行に出す。全ペインのファイルを見る
+# (項目は持ち主のペインに帰属し、タスクとは --task でだけ結ばれる)。照合は質問票と同じ(`sameCheckTask`)。
+# 読めないファイルの線引きはCLIの `parseCheckFile` と同じ: JSON1個として解析できない・版違い・
+# 欄の型や番号が崩れたものは、どれも項目を1つも採らずに「読めない」へ数える(途中まで読めた分も採らない)。
+# 置き場が無いのは項目が1つも無い状態。読めない・辿れない置き場は exit 3 で返し、扱いは呼び手が決める
+# (exit で返すので、コマンド置換の中で呼ぶ)。
+# 閉じた印(orphanedAt)の有無も、退避したファイル(<幹>.orphan-<印>.json)も区別せず開いた項目として数える
+# ── 持ち主が閉じても、タダシの返事を待つ話題であることは変わらない。印のある項目は `close` に渡せる
+# `<paneId>@<印>#<番号>` で出す。
+# 持ち主の世代(generation)は読まない。サーバーの動きの記録だけが使う目印で、CLIも崩れた値で読めない扱いにしない。
+
+list_open_checks() {
+    local task_name=$1
+    local checks_dir
+    local file
+    local items
+
+    checks_dir=$(resolve_store_dir checks) || exit 2
+    path_state "$checks_dir"
+    case $? in
+        0) ;;
+        1) return 0 ;;
+        *) exit 3 ;;
+    esac
+    [ -d "$checks_dir" ] && [ -r "$checks_dir" ] && [ -x "$checks_dir" ] || exit 3
+    for file in "$checks_dir"/*.json; do
+        # 一致が無いときのglobの字面と、列挙後に消えた・指す先の無いものは飛ばす(CLIの "missing" と同じ)。
+        # .json で終わるディレクトリ等はCLIと同じく読めない側
+        [ -e "$file" ] || continue
+        # -s で丸ごと読み、JSON値がちょうど1個のときだけ採る。末尾にゴミが付いたファイルは
+        # 先頭の値を出してから非0で終わるので、出力ではなく終了コードで成否を決める。
+        if [ -f "$file" ] && items=$(jq -r -s --arg name "$task_name" '
+            def one_line: gsub("[[:cntrl:]]+"; " ") | gsub("\\s+"; " ") | sub("^ "; "") | sub(" $"; "");
+            def int_from($min): type == "number" and . == floor and . >= $min;
+            def nullable_string($key): has($key) and (.[$key] | type == "string" or type == "null");
+            def valid_item($next):
+                type == "object"
+                and (.number | int_from(1)) and .number < $next
+                and (.subject | type) == "string" and (.detail | type) == "string"
+                and (.createdAt | type) == "string"
+                and nullable_string("task") and nullable_string("sessionId")
+                and nullable_string("writerDisplayAgent") and nullable_string("cwd");
+            def valid_mark: (has("orphanedAt") | not) or .orphanedAt == null
+                or ((.orphanedAt | type) == "string" and .orphanedAt != "");
+            def valid_file:
+                type == "object" and .schemaVersion == 1
+                and (.paneId | type) == "string" and .paneId != ""
+                and valid_mark
+                and (.nextNumber | int_from(1))
+                and (.items | type) == "array"
+                and (.nextNumber as $next | all(.items[]; valid_item($next)))
+                and ([.items[].number] | length == (unique | length));
+            ($name | one_line) as $n
+            | if length == 1 and (.[0] | valid_file) then
+                .[0] | (if .orphanedAt == null then .paneId else "\(.paneId)@\(.orphanedAt)" end) as $pane
+                | .items[]
+                | select((.task | type) == "string"
+                    and (.task as $t | $t == $n or (($t | endswith("…")) and ($n | startswith($t[0:-1])))))
+                | "item:\($pane)#\(.number) \(.subject): \(.detail)"
+              else error("unreadable") end
+        ' "$file" 2>/dev/null); then
+            [ -z "$items" ] || printf '%s\n' "$items"
+        else
+            printf 'unreadable:%s\n' "$file"
+        fi
+    done
+    return 0
+}
+
+# --task がこのタスクを指す未回答の質問票の件数。答えが確定していない票(answeredAt が null)を数え、
+# 逆質問中(chattedAt あり)も含める ── 票は生きていて、タダシの答えはまだ届いていないため。
+# task の値は `parliament ask` が空白を1つに詰め、120字で … に切り詰めて保存するので、ノート名も同じ形で比べる。
+# 置き場が無いのは票が1枚も無い状態。読めない置き場は数えられないので fail する(緩める方向へは倒さない)。
+count_open_questions() {
+    local task_name=$1
+    local questions_dir
+    local file
+    local count=0
+
+    questions_dir=$(resolve_store_dir questions) || exit 2
+    path_state "$questions_dir"
+    case $? in
+        0) ;;
+        1)
+            printf '0\n'
+            return 0
+            ;;
+        *) fail "質問票の置き場 ${questions_dir} の有無を確かめられず(途中のディレクトリを辿れない)、waiting の不変条件を検査できません。" ;;
+    esac
+    [ -d "$questions_dir" ] && [ -r "$questions_dir" ] && [ -x "$questions_dir" ] || \
+        fail "質問票の置き場 ${questions_dir} を読めず、waiting の不変条件を検査できません。"
+    for file in "$questions_dir"/*.json; do
+        [ -f "$file" ] || continue
+        case "$file" in *.answer.json) continue ;; esac
+        if jq -e --arg name "$task_name" '
+                # \u0000 を範囲に書くとjqの正規表現(Oniguruma)が全文字を拾う。POSIXクラスで書く
+                def one_line: gsub("[[:cntrl:]]+"; " ") | gsub("\\s+"; " ") | sub("^ "; "") | sub(" $"; "");
+                ($name | one_line) as $n
+                | .schemaVersion == 1 and .answeredAt == null and (.task | type) == "string"
+                    and (.task as $t | $t == $n or (($t | endswith("…")) and ($n | startswith($t[0:-1]))))
+            ' "$file" >/dev/null 2>&1; then
+            count=$((count + 1))
+        fi
+    done
+    printf '%s\n' "$count"
+}
+
 VAULT_ROOT=$(resolve_vault)
 TASK_DIR=$VAULT_ROOT/shared/tasks
 KNOWLEDGE_DIR=$VAULT_ROOT/shared/knowledge
@@ -94,7 +265,9 @@ ARTIFACT_COLUMN_COUNT=$(printf '%s\n' "$ARTIFACT_COLUMNS" | awk -F'|' '{ print N
 # 制定前後を区別できないため、当日分はまるごと対象外に倒す。
 SECTIONS_RULE_SINCE_EXCLUSIVE='2026-09-16'
 # 常設が必要なLV2見出し。「## 経過」は欠落を専用の検査が拾うのでここには入れない。
-SECTIONS_REQUIRED='内容|進捗|成果物'
+# 見出しごとに施行日を持つ(「見出し:この日付より後のcreatedに効かせる」を | で並べる)。
+# 「## 確認」は常設しない ── 確認項目はノートではなく `parliament check` の置き場に持つ。
+SECTIONS_REQUIRED="内容:$SECTIONS_RULE_SINCE_EXCLUSIVE|進捗:$SECTIONS_RULE_SINCE_EXCLUSIVE|成果物:$SECTIONS_RULE_SINCE_EXCLUSIVE"
 
 resolve_tool_path() {
     local candidate
@@ -135,16 +308,22 @@ lint_file() {
     local frontmatter
     local frontmatter_json
     local status=''
+    local waiting_for_value=''
     local done_value=''
     local created_value=''
-    # 4見出しの常設検査を効かせるか。制定より前に作られたノートへは遡及しない。
-    local lint_sections=0
+    local created_date=''
     local frontmatter_end
     local note_errors
     local progress_errors
     local heading_errors
     local section_errors
     local linebreak_errors
+    local check_warnings=''
+    local check_listing
+    local open_checks
+    local unreadable_checks
+    local task_name
+    local open_questions
     local artifact_errors
     local errors=''
 
@@ -184,6 +363,7 @@ lint_file() {
             errors="${errors}\n- 違反: status: waiting では waiting_for に単数の待ち先が必要です。\n  正しいルール（引用）: 「waiting へフリップするときは、frontmatter の waiting_for に待ち先を必ず記入する。値域は単数」"
         fi
 
+        waiting_for_value=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.waiting_for | type) == "string" then .waiting_for else "" end')
         if ! printf '%s\n' "$frontmatter_json" | jq -e \
             '(.waiting_for == null) or ((.waiting_for | type) == "string" and ((.waiting_for | length) == 0 or (.waiting_for | test("^[a-z0-9][a-z0-9-]*$"))))' \
             >/dev/null; then
@@ -218,9 +398,8 @@ lint_file() {
         # 4見出しの常設は2026-09-16T16:23の制定で、既存ノートへ遡及しない決定になっている。
         # created が読めないノートは対象外に倒す(検査は誤検知より取りこぼしを選ぶ)。
         created_value=$(printf '%s\n' "$frontmatter_json" | jq -r 'if (.created | type) == "string" then .created else "" end')
-        if [[ "$created_value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]] && \
-            [[ "${created_value:0:10}" > "$SECTIONS_RULE_SINCE_EXCLUSIVE" ]]; then
-            lint_sections=1
+        if [[ "$created_value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+            created_date=${created_value:0:10}
         fi
     fi
 
@@ -244,7 +423,7 @@ lint_file() {
         PARLIAMENT_LINT_ARTIFACT_COLUMNS=$ARTIFACT_COLUMNS \
         PARLIAMENT_LINT_SECTIONS=$SECTIONS_REQUIRED awk \
         -v task_note="$lint_task_frontmatter" -v fm_end="$frontmatter_end" \
-        -v check_sections="$lint_sections" '
+        -v created_date="$created_date" '
         function marker_length(line, marker,    i) {
             if (substr(line, 1, 1) != marker) return 0
             for (i = 1; substr(line, i, 1) == marker; i++);
@@ -371,6 +550,11 @@ lint_file() {
             want_n = split(ENVIRON["PARLIAMENT_LINT_ARTIFACT_COLUMNS"], want, "|")
             for (i = 1; i <= want_n; i++) at[want[i]] = i
             req_n = split(ENVIRON["PARLIAMENT_LINT_SECTIONS"], req, "|")
+            for (i = 1; i <= req_n; i++) {
+                split(req[i], rule, ":")
+                req[i] = rule[1]
+                req_since[i] = rule[2]
+            }
         }
         # CRLFのノートを素通しさせない。行末の \r が残ると「## 経過」の完全一致が外れ、
         # 経過欄の検査ごと丸ごと回避できてしまう(検査を緩める方向の差なので黙って通せない)。
@@ -471,9 +655,9 @@ lint_file() {
             flush_artifact()
             if (task_note == 1 && !seen_progress && !unreadable) print "missing:1"
             # 4見出しの常設検査。読めない入力のときは原因がそちらなので指摘しない。
-            if (check_sections == 1 && !unreadable) {
+            if (task_note == 1 && created_date != "" && !unreadable) {
                 for (i = 1; i <= req_n; i++) {
-                    if (!(req[i] in seen_heading)) print "heading:" req[i]
+                    if (created_date > req_since[i] && !(req[i] in seen_heading)) print "heading:" req[i]
                 }
             }
         }
@@ -483,6 +667,50 @@ lint_file() {
     section_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^section://p')
     artifact_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^artifact://p')
     linebreak_errors=$(printf '%s\n' "$note_errors" | sed -n 's/^linebreak:/  行: /p')
+    task_name=$(basename -- "$display_path" .md)
+    # 不変条件: タダシ待ちなら、このノートを --task で指す開いた確認項目か、未回答の質問票が1つ以上ある。
+    # 遷移ではなく状態で見る ── 項目を閉じ・票に答えが届いて話題が尽きた後の編集も、ここで status を戻させる。
+    # 質問票の置き場を読むのは、確認項目だけでは満たせないときに限る。読めない入力のときは原因がそちらなので見ない。
+    # ノートの ## 確認 節は数えない(移行前の閉じた節が残っていても、あるだけでは違反にしない)。
+    # 読めない確認項目のファイルがあっても、話題が1つ見つかれば満たす。見つからないときだけ
+    # 「無い」と言い切れないので止める(CLIの `close` が警告を控える条件と同じ)。
+    if [ "$lint_task_frontmatter" -eq 1 ] && [ "$status" = waiting ] && [ "$waiting_for_value" = tadashi ] && \
+        [ -z "$linebreak_errors" ]; then
+        check_listing=$(list_open_checks "$task_name")
+        case $? in
+            0) ;;
+            3) fail "確認項目の置き場 $(resolve_store_dir checks) を読めず(または途中のディレクトリを辿れず)、waiting の不変条件を検査できません。" ;;
+            *) return 2 ;;
+        esac
+        open_checks=$(printf '%s\n' "$check_listing" | sed -n 's/^item://p')
+        unreadable_checks=$(printf '%s\n' "$check_listing" | sed -n 's/^unreadable:/  /p')
+        if [ -z "$open_checks" ]; then
+            open_questions=$(count_open_questions "$task_name") || return 2
+            if [ "$open_questions" -eq 0 ] && [ -n "$unreadable_checks" ]; then
+                fail "確認項目の置き場に読めないファイルがあり、「${task_name}」を指す開いた確認項目が無いと言い切れないので、waiting の不変条件を検査できません。"$'\n'"${unreadable_checks}"$'\n'"  直し方: 壊れたファイルを直すか退避する(JSON1個・schemaVersion 1・欄の型が docs/checks.md のとおり)"
+            fi
+            if [ "$open_questions" -eq 0 ]; then
+                errors="${errors}\n- 違反: 「${task_name}」は status: waiting(waiting_for: tadashi)なのに、開いた確認項目と未回答の質問票がありません。\n  --task「${task_name}」を指す開いた確認項目: 0件 / 未回答の質問票: 0件\n  正しいルール（引用）: 「waiting かつ waiting_for: tadashi のタスクには、このノートを --task で指す開いた確認項目か、未回答の質問票が1つ以上ある」\n  正しい直し方(どれか):\n    1. 先に parliament check add \"<対象>\" \"<観点>\" --task \"${task_name}\" で確認項目を立ててから waiting へ倒す。完了の検分を待つだけなら対象「完了」観点「doneにしてよいか」に --kind 検分\n    2. 質問票で聞くなら、先に parliament ask <HTML> --task \"${task_name}\" で発行してから waiting へ倒す\n    3. 待つ話題が無いなら、同じ編集で status を doing などへ戻す(確認項目を閉じ・タダシの返事で話題が尽きたときもこれ)\n  補足: ノートの ## 確認 節の行は数えない"
+            fi
+        fi
+    fi
+    # 終端へ倒したタスクに開いた確認項目が残っていれば知らせる(編集は拒否しない)。
+    # 置き場が読めなくても止めない ── 警告のための読み取りで、終端への編集を巻き添えにしない。
+    if [ "$lint_task_frontmatter" -eq 1 ] && { [ "$status" = done ] || [ "$status" = declined ]; } && \
+        [ -z "$linebreak_errors" ]; then
+        if check_listing=$(list_open_checks "$task_name" 2>/dev/null); then
+            open_checks=$(printf '%s\n' "$check_listing" | sed -n 's/^item:/  /p')
+            unreadable_checks=$(printf '%s\n' "$check_listing" | sed -n 's/^unreadable:/  /p')
+            [ -z "$open_checks" ] || \
+                check_warnings="- 警告: status: ${status} なのに、--task「${task_name}」を指す開いた確認項目が残っている。経過欄へ未決として1行残してから parliament check close <下の行の先頭の名指し> で閉じること"$'\n'"${open_checks}"
+            if [ -n "$unreadable_checks" ]; then
+                [ -z "$check_warnings" ] || check_warnings="${check_warnings}"$'\n'
+                check_warnings="${check_warnings}- 警告: 確認項目の置き場に読めないファイルがあり、--task「${task_name}」を指す開いた確認項目が残っていないか確かめきれなかった"$'\n'"${unreadable_checks}"
+            fi
+        else
+            check_warnings="- 警告: 確認項目の置き場を読めず、--task「${task_name}」を指す開いた確認項目が残っていないか確かめられなかった"
+        fi
+    fi
     if [ -n "$linebreak_errors" ]; then
         errors="${errors}\n- 違反: 改行として扱われないCRが行の途中にあります。この状態では見出しも箇条書きも読み取れません。\n${linebreak_errors}\n  正しい直し方: 改行コードをLFに揃えてください(CRLFは可、CR単独は不可)。"
     fi
@@ -490,7 +718,7 @@ lint_file() {
         errors="${errors}\n- 違反: 「## 経過」の見出しがありません。\n  正しいルール（引用）: 「本文はテンプレートの ## 内容 / ## 成果物 / ## 進捗 / ## 経過 を基本とし、## 経過 を必ず最後のLV2見出しにする」\n  補足: 経過欄は着手・判断・完了を残す唯一の場所。中身がまだ無くても見出しは残す"
     fi
     if [ -n "$heading_errors" ]; then
-        errors="${errors}\n- 違反: タスクノートに常設するLV2見出しが欠けています。\n${heading_errors}\n  正しいルール（引用）: 「本文は ## 内容 / ## 進捗 / ## 成果物 / ## 経過 を常設する。工程が1つでも進捗欄を省かず、成果物が無くても見出しは残して本文に「なし」と書く」\n  補足: 検査対象は created が 2026-09-17 以降のタスクノートのみ(制定日当日までの既存ノートへは遡及しない)"
+        errors="${errors}\n- 違反: タスクノートに常設するLV2見出しが欠けています。\n${heading_errors}\n  正しいルール（引用）: 「本文は ## 内容 / ## 進捗 / ## 成果物 / ## 経過 を常設する。工程が1つでも進捗欄を省かず、成果物が無くても見出しは残して本文に「なし」と書く」\n  補足: created が 2026-09-17 以降のみ。制定日当日までの既存ノートへは遡及しない"
     fi
     if [ -n "$progress_errors" ]; then
         errors="${errors}\n- 違反: 経過欄のトップレベル項目がISO日時で始まっていません。\n${progress_errors}\n  正しいルール（引用）: 「経過欄のトップレベル項目は YYYY-MM-DDTHH:mm または YYYY-MM-DDT??:?? を先頭に書く。日付のみと空白区切りは禁止」"
@@ -502,10 +730,15 @@ lint_file() {
         errors="${errors}\n- 違反: 成果物節のコミットが必須${ARTIFACT_COLUMN_COUNT}列の表になっていません。\n${artifact_errors}\n  正しいルール（引用）: 「タスクの成果物にコミットが含まれるなら、成果物欄へ次の${ARTIFACT_COLUMN_COUNT}列の表で1コミット1行で書く。列はこの${ARTIFACT_COLUMN_COUNT}つだけで順序もこのとおり」「成果物欄でバッククォート囲みのhashを書けるのは表の中だけ」\n  正しい例:\n  $(artifact_row "$ARTIFACT_COLUMNS")\n  $(artifact_divider "$ARTIFACT_COLUMNS")\n  $(artifact_row "$ARTIFACT_EXAMPLE")\n  補足: 検査対象はその編集で新しく現れる行だけ。既存ノートの旧形式(箇条書きのhash)は無編集なら通る"
     fi
 
+    if [ -n "$check_warnings" ]; then
+        # 項目の対象・観点はAgentが書いた文字列なので、%b でエスケープとして読み直さない。
+        printf 'Vaultノートlint: %s\n\n%s\n' "$display_path" "$check_warnings" >&2
+    fi
     if [ -n "$errors" ]; then
         printf 'Vaultノートlint: %s\n%b\n' "$display_path" "$errors" >&2
         return 2
     fi
+    return 0
 }
 
 TMP_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/parliament-task-lint.XXXXXX") || fail '一時領域を作成できません。'
