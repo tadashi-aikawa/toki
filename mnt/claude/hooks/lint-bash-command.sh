@@ -1181,6 +1181,413 @@ MSG
 }
 
 # ============================================================================
+# ルール7: PNGのコミット
+#
+# タダシのプロジェクトでは画像を非可逆のWebPで置き、PNGは原則置かない。決まりの正本は
+# owlery Vaultの `shared/knowledge/タダシのプロジェクトで画像は非可逆のWebPで置く.md`。
+# 規約文だけでは守られないので、**Agentが**PNGをコミットしようとしたら一度止める。
+# git hookにしないのは、タダシ自身のコミットまで止めないため(このlintはAgentのBashにしか当たらない)。
+#
+# 例外のPNGは正当にありうる。止めるのは「一度確かめさせる」ためなので、
+# コマンドに `PNG_COMMIT_OK=1` が付いていれば通す(例: `PNG_COMMIT_OK=1 git commit -m "..."`)。
+#
+# 判定の方針:
+#   - `git commit` と `git -C <path> commit` を拾い、そのリポジトリでstage済みの
+#     追加・変更のPNGを見る(削除は対象外。拡張子は大小を区別しない)
+#   - リポジトリはhook入力の `cwd` から、コマンド中の `cd <path>` と `-C <path>` を順に辿って決める
+#   - hookの時点ではまだstageされていない形も拾う。`git commit -a` は追跡済みの変更PNG、
+#     同じコマンドで先に書いた `git add` は、その引数(`.` `-A` `-u` ディレクトリを含む)が
+#     stageするPNG(未追跡・変更)を数える
+#   - **`git add` に `.png` の名前を明示していれば、ファイルがまだ無くても数える**。
+#     `cp a.png repo/ && git add a.png && git commit` の形は、hookの時点ではファイルが無く、
+#     gitに聞いても出てこない。追跡済み(=削除のstage)とgitignore済みの名前は除く。
+#     リポジトリ自体がまだ無い(同じコマンドで `git init` する)ときは、名前だけで数える
+#   - **同じコマンドの中の単純な代入を覚えて展開する**(`R=/long/path; git -C $R commit`)。
+#     グローバル規約が「長い親ディレクトリはシェル変数に入れてよい」と勧めているので、善意の癖の範囲。
+#     対象は `R=…` / `export R=…` の単独の代入と、`$R` `${R}` `"$R"`。`$HOME` は環境から読む
+#   - 行き先が読めない(知らない変数・空白を含む引用)なら、そのコミットは判定しない(通す側へ倒す)
+#
+# **追わないと決めたもの**(このhookは躾けであって防御ではない):
+#   - パスを指定するコミット(`git commit foo.png` / `--only` / `--include`)で、
+#     stageしていない変更PNGを直接コミットする形
+#   - `--git-dir` / `--work-tree` で別の場所を指す形(判定しない)
+#   - `git add` 以外で同じコマンド内にstageする形(`git apply --cached` / `git stash pop` 等)と、
+#     `git add` の `--pathspec-from-file` / `-p` などの対話系
+#   - 既存PNGのリネーム(`git mv`)。追加ではなく移動として扱う
+#   - サブシェルの `( cd x && … )` を抜けた後の戻り。抜けた後も `cd` が効いたままと読む
+#   - `bash -c '…'` の内側、コマンド名の引用・分割、変数越しの起動(ルール3と同じ)
+#   - 前のBash呼び出しで定義した変数、コマンド置換の値(`R=$(pwd)`)、`${R:-x}` などの展開の変形
+# ============================================================================
+read -r -d '' PNG_COMMIT_AWK <<'AWK' || true
+BEGIN { vars["HOME"] = ENVIRON["HOME"] }
+
+# 出力は1件1行。フィールドは \037、リストの要素は \036 で区切る(空フィールドを潰さないため)。
+#   cd     <行き先 | ~ | ?>
+#   add    <-Cのリスト> <フラグ: A=全体 U=追跡のみ F=ignore込み N=stageしない> <パスのリスト>
+#   commit <-Cのリスト> <-aなら1>
+# 読めない値は `?`。bash側はそれを見たら判定を諦める。
+
+# 空白や記号を含まない引用だけを素へ戻す(`git -C "/repo"` や `git add 'a.png'` を読めるように)。
+# 空白入りは1語に戻せないので、従来どおり __QS__ に潰れる。
+# 二重引用の中の変数(`"$R"` `"${R}/a.png"`)は展開されるので素へ戻し、単一引用の `$` は文字のまま潰す
+function unquote_simple(line) {
+    while (match(line, /"[^ \t"'`\\;&|()<>]+"/) || match(line, /'[^ \t"'$`\\;&|()<>{}]+'/))
+        line = substr(line, 1, RSTART - 1) substr(line, RSTART + 1, RLENGTH - 2) substr(line, RSTART + RLENGTH)
+    return line
+}
+
+# `${R}` の波括弧を \034 / \035 へ退避する。`dispatch` は `{}` を区切りに使うので、
+# 素のままだと `$` と `R` に割れて展開できない
+function protect_braces(line,   out, name) {
+    out = ""
+    while (match(line, /\$\{[A-Za-z_][A-Za-z_0-9]*\}/)) {
+        name = substr(line, RSTART + 2, RLENGTH - 3)
+        out = out substr(line, 1, RSTART - 1) "$\034" name "\035"
+        line = substr(line, RSTART + RLENGTH)
+    }
+    return out line
+}
+
+# 覚えた変数を展開する。知らない変数が1つでもあれば `$` を残し、opaque として諦めさせる
+function expand_vars(t,   out, name) {
+    out = ""
+    while (match(t, /\$\034[A-Za-z_][A-Za-z_0-9]*\035|\$[A-Za-z_][A-Za-z_0-9]*/)) {
+        name = substr(t, RSTART, RLENGTH)
+        gsub(/[$\034\035]/, "", name)
+        if (!(name in vars)) return out t
+        out = out substr(t, 1, RSTART - 1) vars[name]
+        t = substr(t, RSTART + RLENGTH)
+    }
+    return out t
+}
+
+# 読めない語か(引用で潰れた・変数・コマンド置換)
+function opaque(t) { return t == "__QS__" || t ~ /[$`]/ }
+
+# `NAME=VALUE` を覚える。値が読めなければ忘れる(古い値で展開しないため)
+function remember(tok,   p, name, value) {
+    p = index(tok, "=")
+    name = substr(tok, 1, p - 1)
+    value = substr(tok, p + 1)
+    if (opaque(value)) delete vars[name]
+    else vars[name] = value
+}
+
+# 単独の代入(`R=/x` / `export R=/x`)と `unset R` を処理したら真を返す。
+# `R=/x git …` の前置代入はそのコマンドの環境に入るだけで、同じ行の `$R` の展開には効かないので覚えない
+function track_assignment(tokens, n,   k, start) {
+    if (tokens[1] == "unset") {
+        for (k = 2; k <= n; k++) delete vars[tokens[k]]
+        return 1
+    }
+    start = (tokens[1] == "export" || tokens[1] == "readonly" || tokens[1] == "declare" ||
+        tokens[1] == "typeset" || tokens[1] == "local") ? 2 : 1
+    for (k = start; k <= n; k++)
+        if (tokens[k] !~ /^-/ && tokens[k] !~ /^[A-Za-z_][A-Za-z_0-9]*=/) return 0
+    for (k = start; k <= n; k++)
+        if (tokens[k] ~ /^[A-Za-z_][A-Za-z_0-9]*=/) remember(tokens[k])
+    return 1
+}
+
+function emit_cdirs(tokens, n, from, to,   k, out) {
+    out = ""
+    for (k = from; k <= to; k++) {
+        if (tokens[k] != "-C") continue
+        if (k == n || opaque(tokens[k + 1])) return "?"
+        out = out (out == "" ? "" : "\036") tokens[k + 1]
+    }
+    return out
+}
+
+function check_segment(seg,   n, tokens, i, j, k, c, ch, tok, cmd, sub_cmd, cdirs, gstart, all,
+                       flags, specs, endopts) {
+    seg = trim(seg)
+    if (seg == "") return
+    n = split(seg, tokens, /[ \t]+/)
+    # 代入の右辺も、その時点で覚えている変数で展開してから覚える(`R=$BASE/x`)
+    for (k = 1; k <= n; k++) tokens[k] = expand_vars(tokens[k])
+    if (track_assignment(tokens, n)) return
+    i = 1
+    while (i <= n) {
+        tok = tokens[i]
+        if (tok ~ /^[A-Za-z_][A-Za-z_0-9]*=/) { i++; continue }
+        if (is_wrapper(tok)) {
+            i++
+            while (i <= n && (tokens[i] ~ /^-/ || tokens[i] ~ /^[0-9]+[smhd]?$/)) i++
+            continue
+        }
+        break
+    }
+    if (i > n) return
+    cmd = tokens[i]
+    sub(/^\\/, "", cmd)
+    sub(/.*\//, "", cmd)
+
+    if (cmd == "cd") {
+        j = i + 1
+        while (j <= n && tokens[j] ~ /^-[LPe@]+$/) j++
+        if (j > n) print "cd\037~"
+        else if (j == n && tokens[j] != "-" && !opaque(tokens[j])) print "cd\037" tokens[j]
+        else print "cd\037?"
+        return
+    }
+    if (cmd != "git") return
+
+    # gitのグローバルオプションを読み飛ばす。-C は行き先として集め、別の場所を指すものは諦める
+    gstart = i + 1
+    j = gstart
+    cdirs = ""
+    while (j <= n && tokens[j] ~ /^-/) {
+        tok = tokens[j]
+        if (tok ~ /^--(git-dir|work-tree)/) cdirs = "?"
+        if (tok == "-C" || tok == "-c" || tok == "--git-dir" || tok == "--work-tree" ||
+            tok == "--namespace" || tok == "--config-env") j += 2
+        else j++
+    }
+    if (j > n) return
+    sub_cmd = tokens[j]
+    if (cdirs != "?") cdirs = emit_cdirs(tokens, n, gstart, j - 1)
+
+    if (sub_cmd == "commit") {
+        all = 0
+        for (k = j + 1; k <= n; k++) {
+            tok = tokens[k]
+            if (tok == "--") break
+            if (tok == "--all") { all = 1; continue }
+            # 値を次の語に取る長オプション。値がハイフン始まりでもオプションと読まない
+            if (tok ~ /^--(message|file|author|date|reuse-message|reedit-message|template|fixup|squash|trailer|cleanup|pathspec-from-file)$/) {
+                k++
+                continue
+            }
+            if (tok !~ /^-[^-]/) continue
+            # 短オプションの束(`-am`)。値を取る文字に当たったら、そこから先は値
+            for (c = 2; c <= length(tok); c++) {
+                ch = substr(tok, c, 1)
+                if (ch == "a") all = 1
+                if (index("mFCctuS", ch)) {
+                    if (c == length(tok) && index("mFCct", ch)) k++
+                    break
+                }
+            }
+        }
+        print "commit\037" cdirs "\037" all
+        return
+    }
+
+    if (sub_cmd == "add") {
+        flags = ""
+        specs = ""
+        endopts = 0
+        for (k = j + 1; k <= n; k++) {
+            tok = tokens[k]
+            if (!endopts && tok == "--") { endopts = 1; continue }
+            if (!endopts && tok ~ /^-/) {
+                if (tok == "--all") flags = flags "A"
+                else if (tok == "--update") flags = flags "U"
+                else if (tok == "--force") flags = flags "F"
+                else if (tok ~ /^--(dry-run|patch|interactive|edit|pathspec-from-file)/) flags = flags "N"
+                else if (tok ~ /^-[^-]/) {
+                    for (c = 2; c <= length(tok); c++) {
+                        ch = substr(tok, c, 1)
+                        if (ch == "A") flags = flags "A"
+                        else if (ch == "u") flags = flags "U"
+                        else if (ch == "f") flags = flags "F"
+                        else if (index("npie", ch)) flags = flags "N"
+                    }
+                }
+                continue
+            }
+            if (opaque(tok)) continue
+            specs = specs (specs == "" ? "" : "\036") tok
+        }
+        print "add\037" cdirs "\037" flags "\037" specs
+    }
+}
+
+{
+    line = $0
+    if (heredoc_body(line)) next
+
+    if (pending != "") { line = pending " " line; pending = "" }
+    if (line ~ /\\$/) {
+        pending = line
+        sub(/\\$/, "", pending)
+        next
+    }
+    if (unclosed_quote(line)) { pending = line; next }
+
+    line = heredoc_open(line)
+    line = unescape_ops(line)
+    line = unquote_simple(line)
+    line = protect_braces(line)
+    line = strip_quotes(line)
+    dispatch(line)
+}
+AWK
+
+# `~` と `$HOME` を展開し、相対パスなら base に繋ぐ。読めなければ空を返す
+png_resolve_path() {
+    local base=$1 p=$2
+    case "$p" in
+        '?' | '' | -) return 1 ;;
+        '~') p=$HOME ;;
+        '~/'*) p=$HOME/${p#'~/'} ;;
+        '$HOME') p=$HOME ;;
+        '$HOME/'*) p=$HOME/${p#'$HOME/'} ;;
+        '${HOME}') p=$HOME ;;
+        '${HOME}/'*) p=$HOME/${p#'${HOME}/'} ;;
+    esac
+    case "$p" in
+        *'$'* | *'`'* | '~'*) return 1 ;;
+        /*) printf '%s' "$p" ;;
+        *)
+            [ -n "$base" ] || return 1
+            printf '%s/%s' "$base" "$p"
+            ;;
+    esac
+}
+
+# base から -C のリスト(\036区切り)を順に辿った行き先。読めなければ失敗
+# macOSの /bin/bash(3.2)でも動かすため、空配列は `${a[@]+"${a[@]}"}` で展開する(set -u 対策)
+png_resolve_cdirs() {
+    local dir=$1 list=$2 items=() item
+    [ -n "$dir" ] || return 1
+    [ "$list" != '?' ] || return 1
+    [ -z "$list" ] || IFS=$'\036' read -r -a items <<< "$list"
+    for item in ${items[@]+"${items[@]}"}; do
+        dir=$(png_resolve_path "$dir" "$item") || return 1
+    done
+    printf '%s' "$dir"
+}
+
+# PNGだけを残す(拡張子は大小を区別しない)
+png_only() { grep -i '\.png$' || true; }
+
+# `git add` がstageするPNGを絶対パスで出す。flags / specs はawkの出力どおり。
+# top はコミット先のリポジトリ直下。空ならリポジトリがまだ無い(同じコマンドで `git init` する)
+png_add_candidates() {
+    local dir=$1 flags=$2 spec_list=$3 top=$4 raw=() specs=() queries=() spec path
+    local others=(ls-files --others --exclude-standard)
+    case "$flags" in *N*) return 0 ;; esac
+    [ -z "$spec_list" ] || IFS=$'\036' read -r -a raw <<< "$spec_list"
+    for spec in ${raw[@]+"${raw[@]}"}; do
+        # `~/x.png` はシェルが展開する。相対パスはgitが -C の場所から読むので、そのまま渡す
+        specs+=("$(png_resolve_path '' "$spec" || printf '%s' "$spec")")
+    done
+    case "$flags" in *F*) others=(ls-files --others) ;; esac
+
+    # 今あるファイルは、gitにstageされる分を聞く
+    if [ -n "$top" ]; then
+        queries=(${specs[@]+"${specs[@]}"})
+        {
+            if [[ "$flags" == *U* ]]; then
+                git -C "$dir" -c core.quotepath=false diff --name-only --diff-filter=M \
+                    -- ${queries[@]+"${queries[@]}"} 2>/dev/null
+            elif [ ${#queries[@]} -gt 0 ] || [[ "$flags" == *A* ]]; then
+                [ ${#queries[@]} -gt 0 ] || queries=(':/')
+                git -C "$dir" -c core.quotepath=false diff --name-only --diff-filter=M \
+                    -- "${queries[@]}" 2>/dev/null
+                git -C "$dir" -c core.quotepath=false "${others[@]}" --full-name \
+                    -- "${queries[@]}" 2>/dev/null
+            fi
+        } | png_only | awk -v top="$top" '{ print top "/" $0 }'
+    fi
+    [[ "$flags" != *U* ]] || return 0
+
+    # 明示された `.png` の名前は、ファイルがまだ無くても数える(同じコマンドの cp 等で作る形)
+    for spec in ${specs[@]+"${specs[@]}"}; do
+        printf '%s\n' "$spec" | grep -qi '\.png$' || continue
+        case "$spec" in
+            /*) path=$spec ;;
+            *) path=$dir/${spec#./} ;;
+        esac
+        if [ -n "$top" ]; then
+            # 今あるファイルは上でgitに聞いた。追跡済みの名前はstageしても削除になる
+            [ ! -e "$path" ] || continue
+            [ -z "$(git -C "$dir" ls-files -- "$spec" 2>/dev/null)" ] || continue
+            if [[ "$flags" != *F* ]] && git -C "$dir" check-ignore -q -- "$spec" 2>/dev/null; then
+                continue
+            fi
+        fi
+        printf '%s\n' "$path"
+    done
+}
+
+rule_png_commit() {
+    case "$COMMAND" in *commit*) ;; *) return 0 ;; esac
+    if printf '%s\n' "$COMMAND" | grep -Eq '(^|[^A-Za-z0-9_])PNG_COMMIT_OK=1([^A-Za-z0-9_]|$)'; then
+        return 0
+    fi
+    command -v git >/dev/null 2>&1 || return 0
+    local plan cur type f1 f2 f3 dir top adds=() add found=''
+    plan=$(printf '%s\n' "$COMMAND" | awk "$AWK_PRELUDE
+$PNG_COMMIT_AWK")
+    [ -n "$plan" ] || return 0
+    cur=$(printf '%s\n' "$HOOK_INPUT" | jq -r '.cwd | strings')
+    [ -n "$cur" ] || cur=$PWD
+
+    while IFS=$'\037' read -r type f1 f2 f3; do
+        case "$type" in
+            cd)
+                if [ "$f1" = '~' ]; then cur=$HOME
+                else cur=$(png_resolve_path "$cur" "$f1") || cur=''
+                fi
+                ;;
+            add)
+                dir=$(png_resolve_cdirs "$cur" "$f1") || continue
+                adds+=("$dir"$'\037'"$f2"$'\037'"$f3")
+                ;;
+            commit)
+                if dir=$(png_resolve_cdirs "$cur" "$f1"); then
+                    top=$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null) || top=''
+                    found+=$(
+                        if [ -n "$top" ]; then
+                            {
+                                git -C "$dir" -c core.quotepath=false diff --cached --name-only -M \
+                                    --diff-filter=AM 2>/dev/null
+                                if [ "$f2" = 1 ]; then
+                                    git -C "$dir" -c core.quotepath=false diff --name-only \
+                                        --diff-filter=M 2>/dev/null
+                                fi
+                            } | png_only | awk -v top="$top" '{ print top "/" $0 }'
+                        fi
+                        for add in "${adds[@]+"${adds[@]}"}"; do
+                            IFS=$'\037' read -r f1 f2 f3 <<< "$add"
+                            if [ -n "$top" ]; then
+                                [ "$(git -C "$f1" rev-parse --show-toplevel 2>/dev/null)" = "$top" ] || continue
+                            else
+                                # リポジトリがまだ無いときは、同じ場所を指すaddだけを数える
+                                [ "${f1%/}" = "${dir%/}" ] || continue
+                            fi
+                            png_add_candidates "$f1" "$f2" "$f3" "$top"
+                        done
+                    )$'\n'
+                fi
+                # 先に書いたaddはこのコミットに入ったので、次のコミットには数えない
+                adds=()
+                ;;
+        esac
+    done <<< "$plan"
+
+    found=$(printf '%s' "$found" | awk 'NF && !seen[$0]++')
+    [ -n "$found" ] || return 0
+    {
+        printf 'Bashコマンドlint: PNGのコミットを一度止めました。\n'
+        printf '  コミットに入るPNG:\n'
+        printf '%s\n' "$found" | sed 's/^/    - /'
+        cat <<'MSG'
+  理由: タダシのプロジェクトでは、PNGは原則置きません。画像は非可逆のWebPにします。
+  決まりの正本: ~/work/owlery/shared/knowledge/タダシのプロジェクトで画像は非可逆のWebPで置く.md
+  直し方:
+    - 原則 → PNGを非可逆のWebPへ変換し、PNGはコミットから外す(git restore --staged <path>)
+    - 例外としてPNGが必要なら → タダシに確かめてから、PNG_COMMIT_OK=1 を付けて再実行する
+      例: PNG_COMMIT_OK=1 git commit -m "..."
+MSG
+    } >&2
+    return 2
+}
+
+# ============================================================================
 # ルールの登録と実行
 # ============================================================================
 
@@ -1191,6 +1598,7 @@ RULES=(
     rule_inplace_edit
     rule_raw_codex_exec
     rule_codex_exec_foreground
+    rule_png_commit
 )
 
 RESULT=0
