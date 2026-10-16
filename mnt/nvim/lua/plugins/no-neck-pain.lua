@@ -1,6 +1,7 @@
 return {
   version = "2.4.2",
   "shortcuts/no-neck-pain.nvim",
+  enabled = false,
   keys = {
     {
       "<D-n>",

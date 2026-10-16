@@ -2,7 +2,7 @@
 local preventFlicker = function(handler)
   local function restoreUi()
     if vim.api.nvim_tabpage_is_valid(vim.api.nvim_get_current_tabpage()) then
-      vim.cmd([[:NoNeckPain]])
+      -- vim.cmd([[:NoNeckPain]])
     end
     vim.cmd([[:BarbarEnable]])
   end
@@ -172,7 +172,7 @@ return {
             desc = "oil",
             action = function()
               vim.cmd([[:Oil]])
-              vim.cmd([[:NoNeckPain]])
+              -- vim.cmd([[:NoNeckPain]])
               vim.cmd([[:BarbarEnable]])
             end,
           },
